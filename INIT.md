@@ -1,7 +1,10 @@
 # INIT — Mapeamento automático do projeto
 
-> Prompt pro Claude Code (ou Codex) executar **uma vez**, logo após `./bootstrap.sh`,
+> Prompt pra qualquer agentic CLI executar **uma vez**, logo após `./bootstrap.sh`,
 > pra preencher `.specs/` com dados reais do projeto.
+>
+> CLIs compatíveis (com agentic loop completo): **Claude Code**, **Codex**, **Hermes Agent** (Nous Research), **OpenClaw**.
+> Sem agentic loop nativo: **GitHub Copilot CLI** (cole o prompt manualmente no Copilot Chat do VS Code).
 
 ---
 
