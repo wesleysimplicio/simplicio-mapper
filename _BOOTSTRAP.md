@@ -76,8 +76,10 @@ agentic-starter/
 ├── .claude/
 │   ├── settings.json
 │   └── hooks/
-│       ├── post-edit.sh               # lint+format auto pós-edit
-│       └── pre-commit.sh              # bloqueia commit vermelho
+│       ├── post-edit.sh               # lint+format auto pós-edit (bash)
+│       ├── post-edit.ps1              # idem em PowerShell (Windows nativo)
+│       ├── pre-commit.sh              # bloqueia commit vermelho (bash)
+│       └── pre-commit.ps1             # idem em PowerShell (Windows nativo)
 │
 ├── .codex/
 │   └── config.toml                    # sandbox + approval + history
@@ -229,11 +231,11 @@ Skill pronta: regras de commit (`feat:`, `fix:`, `chore:`, etc), exemplos, break
 ### `.claude/settings.json`
 Config Claude Code: cleanupPeriodDays alto, hooks habilitados, permissions sensatas.
 
-### `.claude/hooks/post-edit.sh`
-Bash que roda prettier+eslint --fix em files .ts/.tsx/.js/.jsx editados.
+### `.claude/hooks/post-edit.sh` + `.claude/hooks/post-edit.ps1`
+Bash + PowerShell sibling. Rodam prettier+eslint --fix em files .ts/.tsx/.js/.jsx editados. Mesma lógica, melhor disponibilidade cross-platform (macOS/Linux/Git Bash usam .sh; Windows nativo PowerShell usa .ps1).
 
-### `.claude/hooks/pre-commit.sh`
-Bash que roda `npm test --silent`, bloqueia commit se vermelho.
+### `.claude/hooks/pre-commit.sh` + `.claude/hooks/pre-commit.ps1`
+Bash + PowerShell sibling. Rodam `npm test --silent`, bloqueiam commit se vermelho.
 
 ### `.codex/config.toml`
 Sandbox workspace-write, approval on-request, history ilimitado, model gpt-5.3-codex (placeholder).

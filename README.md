@@ -39,11 +39,23 @@ Ou se já tem o starter local:
 cp -R /caminho/para/agentic-starter/. ./
 ```
 
-### 2. Rodar `./bootstrap.sh` — faz tudo
+### 2. Rodar bootstrap — faz tudo
+
+**macOS / Linux / Git Bash (Windows):**
 
 ```bash
 ./bootstrap.sh
 ```
+
+**Windows nativo (PowerShell 5.1+ / pwsh 7+):**
+
+```powershell
+pwsh -File .\bootstrap.ps1
+# ou em PowerShell 5.1:
+powershell -ExecutionPolicy Bypass -File .\bootstrap.ps1
+```
+
+Os dois scripts têm comportamento idêntico (mesmas perguntas, mesmo `.starter-meta.json`, mesmo handoff pra CLI escolhida). Use o que combina com seu shell.
 
 Modo interativo, pergunta:
 
@@ -66,14 +78,27 @@ Se escolher `c` ou `x`, o bootstrap **chama o agente direto** com o prompt do `I
 Modo CI/script (não-interativo, só substitui placeholders, sem rodar mapeamento):
 
 ```bash
+# bash
 ./bootstrap.sh --product "MeuApp" --team "Squad-X" --domain "fintech" --stack "next-ts"
+```
+
+```powershell
+# PowerShell
+pwsh -File .\bootstrap.ps1 -Product "MeuApp" -Team "Squad-X" -Domain "fintech" -Stack "next-ts"
 ```
 
 ### 3. (opcional) Limpar arquivos do starter
 
 ```bash
-rm _BOOTSTRAP.md INIT.md bootstrap.sh
+# bash
+rm _BOOTSTRAP.md INIT.md bootstrap.sh bootstrap.ps1
 git add -A && git commit -m "chore: remove starter bootstrap files"
+```
+
+```powershell
+# PowerShell
+Remove-Item _BOOTSTRAP.md, INIT.md, bootstrap.sh, bootstrap.ps1
+git add -A; git commit -m "chore: remove starter bootstrap files"
 ```
 
 ---

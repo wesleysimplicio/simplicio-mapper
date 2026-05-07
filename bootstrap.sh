@@ -126,8 +126,10 @@ EXCLUDES=(
 
 echo "Substituindo placeholders em arquivos .md/.json/.toml/.yml/.ts..."
 TOUCHED=0
+# grep -Iq . "$f" detecta arquivo texto (-I ignora binário, . casa qualquer
+# byte) — funciona em macOS/Linux/Git Bash sem depender de `file(1)`.
 while IFS= read -r f; do
-  if file "$f" | grep -q text; then
+  if grep -Iq . "$f" 2>/dev/null; then
     if sed --version >/dev/null 2>&1; then
       sed -i \
         -e "s|<PRODUCT_NAME>|$PRODUCT_NAME|g" \
@@ -260,6 +262,8 @@ elif [[ "$run_init_now" == "1" && "$chosen_cli" == "hermes" ]]; then
     printf "%s" "$INIT_PROMPT" | pbcopy
   elif command -v xclip >/dev/null 2>&1; then
     printf "%s" "$INIT_PROMPT" | xclip -selection clipboard
+  elif command -v clip.exe >/dev/null 2>&1; then
+    printf "%s" "$INIT_PROMPT" | clip.exe
   fi
   echo "(prompt copiado pro clipboard como fallback — cole se Hermes abrir vazio)"
   echo ""
@@ -274,6 +278,8 @@ elif [[ "$run_init_now" == "1" && "$chosen_cli" == "openclaw" ]]; then
     printf "%s" "$INIT_PROMPT" | pbcopy
   elif command -v xclip >/dev/null 2>&1; then
     printf "%s" "$INIT_PROMPT" | xclip -selection clipboard
+  elif command -v clip.exe >/dev/null 2>&1; then
+    printf "%s" "$INIT_PROMPT" | clip.exe
   fi
   echo "(prompt copiado pro clipboard como fallback — cole se OpenClaw abrir vazio)"
   echo ""
@@ -288,6 +294,9 @@ elif [[ "$chosen_cli" == "copilot" ]]; then
   elif command -v xclip >/dev/null 2>&1; then
     printf "%s" "$INIT_PROMPT" | xclip -selection clipboard
     echo "→ Prompt copiado pro clipboard (xclip). Cole com Ctrl+V no Copilot Chat."
+  elif command -v clip.exe >/dev/null 2>&1; then
+    printf "%s" "$INIT_PROMPT" | clip.exe
+    echo "→ Prompt copiado pro clipboard (clip.exe). Cole com Ctrl+V no Copilot Chat."
   else
     echo "(clipboard indisponivel — copie o prompt abaixo manualmente)"
   fi
