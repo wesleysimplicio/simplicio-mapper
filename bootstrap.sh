@@ -188,15 +188,19 @@ if [[ "$INTERACTIVE" == "1" && -f "INIT.md" ]]; then
   echo "integracoes e comandos reais — multi-agents)."
   echo ""
 
-  has_claude=0;  command -v claude >/dev/null 2>&1 && has_claude=1
-  has_codex=0;   command -v codex  >/dev/null 2>&1 && has_codex=1
-  has_copilot=0; command -v gh     >/dev/null 2>&1 && gh extension list 2>/dev/null | grep -q copilot && has_copilot=1
+  has_claude=0;   command -v claude   >/dev/null 2>&1 && has_claude=1
+  has_codex=0;    command -v codex    >/dev/null 2>&1 && has_codex=1
+  has_copilot=0;  command -v gh       >/dev/null 2>&1 && gh extension list 2>/dev/null | grep -q copilot && has_copilot=1
+  has_hermes=0;   command -v hermes   >/dev/null 2>&1 && has_hermes=1
+  has_openclaw=0; command -v openclaw >/dev/null 2>&1 && has_openclaw=1
 
   echo "CLIs detectadas nesta maquina:"
-  [[ $has_claude  == 1 ]] && echo "  [c] Claude Code   (recomendado — agentic loop completo)"
-  [[ $has_codex   == 1 ]] && echo "  [x] Codex"
-  [[ $has_copilot == 1 ]] && echo "  [g] GitHub Copilot CLI  (sem agentic loop — copia prompt pro clipboard)"
-  if [[ $has_claude == 0 && $has_codex == 0 && $has_copilot == 0 ]]; then
+  [[ $has_claude   == 1 ]] && echo "  [c] Claude Code         (recomendado — agentic loop completo)"
+  [[ $has_codex    == 1 ]] && echo "  [x] Codex"
+  [[ $has_copilot  == 1 ]] && echo "  [g] GitHub Copilot CLI  (sem agentic loop — copia prompt pro clipboard)"
+  [[ $has_hermes   == 1 ]] && echo "  [h] Hermes Agent        (Nous Research)"
+  [[ $has_openclaw == 1 ]] && echo "  [o] OpenClaw"
+  if [[ $has_claude == 0 && $has_codex == 0 && $has_copilot == 0 && $has_hermes == 0 && $has_openclaw == 0 ]]; then
     echo "  (nenhuma encontrada — instale uma e rode manualmente depois)"
   fi
   echo "  [n] Nao rodar agora"
@@ -216,6 +220,14 @@ if [[ "$INTERACTIVE" == "1" && -f "INIT.md" ]]; then
     g|G)
       if [[ $has_copilot == 1 ]]; then chosen_cli="copilot"
       else echo "GitHub Copilot CLI nao instalado. Instala: gh extension install github/gh-copilot"; fi
+      ;;
+    h|H)
+      if [[ $has_hermes == 1 ]]; then run_init_now=1; chosen_cli="hermes"
+      else echo "Hermes Agent nao instalado. Instala: curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash"; fi
+      ;;
+    o|O)
+      if [[ $has_openclaw == 1 ]]; then run_init_now=1; chosen_cli="openclaw"
+      else echo "OpenClaw nao instalado. Instala: npm install -g openclaw@latest"; fi
       ;;
     *) ;;
   esac
@@ -238,6 +250,34 @@ elif [[ "$run_init_now" == "1" && "$chosen_cli" == "codex" ]]; then
   echo "=========================================="
   echo ""
   exec codex exec "$INIT_PROMPT"
+elif [[ "$run_init_now" == "1" && "$chosen_cli" == "hermes" ]]; then
+  echo ""
+  echo "=========================================="
+  echo "  Executando Hermes Agent com INIT.md"
+  echo "=========================================="
+  echo ""
+  if command -v pbcopy >/dev/null 2>&1; then
+    printf "%s" "$INIT_PROMPT" | pbcopy
+  elif command -v xclip >/dev/null 2>&1; then
+    printf "%s" "$INIT_PROMPT" | xclip -selection clipboard
+  fi
+  echo "(prompt copiado pro clipboard como fallback — cole se Hermes abrir vazio)"
+  echo ""
+  exec hermes "$INIT_PROMPT"
+elif [[ "$run_init_now" == "1" && "$chosen_cli" == "openclaw" ]]; then
+  echo ""
+  echo "=========================================="
+  echo "  Executando OpenClaw com INIT.md"
+  echo "=========================================="
+  echo ""
+  if command -v pbcopy >/dev/null 2>&1; then
+    printf "%s" "$INIT_PROMPT" | pbcopy
+  elif command -v xclip >/dev/null 2>&1; then
+    printf "%s" "$INIT_PROMPT" | xclip -selection clipboard
+  fi
+  echo "(prompt copiado pro clipboard como fallback — cole se OpenClaw abrir vazio)"
+  echo ""
+  exec openclaw "$INIT_PROMPT"
 elif [[ "$chosen_cli" == "copilot" ]]; then
   echo ""
   echo "GitHub Copilot CLI nao executa agentic loop autonomo (so sugere comandos)."

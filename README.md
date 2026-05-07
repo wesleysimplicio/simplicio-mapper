@@ -52,6 +52,8 @@ Modo interativo, pergunta:
    - `[c]` Claude Code (recomendado)
    - `[x]` Codex
    - `[g]` GitHub Copilot CLI (copia prompt pro clipboard, cola no Copilot Chat)
+   - `[h]` Hermes Agent (Nous Research)
+   - `[o]` OpenClaw
    - `[n]` Não rodar agora
 
 Se escolher `c` ou `x`, o bootstrap **chama o agente direto** com o prompt do `INIT.md`. O agente vai:
