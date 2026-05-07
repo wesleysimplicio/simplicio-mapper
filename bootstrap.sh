@@ -171,30 +171,114 @@ echo ""
 chmod +x .claude/hooks/*.sh 2>/dev/null || true
 
 # ---------------------------------------------------------------------------
-# próximos passos
+# rodar INIT.md automaticamente (opcional, interativo)
+# ---------------------------------------------------------------------------
+INIT_PROMPT='Le INIT.md e executa. Mapeia o codigo deste repo e preenche .specs/product/ + .specs/architecture/ com dados reais. Use multi-agents em paralelo.'
+
+run_init_now=0
+chosen_cli=""
+
+if [[ "$INTERACTIVE" == "1" && -f "INIT.md" ]]; then
+  echo "=========================================="
+  echo "  Mapeamento profundo (INIT.md)"
+  echo "=========================================="
+  echo ""
+  echo "Posso rodar AGORA o mapeamento profundo do projeto"
+  echo "(le seu codigo e preenche .specs/ com entidades,"
+  echo "integracoes e comandos reais — multi-agents)."
+  echo ""
+
+  has_claude=0;  command -v claude >/dev/null 2>&1 && has_claude=1
+  has_codex=0;   command -v codex  >/dev/null 2>&1 && has_codex=1
+  has_copilot=0; command -v gh     >/dev/null 2>&1 && gh extension list 2>/dev/null | grep -q copilot && has_copilot=1
+
+  echo "CLIs detectadas nesta maquina:"
+  [[ $has_claude  == 1 ]] && echo "  [c] Claude Code   (recomendado — agentic loop completo)"
+  [[ $has_codex   == 1 ]] && echo "  [x] Codex"
+  [[ $has_copilot == 1 ]] && echo "  [g] GitHub Copilot CLI  (sem agentic loop — copia prompt pro clipboard)"
+  if [[ $has_claude == 0 && $has_codex == 0 && $has_copilot == 0 ]]; then
+    echo "  (nenhuma encontrada — instale uma e rode manualmente depois)"
+  fi
+  echo "  [n] Nao rodar agora"
+  echo ""
+  read -r -p "Escolha [n]: " choice
+  choice="${choice:-n}"
+
+  case "$choice" in
+    c|C)
+      if [[ $has_claude == 1 ]]; then run_init_now=1; chosen_cli="claude"
+      else echo "Claude Code nao instalado. Instala: https://docs.claude.com/claude-code"; fi
+      ;;
+    x|X)
+      if [[ $has_codex == 1 ]]; then run_init_now=1; chosen_cli="codex"
+      else echo "Codex nao instalado. Instala: https://github.com/openai/codex"; fi
+      ;;
+    g|G)
+      if [[ $has_copilot == 1 ]]; then chosen_cli="copilot"
+      else echo "GitHub Copilot CLI nao instalado. Instala: gh extension install github/gh-copilot"; fi
+      ;;
+    *) ;;
+  esac
+fi
+
+# ---------------------------------------------------------------------------
+# executa CLI escolhida (handoff para o agente)
+# ---------------------------------------------------------------------------
+if [[ "$run_init_now" == "1" && "$chosen_cli" == "claude" ]]; then
+  echo ""
+  echo "=========================================="
+  echo "  Executando Claude Code com INIT.md"
+  echo "=========================================="
+  echo ""
+  exec claude "$INIT_PROMPT"
+elif [[ "$run_init_now" == "1" && "$chosen_cli" == "codex" ]]; then
+  echo ""
+  echo "=========================================="
+  echo "  Executando Codex com INIT.md"
+  echo "=========================================="
+  echo ""
+  exec codex exec "$INIT_PROMPT"
+elif [[ "$chosen_cli" == "copilot" ]]; then
+  echo ""
+  echo "GitHub Copilot CLI nao executa agentic loop autonomo (so sugere comandos)."
+  echo ""
+  if command -v pbcopy >/dev/null 2>&1; then
+    printf "%s" "$INIT_PROMPT" | pbcopy
+    echo "→ Prompt copiado pro clipboard (pbcopy). Cole com Cmd+V no Copilot Chat (VS Code)."
+  elif command -v xclip >/dev/null 2>&1; then
+    printf "%s" "$INIT_PROMPT" | xclip -selection clipboard
+    echo "→ Prompt copiado pro clipboard (xclip). Cole com Ctrl+V no Copilot Chat."
+  else
+    echo "(clipboard indisponivel — copie o prompt abaixo manualmente)"
+  fi
+  echo ""
+  echo "Prompt:"
+  echo "  $INIT_PROMPT"
+  echo ""
+fi
+
+# ---------------------------------------------------------------------------
+# proximos passos (so chega aqui se NAO fez handoff via exec)
 # ---------------------------------------------------------------------------
 cat <<'EOF'
 =========================================
   PROXIMOS PASSOS
 =========================================
 
-1) Abra Claude Code (ou Codex) nesta pasta:
-
-   $ claude
-
-2) Cole o seguinte prompt (ele vai mapear seu projeto e
-   preencher .specs/ com arquitetura/dominio reais):
+1) Abra um agente nesta pasta e cole o prompt:
 
    "Le INIT.md e executa. Mapeia o codigo deste repo e
     preenche .specs/product/ + .specs/architecture/ com
     dados reais. Use multi-agents em paralelo."
 
-3) Apos mapeamento:
+   Opcoes: claude, codex, ou Copilot Chat (VS Code).
+
+2) Apos mapeamento:
    - Reveja VISION.md, DOMAIN.md, DESIGN.md
    - Crie sprint-02 e primeira task em .specs/sprints/
    - Commit: git add -A && git commit -m "chore: bootstrap agentic starter"
 
-4) (opcional) Apaga este script + _BOOTSTRAP.md + INIT.md
+3) (opcional) Apaga este script + _BOOTSTRAP.md + INIT.md
    apos mapeamento, se nao quiser deixar no repo final.
 
 EOF

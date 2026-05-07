@@ -22,7 +22,7 @@ Tudo neutro: a stack real vai ser plugada via `<PLACEHOLDERS>` quando você adap
 
 ---
 
-## Como usar (3 passos)
+## Como usar (2 passos)
 
 ### 1. Copiar starter pro projeto
 
@@ -39,39 +39,35 @@ Ou se já tem o starter local:
 cp -R /caminho/para/agentic-starter/. ./
 ```
 
-### 2. Rodar `bootstrap.sh` (substitui placeholders + detecta stack)
+### 2. Rodar `./bootstrap.sh` — faz tudo
 
 ```bash
 ./bootstrap.sh
 ```
 
-Modo interativo pergunta `PRODUCT_NAME`, `TEAM`, `DOMAIN`, `STACK` (auto-detecta).
+Modo interativo, pergunta:
 
-Modo CI/script:
+1. `PRODUCT_NAME`, `TEAM`, `DOMAIN`, `STACK` (auto-detecta stack via `package.json`/`pyproject.toml`/`go.mod`/etc).
+2. **Qual CLI usar pro mapeamento profundo:**
+   - `[c]` Claude Code (recomendado)
+   - `[x]` Codex
+   - `[g]` GitHub Copilot CLI (copia prompt pro clipboard, cola no Copilot Chat)
+   - `[n]` Não rodar agora
 
-```bash
-./bootstrap.sh --product "MeuApp" --team "Squad-X" --domain "fintech" --stack "next-ts"
-```
+Se escolher `c` ou `x`, o bootstrap **chama o agente direto** com o prompt do `INIT.md`. O agente vai:
 
-Resultado: todos `<PLACEHOLDERS>` substituídos, `.starter-meta.json` criado, hooks executáveis.
-
-### 3. Rodar Claude Code (ou Codex) com `INIT.md` (mapeamento profundo)
-
-```bash
-claude
-```
-
-Cole o prompt:
-
-> "Le INIT.md e executa. Mapeia o codigo deste repo e preenche .specs/product/ + .specs/architecture/ com dados reais. Use multi-agents em paralelo."
-
-O agente vai:
 - Inspecionar pastas, models, dependências, integrações.
 - Reescrever `VISION.md`, `DOMAIN.md`, `DESIGN.md`, `PATTERNS.md`, `BACKLOG.md` com **dados reais do código**.
 - Atualizar `AGENTS.md`/`CLAUDE.md`/`copilot-instructions.md` com comandos reais (npm scripts, makefile, etc).
 - Reportar o que ficou OK e o que precisa de input humano.
 
-### 4. (opcional) Limpar arquivos do starter
+Modo CI/script (não-interativo, só substitui placeholders, sem rodar mapeamento):
+
+```bash
+./bootstrap.sh --product "MeuApp" --team "Squad-X" --domain "fintech" --stack "next-ts"
+```
+
+### 3. (opcional) Limpar arquivos do starter
 
 ```bash
 rm _BOOTSTRAP.md INIT.md bootstrap.sh
