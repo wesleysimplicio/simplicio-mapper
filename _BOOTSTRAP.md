@@ -117,7 +117,7 @@ Cópia de AGENTS.md ou nota explicando "ler AGENTS.md".
 ### `.github/copilot-instructions.md`
 Espelho do AGENTS.md adaptado pra Copilot (mesmo conteúdo, ajusta tom). Foco em Agent Mode workflow.
 
-### `.github/copilot/tdd.agent.md`
+### `.agents/tdd.agent.md`
 Custom agent TDD-first com frontmatter:
 ```
 ---
@@ -127,11 +127,13 @@ tools: [edit, terminal, search]
 ---
 ```
 
-### `.github/copilot/reviewer.agent.md`
+### `.agents/reviewer.agent.md`
 Custom agent code review (sem editar, só comenta).
 
-### `.github/copilot/architect.agent.md`
+### `.agents/architect.agent.md`
 Custom agent que só desenha arquitetura e cria ADRs, não escreve código de produção.
+
+> Espelho em `.github/copilot/agents/<nome>.agent.md` para o GitHub Copilot Workspace. `.agents/` é canônico (padrão AGENTS.md ecosystem); o mirror em `.github/copilot/agents/` é para Copilot Coding Agent que lê estritamente desse caminho.
 
 ### `.github/workflows/ci.yml`
 GitHub Actions: matrix de Node versions, npm install, lint, test --coverage, playwright install + test, upload artifacts (playwright-report, coverage).

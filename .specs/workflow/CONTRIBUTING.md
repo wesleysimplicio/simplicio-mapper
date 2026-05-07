@@ -124,13 +124,15 @@ Skills e agents reduzem trabalho repetitivo e enforçam padrão. Ver `.skills/` 
 | `conventional-commits` | Compor mensagem de commit ou title de PR. Cobre `feat`, `fix`, `chore`, breaking change. | `.skills/conventional-commits/SKILL.md` |
 | `_template` | Criar nova skill pro projeto. Ponto de partida com frontmatter e seções. | `.skills/_template/SKILL.md` |
 
-### Agents customizados (em `.github/copilot/`)
+### Agents customizados (em `.agents/`)
 
 | Agent | Uso |
 |-------|-----|
 | `tdd.agent.md` | TDD specialist. Escreve teste falhando, depois código. Loop red-green-refactor. |
 | `reviewer.agent.md` | Code review sem editar. Comenta padrões, sugere melhorias, valida ADRs. |
 | `architect.agent.md` | Desenha arquitetura, cria ADRs, não escreve código de produção. |
+
+> `.agents/` é a fonte canônica (padrão AGENTS.md ecosystem). Espelhado em `.github/copilot/agents/` para o GitHub Copilot Workspace. Detalhes em [`.agents/README.md`](../../.agents/README.md).
 
 ### Como invocar
 

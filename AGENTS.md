@@ -119,6 +119,7 @@ Padrões completos em `.specs/architecture/PATTERNS.md`. Resumo:
 | Sprint atual? | `.specs/sprints/sprint-XX/SPRINT.md` |
 | Tasks abertas? | `.specs/sprints/sprint-XX/*.task.md` |
 | Skills/capacidades reutilizáveis? | `.skills/README.md` + `.skills/*/SKILL.md` |
+| Custom agents (sub-agents)? | `.agents/README.md` + `.agents/*.agent.md` |
 
 ---
 
@@ -148,6 +149,19 @@ Skills moram em `.skills/<nome>/SKILL.md` e são capacidades reutilizáveis que 
 - **`_template`** — base pra criar skill nova. Copia, renomeia pasta, preenche frontmatter (`name`, `description`, `trigger`, `steps`, `dod`).
 
 Detalhes completos: `.skills/README.md`.
+
+---
+
+## Custom agents disponíveis
+
+Sub-agents customizados moram em `.agents/<slug>.agent.md` (padrão **AGENTS.md ecosystem**, lido por Claude Code, Codex, Hermes, OpenClaw, Cursor, Aider). Espelhados em `.github/copilot/agents/` para o GitHub Copilot Workspace. Lista atual:
+
+- **`tdd.agent.md`** — TDD Specialist. Escreve teste falhando antes do código. Loop red-green-refactor. Tools: `edit`, `terminal`, `search`. Aciona em feature/bugfix com cobertura nova.
+- **`reviewer.agent.md`** — Code Reviewer. Read-only. Comenta problemas e sugestões. Tools: `search`, `read`. Aciona em revisão de PR aberto, sem editar.
+- **`architect.agent.md`** — Architect. Desenha arquitetura, cria ADRs, atualiza `PATTERNS.md`. Não escreve código de produção. Tools: `edit`, `search`, `read`. Aciona em decisão arquitetural, refactor amplo, integração nova.
+- **`_template.agent.md`** — base para criar agent novo. Copia, renomeia, preenche frontmatter (`name`, `description`, `tools`).
+
+Detalhes completos: `.agents/README.md`.
 
 ---
 

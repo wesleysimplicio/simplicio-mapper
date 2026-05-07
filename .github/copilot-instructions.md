@@ -2,7 +2,7 @@
 
 > Instruction file lido automaticamente pelo **GitHub Copilot Chat** e **Copilot Workspace / Agent Mode**. Espelha [AGENTS.md](../AGENTS.md) com foco em **Agent Mode workflow**.
 >
-> Ao trabalhar em Agent Mode, o Copilot pode delegar pra custom agents em `.github/copilot/*.agent.md`. Lista atual: `tdd.agent.md`, `reviewer.agent.md`, `architect.agent.md`.
+> Ao trabalhar em Agent Mode, o Copilot pode delegar pra custom agents em [`.agents/`](../.agents/) (canônico, padrão AGENTS.md ecosystem) e/ou em `.github/copilot/agents/` (mirror lido pelo Copilot Coding Agent). Lista atual: `tdd.agent.md`, `reviewer.agent.md`, `architect.agent.md`.
 
 ---
 
@@ -130,7 +130,7 @@ Decisões irreversíveis viram **ADR** em `.specs/architecture/ADR-XXX-*.md` (te
 
 ## Custom agents (Copilot Workspace / Agent Mode)
 
-Copilot pode delegar pra um custom agent quando a tarefa casa com a `description` do agent. Definidos em `.github/copilot/`:
+Copilot pode delegar pra um custom agent quando a tarefa casa com a `description` do agent. Definidos em [`.agents/`](../.agents/) (canônico) e espelhados em `.github/copilot/agents/` (mirror para Copilot Coding Agent):
 
 - **`tdd.agent.md`** — TDD Specialist. Escreve teste falhando antes do código. Loop red-green-refactor. Tools: `edit`, `terminal`, `search`. Aciona quando tarefa exige cobertura nova ou regression test.
 - **`reviewer.agent.md`** — Code Reviewer. Read-only. Comenta problemas e sugestões em PR. Tools: `search`, `read`. Aciona em revisão de PR aberto, sem editar arquivos.
