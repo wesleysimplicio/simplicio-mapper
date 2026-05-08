@@ -2,140 +2,219 @@
 
 > 🇧🇷 Versão em português. Read this in English: [README.md](README.md).
 
+Esqueleto de repositório AI-friendly, neutro de stack. Joga em **qualquer** projeto — novo ou existente — e qualquer agente CLI (Claude Code, Codex, Cursor, GitHub Copilot, Aider com Deepseek/Kimi/MiniMax/GLM, Hermes, OpenClaw) ganha o contexto que precisa pra entregar trabalho no mesmo dia.
 
-
-Template de repositório AI-friendly, neutro e agnóstico de stack. Foi pensado para ser copiado em qualquer projeto novo e dar ao agente (Claude Code, Codex, Copilot ou outro) o contexto que ele precisa para entregar releases por dia.
-
-> Este é um starter pack, não um framework. Ele entrega estrutura, instrução e processo. A stack de execução é sua escolha.
+> Starter pack, não framework. Entrega estrutura, instruções, processo. A stack é sua.
 
 ---
 
-## O que é
+## TL;DR — começa em 60 segundos
 
-Um esqueleto pronto contendo:
+Escolha **um** caminho de instalação abaixo, rode dentro da pasta do projeto, e deixa o agente executar `INIT.md`.
 
-- Instruction files (`AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`) que orientam o agente.
-- Specs (`/.specs/`) com VISION, DOMAIN, PERSONAS, DESIGN, ADRs, WORKFLOW e backlog de sprints.
-- Skills reutilizáveis (`/.skills/`) que o agente invoca quando o contexto bate.
-- Hooks (`.claude/hooks/`) e config (`.claude/settings.json`, `.codex/config.toml`) prontos.
-- Pipeline de CI (`.github/workflows/`) com gate de Definition of Done.
-- Templates de PR e Issue.
-- Apresentação `presentation/` sobre o método AI Agent Specialist.
+| SO | Comando único recomendado |
+|---|---|
+| **macOS** | `npx @wesleysimplicio/agentic-starter` |
+| **Linux** | `npx @wesleysimplicio/agentic-starter` |
+| **Windows (PowerShell)** | `npx @wesleysimplicio/agentic-starter` |
+| **Windows (cmd.exe)** | `npx @wesleysimplicio/agentic-starter` |
 
-Tudo neutro: a stack real vai ser plugada via `<PLACEHOLDERS>` quando você adaptar para o seu projeto.
+Mesmo comando em todo lugar. Sem dependência de bash, sem clone, sem instalação global.
 
 ---
 
-## Como usar
+## Pré-requisitos
 
-Há três formas de instalar o starter num projeto. Escolha a que combina com seu fluxo.
+| Requisito | macOS | Linux | Windows |
+|---|---|---|---|
+| **Node.js >= 16.7** (para `npx`) | `brew install node` | `sudo apt install nodejs npm` (Debian/Ubuntu) · `sudo dnf install nodejs npm` (Fedora) · ou [nvm](https://github.com/nvm-sh/nvm) | [nodejs.org installer](https://nodejs.org) ou `winget install OpenJS.NodeJS.LTS` |
+| **Git** | preinstalado / `brew install git` | `sudo apt install git` / `sudo dnf install git` | [git-scm.com](https://git-scm.com) ou `winget install Git.Git` |
+| **Bash 4+** (só pra `bootstrap.sh`) | preinstalado (Bash 3.2 também roda) | preinstalado | Git Bash (vem com Git for Windows) ou WSL |
+| **PowerShell 5.1+ / pwsh 7+** (só pra `bootstrap.ps1`) | `brew install --cask powershell` | `sudo snap install powershell --classic` | preinstalado |
 
-### Opção A — `npx` (recomendado, zero clone)
+Escolha **um** runtime: `npx` funciona em todo lugar; `bootstrap.sh` pra shells Unix; `bootstrap.ps1` pra Windows nativo.
 
-Dentro do diretório do seu projeto:
+---
+
+## O que vem dentro
+
+```
+seu-projeto/
+├── AGENTS.md                 # instruções mestre (lidas por toda CLI)
+├── CLAUDE.md                 # espelho de AGENTS.md (Claude Code)
+├── INIT.md                   # prompt one-shot que o agente roda após bootstrap
+├── .github/
+│   ├── copilot-instructions.md    # espelho de AGENTS.md (Copilot)
+│   ├── workflows/                  # CI + gate de Definition of Done
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── ISSUE_TEMPLATE/
+├── .specs/                   # docs canônicas (specs como código)
+│   ├── product/              # VISION, DOMAIN, PERSONAS
+│   ├── architecture/         # DESIGN, PATTERNS, ADRs
+│   ├── workflow/             # WORKFLOW, CONTRIBUTING, RELEASE
+│   └── sprints/              # BACKLOG + pastas de sprint
+├── .skills/                  # skills reutilizáveis do agente
+├── .agents/                  # sub-agents customizados
+├── .claude/                  # config + hooks Claude Code
+├── .codex/                   # config Codex CLI
+├── playwright.config.ts      # E2E padrão
+└── presentation/             # slides do método (Marp)
+```
+
+Neutro de stack: tudo que é específico da sua stack vai ser preenchido pelo `INIT.md` quando o agente inspecionar o código real.
+
+---
+
+## Caminhos de instalação
+
+### A. `npx` — recomendado, cross-platform, zero clone
 
 ```bash
-# interativo (pergunta product/team/domain/stack)
+# dentro da pasta do projeto (funciona em macOS, Linux, Windows)
 npx @wesleysimplicio/agentic-starter
+```
 
-# nao-interativo (CI ou automacao)
-npx @wesleysimplicio/agentic-starter \
-  --product "MyApp" --team "Squad-X" --domain "fintech" --stack "next-ts" --yes
+Roda interativo. Pergunta **só**:
 
-# preview sem escrever nada
+1. **Qual CLI/LLM usar pro handoff** (auto-detecta quais estão instaladas e marca `[installed]`).
+2. **Adicionar ignores recomendados ao `.gitignore`?** (sim/não — nunca sobrescreve o seu `.gitignore` existente).
+
+Tudo o resto — `PRODUCT_NAME`, stack, dependências — auto-detectado de `package.json` / `pyproject.toml` / `go.mod` / `*.csproj` / `Cargo.toml` / `pubspec.yaml` / `composer.json` / `Gemfile` / `mix.exs` / `pom.xml` / `build.gradle*`.
+
+#### Não-interativo (CI / scripts)
+
+```bash
+npx @wesleysimplicio/agentic-starter --yes --cli skip --append-gitignore no
+```
+
+#### Preview sem escrever
+
+```bash
 npx @wesleysimplicio/agentic-starter --dry-run --yes
 ```
 
-O CLI:
+#### Lista completa de flags
 
-1. Copia template (`AGENTS.md`, `CLAUDE.md`, `.specs/`, `.skills/`, `.agents/`, `.claude/`, `.codex/`, `.github/`, hooks, workflows, Playwright config, etc.) pro `cwd`.
-2. Auto-detecta a stack (`package.json`/`pyproject.toml`/`go.mod`/etc) ou aceita via `--stack`.
-3. Substitui `<PRODUCT_NAME>`, `<TEAM>`, `<DOMAIN>`, `<STACK>` em todos os arquivos texto.
-4. Gera `.gitignore`, `.gitattributes` e `.starter-meta.json`.
-5. Imprime proximos passos pra rodar Claude Code / Codex / Copilot com o `INIT.md`.
+| Flag | Para que serve |
+|---|---|
+| `-y, --yes` | Não-interativo (defaults: sem append no `.gitignore`, pula handoff) |
+| `-f, --force` | Sobrescreve arquivos do template do starter. **Nunca** toca arquivos de instrução do usuário (`AGENTS.md`, `CLAUDE.md`, `INIT.md`, `.github/copilot-instructions.md`, `.gitignore`) |
+| `--dry-run` | Imprime ações sem escrever |
+| `--cli <key>` | Escolhe CLI pro handoff do `INIT.md`: `claude`, `codex`, `copilot`, `cursor`, `deepseek`, `kimi`, `minimax`, `glm`, `hermes`, `openclaw`, `aider`, `other`, `skip` |
+| `--append-gitignore <yes\|no>` | Adiciona ignores recomendados ao `.gitignore` |
+| `--skip-meta` | Não escreve `.starter-meta.json` |
+| `--silent` | Saída mínima |
+| `-v, --version` | Mostra versão |
+| `-h, --help` | Mostra ajuda |
 
-Por padrao **nao sobrescreve** arquivos existentes — use `--force` se quiser overwrite. Funciona em macOS, Linux e Windows (Node >= 16.7, sem dependencia de bash).
+### B. `bootstrap.sh` — shells Unix (macOS / Linux / Git Bash / WSL)
 
-Flags: `--product`, `--team`, `--domain`, `--stack`, `-f|--force`, `-y|--yes`, `--dry-run`, `--silent`, `--skip-meta`, `--skip-gitignore`, `-v|--version`, `-h|--help`.
-
-### Opção B — Clone + bootstrap script (legado)
-
-Se preferir o fluxo antigo (sem npm), continua valendo:
+Clona o starter e roda o script:
 
 ```bash
-# clonar do GitHub direto pra dentro do projeto
 git clone --depth=1 https://github.com/wesleysimplicio/agentic-starter.git tmp-starter
-cp -R tmp-starter/. ./
-rm -rf tmp-starter
-```
-
-Ou se já tem o starter local:
-
-```bash
-cp -R /caminho/para/agentic-starter/. ./
-```
-
-### Opção C — Rodar bootstrap script direto (após clone)
-
-**macOS / Linux / Git Bash (Windows):**
-
-```bash
+cp -R tmp-starter/. ./ && rm -rf tmp-starter
+chmod +x ./bootstrap.sh   # só na primeira vez
 ./bootstrap.sh
 ```
 
-**Windows nativo (PowerShell 5.1+ / pwsh 7+):**
+### C. `bootstrap.ps1` — Windows nativo (PowerShell)
 
 ```powershell
+git clone --depth=1 https://github.com/wesleysimplicio/agentic-starter.git tmp-starter
+Copy-Item -Recurse -Force tmp-starter\* .\
+Remove-Item -Recurse -Force tmp-starter
+
+# PowerShell 7+ (pwsh)
 pwsh -File .\bootstrap.ps1
-# ou em PowerShell 5.1:
+
+# PowerShell 5.1 (built-in no Windows 10/11)
 powershell -ExecutionPolicy Bypass -File .\bootstrap.ps1
 ```
 
-Os dois scripts têm comportamento idêntico (mesmas perguntas, mesmo `.starter-meta.json`, mesmo handoff pra CLI escolhida). Use o que combina com seu shell.
+Os três caminhos produzem o mesmo resultado e fazem as mesmas duas perguntas.
 
-Modo interativo, pergunta:
+---
 
-1. `PRODUCT_NAME`, `TEAM`, `DOMAIN`, `STACK` (auto-detecta stack via `package.json`/`pyproject.toml`/`go.mod`/etc).
-2. **Qual CLI usar pro mapeamento profundo:**
-   - `[c]` Claude Code (recomendado)
-   - `[x]` Codex
-   - `[g]` GitHub Copilot CLI (copia prompt pro clipboard, cola no Copilot Chat)
-   - `[h]` Hermes Agent (Nous Research)
-   - `[o]` OpenClaw
-   - `[n]` Não rodar agora
+## Handoff de CLI — agentes suportados
 
-Se escolher `c` ou `x`, o bootstrap **chama o agente direto** com o prompt do `INIT.md`. O agente vai:
+Após o scaffold, o bootstrap pergunta qual CLI/LLM lançar com o `INIT.md`. Instalações detectadas ganham `[installed]` no menu.
 
-- Inspecionar pastas, models, dependências, integrações.
-- Reescrever `VISION.md`, `DOMAIN.md`, `DESIGN.md`, `PATTERNS.md`, `BACKLOG.md` com **dados reais do código**.
-- Atualizar `AGENTS.md`/`CLAUDE.md`/`copilot-instructions.md` com comandos reais (npm scripts, makefile, etc).
-- Reportar o que ficou OK e o que precisa de input humano.
+| # | CLI / LLM | Loop de agente nativo? | Docs de instalação |
+|---|---|---|---|
+| 1 | **Claude Code** | sim | <https://docs.claude.com/claude-code> |
+| 2 | **Codex CLI** | sim | <https://github.com/openai/codex> |
+| 3 | **GitHub Copilot CLI** | não — cola prompt manual | `gh extension install github/gh-copilot` |
+| 4 | **Cursor Agent** | sim | `npm i -g cursor-agent` (ou Cursor IDE) |
+| 5 | **Deepseek** (via Aider) | sim | `pip install aider-chat` |
+| 6 | **Kimi K2.6** (via Aider, OpenRouter) | sim | `pip install aider-chat` |
+| 7 | **MiniMax M2.7** (via Aider, OpenRouter) | sim | `pip install aider-chat` |
+| 8 | **GLM 5.1** (via Aider, OpenRouter) | sim | `pip install aider-chat` |
+| 9 | **Hermes Agent** (Nous Research) | sim | <https://github.com/NousResearch> |
+| 10 | **OpenClaw** | sim | <https://github.com/openclaw> |
+| 11 | **Aider** (escolhe modelo interativo) | sim | `pip install aider-chat` |
+| 12 | Outro / manual (clipboard) | — | — |
+| 13 | Pular — rodo `INIT.md` depois | — | — |
 
-Modo CI/script (não-interativo, só substitui placeholders, sem rodar mapeamento):
+Pra Copilot CLI (sem loop de agente nativo), o bootstrap copia o prompt pro clipboard (`pbcopy` no macOS, `xclip`/`wl-copy` no Linux, `clip.exe` no Windows/WSL) e você cola no Copilot Chat.
 
-```bash
-# bash
-./bootstrap.sh --product "MeuApp" --team "Squad-X" --domain "fintech" --stack "next-ts"
+---
+
+## O que `INIT.md` faz — o contrato de segurança
+
+Quando a CLI escolhida roda `INIT.md`, ela lê `.starter-meta.json` e segue três regras inegociáveis:
+
+1. **`read_only_globs` são intocáveis.** Qualquer arquivo casando esses globs (`**/*.razor`, `**/*.cs`, `**/*.csproj`, `**/*.sln`, `package.json`, `pnpm-lock.yaml`, `yarn.lock`, `package-lock.json`, `**/*.py`, `**/*.go`, `**/*.rs`, `**/*.java`, `**/*.kt`, `**/*.dart`, `**/*.php`, `**/*.rb`) é read-only. O agente lê pra contexto mas nunca escreve. Se `git status` mostra qualquer um após init — é bug.
+2. **`init_must_merge` preserva sua essência.** Se `AGENTS.md` / `CLAUDE.md` / `.github/copilot-instructions.md` já existiam antes do bootstrap, o agente **lê eles**, **preserva o conteúdo**, e **mescla** a estrutura do starter por cima. Nunca reescreve do zero.
+3. **`init_must_ask` pergunta só 4 coisas.** `team`, `domain`, `vision_oneliner`, `primary_personas` — uma vez, em uma única mensagem. Tudo mais (`product_name`, `stack`) é auto-detectado.
+
+O agente então escreve — e só escreve — dentro da whitelist:
+
+```
+.specs/**          .agents/**         .skills/**
+.claude/**         .codex/**
+.github/copilot-instructions.md
+.github/copilot/**
+.github/PULL_REQUEST_TEMPLATE.md
+.github/ISSUE_TEMPLATE/**
+.github/workflows/ci.yml
+.github/workflows/dod.yml
+AGENTS.md  CLAUDE.md  README.md  README.pt-BR.md
+playwright.config.ts (só se faltando ou for nosso template)
 ```
 
-```powershell
-# PowerShell
-pwsh -File .\bootstrap.ps1 -Product "MeuApp" -Team "Squad-X" -Domain "fintech" -Stack "next-ts"
-```
+Qualquer coisa fora dessa whitelist **e** que não vem do template do starter = não tocada.
 
-### 3. (opcional) Limpar arquivos do starter
+---
 
-```bash
-# bash
-rm _BOOTSTRAP.md INIT.md bootstrap.sh bootstrap.ps1
-git add -A && git commit -m "chore: remove starter bootstrap files"
-```
+## Troubleshooting
 
-```powershell
-# PowerShell
-Remove-Item _BOOTSTRAP.md, INIT.md, bootstrap.sh, bootstrap.ps1
-git add -A; git commit -m "chore: remove starter bootstrap files"
-```
+### macOS / Linux
+
+| Sintoma | Solução |
+|---|---|
+| `./bootstrap.sh: Permission denied` | `chmod +x ./bootstrap.sh` |
+| `command not found: npx` | Instala Node.js (ver Pré-requisitos) |
+| `Claude Code not installed` após escolher | Instala o Claude Code ou escolhe `[12] Other` pra copiar o prompt pro clipboard |
+| Bash antigo no macOS (`bash --version` mostra 3.2) | Funciona — script é Bash 3.2-compatível. Se der problema, `brew install bash` pra Bash 5+ |
+
+### Windows
+
+| Sintoma | Solução |
+|---|---|
+| `bootstrap.ps1 cannot be loaded ... execution policy` | Roda com `powershell -ExecutionPolicy Bypass -File .\bootstrap.ps1` (bypass por sessão, sem mudança permanente) |
+| Line endings quebrados ao rodar `.sh` no Git Bash | `git config --global core.autocrlf input` e re-clona |
+| `npx` não achado no cmd.exe | Abre novo terminal após instalar Node (atualiza PATH), ou usa caminho completo `C:\Program Files\nodejs\npx.cmd` |
+| `pwsh` não encontrado | Você tem PowerShell 5.1 (built-in) — usa o formato `powershell -ExecutionPolicy Bypass ...`. Pra instalar pwsh 7: `winget install Microsoft.PowerShell` |
+
+### Cross-platform
+
+| Sintoma | Solução |
+|---|---|
+| Bootstrap sai com `aborting: existing files would be overwritten` | Re-roda com `--force` (só sobrescreve arquivos do template do starter, nunca seus arquivos de instrução) |
+| `git status` mostra `package.json` / arquivos fonte modificados após init | Para. Isso é violação de `read_only_globs`. Abre issue com o caminho do arquivo |
+| `.gitignore` foi reescrito | O starter nunca sobrescreve — só adiciona se você disse `yes`. Se o seu foi substituído, você rodou `--force`; restaura pelo git |
+| Quero re-rodar `INIT.md` depois | `claude "$(cat INIT.md)"` (ou equivalente da sua CLI). O handoff é só um lançador |
 
 ---
 
@@ -144,68 +223,67 @@ git add -A; git commit -m "chore: remove starter bootstrap files"
 1. `README.md` (este arquivo) — visão geral.
 2. `AGENTS.md` — instrução mestre do agente.
 3. `.specs/README.md` — mapa de navegação das specs.
-4. `.specs/product/VISION.md` — produto.
+4. `.specs/product/VISION.md` — contexto do produto.
 5. `.specs/architecture/DESIGN.md` — arquitetura.
 6. `.specs/workflow/WORKFLOW.md` — processo.
 7. `.skills/README.md` — capacidades do agente.
 
 ---
 
-## Quickstart para o agente AI
+## Quickstart pro agente (depois do `INIT.md`)
 
-Ao abrir o repo recém-clonado, o agente deve:
-
-1. Ler `AGENTS.md` (raiz). Esse é o contrato.
-2. Ler `.specs/product/VISION.md` para entender o porquê.
-3. Ler `.specs/architecture/DESIGN.md` e `PATTERNS.md` para entender como.
-4. Pegar a próxima task em `.specs/sprints/sprint-XX/`.
-5. Seguir o loop obrigatório: ler task -> planejar -> editar -> lint -> unit -> e2e -> corrigir -> commit.
-6. Validar a Definition of Done antes de abrir PR.
+1. Lê `AGENTS.md` (raiz). Esse é o contrato.
+2. Lê `.specs/product/VISION.md` pro porquê.
+3. Lê `.specs/architecture/DESIGN.md` e `PATTERNS.md` pro como.
+4. Pega a próxima task em `.specs/sprints/sprint-XX/`.
+5. Roda o loop obrigatório: ler task → planejar → editar → lint → unit → e2e → corrigir → commit.
+6. Valida Definition of Done antes de abrir PR.
 
 ---
 
-## Estrutura de pastas
+## Opcional: limpar arquivos do starter
 
+Após o agente terminar `INIT.md`, os arquivos de bootstrap não são mais necessários.
+
+**macOS / Linux / Git Bash / WSL:**
+
+```bash
+rm _BOOTSTRAP.md INIT.md bootstrap.sh bootstrap.ps1
+git add -A && git commit -m "chore: remove starter bootstrap files"
 ```
-agentic-starter/
-├── README.md                  # este arquivo
-├── AGENTS.md                  # instrução mestre do agente
-├── CLAUDE.md                  # cópia/symlink de AGENTS.md
-├── .gitignore
-├── .github/                   # CI, templates, custom agents Copilot
-├── .specs/                    # toda documentação de produto/arquitetura/workflow
-│   ├── product/               # VISION, DOMAIN, PERSONAS
-│   ├── architecture/          # DESIGN, PATTERNS, ADRs
-│   ├── workflow/              # WORKFLOW, CONTRIBUTING, RELEASE
-│   └── sprints/               # BACKLOG + sprints
-├── .skills/                   # skills reutilizáveis do agente
-├── .claude/                   # config + hooks Claude Code
-├── .codex/                    # config Codex
-├── playwright.config.ts       # E2E padrão
-└── presentation/              # slides do método (Marp)
+
+**Windows PowerShell:**
+
+```powershell
+Remove-Item _BOOTSTRAP.md, INIT.md, bootstrap.sh, bootstrap.ps1
+git add -A; git commit -m "chore: remove starter bootstrap files"
 ```
+
+`.starter-meta.json` fica como referência pra re-runs futuros.
 
 ---
 
 ## Filosofia
 
-- **Specs como código.** O que não está escrito, o agente não vê.
+- **Specs como código.** O que não está em `.specs/`, o agente não vê.
 - **Tasks atômicas.** Uma task = um PR pequeno e revisável.
-- **Definition of Done automatizada.** O que não passa no gate, não merge.
-- **Skills reutilizáveis.** Capacidade que vai virar padrão, vira `SKILL.md`.
+- **DoD automatizada.** O que não passa no gate, não merge.
+- **Skills reutilizáveis.** Capacidade que vira padrão, vira `SKILL.md`.
 - **Loop curto.** Editar, testar, corrigir, repetir. Nunca acumular dívida invisível.
+- **Nunca destruir.** Arquivos do usuário são read-only; arquivos do starter mesclam ao invés de sobrescrever.
 
 ---
 
 ## Licença
 
-`<LICENSE_PLACEHOLDER>` (substitua por MIT, Apache-2.0, proprietária ou o que fizer sentido para o projeto).
+`<LICENSE_PLACEHOLDER>` (substitua por MIT, Apache-2.0, proprietária ou o que fizer sentido).
 
 ---
 
 ## Próximos passos
 
-- Adapte os placeholders.
-- Preencha as specs com o contexto real do produto.
-- Rode a primeira sprint usando o template em `.specs/sprints/sprint-01/`.
-- Veja a apresentação em `presentation/ai-agent-specialist.pdf` para entender o método completo.
+- Roda o bootstrap.
+- Deixa o agente executar `INIT.md`.
+- Preenche specs com contexto real do produto (o agente faz a maior parte a partir do código).
+- Roda a primeira sprint usando `.specs/sprints/sprint-01/`.
+- Vê `presentation/ai-agent-specialist.pdf` pro método completo.
