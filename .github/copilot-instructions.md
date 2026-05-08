@@ -61,7 +61,7 @@ Em Copilot Workspace/Agent Mode, todo plano de execução segue esse loop. Não 
 4. **Implementar (Agent Mode)** — edits cirúrgicos. Só toca o que a task pede. Sem refactor extra.
 5. **Lint** — `npm run lint`. Vermelho = corrige.
 6. **Unit** — `npm test`. Vermelho = corrige. Coverage do diff >= 80%.
-7. **E2E** — `npx playwright test`. Captura screenshot/trace/video.
+7. **E2E (OBRIGATÓRIO em TODA task)** — `npx playwright test --reporter=list,html`. Captura **trace + screenshot + video** (todos). Sem evidência em `playwright-report/` + `test-results/` = task não fechada.
 8. **Fix loop** — falhou? Volta ao 4. Repete até verde.
 9. **Commit** — Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`). Mensagem em **inglês**.
 10. **PR** — `gh pr create --fill`. Preenche template inteiro.
@@ -74,7 +74,7 @@ PR só faz merge quando todos os itens abaixo estão marcados:
 
 - [ ] Unit tests passam
 - [ ] Lint passa
-- [ ] E2E Playwright passa **com evidência anexada** (screenshot, trace, video)
+- [ ] E2E Playwright passa **com evidência anexada em TODA task** — `playwright-report/index.html` + `test-results/<spec>/trace.zip` + screenshots por cenário + video. Hard rule: sem evidência, sem merge.
 - [ ] Coverage do diff >= 80%
 - [ ] Acceptance Criteria todos marcados
 - [ ] PR template preenchido (link task + descrição + evidências)
@@ -132,11 +132,12 @@ Decisões irreversíveis viram **ADR** em `.specs/architecture/ADR-XXX-*.md` (te
 
 Copilot pode delegar pra um custom agent quando a tarefa casa com a `description` do agent. Definidos em [`.agents/`](../.agents/) (canônico) e espelhados em `.github/copilot/agents/` (mirror para Copilot Coding Agent):
 
+- **`ralph-loop.agent.md`** — Ralph Loop. Executor autônomo padrão: lê task, planeja, executa, valida (lint + unit + Playwright com evidência), corrige se vermelho, repete até DoD verde. Tools: `edit`, `terminal`, `search`. Aciona em **toda task técnica** com acceptance criteria mensurável.
 - **`tdd.agent.md`** — TDD Specialist. Escreve teste falhando antes do código. Loop red-green-refactor. Tools: `edit`, `terminal`, `search`. Aciona quando tarefa exige cobertura nova ou regression test.
 - **`reviewer.agent.md`** — Code Reviewer. Read-only. Comenta problemas e sugestões em PR. Tools: `search`, `read`. Aciona em revisão de PR aberto, sem editar arquivos.
 - **`architect.agent.md`** — Architect. Desenha arquitetura, cria ADRs, atualiza `PATTERNS.md`. **Não escreve código de produção.** Tools: `edit`, `search`, `read`. Aciona em decisão arquitetural, refactor amplo, integração nova.
 
-Pra invocar explicitamente em Copilot Chat: `@tdd`, `@reviewer`, `@architect`.
+Pra invocar explicitamente em Copilot Chat: `@ralph-loop`, `@tdd`, `@reviewer`, `@architect`.
 
 ---
 

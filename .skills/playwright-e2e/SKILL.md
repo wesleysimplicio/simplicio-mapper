@@ -11,11 +11,23 @@ Padrão para criar e atualizar testes E2E com Playwright. Garante que toda mudan
 
 ## Trigger
 
-- Quando a task envolve **fluxo de usuário** ponta a ponta (login, checkout, onboarding, etc.).
-- Quando uma feature web nova for entregue e ainda não tem cobertura E2E.
-- Quando um bug se manifestar na UI e a regressão exigir teste.
-- Quando o usuário pedir explicitamente "escreve teste e2e", "playwright", "smoke test web".
-- Antes de fechar PR que toca rota, página ou interação visível.
+- **OBRIGATÓRIO em TODA task técnica** (feature, fix, refactor, doc com build) — Playwright roda antes do commit. Smoke test mínimo se task não tem UI.
+- Fluxo de usuário ponta a ponta (login, checkout, onboarding, etc.).
+- Feature web nova sem cobertura E2E.
+- Bug que se manifesta na UI e exige teste de regressão.
+- Pedido explícito: "escreve teste e2e", "playwright", "smoke test web".
+- Antes de fechar QUALQUER PR (toca rota, página, interação ou não — smoke garante que app sobe).
+
+---
+
+## Hard rule — evidência em TODA task
+
+Regra dura, sem exceção: nenhum PR fecha sem **trace + screenshot + video** salvos em `playwright-report/` + `test-results/`. Sem evidência = sem merge. CI bloqueia via `.github/workflows/dod.yml`.
+
+- Task de UI → cenários: happy path, erro, auth states, viewports 375/1280, edge case.
+- Task de backend puro → smoke spec: app sobe, endpoint principal responde 2xx, fluxo crítico passa.
+- Task de doc/config → smoke: build não quebra + serve responde.
+- Task de migration → roda app + valida fluxo afetado pela migration.
 
 ---
 
@@ -53,12 +65,12 @@ Padrão para criar e atualizar testes E2E com Playwright. Garante que toda mudan
 
 - [ ] Spec roda local sem erro: `npx playwright test tests/e2e/<feature>.spec.ts`.
 - [ ] Cenários documentados: caminho feliz + ao menos 1 erro + 1 viewport alternativo (quando aplicável).
-- [ ] Evidência salva em `test-results/` (trace, screenshot, vídeo conforme config).
+- [ ] **Evidência completa salva** — `playwright-report/index.html` + `test-results/<spec>/trace.zip` + screenshot por cenário + video. Hard rule: sem evidência, sem merge.
 - [ ] HTML report gerado em `playwright-report/` e validado visualmente.
-- [ ] PR menciona o screenshot do estado final e lista os cenários cobertos.
+- [ ] PR anexa screenshot do estado final, link do report e lista cenários cobertos.
 - [ ] Nenhum `waitForTimeout` ou `sleep` arbitrário no código.
 - [ ] Seletores resistentes (role/label/testid), não classes CSS voláteis.
-- [ ] CI (`.github/workflows/ci.yml`) verde para o job `playwright`.
+- [ ] CI (`.github/workflows/ci.yml` + `dod.yml`) verde para o job `playwright`.
 
 ---
 

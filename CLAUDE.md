@@ -72,7 +72,7 @@ Toda task técnica passa por esses passos. Não pula etapa.
 4. **Editar** — aplica edits cirúrgicos. Só toca o que a task pede. Sem refactor extra, sem renomeação, sem comentário a mais.
 5. **Lint** — `npm run lint`. Vermelho = corrige antes de seguir.
 6. **Unit** — `npm test`. Vermelho = corrige antes de seguir. Coverage do diff >= 80%.
-7. **E2E** — `npx playwright test`. Captura screenshot/trace/video. Vermelho = corrige.
+7. **E2E (OBRIGATÓRIO em TODA task)** — `npx playwright test --reporter=list,html`. Captura **trace + screenshot + video** (todos, não "ou"). Sem evidência salva em `playwright-report/` + `test-results/` = task não fechada. Vermelho = corrige.
 8. **Fix loop** — se qualquer etapa falhou: volta ao passo 4. Repete até verde.
 9. **Commit** — Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`). Mensagem em **inglês**. Body explica *why*, não *what*.
 10. **PR** — `gh pr create`. Preenche template inteiro: link da task, evidências (screenshots Playwright), checklist DoD marcado.
@@ -85,7 +85,7 @@ PR só faz merge quando **todos** os itens abaixo estão marcados:
 
 - [ ] Unit tests passam (`npm test` verde)
 - [ ] Lint passa (`npm run lint` verde)
-- [ ] E2E Playwright passa com **evidência anexada** (screenshot, trace ou video em `playwright-report/`)
+- [ ] E2E Playwright passa com **evidência anexada em TODA task** — `playwright-report/index.html` + `test-results/<spec>/trace.zip` + screenshots por cenário + video (when retry). Hard rule: sem evidência, sem merge.
 - [ ] Coverage do diff >= 80%
 - [ ] Acceptance Criteria da task: todos os checkboxes marcados
 - [ ] PR template preenchido (link task + descrição + evidências)
@@ -162,6 +162,7 @@ Detalhes completos: `.skills/README.md`.
 
 Sub-agents customizados moram em `.agents/<slug>.agent.md` (padrão **AGENTS.md ecosystem**, lido por Claude Code, Codex, Hermes, OpenClaw, Cursor, Aider). Espelhados em `.github/copilot/agents/` para o GitHub Copilot Workspace. Lista atual:
 
+- **`ralph-loop.agent.md`** — Ralph Loop. Executor autônomo padrão: lê task, planeja, executa, valida (lint + unit + Playwright com evidência), corrige se vermelho, repete até DoD verde. Tools: `edit`, `terminal`, `search`. Aciona em **toda task técnica** com acceptance criteria mensurável.
 - **`tdd.agent.md`** — TDD Specialist. Escreve teste falhando antes do código. Loop red-green-refactor. Tools: `edit`, `terminal`, `search`. Aciona em feature/bugfix com cobertura nova.
 - **`reviewer.agent.md`** — Code Reviewer. Read-only. Comenta problemas e sugestões. Tools: `search`, `read`. Aciona em revisão de PR aberto, sem editar.
 - **`architect.agent.md`** — Architect. Desenha arquitetura, cria ADRs, atualiza `PATTERNS.md`. Não escreve código de produção. Tools: `edit`, `search`, `read`. Aciona em decisão arquitetural, refactor amplo, integração nova.

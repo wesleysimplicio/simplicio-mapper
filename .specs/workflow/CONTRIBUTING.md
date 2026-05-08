@@ -128,6 +128,7 @@ Skills e agents reduzem trabalho repetitivo e enforçam padrão. Ver `.skills/` 
 
 | Agent | Uso |
 |-------|-----|
+| `ralph-loop.agent.md` | **Executor autônomo padrão.** Loop `read → plan → execute → lint → unit → Playwright (com evidência) → fix → repeat` até DoD verde. Aciona em toda task técnica. |
 | `tdd.agent.md` | TDD specialist. Escreve teste falhando, depois código. Loop red-green-refactor. |
 | `reviewer.agent.md` | Code review sem editar. Comenta padrões, sugere melhorias, valida ADRs. |
 | `architect.agent.md` | Desenha arquitetura, cria ADRs, não escreve código de produção. |

@@ -117,6 +117,16 @@ Cópia de AGENTS.md ou nota explicando "ler AGENTS.md".
 ### `.github/copilot-instructions.md`
 Espelho do AGENTS.md adaptado pra Copilot (mesmo conteúdo, ajusta tom). Foco em Agent Mode workflow.
 
+### `.agents/ralph-loop.agent.md`
+Custom agent **executor autônomo padrão** (Ralph Loop). Roda `read → plan → execute → lint → unit → e2e (Playwright com evidência) → fix → repeat` até DoD verde. Frontmatter:
+```
+---
+name: Ralph Loop
+description: Executor autônomo em loop contínuo até DoD verde, com Playwright + evidência obrigatória em toda task.
+tools: [edit, terminal, search]
+---
+```
+
 ### `.agents/tdd.agent.md`
 Custom agent TDD-first com frontmatter:
 ```

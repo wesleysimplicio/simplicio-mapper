@@ -25,6 +25,7 @@ Cada ferramenta resolve seu próprio caminho, mas todos convergem no conteúdo d
 .agents/
 ├── README.md                  # este arquivo
 ├── _template.agent.md         # base (opcional) pra criar agent novo
+├── ralph-loop.agent.md        # Ralph Loop (executor autônomo padrão)
 ├── tdd.agent.md               # TDD Specialist
 ├── reviewer.agent.md          # Code Reviewer
 ├── architect.agent.md         # Software Architect
