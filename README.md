@@ -1,77 +1,80 @@
 # Agentic Starter Pack
 
-Template de repositório AI-friendly, neutro e agnóstico de stack. Foi pensado para ser copiado em qualquer projeto novo e dar ao agente (Claude Code, Codex, Copilot ou outro) o contexto que ele precisa para entregar releases por dia.
+> 🇺🇸 English. Leia em português: [README.pt-BR.md](README.pt-BR.md).
 
-> Este é um starter pack, não um framework. Ele entrega estrutura, instrução e processo. A stack de execução é sua escolha.
 
----
+AI-friendly, stack-neutral repository template. Designed to drop into any new project and give the agent (Claude Code, Codex, Copilot, Cursor, Aider, Hermes, OpenClaw, etc.) the context it needs to ship releases per day.
 
-## O que é
-
-Um esqueleto pronto contendo:
-
-- Instruction files (`AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`) que orientam o agente.
-- Specs (`/.specs/`) com VISION, DOMAIN, PERSONAS, DESIGN, ADRs, WORKFLOW e backlog de sprints.
-- Skills reutilizáveis (`/.skills/`) que o agente invoca quando o contexto bate.
-- Hooks (`.claude/hooks/`) e config (`.claude/settings.json`, `.codex/config.toml`) prontos.
-- Pipeline de CI (`.github/workflows/`) com gate de Definition of Done.
-- Templates de PR e Issue.
-- Apresentação `presentation/` sobre o método AI Agent Specialist.
-
-Tudo neutro: a stack real vai ser plugada via `<PLACEHOLDERS>` quando você adaptar para o seu projeto.
+> This is a starter pack, not a framework. It delivers structure, instruction and process. The execution stack is your call.
 
 ---
 
-## Como usar
+## What it is
 
-Há três formas de instalar o starter num projeto. Escolha a que combina com seu fluxo.
+A ready-made skeleton containing:
 
-### Opção A — `npx` (recomendado, zero clone)
+- Instruction files (`AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`) that drive the agent.
+- Specs (`/.specs/`) with VISION, DOMAIN, PERSONAS, DESIGN, ADRs, WORKFLOW and sprint backlog.
+- Reusable skills (`/.skills/`) the agent invokes when context matches.
+- Hooks (`.claude/hooks/`) and config (`.claude/settings.json`, `.codex/config.toml`) ready to go.
+- CI pipeline (`.github/workflows/`) with Definition of Done gate.
+- PR and Issue templates.
+- Presentation under `presentation/` covering the AI Agent Specialist method.
 
-Dentro do diretório do seu projeto:
+Everything stack-neutral: the actual stack plugs in via `<PLACEHOLDERS>` when you adapt it to your project.
+
+---
+
+## How to use
+
+Three install paths. Pick the one that fits your flow.
+
+### Option A — `npx` (recommended, zero clone)
+
+Inside your project directory:
 
 ```bash
-# interativo (pergunta product/team/domain/stack)
+# interactive (asks product/team/domain/stack)
 npx @wesleysimplicio/agentic-starter
 
-# nao-interativo (CI ou automacao)
+# non-interactive (CI or automation)
 npx @wesleysimplicio/agentic-starter \
   --product "MyApp" --team "Squad-X" --domain "fintech" --stack "next-ts" --yes
 
-# preview sem escrever nada
+# preview without writing anything
 npx @wesleysimplicio/agentic-starter --dry-run --yes
 ```
 
-O CLI:
+The CLI:
 
-1. Copia template (`AGENTS.md`, `CLAUDE.md`, `.specs/`, `.skills/`, `.agents/`, `.claude/`, `.codex/`, `.github/`, hooks, workflows, Playwright config, etc.) pro `cwd`.
-2. Auto-detecta a stack (`package.json`/`pyproject.toml`/`go.mod`/etc) ou aceita via `--stack`.
-3. Substitui `<PRODUCT_NAME>`, `<TEAM>`, `<DOMAIN>`, `<STACK>` em todos os arquivos texto.
-4. Gera `.gitignore`, `.gitattributes` e `.starter-meta.json`.
-5. Imprime proximos passos pra rodar Claude Code / Codex / Copilot com o `INIT.md`.
+1. Copies the template (`AGENTS.md`, `CLAUDE.md`, `.specs/`, `.skills/`, `.agents/`, `.claude/`, `.codex/`, `.github/`, hooks, workflows, Playwright config, etc.) into `cwd`.
+2. Auto-detects the stack (`package.json`/`pyproject.toml`/`go.mod`/etc.) or accepts it via `--stack`.
+3. Replaces `<PRODUCT_NAME>`, `<TEAM>`, `<DOMAIN>`, `<STACK>` across all text files.
+4. Generates `.gitignore`, `.gitattributes` and `.starter-meta.json`.
+5. Prints next steps to run Claude Code / Codex / Copilot with `INIT.md`.
 
-Por padrao **nao sobrescreve** arquivos existentes — use `--force` se quiser overwrite. Funciona em macOS, Linux e Windows (Node >= 16.7, sem dependencia de bash).
+By default it **does not overwrite** existing files — use `--force` if you want overwrite. Works on macOS, Linux and Windows (Node >= 16.7, no bash dependency).
 
 Flags: `--product`, `--team`, `--domain`, `--stack`, `-f|--force`, `-y|--yes`, `--dry-run`, `--silent`, `--skip-meta`, `--skip-gitignore`, `-v|--version`, `-h|--help`.
 
-### Opção B — Clone + bootstrap script (legado)
+### Option B — Clone + bootstrap script (legacy)
 
-Se preferir o fluxo antigo (sem npm), continua valendo:
+If you prefer the old flow (no npm), it still works:
 
 ```bash
-# clonar do GitHub direto pra dentro do projeto
+# clone from GitHub straight into the project
 git clone --depth=1 https://github.com/wesleysimplicio/agentic-starter.git tmp-starter
 cp -R tmp-starter/. ./
 rm -rf tmp-starter
 ```
 
-Ou se já tem o starter local:
+Or if you already have the starter locally:
 
 ```bash
-cp -R /caminho/para/agentic-starter/. ./
+cp -R /path/to/agentic-starter/. ./
 ```
 
-### Opção C — Rodar bootstrap script direto (após clone)
+### Option C — Run the bootstrap script directly (after clone)
 
 **macOS / Linux / Git Bash (Windows):**
 
@@ -79,47 +82,47 @@ cp -R /caminho/para/agentic-starter/. ./
 ./bootstrap.sh
 ```
 
-**Windows nativo (PowerShell 5.1+ / pwsh 7+):**
+**Native Windows (PowerShell 5.1+ / pwsh 7+):**
 
 ```powershell
 pwsh -File .\bootstrap.ps1
-# ou em PowerShell 5.1:
+# or on PowerShell 5.1:
 powershell -ExecutionPolicy Bypass -File .\bootstrap.ps1
 ```
 
-Os dois scripts têm comportamento idêntico (mesmas perguntas, mesmo `.starter-meta.json`, mesmo handoff pra CLI escolhida). Use o que combina com seu shell.
+Both scripts behave identically (same prompts, same `.starter-meta.json`, same handoff to the picked CLI). Use the one that matches your shell.
 
-Modo interativo, pergunta:
+Interactive mode asks:
 
-1. `PRODUCT_NAME`, `TEAM`, `DOMAIN`, `STACK` (auto-detecta stack via `package.json`/`pyproject.toml`/`go.mod`/etc).
-2. **Qual CLI usar pro mapeamento profundo:**
-   - `[c]` Claude Code (recomendado)
+1. `PRODUCT_NAME`, `TEAM`, `DOMAIN`, `STACK` (auto-detects stack via `package.json`/`pyproject.toml`/`go.mod`/etc.).
+2. **Which CLI to use for deep mapping:**
+   - `[c]` Claude Code (recommended)
    - `[x]` Codex
-   - `[g]` GitHub Copilot CLI (copia prompt pro clipboard, cola no Copilot Chat)
+   - `[g]` GitHub Copilot CLI (copies prompt to clipboard, paste into Copilot Chat)
    - `[h]` Hermes Agent (Nous Research)
    - `[o]` OpenClaw
-   - `[n]` Não rodar agora
+   - `[n]` Skip mapping for now
 
-Se escolher `c` ou `x`, o bootstrap **chama o agente direto** com o prompt do `INIT.md`. O agente vai:
+If you pick `c` or `x`, the bootstrap **calls the agent directly** with the `INIT.md` prompt. The agent will:
 
-- Inspecionar pastas, models, dependências, integrações.
-- Reescrever `VISION.md`, `DOMAIN.md`, `DESIGN.md`, `PATTERNS.md`, `BACKLOG.md` com **dados reais do código**.
-- Atualizar `AGENTS.md`/`CLAUDE.md`/`copilot-instructions.md` com comandos reais (npm scripts, makefile, etc).
-- Reportar o que ficou OK e o que precisa de input humano.
+- Inspect folders, models, dependencies, integrations.
+- Rewrite `VISION.md`, `DOMAIN.md`, `DESIGN.md`, `PATTERNS.md`, `BACKLOG.md` with **real data from the code**.
+- Update `AGENTS.md`/`CLAUDE.md`/`copilot-instructions.md` with real commands (npm scripts, makefile, etc.).
+- Report what landed clean and what needs human input.
 
-Modo CI/script (não-interativo, só substitui placeholders, sem rodar mapeamento):
+CI/script mode (non-interactive, only replaces placeholders, no mapping):
 
 ```bash
 # bash
-./bootstrap.sh --product "MeuApp" --team "Squad-X" --domain "fintech" --stack "next-ts"
+./bootstrap.sh --product "MyApp" --team "Squad-X" --domain "fintech" --stack "next-ts"
 ```
 
 ```powershell
 # PowerShell
-pwsh -File .\bootstrap.ps1 -Product "MeuApp" -Team "Squad-X" -Domain "fintech" -Stack "next-ts"
+pwsh -File .\bootstrap.ps1 -Product "MyApp" -Team "Squad-X" -Domain "fintech" -Stack "next-ts"
 ```
 
-### 3. (opcional) Limpar arquivos do starter
+### 3. (optional) Clean up starter files
 
 ```bash
 # bash
@@ -135,73 +138,73 @@ git add -A; git commit -m "chore: remove starter bootstrap files"
 
 ---
 
-## Ordem de leitura sugerida (humano)
+## Suggested reading order (human)
 
-1. `README.md` (este arquivo) — visão geral.
-2. `AGENTS.md` — instrução mestre do agente.
-3. `.specs/README.md` — mapa de navegação das specs.
-4. `.specs/product/VISION.md` — produto.
-5. `.specs/architecture/DESIGN.md` — arquitetura.
-6. `.specs/workflow/WORKFLOW.md` — processo.
-7. `.skills/README.md` — capacidades do agente.
-
----
-
-## Quickstart para o agente AI
-
-Ao abrir o repo recém-clonado, o agente deve:
-
-1. Ler `AGENTS.md` (raiz). Esse é o contrato.
-2. Ler `.specs/product/VISION.md` para entender o porquê.
-3. Ler `.specs/architecture/DESIGN.md` e `PATTERNS.md` para entender como.
-4. Pegar a próxima task em `.specs/sprints/sprint-XX/`.
-5. Seguir o loop obrigatório: ler task -> planejar -> editar -> lint -> unit -> e2e -> corrigir -> commit.
-6. Validar a Definition of Done antes de abrir PR.
+1. `README.md` (this file) — overview.
+2. `AGENTS.md` — agent master instruction.
+3. `.specs/README.md` — specs navigation map.
+4. `.specs/product/VISION.md` — product.
+5. `.specs/architecture/DESIGN.md` — architecture.
+6. `.specs/workflow/WORKFLOW.md` — process.
+7. `.skills/README.md` — agent capabilities.
 
 ---
 
-## Estrutura de pastas
+## Quickstart for the AI agent
+
+When the agent opens the freshly cloned repo, it must:
+
+1. Read `AGENTS.md` (root). That is the contract.
+2. Read `.specs/product/VISION.md` to grasp the why.
+3. Read `.specs/architecture/DESIGN.md` and `PATTERNS.md` to grasp the how.
+4. Pull the next task from `.specs/sprints/sprint-XX/`.
+5. Run the mandatory loop: read task -> plan -> edit -> lint -> unit -> e2e -> fix -> commit.
+6. Validate Definition of Done before opening a PR.
+
+---
+
+## Folder layout
 
 ```
 agentic-starter/
-├── README.md                  # este arquivo
-├── AGENTS.md                  # instrução mestre do agente
-├── CLAUDE.md                  # cópia/symlink de AGENTS.md
+├── README.md                  # this file
+├── AGENTS.md                  # agent master instruction
+├── CLAUDE.md                  # mirror/symlink of AGENTS.md
 ├── .gitignore
-├── .github/                   # CI, templates, custom agents Copilot
-├── .specs/                    # toda documentação de produto/arquitetura/workflow
+├── .github/                   # CI, templates, Copilot custom agents
+├── .specs/                    # all product/architecture/workflow docs
 │   ├── product/               # VISION, DOMAIN, PERSONAS
 │   ├── architecture/          # DESIGN, PATTERNS, ADRs
 │   ├── workflow/              # WORKFLOW, CONTRIBUTING, RELEASE
 │   └── sprints/               # BACKLOG + sprints
-├── .skills/                   # skills reutilizáveis do agente
-├── .claude/                   # config + hooks Claude Code
-├── .codex/                    # config Codex
-├── playwright.config.ts       # E2E padrão
-└── presentation/              # slides do método (Marp)
+├── .skills/                   # reusable agent skills
+├── .claude/                   # Claude Code config + hooks
+├── .codex/                    # Codex config
+├── playwright.config.ts       # default E2E
+└── presentation/              # method slides (Marp)
 ```
 
 ---
 
-## Filosofia
+## Philosophy
 
-- **Specs como código.** O que não está escrito, o agente não vê.
-- **Tasks atômicas.** Uma task = um PR pequeno e revisável.
-- **Definition of Done automatizada.** O que não passa no gate, não merge.
-- **Skills reutilizáveis.** Capacidade que vai virar padrão, vira `SKILL.md`.
-- **Loop curto.** Editar, testar, corrigir, repetir. Nunca acumular dívida invisível.
-
----
-
-## Licença
-
-`<LICENSE_PLACEHOLDER>` (substitua por MIT, Apache-2.0, proprietária ou o que fizer sentido para o projeto).
+- **Specs as code.** What is not written, the agent does not see.
+- **Atomic tasks.** One task = one small reviewable PR.
+- **Automated Definition of Done.** What does not pass the gate, does not merge.
+- **Reusable skills.** A capability that becomes a pattern becomes a `SKILL.md`.
+- **Tight loop.** Edit, test, fix, repeat. Never accumulate invisible debt.
 
 ---
 
-## Próximos passos
+## License
 
-- Adapte os placeholders.
-- Preencha as specs com o contexto real do produto.
-- Rode a primeira sprint usando o template em `.specs/sprints/sprint-01/`.
-- Veja a apresentação em `presentation/ai-agent-specialist.pdf` para entender o método completo.
+`<LICENSE_PLACEHOLDER>` (replace with MIT, Apache-2.0, proprietary, or whatever fits the project).
+
+---
+
+## Next steps
+
+- Adapt the placeholders.
+- Fill the specs with real product context.
+- Run the first sprint using the template under `.specs/sprints/sprint-01/`.
+- Watch the deck at `presentation/ai-agent-specialist.pdf` to grasp the full method.
