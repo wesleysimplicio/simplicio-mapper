@@ -162,7 +162,7 @@ Detalhes completos: `.skills/README.md`.
 
 Sub-agents customizados moram em `.agents/<slug>.agent.md` (padrão **AGENTS.md ecosystem**, lido por Claude Code, Codex, Hermes, OpenClaw, Cursor, Aider). Espelhados em `.github/copilot/agents/` para o GitHub Copilot Workspace. Lista atual:
 
-- **`ralph-loop.agent.md`** — Ralph Loop. Executor autônomo padrão: lê task, planeja, executa, valida (lint + unit + Playwright com evidência), corrige se vermelho, repete até DoD verde. Tools: `edit`, `terminal`, `search`. Aciona em **toda task técnica** com acceptance criteria mensurável.
+- **`ralph-loop.agent.md`** — Ralph Loop (padrão autônomo, Ralph Wiggum technique). Loop `read → plan → execute → lint → unit → Playwright → fix → repeat` até DoD verde. **Mapeia para comando nativo de cada ferramenta**: Claude Code → `/ralph-loop "<prompt>"` (plugin oficial `claude-plugins-official`); Codex CLI ≥0.128 → `/goal <objective>`; GitHub Copilot CLI → `copilot --autopilot --max-autopilot-continues N`; VS Code Agent Mode → permission level "Autopilot"; Cursor ≥3.0 → Background Agent / `/multitask`. Aciona em **toda task técnica** com AC mensurável. Tools: `edit`, `terminal`, `search`.
 - **`tdd.agent.md`** — TDD Specialist. Escreve teste falhando antes do código. Loop red-green-refactor. Tools: `edit`, `terminal`, `search`. Aciona em feature/bugfix com cobertura nova.
 - **`reviewer.agent.md`** — Code Reviewer. Read-only. Comenta problemas e sugestões. Tools: `search`, `read`. Aciona em revisão de PR aberto, sem editar.
 - **`architect.agent.md`** — Architect. Desenha arquitetura, cria ADRs, atualiza `PATTERNS.md`. Não escreve código de produção. Tools: `edit`, `search`, `read`. Aciona em decisão arquitetural, refactor amplo, integração nova.

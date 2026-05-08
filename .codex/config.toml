@@ -41,6 +41,24 @@ max_entries = 0  # 0 = ilimitado
 default = "gpt-5.3-codex"
 
 # ---------------------------------------------------------------------------
+# Features (experimental)
+# ---------------------------------------------------------------------------
+# `goals = true` habilita o comando `/goal <objective>` (Codex CLI >= 0.128.0).
+# OpenAI chama internamente esse loop de "Ralph Loop" — agente persistente
+# que planeja, executa, testa e itera ate o objetivo ser verificavelmente
+# completo (ou o budget de iteracoes/tokens acabar).
+#
+# Uso tipico:
+#   > /goal Fechar task .specs/sprints/sprint-XX/<id>.task.md com lint+unit+e2e verde + AC + evidencia Playwright
+#   > /goal pause   # pausa
+#   > /goal resume  # retoma
+#   > /goal clear   # limpa
+#
+# Refs: https://developers.openai.com/codex/cli/slash-commands
+[features]
+goals = true
+
+# ---------------------------------------------------------------------------
 # Shell
 # ---------------------------------------------------------------------------
 # Comandos sempre permitidos sem prompt de aprovacao. Mantenha curto: so
