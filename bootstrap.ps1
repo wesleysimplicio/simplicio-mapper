@@ -1,28 +1,37 @@
 <#
 .SYNOPSIS
-  Bootstrap do Agentic Starter (Windows nativo / PowerShell 5.1+ / pwsh 7+).
+  Agentic Starter installer/upgrader (Windows native / PowerShell 5.1+ / pwsh 7+).
 
 .DESCRIPTION
-  Espelho de bootstrap.sh para ambientes sem bash. Detecta stack do projeto,
-  pergunta PRODUCT_NAME/TEAM/DOMAIN/STACK (interativo) ou aceita via flags,
-  substitui <PLACEHOLDERS> em arquivos texto, salva `.starter-meta.json` e
-  imprime próximos passos.
+  Mirror of bootstrap.sh:
+    1. Auto-detects PRODUCT_NAME (cwd basename), DOMAIN ("generico"),
+       TEAM ("Plataforma"), STACK (Node, .NET, Python, Go, Rust, Flutter,
+       PHP/Laravel, Ruby, Elixir, Kotlin/Java).
+       INIT.md refines TEAM/DOMAIN with the human afterwards.
+    2. Asks only TWO questions:
+        - Append recommended ignore entries to .gitignore? (y/N)
+        - Which CLI/LLM should run INIT.md?
+    3. Substitutes <PRODUCT_NAME>/<TEAM>/<DOMAIN>/<STACK> ONLY inside
+       starter-managed paths (.specs/, .agents/, .skills/, .claude/,
+       .codex/, .github/copilot*, .github/workflows/{ci,dod}.yml,
+       plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md ONLY if those
+       files actually contain a placeholder).
+    4. NEVER overwrites pre-existing user files (.razor, .cs, .ts, .py,
+       package.json, README.md, AGENTS.md, CLAUDE.md, INIT.md, .gitignore).
+       Existing instruction files are flagged in .starter-meta.json so
+       INIT.md can read them and improve in place (essence preserved).
+    5. Hands off to the chosen CLI/LLM to execute INIT.md.
 
 .EXAMPLE
   PS> .\bootstrap.ps1
-  PS> .\bootstrap.ps1 -Product "MyApp" -Team "Squad-X" -Domain "fintech" -Stack "node-ts"
-
-.NOTES
-  Para macOS/Linux use `./bootstrap.sh`. Os dois arquivos produzem o mesmo
-  resultado. Mantenha em sincronia ao alterar.
+  PS> .\bootstrap.ps1 -NonInteractive -Cli claude -AppendGitignore yes
 #>
 [CmdletBinding()]
 param(
-  [string]$Product = "",
-  [string]$Team    = "",
-  [string]$Domain  = "",
-  [string]$Stack   = "",
-  [switch]$NonInteractive
+  [switch]$NonInteractive,
+  [string]$Cli              = "",
+  [ValidateSet("yes","no","")]
+  [string]$AppendGitignore  = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -66,225 +75,390 @@ function Detect-Stack {
   return "unknown"
 }
 
-# ---------------------------------------------------------------------------
-# interactive
-# ---------------------------------------------------------------------------
-$interactive = -not $NonInteractive -and -not ($Product -or $Team -or $Domain -or $Stack)
+$ProductName = (Get-Item -Path ".").Name
+$Team        = "Plataforma"
+$Domain      = "generico"
+$Stack       = Detect-Stack
 
-if ($interactive) {
-  Write-Host "=========================================="
-  Write-Host "  Agentic Starter - Bootstrap (PowerShell)"
-  Write-Host "=========================================="
-  Write-Host ""
-
-  $defaultProduct = (Get-Item -Path ".").Name
-  $resp = Read-Host "Nome do produto [$defaultProduct]"
-  if (-not $Product) { $Product = if ($resp) { $resp } else { $defaultProduct } }
-
-  $resp = Read-Host "Time/Squad responsavel [Plataforma]"
-  if (-not $Team) { $Team = if ($resp) { $resp } else { "Plataforma" } }
-
-  $resp = Read-Host "Dominio de negocio (ex: fintech, healthtech, edtech) [generico]"
-  if (-not $Domain) { $Domain = if ($resp) { $resp } else { "generico" } }
-
-  $detected = Detect-Stack
-  $resp = Read-Host "Stack [$detected]"
-  if (-not $Stack) { $Stack = if ($resp) { $resp } else { $detected } }
-}
-
-# fallback defaults
-if (-not $Product) { $Product = (Get-Item -Path ".").Name }
-if (-not $Team)    { $Team    = "Plataforma" }
-if (-not $Domain)  { $Domain  = "generico" }
-if (-not $Stack)   { $Stack   = Detect-Stack }
-
+Write-Host "=========================================="
+Write-Host "  Agentic Starter - Bootstrap (PowerShell)"
+Write-Host "=========================================="
 Write-Host ""
-Write-Host "-> PRODUCT_NAME: $Product"
-Write-Host "-> TEAM:         $Team"
-Write-Host "-> DOMAIN:       $Domain"
-Write-Host "-> STACK:        $Stack"
+Write-Host "Auto-detected (INIT.md will refine TEAM/DOMAIN with you):"
+Write-Host "  PRODUCT_NAME: $ProductName"
+Write-Host "  TEAM:         $Team"
+Write-Host "  DOMAIN:       $Domain"
+Write-Host "  STACK:        $Stack"
 Write-Host ""
 
 # ---------------------------------------------------------------------------
-# substitui placeholders
+# detect existing instruction files (DO NOT overwrite — flag for INIT.md)
 # ---------------------------------------------------------------------------
-Write-Host "Substituindo placeholders em arquivos .md/.json/.toml/.yml/.ts..."
-
-$exts     = @("*.md","*.json","*.toml","*.yml","*.yaml","*.ts")
-$skipName = @("_BOOTSTRAP.md","INIT.md","bootstrap.sh","bootstrap.ps1")
-$skipPath = @("\node_modules\","\.git\","\presentation\")
-
-$touched = 0
-$files = Get-ChildItem -Path . -Recurse -File -Include $exts -ErrorAction SilentlyContinue
-foreach ($f in $files) {
-  if ($skipName -contains $f.Name) { continue }
-  $skip = $false
-  foreach ($p in $skipPath) { if ($f.FullName -like "*$p*") { $skip = $true; break } }
-  if ($skip) { continue }
-
-  # detect text (skip se primeiros 8KB tem byte NUL)
-  $bytes = [System.IO.File]::ReadAllBytes($f.FullName)
-  $head  = if ($bytes.Length -gt 8192) { $bytes[0..8191] } else { $bytes }
-  if ($head -contains 0) { continue }
-
-  $content = [System.IO.File]::ReadAllText($f.FullName)
-  $orig    = $content
-  $content = $content.Replace("<PRODUCT_NAME>", $Product)
-  $content = $content.Replace("<TEAM>",         $Team)
-  $content = $content.Replace("<DOMAIN>",       $Domain)
-  $content = $content.Replace("<STACK>",        $Stack)
-  if ($content -ne $orig) {
-    [System.IO.File]::WriteAllText($f.FullName, $content)
-    $touched++
+$ExistingInstructionFiles = @()
+$candidates = @("AGENTS.md","CLAUDE.md","INIT.md",".github/copilot-instructions.md")
+foreach ($f in $candidates) {
+  if (Test-Path $f) {
+    $content = Get-Content $f -Raw -ErrorAction SilentlyContinue
+    if ($content -and $content -notmatch 'Agentic Starter|<PRODUCT_NAME>|<STACK>') {
+      $ExistingInstructionFiles += $f
+    }
   }
 }
-Write-Host "-> $touched arquivos atualizados."
+
+if ($ExistingInstructionFiles.Count -gt 0) {
+  Write-Host "Detected pre-existing instruction files (will be preserved):"
+  foreach ($f in $ExistingInstructionFiles) { Write-Host "  - $f" }
+  Write-Host "  -> INIT.md will READ them and IMPROVE in place (essence preserved)."
+  Write-Host ""
+}
+
+# ---------------------------------------------------------------------------
+# substitute placeholders ONLY in starter-managed paths
+# ---------------------------------------------------------------------------
+$StarterDirs = @(".specs",".agents",".skills",".claude",".codex")
+$StarterGithubPatterns = @(
+  ".github/copilot-instructions.md",
+  ".github/copilot",
+  ".github/PULL_REQUEST_TEMPLATE.md",
+  ".github/ISSUE_TEMPLATE",
+  ".github/workflows/ci.yml",
+  ".github/workflows/dod.yml"
+)
+$StarterRootFiles = @(
+  "AGENTS.md","CLAUDE.md","INIT.md","_BOOTSTRAP.md",
+  "README.md","README.pt-BR.md",
+  "playwright.config.ts"
+)
+
+$Touched = 0
+
+function Substitute-InFile($path) {
+  if (-not (Test-Path $path -PathType Leaf)) { return }
+  try {
+    $bytes = [System.IO.File]::ReadAllBytes($path)
+    if ($bytes.Length -eq 0) { return }
+    $head = if ($bytes.Length -gt 8192) { $bytes[0..8191] } else { $bytes }
+    if ($head -contains 0) { return }
+    $content = [System.IO.Text.Encoding]::UTF8.GetString($bytes)
+    if ($content -notmatch '<PRODUCT_NAME>|<TEAM>|<DOMAIN>|<STACK>') { return }
+    $orig = $content
+    $content = $content.Replace("<PRODUCT_NAME>", $script:ProductName)
+    $content = $content.Replace("<TEAM>",         $script:Team)
+    $content = $content.Replace("<DOMAIN>",       $script:Domain)
+    $content = $content.Replace("<STACK>",        $script:Stack)
+    if ($content -ne $orig) {
+      [System.IO.File]::WriteAllText($path, $content, [System.Text.UTF8Encoding]::new($false))
+      $script:Touched++
+    }
+  } catch {
+  }
+}
+
+Write-Host "Substituting placeholders inside starter-managed paths..."
+
+foreach ($dir in $StarterDirs) {
+  if (Test-Path $dir -PathType Container) {
+    Get-ChildItem -Path $dir -Recurse -File -Include @("*.md","*.json","*.toml","*.yml","*.yaml","*.ts") -ErrorAction SilentlyContinue |
+      ForEach-Object { Substitute-InFile $_.FullName }
+  }
+}
+
+foreach ($p in $StarterGithubPatterns) {
+  if (Test-Path $p -PathType Container) {
+    Get-ChildItem -Path $p -Recurse -File -ErrorAction SilentlyContinue |
+      ForEach-Object { Substitute-InFile $_.FullName }
+  } elseif (Test-Path $p -PathType Leaf) {
+    Substitute-InFile $p
+  }
+}
+
+foreach ($f in $StarterRootFiles) { Substitute-InFile $f }
+
+Write-Host "-> $Touched files updated (only starter-managed paths)."
 Write-Host ""
 
 # ---------------------------------------------------------------------------
-# salva metadados (.starter-meta.json)
+# .gitignore — NEVER overwrite. Append (or create) on opt-in only.
 # ---------------------------------------------------------------------------
+$RecommendedIgnores = @"
+# === Agentic Starter (auto-managed) — do not remove this header ===
+# Local agent state and ephemeral artifacts created by the starter.
+.starter-meta.json
+.codex/local
+.codex/history
+.claude/sessions
+.claude/cache
+
+# Test artifacts (Playwright + coverage)
+test-results/
+playwright-report/
+playwright/.cache/
+coverage/
+.nyc_output/
+
+# Env vars
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Build / dist (most common)
+node_modules/
+dist/
+build/
+out/
+.next/
+.nuxt/
+.turbo/
+.vercel/
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Tarballs
+*.tgz
+*.tar.gz
+"@
+
+function Handle-Gitignore {
+  $choice = $script:AppendGitignore
+  if ([string]::IsNullOrEmpty($choice) -and -not $script:NonInteractive) {
+    Write-Host "=========================================="
+    Write-Host "  .gitignore"
+    Write-Host "=========================================="
+    if (Test-Path ".gitignore") {
+      Write-Host "An existing .gitignore was found."
+      Write-Host "I can APPEND recommended entries (your existing content is NEVER modified)."
+    } else {
+      Write-Host "No .gitignore found. I can CREATE one with recommended entries."
+    }
+    $resp = Read-Host "Proceed? [y/N]"
+    if (-not $resp) { $resp = "n" }
+    $first = $resp.Substring(0,1).ToLower()
+    if ($first -eq "y" -or $first -eq "s") { $choice = "yes" } else { $choice = "no" }
+    Write-Host ""
+  }
+  if (-not $choice) { $choice = "no" }
+
+  if ($choice -ne "yes") {
+    Write-Host "-> .gitignore left untouched."
+    return
+  }
+
+  if (Test-Path ".gitignore") {
+    $existing = Get-Content ".gitignore" -Raw -ErrorAction SilentlyContinue
+    if ($existing -match "Agentic Starter \(auto-managed\)") {
+      Write-Host "-> Recommended entries already present in .gitignore. Nothing to do."
+    } else {
+      Add-Content -Path ".gitignore" -Value "`n$RecommendedIgnores"
+      Write-Host "-> Recommended entries APPENDED to .gitignore (original content preserved)."
+    }
+  } else {
+    Set-Content -Path ".gitignore" -Value $RecommendedIgnores -Encoding UTF8
+    Write-Host "-> .gitignore CREATED."
+  }
+}
+
+Handle-Gitignore
+Write-Host ""
+
+# ---------------------------------------------------------------------------
+# .starter-meta.json (machine-readable handoff for INIT.md)
+# ---------------------------------------------------------------------------
+$readOnlyGlobs = @(
+  "**/*.razor","**/*.cs","**/*.csproj","**/*.sln",
+  "package.json","pnpm-lock.yaml","yarn.lock","package-lock.json",
+  "**/*.py","**/*.go","**/*.rs","**/*.java","**/*.kt","**/*.dart","**/*.php","**/*.rb"
+)
+
 $meta = [ordered]@{
-  product_name     = $Product
-  team             = $Team
-  domain           = $Domain
-  stack            = $Stack
-  bootstrapped_at  = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
-  starter_version  = "0.1.0"
+  product_name                = $ProductName
+  team                        = $Team
+  domain                      = $Domain
+  stack                       = $Stack
+  bootstrapped_at             = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+  starter_version             = "0.2.0"
+  existing_instruction_files  = $ExistingInstructionFiles
+  init_must_ask               = @("team","domain","vision_oneliner","primary_personas")
+  init_must_merge             = $ExistingInstructionFiles
+  read_only_globs             = $readOnlyGlobs
 }
-$meta | ConvertTo-Json | Out-File -FilePath ".starter-meta.json" -Encoding utf8
-Write-Host "-> .starter-meta.json salvo."
+$meta | ConvertTo-Json -Depth 6 | Out-File -FilePath ".starter-meta.json" -Encoding utf8
+Write-Host "-> .starter-meta.json saved."
 Write-Host ""
 
 # ---------------------------------------------------------------------------
-# rodar INIT.md automaticamente (opcional, interativo)
+# choose CLI / LLM
 # ---------------------------------------------------------------------------
-$initPrompt = 'Le INIT.md e executa. Mapeia o codigo deste repo e preenche .specs/product/ + .specs/architecture/ com dados reais. Use multi-agents em paralelo.'
-$runInit    = $false
-$chosenCli  = ""
+$InitPrompt = 'Read INIT.md and execute it. Do NOT modify any user source files (.razor, .cs, .ts, .py, .go, .rs, package.json, etc). Only write inside .specs/, .agents/, .skills/, .claude/, .codex/, .github/copilot*, .github/workflows/dod.yml plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md. If AGENTS.md/CLAUDE.md/copilot-instructions.md already existed before bootstrap (see .starter-meta.json), READ them and IMPROVE in place — preserve their essence. Ask the human only the questions listed in .starter-meta.json -> init_must_ask (team, domain, vision oneliner, personas). Use parallel multi-agents.'
 
-if ($interactive -and (Test-Path "INIT.md")) {
-  Write-Host "=========================================="
-  Write-Host "  Mapeamento profundo (INIT.md)"
-  Write-Host "=========================================="
-  Write-Host ""
-  Write-Host "Posso rodar AGORA o mapeamento profundo do projeto"
-  Write-Host "(le seu codigo e preenche .specs/ com entidades,"
-  Write-Host "integracoes e comandos reais - multi-agents)."
-  Write-Host ""
+$CliOpts = @(
+  @{ Key="claude";   Label="Claude Code";                                                       Cmd="claude" },
+  @{ Key="codex";    Label="Codex CLI";                                                         Cmd="codex" },
+  @{ Key="copilot";  Label="GitHub Copilot CLI (chat — no agent loop)";                         Cmd="gh" },
+  @{ Key="cursor";   Label="Cursor Agent (cursor-agent)";                                       Cmd="cursor-agent" },
+  @{ Key="deepseek"; Label="Deepseek (via aider --model deepseek/deepseek-coder)";              Cmd="aider" },
+  @{ Key="kimi";     Label="Kimi K2.6 (via aider --model openrouter/moonshotai/kimi-k2)";       Cmd="aider" },
+  @{ Key="minimax";  Label="MiniMax M2.7 (via aider --model openrouter/minimax/minimax-text-01)"; Cmd="aider" },
+  @{ Key="glm";      Label="GLM 5.1 (via aider --model openrouter/z-ai/glm-4.5)";               Cmd="aider" },
+  @{ Key="hermes";   Label="Hermes Agent (Nous Research)";                                      Cmd="hermes" },
+  @{ Key="openclaw"; Label="OpenClaw";                                                          Cmd="openclaw" },
+  @{ Key="aider";    Label="Aider (pick model interactively)";                                  Cmd="aider" },
+  @{ Key="other";    Label="Other / manual (copy prompt to clipboard)";                         Cmd="" },
+  @{ Key="skip";     Label="Skip — I will run INIT.md later";                                   Cmd="" }
+)
 
-  function Has-Cmd($name) { [bool](Get-Command $name -ErrorAction SilentlyContinue) }
-  $hasClaude   = Has-Cmd "claude"
-  $hasCodex    = Has-Cmd "codex"
-  $hasCopilot  = (Has-Cmd "gh") -and (gh extension list 2>$null | Select-String -Quiet "copilot")
-  $hasHermes   = Has-Cmd "hermes"
-  $hasOpenclaw = Has-Cmd "openclaw"
-
-  Write-Host "CLIs detectadas nesta maquina:"
-  if ($hasClaude)   { Write-Host "  [c] Claude Code         (recomendado - agentic loop completo)" }
-  if ($hasCodex)    { Write-Host "  [x] Codex" }
-  if ($hasCopilot)  { Write-Host "  [g] GitHub Copilot CLI  (sem agentic loop - copia prompt pro clipboard)" }
-  if ($hasHermes)   { Write-Host "  [h] Hermes Agent        (Nous Research)" }
-  if ($hasOpenclaw) { Write-Host "  [o] OpenClaw" }
-  if (-not ($hasClaude -or $hasCodex -or $hasCopilot -or $hasHermes -or $hasOpenclaw)) {
-    Write-Host "  (nenhuma encontrada - instale uma e rode manualmente depois)"
-  }
-  Write-Host "  [n] Nao rodar agora"
-  Write-Host ""
-  $choice = Read-Host "Escolha [n]"
-  if (-not $choice) { $choice = "n" }
-
-  switch ($choice.ToLower()) {
-    "c" { if ($hasClaude)   { $runInit=$true; $chosenCli="claude" }   else { Write-Host "Claude Code nao instalado. Instala: https://docs.claude.com/claude-code" } }
-    "x" { if ($hasCodex)    { $runInit=$true; $chosenCli="codex" }    else { Write-Host "Codex nao instalado. Instala: https://github.com/openai/codex" } }
-    "g" { if ($hasCopilot)  {                $chosenCli="copilot" }   else { Write-Host "GitHub Copilot CLI nao instalado. Instala: gh extension install github/gh-copilot" } }
-    "h" { if ($hasHermes)   { $runInit=$true; $chosenCli="hermes" }   else { Write-Host "Hermes Agent nao instalado. Instala: https://github.com/NousResearch/hermes-agent" } }
-    "o" { if ($hasOpenclaw) { $runInit=$true; $chosenCli="openclaw" } else { Write-Host "OpenClaw nao instalado. Instala: npm install -g openclaw@latest" } }
-  }
+function Has-Cmd($name) {
+  if ([string]::IsNullOrEmpty($name)) { return $false }
+  return [bool](Get-Command $name -ErrorAction SilentlyContinue)
 }
 
+function Choose-Cli {
+  if (-not [string]::IsNullOrEmpty($script:Cli)) { return $script:Cli }
+  if ($script:NonInteractive) { return "skip" }
+
+  Write-Host "=========================================="
+  Write-Host "  Choose the CLI/LLM to run INIT.md"
+  Write-Host "=========================================="
+  Write-Host ""
+  for ($i = 0; $i -lt $CliOpts.Count; $i++) {
+    $opt = $CliOpts[$i]
+    $mark = ""
+    if (Has-Cmd $opt.Cmd) { $mark = "  [installed]" }
+    Write-Host ("  [{0,2}] {1}{2}" -f ($i+1), $opt.Label, $mark)
+  }
+  Write-Host ""
+  $resp = Read-Host "Number [13]"
+  if ([string]::IsNullOrEmpty($resp)) { $resp = "13" }
+  $idx = 0
+  if (-not [int]::TryParse($resp, [ref]$idx)) { $idx = 13 }
+  if ($idx -lt 1 -or $idx -gt $CliOpts.Count) { $idx = 13 }
+  return $CliOpts[$idx-1].Key
+}
+
+$CliChoice = Choose-Cli
+
 # ---------------------------------------------------------------------------
-# executa CLI escolhida (handoff)
+# clipboard helper
 # ---------------------------------------------------------------------------
 function Copy-ToClipboard($text) {
-  try { Set-Clipboard -Value $text } catch { }
-}
-
-if ($runInit -and $chosenCli -eq "claude") {
-  Write-Host ""
-  Write-Host "=========================================="
-  Write-Host "  Executando Claude Code com INIT.md"
-  Write-Host "=========================================="
-  Write-Host ""
-  & claude $initPrompt
-  exit $LASTEXITCODE
-}
-elseif ($runInit -and $chosenCli -eq "codex") {
-  Write-Host ""
-  Write-Host "=========================================="
-  Write-Host "  Executando Codex com INIT.md"
-  Write-Host "=========================================="
-  Write-Host ""
-  & codex exec $initPrompt
-  exit $LASTEXITCODE
-}
-elseif ($runInit -and $chosenCli -eq "hermes") {
-  Write-Host ""
-  Write-Host "=========================================="
-  Write-Host "  Executando Hermes Agent com INIT.md"
-  Write-Host "=========================================="
-  Write-Host ""
-  Copy-ToClipboard $initPrompt
-  Write-Host "(prompt copiado pro clipboard como fallback - cole se Hermes abrir vazio)"
-  Write-Host ""
-  & hermes $initPrompt
-  exit $LASTEXITCODE
-}
-elseif ($runInit -and $chosenCli -eq "openclaw") {
-  Write-Host ""
-  Write-Host "=========================================="
-  Write-Host "  Executando OpenClaw com INIT.md"
-  Write-Host "=========================================="
-  Write-Host ""
-  Copy-ToClipboard $initPrompt
-  Write-Host "(prompt copiado pro clipboard como fallback - cole se OpenClaw abrir vazio)"
-  Write-Host ""
-  & openclaw $initPrompt
-  exit $LASTEXITCODE
-}
-elseif ($chosenCli -eq "copilot") {
-  Write-Host ""
-  Write-Host "GitHub Copilot CLI nao executa agentic loop autonomo (so sugere comandos)."
-  Write-Host ""
-  Copy-ToClipboard $initPrompt
-  Write-Host "-> Prompt copiado pro clipboard. Cole com Ctrl+V no Copilot Chat (VS Code)."
-  Write-Host ""
-  Write-Host "Prompt:"
-  Write-Host "  $initPrompt"
-  Write-Host ""
+  try { Set-Clipboard -Value $text; return $true } catch { return $false }
 }
 
 # ---------------------------------------------------------------------------
-# proximos passos
+# handoff
 # ---------------------------------------------------------------------------
-@'
-=========================================
-  PROXIMOS PASSOS
-=========================================
+Write-Host ""
+Write-Host "=========================================="
+Write-Host "  Handing off to: $CliChoice"
+Write-Host "=========================================="
+Write-Host ""
 
-1) Abra um agente nesta pasta e cole o prompt:
+function Require-Cmd($name, $installHint) {
+  if (-not (Has-Cmd $name)) {
+    Write-Host "$name not installed: $installHint"
+    exit 1
+  }
+}
 
-   "Le INIT.md e executa. Mapeia o codigo deste repo e
-    preenche .specs/product/ + .specs/architecture/ com
-    dados reais. Use multi-agents em paralelo."
+switch ($CliChoice) {
+  "claude" {
+    Require-Cmd "claude" "https://docs.claude.com/claude-code"
+    & claude $InitPrompt
+    exit $LASTEXITCODE
+  }
+  "codex" {
+    Require-Cmd "codex" "https://github.com/openai/codex"
+    & codex exec $InitPrompt
+    exit $LASTEXITCODE
+  }
+  "copilot" {
+    Require-Cmd "gh" "https://cli.github.com"
+    if (Copy-ToClipboard $InitPrompt) { Write-Host "Prompt copied to clipboard." } else { Write-Host "(clipboard unavailable - copy manually below)" }
+    Write-Host ""
+    Write-Host "GitHub Copilot CLI does not run an autonomous agent loop."
+    Write-Host "Open Copilot Chat (VS Code / IDE) and paste the prompt:"
+    Write-Host ""
+    Write-Host "  $InitPrompt"
+    Write-Host ""
+  }
+  "cursor" {
+    Require-Cmd "cursor-agent" "Cursor 3.0+ required"
+    & cursor-agent $InitPrompt
+    exit $LASTEXITCODE
+  }
+  "deepseek" {
+    Require-Cmd "aider" "pipx install aider-chat"
+    & aider --model deepseek/deepseek-coder --message $InitPrompt
+    exit $LASTEXITCODE
+  }
+  "kimi" {
+    Require-Cmd "aider" "pipx install aider-chat"
+    & aider --model openrouter/moonshotai/kimi-k2 --message $InitPrompt
+    exit $LASTEXITCODE
+  }
+  "minimax" {
+    Require-Cmd "aider" "pipx install aider-chat"
+    & aider --model openrouter/minimax/minimax-text-01 --message $InitPrompt
+    exit $LASTEXITCODE
+  }
+  "glm" {
+    Require-Cmd "aider" "pipx install aider-chat"
+    & aider --model openrouter/z-ai/glm-4.5 --message $InitPrompt
+    exit $LASTEXITCODE
+  }
+  "hermes" {
+    Require-Cmd "hermes" "https://github.com/NousResearch/hermes-agent"
+    Copy-ToClipboard $InitPrompt | Out-Null
+    Write-Host "(prompt copied to clipboard as fallback)"
+    & hermes $InitPrompt
+    exit $LASTEXITCODE
+  }
+  "openclaw" {
+    Require-Cmd "openclaw" "npm install -g openclaw@latest"
+    Copy-ToClipboard $InitPrompt | Out-Null
+    Write-Host "(prompt copied to clipboard as fallback)"
+    & openclaw $InitPrompt
+    exit $LASTEXITCODE
+  }
+  "aider" {
+    Require-Cmd "aider" "pipx install aider-chat"
+    & aider --message $InitPrompt
+    exit $LASTEXITCODE
+  }
+  "other" {
+    if (Copy-ToClipboard $InitPrompt) {
+      Write-Host "Prompt copied to clipboard. Paste it into your CLI/agent of choice."
+    } else {
+      Write-Host "(clipboard unavailable - copy the prompt below manually)"
+    }
+    Write-Host ""
+    Write-Host "Prompt:"
+    Write-Host "  $InitPrompt"
+    Write-Host ""
+  }
+  default {
+    @"
+Skipped CLI handoff. To run INIT.md later, open your agent and paste:
 
-   Opcoes: claude, codex, ou Copilot Chat (VS Code).
+  $InitPrompt
 
-2) Apos mapeamento:
-   - Reveja VISION.md, DOMAIN.md, DESIGN.md
-   - Crie sprint-02 e primeira task em .specs/sprints/
-   - Commit: git add -A; git commit -m "chore: bootstrap agentic starter"
+Recommended next steps:
+  1) Open an agent in this folder.
+  2) Paste the prompt above.
+  3) Review .specs/product/VISION.md, DOMAIN.md, architecture/DESIGN.md.
+  4) git add -A; git commit -m "chore: bootstrap agentic starter"
 
-3) (opcional) Apaga este script + _BOOTSTRAP.md + INIT.md
-   apos mapeamento, se nao quiser deixar no repo final.
-'@ | Write-Host
+Docs: https://github.com/wesleysimplicio/agentic-starter
+"@ | Write-Host
+  }
+}

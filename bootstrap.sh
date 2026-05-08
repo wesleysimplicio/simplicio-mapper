@@ -1,38 +1,45 @@
 #!/usr/bin/env bash
-# bootstrap.sh — inicializa o Agentic Starter num projeto novo.
+# bootstrap.sh — Agentic Starter installer/upgrader.
 #
-# O que faz:
-#   1. Detecta stack do projeto (Node, .NET, Python, Go, Rust, Flutter, PHP, Ruby)
-#   2. Pergunta PRODUCT_NAME, TEAM, DOMAIN (interativo) ou aceita via flags
-#   3. Substitui <PLACEHOLDERS> em todos .md
-#   4. Salva escolhas em .starter-meta.json
-#   5. Imprime próximos passos (rodar Claude Code com INIT.md)
+# What it does:
+#   1. Auto-detects PRODUCT_NAME (cwd basename), DOMAIN ("generico"), TEAM ("Plataforma"),
+#      STACK (Node, .NET, Python, Go, Rust, Flutter, PHP, Ruby, Kotlin, Java, Elixir).
+#      The agent (INIT.md) refines TEAM/DOMAIN with the human afterwards.
+#   2. Asks only TWO questions:
+#      - Append our recommended ignore entries to .gitignore? (y/N)
+#      - Which CLI/LLM should run INIT.md?
+#   3. Substitutes <PRODUCT_NAME>/<TEAM>/<DOMAIN>/<STACK> ONLY inside starter-managed
+#      paths (.specs/, .agents/, .skills/, .claude/, .codex/, .github/copilot*,
+#      .github/workflows/{ci,dod}.yml, plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md
+#      ONLY if those root files contain a placeholder).
+#   4. NEVER overwrites/modifies pre-existing user files (.razor, .cs, .ts, .py,
+#      package.json, README.md, AGENTS.md, CLAUDE.md, INIT.md, .gitignore, etc).
+#      Existing instruction files are flagged in .starter-meta.json so INIT.md
+#      can read them and improve in place (essence preserved).
+#   5. Hands off to the chosen CLI to execute INIT.md.
 #
-# Uso interativo:
+# Usage interactive:
 #   ./bootstrap.sh
 #
-# Uso não-interativo (CI):
-#   ./bootstrap.sh --product "MyApp" --team "Squad-X" --domain "fintech" --stack "node-ts"
+# Usage non-interactive (CI):
+#   ./bootstrap.sh --yes --cli claude --append-gitignore yes
 
 set -euo pipefail
 
 # ---------------------------------------------------------------------------
 # args
 # ---------------------------------------------------------------------------
-PRODUCT_NAME=""
-TEAM=""
-DOMAIN=""
-STACK=""
-INTERACTIVE=1
+NON_INTERACTIVE=0
+CLI_PRESET=""
+APPEND_GITIGNORE_PRESET=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --product) PRODUCT_NAME="$2"; INTERACTIVE=0; shift 2 ;;
-    --team)    TEAM="$2";         INTERACTIVE=0; shift 2 ;;
-    --domain)  DOMAIN="$2";       INTERACTIVE=0; shift 2 ;;
-    --stack)   STACK="$2";        INTERACTIVE=0; shift 2 ;;
-    -h|--help) sed -n '2,18p' "$0"; exit 0 ;;
-    *) echo "flag desconhecida: $1" >&2; exit 1 ;;
+    -y|--yes)              NON_INTERACTIVE=1; shift ;;
+    --cli)                 CLI_PRESET="$2"; shift 2 ;;
+    --append-gitignore)    APPEND_GITIGNORE_PRESET="$2"; shift 2 ;;  # yes|no
+    -h|--help)             sed -n '2,28p' "$0"; exit 0 ;;
+    *) echo "Unknown flag: $1" >&2; exit 1 ;;
   esac
 done
 
@@ -63,8 +70,8 @@ detect_stack() {
     if grep -q 'laravel/framework' composer.json; then echo "laravel"
     else echo "php"
     fi
-  elif [[ -f Gemfile ]];       then echo "ruby"
-  elif [[ -f mix.exs ]];       then echo "elixir"
+  elif [[ -f Gemfile ]];          then echo "ruby"
+  elif [[ -f mix.exs ]];          then echo "elixir"
   elif [[ -f build.gradle.kts ]]; then echo "kotlin-gradle"
   elif [[ -f build.gradle ]];     then echo "java-gradle"
   elif [[ -f pom.xml ]];          then echo "java-maven"
@@ -72,91 +79,223 @@ detect_stack() {
   fi
 }
 
+PRODUCT_NAME="$(basename "$PWD")"
+TEAM="Plataforma"
+DOMAIN="generico"
+STACK="$(detect_stack)"
+
+echo "=========================================="
+echo "  Agentic Starter - Bootstrap"
+echo "=========================================="
+echo ""
+echo "Auto-detected (INIT.md will refine TEAM/DOMAIN with you):"
+echo "  PRODUCT_NAME: $PRODUCT_NAME"
+echo "  TEAM:         $TEAM"
+echo "  DOMAIN:       $DOMAIN"
+echo "  STACK:        $STACK"
+echo ""
+
 # ---------------------------------------------------------------------------
-# interactive
+# detect existing instruction files (DO NOT overwrite — flag for INIT.md)
 # ---------------------------------------------------------------------------
-if [[ "$INTERACTIVE" == "1" ]]; then
-  echo "=========================================="
-  echo "  Agentic Starter - Bootstrap"
-  echo "=========================================="
+EXISTING_INSTRUCTION_FILES=()
+for f in AGENTS.md CLAUDE.md INIT.md .github/copilot-instructions.md; do
+  if [[ -f "$f" ]]; then
+    # if it's clearly ours (contains template marker) skip; else flag
+    if ! grep -q 'Agentic Starter\|<PRODUCT_NAME>\|<STACK>' "$f" 2>/dev/null; then
+      EXISTING_INSTRUCTION_FILES+=("$f")
+    fi
+  fi
+done
+
+if (( ${#EXISTING_INSTRUCTION_FILES[@]} > 0 )); then
+  echo "Detected pre-existing instruction files (will be preserved):"
+  for f in "${EXISTING_INSTRUCTION_FILES[@]}"; do
+    echo "  - $f"
+  done
+  echo "  -> INIT.md will READ them and IMPROVE in place (essence preserved)."
   echo ""
-
-  default_product="$(basename "$PWD")"
-  read -r -p "Nome do produto [$default_product]: " input
-  PRODUCT_NAME="${input:-$default_product}"
-
-  read -r -p "Time/Squad responsável [Plataforma]: " input
-  TEAM="${input:-Plataforma}"
-
-  read -r -p "Domínio de negócio (ex: fintech, healthtech, edtech) [generico]: " input
-  DOMAIN="${input:-generico}"
-
-  detected="$(detect_stack)"
-  read -r -p "Stack [$detected]: " input
-  STACK="${input:-$detected}"
 fi
 
 # ---------------------------------------------------------------------------
-# fallback defaults
+# substitute placeholders ONLY in starter-managed paths
+#
+# Rule: if the file contains a <PRODUCT_NAME>/<STACK>/<TEAM>/<DOMAIN> placeholder,
+# it's a starter file -> substitute. Otherwise skip (it's user content).
 # ---------------------------------------------------------------------------
-PRODUCT_NAME="${PRODUCT_NAME:-$(basename "$PWD")}"
-TEAM="${TEAM:-Plataforma}"
-DOMAIN="${DOMAIN:-generico}"
-STACK="${STACK:-$(detect_stack)}"
-
-echo ""
-echo "→ PRODUCT_NAME: $PRODUCT_NAME"
-echo "→ TEAM:         $TEAM"
-echo "→ DOMAIN:       $DOMAIN"
-echo "→ STACK:        $STACK"
-echo ""
-
-# ---------------------------------------------------------------------------
-# substitui placeholders
-# ---------------------------------------------------------------------------
-EXCLUDES=(
-  "-not" "-name" "_BOOTSTRAP.md"
-  "-not" "-name" "INIT.md"
-  "-not" "-name" "bootstrap.sh"
-  "-not" "-path" "./node_modules/*"
-  "-not" "-path" "./.git/*"
-  "-not" "-path" "./presentation/*.pdf"
-  "-not" "-path" "./presentation/*.pptx"
+STARTER_DIRS=(.specs .agents .skills .claude .codex)
+STARTER_GITHUB_PATTERNS=(
+  ".github/copilot-instructions.md"
+  ".github/copilot"
+  ".github/PULL_REQUEST_TEMPLATE.md"
+  ".github/ISSUE_TEMPLATE"
+  ".github/workflows/ci.yml"
+  ".github/workflows/dod.yml"
+)
+STARTER_ROOT_FILES=(
+  AGENTS.md CLAUDE.md INIT.md _BOOTSTRAP.md
+  README.md README.pt-BR.md
+  playwright.config.ts
 )
 
-echo "Substituindo placeholders em arquivos .md/.json/.toml/.yml/.ts..."
 TOUCHED=0
-# grep -Iq . "$f" detecta arquivo texto (-I ignora binário, . casa qualquer
-# byte) — funciona em macOS/Linux/Git Bash sem depender de `file(1)`.
-while IFS= read -r f; do
-  if grep -Iq . "$f" 2>/dev/null; then
-    if sed --version >/dev/null 2>&1; then
-      sed -i \
-        -e "s|<PRODUCT_NAME>|$PRODUCT_NAME|g" \
-        -e "s|<TEAM>|$TEAM|g" \
-        -e "s|<DOMAIN>|$DOMAIN|g" \
-        -e "s|<STACK>|$STACK|g" \
-        "$f"
-    else
-      sed -i '' \
-        -e "s|<PRODUCT_NAME>|$PRODUCT_NAME|g" \
-        -e "s|<TEAM>|$TEAM|g" \
-        -e "s|<DOMAIN>|$DOMAIN|g" \
-        -e "s|<STACK>|$STACK|g" \
-        "$f"
-    fi
-    TOUCHED=$((TOUCHED+1))
-  fi
-done < <(find . -type f \
-  \( -name "*.md" -o -name "*.json" -o -name "*.toml" -o -name "*.yml" -o -name "*.yaml" -o -name "*.ts" \) \
-  "${EXCLUDES[@]}")
 
-echo "→ $TOUCHED arquivos atualizados."
+substitute_in_file() {
+  local f="$1"
+  [[ -f "$f" ]] || return 0
+  grep -Iq . "$f" 2>/dev/null || return 0
+  grep -q '<PRODUCT_NAME>\|<TEAM>\|<DOMAIN>\|<STACK>' "$f" 2>/dev/null || return 0
+  if sed --version >/dev/null 2>&1; then
+    sed -i \
+      -e "s|<PRODUCT_NAME>|$PRODUCT_NAME|g" \
+      -e "s|<TEAM>|$TEAM|g" \
+      -e "s|<DOMAIN>|$DOMAIN|g" \
+      -e "s|<STACK>|$STACK|g" \
+      "$f"
+  else
+    sed -i '' \
+      -e "s|<PRODUCT_NAME>|$PRODUCT_NAME|g" \
+      -e "s|<TEAM>|$TEAM|g" \
+      -e "s|<DOMAIN>|$DOMAIN|g" \
+      -e "s|<STACK>|$STACK|g" \
+      "$f"
+  fi
+  TOUCHED=$((TOUCHED+1))
+}
+
+echo "Substituting placeholders inside starter-managed paths..."
+
+for dir in "${STARTER_DIRS[@]}"; do
+  if [[ -d "$dir" ]]; then
+    while IFS= read -r f; do
+      substitute_in_file "$f"
+    done < <(find "$dir" -type f \( -name "*.md" -o -name "*.json" -o -name "*.toml" -o -name "*.yml" -o -name "*.yaml" -o -name "*.ts" \))
+  fi
+done
+
+for p in "${STARTER_GITHUB_PATTERNS[@]}"; do
+  if [[ -d "$p" ]]; then
+    while IFS= read -r f; do
+      substitute_in_file "$f"
+    done < <(find "$p" -type f)
+  elif [[ -f "$p" ]]; then
+    substitute_in_file "$p"
+  fi
+done
+
+for f in "${STARTER_ROOT_FILES[@]}"; do
+  substitute_in_file "$f"
+done
+
+echo "-> $TOUCHED files updated (only starter-managed paths)."
 echo ""
 
 # ---------------------------------------------------------------------------
-# salva metadados
+# .gitignore — NEVER overwrite. Append (or create) on opt-in only.
 # ---------------------------------------------------------------------------
+RECOMMENDED_IGNORES='# === Agentic Starter (auto-managed) — do not remove this header ===
+# Local agent state and ephemeral artifacts created by the starter.
+.starter-meta.json
+.codex/local
+.codex/history
+.claude/sessions
+.claude/cache
+
+# Test artifacts (Playwright + coverage)
+test-results/
+playwright-report/
+playwright/.cache/
+coverage/
+.nyc_output/
+
+# Env vars
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Build / dist (most common)
+node_modules/
+dist/
+build/
+out/
+.next/
+.nuxt/
+.turbo/
+.vercel/
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Tarballs
+*.tgz
+*.tar.gz
+'
+
+handle_gitignore() {
+  local choice="${APPEND_GITIGNORE_PRESET:-}"
+  if [[ -z "$choice" && "$NON_INTERACTIVE" == "0" ]]; then
+    echo "=========================================="
+    echo "  .gitignore"
+    echo "=========================================="
+    if [[ -f .gitignore ]]; then
+      echo "An existing .gitignore was found."
+      echo "I can APPEND recommended entries (your existing content is NEVER modified)."
+    else
+      echo "No .gitignore found. I can CREATE one with recommended entries."
+    fi
+    read -r -p "Proceed? [y/N]: " ans
+    ans="${ans:-n}"
+    case "${ans:0:1}" in
+      y|Y|s|S) choice="yes" ;;
+      *)       choice="no"  ;;
+    esac
+    echo ""
+  fi
+  choice="${choice:-no}"
+
+  if [[ "$choice" != "yes" ]]; then
+    echo "-> .gitignore left untouched."
+    return
+  fi
+
+  if [[ -f .gitignore ]]; then
+    if grep -q "Agentic Starter (auto-managed)" .gitignore 2>/dev/null; then
+      echo "-> Recommended entries already present in .gitignore. Nothing to do."
+    else
+      printf '\n%s\n' "$RECOMMENDED_IGNORES" >> .gitignore
+      echo "-> Recommended entries APPENDED to .gitignore (original content preserved)."
+    fi
+  else
+    printf '%s\n' "$RECOMMENDED_IGNORES" > .gitignore
+    echo "-> .gitignore CREATED."
+  fi
+}
+
+handle_gitignore
+echo ""
+
+# ---------------------------------------------------------------------------
+# .starter-meta.json (machine-readable handoff for INIT.md)
+# ---------------------------------------------------------------------------
+existing_files_json="[]"
+if (( ${#EXISTING_INSTRUCTION_FILES[@]} > 0 )); then
+  existing_files_json="["
+  for f in "${EXISTING_INSTRUCTION_FILES[@]}"; do
+    existing_files_json+="\"$f\","
+  done
+  existing_files_json="${existing_files_json%,}]"
+fi
+
 cat > .starter-meta.json <<EOF
 {
   "product_name": "$PRODUCT_NAME",
@@ -164,170 +303,172 @@ cat > .starter-meta.json <<EOF
   "domain": "$DOMAIN",
   "stack": "$STACK",
   "bootstrapped_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-  "starter_version": "0.1.0"
+  "starter_version": "0.2.0",
+  "existing_instruction_files": $existing_files_json,
+  "init_must_ask": ["team", "domain", "vision_oneliner", "primary_personas"],
+  "init_must_merge": $existing_files_json,
+  "read_only_globs": ["**/*.razor", "**/*.cs", "**/*.csproj", "**/*.sln", "package.json", "pnpm-lock.yaml", "yarn.lock", "package-lock.json", "**/*.py", "**/*.go", "**/*.rs", "**/*.java", "**/*.kt", "**/*.dart", "**/*.php", "**/*.rb"]
 }
 EOF
-echo "→ .starter-meta.json salvo."
+echo "-> .starter-meta.json saved."
 echo ""
 
 chmod +x .claude/hooks/*.sh 2>/dev/null || true
 
 # ---------------------------------------------------------------------------
-# rodar INIT.md automaticamente (opcional, interativo)
+# choose CLI / LLM
 # ---------------------------------------------------------------------------
-INIT_PROMPT='Le INIT.md e executa. Mapeia o codigo deste repo e preenche .specs/product/ + .specs/architecture/ com dados reais. Use multi-agents em paralelo.'
+INIT_PROMPT='Read INIT.md and execute it. Do NOT modify any user source files (.razor, .cs, .ts, .py, .go, .rs, package.json, etc). Only write inside .specs/, .agents/, .skills/, .claude/, .codex/, .github/copilot*, .github/workflows/dod.yml plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md. If AGENTS.md/CLAUDE.md/copilot-instructions.md already existed before bootstrap (see .starter-meta.json), READ them and IMPROVE in place — preserve their essence. Ask the human only the questions listed in .starter-meta.json -> init_must_ask (team, domain, vision oneliner, personas). Use parallel multi-agents.'
 
-run_init_now=0
-chosen_cli=""
+declare -a CLI_OPTS=(
+  "claude|Claude Code|claude"
+  "codex|Codex CLI|codex"
+  "copilot|GitHub Copilot CLI (chat — no agent loop)|gh"
+  "cursor|Cursor Agent (cursor-agent)|cursor-agent"
+  "deepseek|Deepseek (via aider --model deepseek/deepseek-coder)|aider"
+  "kimi|Kimi K2.6 (via aider --model openrouter/moonshotai/kimi-k2)|aider"
+  "minimax|MiniMax M2.7 (via aider --model openrouter/minimax/minimax-text-01)|aider"
+  "glm|GLM 5.1 (via aider --model openrouter/z-ai/glm-4.5)|aider"
+  "hermes|Hermes Agent (Nous Research)|hermes"
+  "openclaw|OpenClaw|openclaw"
+  "aider|Aider (pick model interactively)|aider"
+  "other|Other / manual (copy prompt to clipboard)|"
+  "skip|Skip — I will run INIT.md later|"
+)
 
-if [[ "$INTERACTIVE" == "1" && -f "INIT.md" ]]; then
-  echo "=========================================="
-  echo "  Mapeamento profundo (INIT.md)"
-  echo "=========================================="
-  echo ""
-  echo "Posso rodar AGORA o mapeamento profundo do projeto"
-  echo "(le seu codigo e preenche .specs/ com entidades,"
-  echo "integracoes e comandos reais — multi-agents)."
-  echo ""
+choose_cli() {
+  if [[ -n "$CLI_PRESET" ]]; then echo "$CLI_PRESET"; return; fi
+  if [[ "$NON_INTERACTIVE" == "1" ]]; then echo "skip"; return; fi
 
-  has_claude=0;   command -v claude   >/dev/null 2>&1 && has_claude=1
-  has_codex=0;    command -v codex    >/dev/null 2>&1 && has_codex=1
-  has_copilot=0;  command -v gh       >/dev/null 2>&1 && gh extension list 2>/dev/null | grep -q copilot && has_copilot=1
-  has_hermes=0;   command -v hermes   >/dev/null 2>&1 && has_hermes=1
-  has_openclaw=0; command -v openclaw >/dev/null 2>&1 && has_openclaw=1
+  {
+    echo "=========================================="
+    echo "  Choose the CLI/LLM to run INIT.md"
+    echo "=========================================="
+    echo ""
+    local i=1
+    for opt in "${CLI_OPTS[@]}"; do
+      IFS='|' read -r key label cmd <<< "$opt"
+      local mark=""
+      if [[ -n "$cmd" ]] && command -v "$cmd" >/dev/null 2>&1; then
+        mark="  [installed]"
+      fi
+      printf "  [%2d] %s%s\n" "$i" "$label" "$mark"
+      i=$((i+1))
+    done
+    echo ""
+  } >&2
 
-  echo "CLIs detectadas nesta maquina:"
-  [[ $has_claude   == 1 ]] && echo "  [c] Claude Code         (recomendado — agentic loop completo)"
-  [[ $has_codex    == 1 ]] && echo "  [x] Codex"
-  [[ $has_copilot  == 1 ]] && echo "  [g] GitHub Copilot CLI  (sem agentic loop — copia prompt pro clipboard)"
-  [[ $has_hermes   == 1 ]] && echo "  [h] Hermes Agent        (Nous Research)"
-  [[ $has_openclaw == 1 ]] && echo "  [o] OpenClaw"
-  if [[ $has_claude == 0 && $has_codex == 0 && $has_copilot == 0 && $has_hermes == 0 && $has_openclaw == 0 ]]; then
-    echo "  (nenhuma encontrada — instale uma e rode manualmente depois)"
+  read -r -p "Number [13]: " idx
+  idx="${idx:-13}"
+  if ! [[ "$idx" =~ ^[0-9]+$ ]] || (( idx < 1 || idx > ${#CLI_OPTS[@]} )); then
+    idx=13
   fi
-  echo "  [n] Nao rodar agora"
-  echo ""
-  read -r -p "Escolha [n]: " choice
-  choice="${choice:-n}"
+  IFS='|' read -r key _ _ <<< "${CLI_OPTS[$((idx-1))]}"
+  echo "$key"
+}
 
-  case "$choice" in
-    c|C)
-      if [[ $has_claude == 1 ]]; then run_init_now=1; chosen_cli="claude"
-      else echo "Claude Code nao instalado. Instala: https://docs.claude.com/claude-code"; fi
-      ;;
-    x|X)
-      if [[ $has_codex == 1 ]]; then run_init_now=1; chosen_cli="codex"
-      else echo "Codex nao instalado. Instala: https://github.com/openai/codex"; fi
-      ;;
-    g|G)
-      if [[ $has_copilot == 1 ]]; then chosen_cli="copilot"
-      else echo "GitHub Copilot CLI nao instalado. Instala: gh extension install github/gh-copilot"; fi
-      ;;
-    h|H)
-      if [[ $has_hermes == 1 ]]; then run_init_now=1; chosen_cli="hermes"
-      else echo "Hermes Agent nao instalado. Instala: curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash"; fi
-      ;;
-    o|O)
-      if [[ $has_openclaw == 1 ]]; then run_init_now=1; chosen_cli="openclaw"
-      else echo "OpenClaw nao instalado. Instala: npm install -g openclaw@latest"; fi
-      ;;
-    *) ;;
-  esac
-fi
+CLI_CHOICE="$(choose_cli)"
 
 # ---------------------------------------------------------------------------
-# executa CLI escolhida (handoff para o agente)
+# clipboard helper (best-effort)
 # ---------------------------------------------------------------------------
-if [[ "$run_init_now" == "1" && "$chosen_cli" == "claude" ]]; then
-  echo ""
-  echo "=========================================="
-  echo "  Executando Claude Code com INIT.md"
-  echo "=========================================="
-  echo ""
-  exec claude "$INIT_PROMPT"
-elif [[ "$run_init_now" == "1" && "$chosen_cli" == "codex" ]]; then
-  echo ""
-  echo "=========================================="
-  echo "  Executando Codex com INIT.md"
-  echo "=========================================="
-  echo ""
-  exec codex exec "$INIT_PROMPT"
-elif [[ "$run_init_now" == "1" && "$chosen_cli" == "hermes" ]]; then
-  echo ""
-  echo "=========================================="
-  echo "  Executando Hermes Agent com INIT.md"
-  echo "=========================================="
-  echo ""
-  if command -v pbcopy >/dev/null 2>&1; then
-    printf "%s" "$INIT_PROMPT" | pbcopy
-  elif command -v xclip >/dev/null 2>&1; then
-    printf "%s" "$INIT_PROMPT" | xclip -selection clipboard
-  elif command -v clip.exe >/dev/null 2>&1; then
-    printf "%s" "$INIT_PROMPT" | clip.exe
+copy_to_clipboard() {
+  local text="$1"
+  if   command -v pbcopy   >/dev/null 2>&1; then printf '%s' "$text" | pbcopy
+  elif command -v xclip    >/dev/null 2>&1; then printf '%s' "$text" | xclip -selection clipboard
+  elif command -v wl-copy  >/dev/null 2>&1; then printf '%s' "$text" | wl-copy
+  elif command -v clip.exe >/dev/null 2>&1; then printf '%s' "$text" | clip.exe
+  else return 1
   fi
-  echo "(prompt copiado pro clipboard como fallback — cole se Hermes abrir vazio)"
-  echo ""
-  exec hermes "$INIT_PROMPT"
-elif [[ "$run_init_now" == "1" && "$chosen_cli" == "openclaw" ]]; then
-  echo ""
-  echo "=========================================="
-  echo "  Executando OpenClaw com INIT.md"
-  echo "=========================================="
-  echo ""
-  if command -v pbcopy >/dev/null 2>&1; then
-    printf "%s" "$INIT_PROMPT" | pbcopy
-  elif command -v xclip >/dev/null 2>&1; then
-    printf "%s" "$INIT_PROMPT" | xclip -selection clipboard
-  elif command -v clip.exe >/dev/null 2>&1; then
-    printf "%s" "$INIT_PROMPT" | clip.exe
-  fi
-  echo "(prompt copiado pro clipboard como fallback — cole se OpenClaw abrir vazio)"
-  echo ""
-  exec openclaw "$INIT_PROMPT"
-elif [[ "$chosen_cli" == "copilot" ]]; then
-  echo ""
-  echo "GitHub Copilot CLI nao executa agentic loop autonomo (so sugere comandos)."
-  echo ""
-  if command -v pbcopy >/dev/null 2>&1; then
-    printf "%s" "$INIT_PROMPT" | pbcopy
-    echo "→ Prompt copiado pro clipboard (pbcopy). Cole com Cmd+V no Copilot Chat (VS Code)."
-  elif command -v xclip >/dev/null 2>&1; then
-    printf "%s" "$INIT_PROMPT" | xclip -selection clipboard
-    echo "→ Prompt copiado pro clipboard (xclip). Cole com Ctrl+V no Copilot Chat."
-  elif command -v clip.exe >/dev/null 2>&1; then
-    printf "%s" "$INIT_PROMPT" | clip.exe
-    echo "→ Prompt copiado pro clipboard (clip.exe). Cole com Ctrl+V no Copilot Chat."
-  else
-    echo "(clipboard indisponivel — copie o prompt abaixo manualmente)"
-  fi
-  echo ""
-  echo "Prompt:"
-  echo "  $INIT_PROMPT"
-  echo ""
-fi
+  return 0
+}
 
 # ---------------------------------------------------------------------------
-# proximos passos (so chega aqui se NAO fez handoff via exec)
+# handoff
 # ---------------------------------------------------------------------------
-cat <<'EOF'
-=========================================
-  PROXIMOS PASSOS
-=========================================
+echo ""
+echo "=========================================="
+echo "  Handing off to: $CLI_CHOICE"
+echo "=========================================="
+echo ""
 
-1) Abra um agente nesta pasta e cole o prompt:
+case "$CLI_CHOICE" in
+  claude)
+    command -v claude >/dev/null 2>&1 || { echo "Claude Code not installed: https://docs.claude.com/claude-code"; exit 1; }
+    exec claude "$INIT_PROMPT"
+    ;;
+  codex)
+    command -v codex >/dev/null 2>&1 || { echo "Codex CLI not installed: https://github.com/openai/codex"; exit 1; }
+    exec codex exec "$INIT_PROMPT"
+    ;;
+  copilot)
+    command -v gh >/dev/null 2>&1 || { echo "gh CLI not installed: https://cli.github.com"; exit 1; }
+    copy_to_clipboard "$INIT_PROMPT" && echo "Prompt copied to clipboard." || echo "(clipboard unavailable — copy manually below)"
+    echo ""
+    echo "GitHub Copilot CLI does not run an autonomous agent loop."
+    echo "Open Copilot Chat (VS Code / IDE) and paste the prompt:"
+    echo ""
+    echo "  $INIT_PROMPT"
+    echo ""
+    ;;
+  cursor)
+    command -v cursor-agent >/dev/null 2>&1 || { echo "Cursor Agent CLI not installed (Cursor 3.0+)."; exit 1; }
+    exec cursor-agent "$INIT_PROMPT"
+    ;;
+  deepseek)
+    command -v aider >/dev/null 2>&1 || { echo "aider not installed: pipx install aider-chat"; exit 1; }
+    exec aider --model deepseek/deepseek-coder --message "$INIT_PROMPT"
+    ;;
+  kimi)
+    command -v aider >/dev/null 2>&1 || { echo "aider not installed: pipx install aider-chat"; exit 1; }
+    exec aider --model openrouter/moonshotai/kimi-k2 --message "$INIT_PROMPT"
+    ;;
+  minimax)
+    command -v aider >/dev/null 2>&1 || { echo "aider not installed: pipx install aider-chat"; exit 1; }
+    exec aider --model openrouter/minimax/minimax-text-01 --message "$INIT_PROMPT"
+    ;;
+  glm)
+    command -v aider >/dev/null 2>&1 || { echo "aider not installed: pipx install aider-chat"; exit 1; }
+    exec aider --model openrouter/z-ai/glm-4.5 --message "$INIT_PROMPT"
+    ;;
+  hermes)
+    command -v hermes >/dev/null 2>&1 || { echo "Hermes Agent not installed: https://github.com/NousResearch/hermes-agent"; exit 1; }
+    copy_to_clipboard "$INIT_PROMPT" && echo "(prompt copied to clipboard as fallback)"
+    exec hermes "$INIT_PROMPT"
+    ;;
+  openclaw)
+    command -v openclaw >/dev/null 2>&1 || { echo "OpenClaw not installed: npm install -g openclaw@latest"; exit 1; }
+    copy_to_clipboard "$INIT_PROMPT" && echo "(prompt copied to clipboard as fallback)"
+    exec openclaw "$INIT_PROMPT"
+    ;;
+  aider)
+    command -v aider >/dev/null 2>&1 || { echo "aider not installed: pipx install aider-chat"; exit 1; }
+    exec aider --message "$INIT_PROMPT"
+    ;;
+  other)
+    if copy_to_clipboard "$INIT_PROMPT"; then
+      echo "Prompt copied to clipboard. Paste it into your CLI/agent of choice."
+    else
+      echo "(clipboard unavailable — copy the prompt below manually)"
+    fi
+    echo ""
+    echo "Prompt:"
+    echo "  $INIT_PROMPT"
+    echo ""
+    ;;
+  skip|*)
+    cat <<EOF
+Skipped CLI handoff. To run INIT.md later, open your agent and paste:
 
-   "Le INIT.md e executa. Mapeia o codigo deste repo e
-    preenche .specs/product/ + .specs/architecture/ com
-    dados reais. Use multi-agents em paralelo."
+  $INIT_PROMPT
 
-   Opcoes: claude, codex, ou Copilot Chat (VS Code).
+Recommended next steps:
+  1) Open an agent in this folder.
+  2) Paste the prompt above.
+  3) Review .specs/product/VISION.md, DOMAIN.md, architecture/DESIGN.md.
+  4) git add -A && git commit -m "chore: bootstrap agentic starter"
 
-2) Apos mapeamento:
-   - Reveja VISION.md, DOMAIN.md, DESIGN.md
-   - Crie sprint-02 e primeira task em .specs/sprints/
-   - Commit: git add -A && git commit -m "chore: bootstrap agentic starter"
-
-3) (opcional) Apaga este script + _BOOTSTRAP.md + INIT.md
-   apos mapeamento, se nao quiser deixar no repo final.
-
+Docs: https://github.com/wesleysimplicio/agentic-starter
 EOF
+    ;;
+esac
