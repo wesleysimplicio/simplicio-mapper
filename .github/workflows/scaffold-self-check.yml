@@ -98,17 +98,17 @@ jobs:
       - name: Version command
         run: node bin/cli.js --version
 
-      - name: Dry-run scaffold
+      - name: Dry-run scaffold (auto-detects from cwd + stack manifests)
         run: |
           mkdir -p /tmp/scaffold-target
           cd /tmp/scaffold-target
+          # Synthetic stack manifest so detectStack() picks "next-ts"
+          printf '%s\n' '{"name":"scaffold-target","version":"1.0.0","dependencies":{"next":"14.0.0","react":"18.0.0"}}' > package.json
           node $GITHUB_WORKSPACE/bin/cli.js \
-            --product "TestApp" \
-            --team "Squad-CI" \
-            --domain "test" \
-            --stack "next-ts" \
             --dry-run \
-            --yes
+            --yes \
+            --cli skip \
+            --append-gitignore no
 
   npm-pack:
     name: npm pack dry-run
