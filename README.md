@@ -22,9 +22,41 @@ Tudo neutro: a stack real vai ser plugada via `<PLACEHOLDERS>` quando você adap
 
 ---
 
-## Como usar (2 passos)
+## Como usar
 
-### 1. Copiar starter pro projeto
+Há três formas de instalar o starter num projeto. Escolha a que combina com seu fluxo.
+
+### Opção A — `npx` (recomendado, zero clone)
+
+Dentro do diretório do seu projeto:
+
+```bash
+# interativo (pergunta product/team/domain/stack)
+npx @wesleysimplicio/agentic-starter
+
+# nao-interativo (CI ou automacao)
+npx @wesleysimplicio/agentic-starter \
+  --product "MyApp" --team "Squad-X" --domain "fintech" --stack "next-ts" --yes
+
+# preview sem escrever nada
+npx @wesleysimplicio/agentic-starter --dry-run --yes
+```
+
+O CLI:
+
+1. Copia template (`AGENTS.md`, `CLAUDE.md`, `.specs/`, `.skills/`, `.agents/`, `.claude/`, `.codex/`, `.github/`, hooks, workflows, Playwright config, etc.) pro `cwd`.
+2. Auto-detecta a stack (`package.json`/`pyproject.toml`/`go.mod`/etc) ou aceita via `--stack`.
+3. Substitui `<PRODUCT_NAME>`, `<TEAM>`, `<DOMAIN>`, `<STACK>` em todos os arquivos texto.
+4. Gera `.gitignore`, `.gitattributes` e `.starter-meta.json`.
+5. Imprime proximos passos pra rodar Claude Code / Codex / Copilot com o `INIT.md`.
+
+Por padrao **nao sobrescreve** arquivos existentes — use `--force` se quiser overwrite. Funciona em macOS, Linux e Windows (Node >= 16.7, sem dependencia de bash).
+
+Flags: `--product`, `--team`, `--domain`, `--stack`, `-f|--force`, `-y|--yes`, `--dry-run`, `--silent`, `--skip-meta`, `--skip-gitignore`, `-v|--version`, `-h|--help`.
+
+### Opção B — Clone + bootstrap script (legado)
+
+Se preferir o fluxo antigo (sem npm), continua valendo:
 
 ```bash
 # clonar do GitHub direto pra dentro do projeto
@@ -39,7 +71,7 @@ Ou se já tem o starter local:
 cp -R /caminho/para/agentic-starter/. ./
 ```
 
-### 2. Rodar bootstrap — faz tudo
+### Opção C — Rodar bootstrap script direto (após clone)
 
 **macOS / Linux / Git Bash (Windows):**
 
