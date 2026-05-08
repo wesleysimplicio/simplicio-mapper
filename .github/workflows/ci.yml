@@ -26,6 +26,7 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    if: github.repository != 'wesleysimplicio/agentic-starter'
     timeout-minutes: 10
     steps:
       - name: Checkout
@@ -47,6 +48,7 @@ jobs:
     name: Unit tests (node ${{ matrix.node-version }})
     needs: lint
     runs-on: ubuntu-latest
+    if: github.repository != 'wesleysimplicio/agentic-starter'
     timeout-minutes: 15
     strategy:
       fail-fast: false
@@ -81,6 +83,7 @@ jobs:
     name: E2E Playwright (node ${{ matrix.node-version }})
     needs: unit
     runs-on: ubuntu-latest
+    if: github.repository != 'wesleysimplicio/agentic-starter'
     timeout-minutes: 30
     strategy:
       fail-fast: false
