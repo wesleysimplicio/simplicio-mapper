@@ -1,0 +1,93 @@
+# Skills Tutorial — Vídeo Remotion
+
+Vídeo explicativo (1080p · 30fps · ~59s) sobre **como usar as skills** do `agentic-starter`. Construído com [Remotion](https://www.remotion.dev/) — vídeo programático em React.
+
+---
+
+## Índice das cenas
+
+| #  | Cena                  | Duração | Conteúdo                                                       |
+|----|-----------------------|---------|----------------------------------------------------------------|
+| 01 | `Intro`               | 5,0 s   | Logo orbital, título e badges das ferramentas suportadas       |
+| 02 | `WhatAreSkills`       | 6,0 s   | Definição de skill + anatomia do `SKILL.md`                    |
+| 03 | `Catalog`             | 6,0 s   | As 3 skills inclusas no starter                                |
+| 04 | `PlaywrightSkill`     | 8,0 s   | Trigger, hard rule de evidência, código de exemplo             |
+| 05 | `CommitsSkill`        | 8,0 s   | Anatomia da mensagem, tipos, breaking change                   |
+| 06 | `HowToInvoke`         | 7,0 s   | Trigger explícito vs. implícito (com terminais animados)       |
+| 07 | `CreateYourOwn`       | 7,0 s   | Passo-a-passo para criar uma skill nova com `_template`        |
+| 08 | `BestPractices`       | 6,0 s   | 6 dicas + lista do que **não** virar skill                     |
+| 09 | `Outro`               | 6,0 s   | Recap em pílulas + CTA                                         |
+
+Total: **59 s** (1.770 frames).
+
+---
+
+## Comandos
+
+```bash
+# Studio interativo (preview com hot reload em http://localhost:3000)
+npm start
+
+# Render final em MP4 (1920x1080)
+npm run build
+
+# Versão WebM
+npm run build:webm
+
+# Capa estática (PNG do frame 60)
+npm run still
+```
+
+Saída em `out/skills-tutorial.mp4`.
+
+---
+
+## Estrutura
+
+```
+video/
+├── src/
+│   ├── index.ts              # entry point (registerRoot)
+│   ├── Root.tsx              # registra a Composition
+│   ├── SkillsTutorial.tsx    # sequência das cenas + progress bar + label
+│   ├── theme.ts              # paleta + fontes
+│   ├── components/
+│   │   ├── AnimatedText.tsx  # texto com reveal por caractere
+│   │   ├── BackgroundFX.tsx  # gradiente + grid + orbs + partículas
+│   │   ├── Bullet.tsx        # item de lista com ícone
+│   │   ├── Card.tsx          # cartão glassmorphism animado
+│   │   ├── CodeBlock.tsx     # bloco de código com tokens coloridos
+│   │   ├── SceneTransition.tsx  # fade-in/out + scale entre cenas
+│   │   └── Terminal.tsx      # mock de terminal com typing effect
+│   └── scenes/
+│       ├── Intro.tsx
+│       ├── WhatAreSkills.tsx
+│       ├── Catalog.tsx
+│       ├── PlaywrightSkill.tsx
+│       ├── CommitsSkill.tsx
+│       ├── HowToInvoke.tsx
+│       ├── CreateYourOwn.tsx
+│       ├── BestPractices.tsx
+│       └── Outro.tsx
+├── package.json
+├── remotion.config.ts
+└── tsconfig.json
+```
+
+---
+
+## Como editar
+
+- **Texto / cor** → ajuste em `src/theme.ts` ou direto no JSX da cena.
+- **Duração** → array `SCENES` em `src/SkillsTutorial.tsx` (em frames; 30fps).
+- **Nova cena** → crie `src/scenes/MinhaCena.tsx`, importe em `SkillsTutorial.tsx` e adicione no array.
+
+> Roda `npm start` e edita ao vivo: o studio re-renderiza a cada save.
+
+---
+
+## Notas
+
+- Primeira execução baixa o **Chrome Headless Shell** (~88 MB) — só uma vez.
+- Render usa `@remotion/compositor-linux-x64-gnu` (ffmpeg + libavcodec inclusos no pacote).
+- Sem dependências de mídia externa: todo o vídeo é gerado por código (CSS/SVG/animações).
