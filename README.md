@@ -23,6 +23,82 @@ Same command everywhere. No bash dependency, no clone, no global install.
 
 ---
 
+## 🎬 Skills tutorial video
+
+A 59-second animated tutorial (Remotion · 1080p) that walks through every skill shipped in this starter — what they are, how to invoke them (explicit vs. implicit triggers), the two built-ins (`playwright-e2e`, `conventional-commits`), and how to author your own from `_template`.
+
+[![Skills Tutorial cover](video/assets/cover.png)](video/assets/skills-tutorial.mp4)
+
+> 🎥 **Watch the full video:** [`video/assets/skills-tutorial.mp4`](video/assets/skills-tutorial.mp4) (19 MB · 1080p · H.264)
+> 🛠️ **Source / re-render:** [`video/`](video/README.md) · `cd video && npm install && npm run build`
+
+<details>
+<summary>Embedded player (click to expand)</summary>
+
+<video src="video/assets/skills-tutorial.mp4" controls width="100%"></video>
+
+</details>
+
+### Walkthrough — every scene of the tutorial
+
+Prefer images over a 59-second video? Each scene is captured below at its settled state. Read top-to-bottom for the full skill flow.
+
+#### 01 · Intro — "Skills" hook
+
+![Scene 01 Intro](video/evidence/01-intro-frame-130.png)
+
+> Animated logo + tagline + the agent CLIs that read the same skill files (Claude Code, Codex, Copilot, Cursor, Aider).
+
+#### 02 · What is a skill?
+
+![Scene 02 What are Skills](video/evidence/02-what-are-skills-frame-310.png)
+
+> A skill is a short Markdown manual at `.skills/<name>/SKILL.md` with a frontmatter (`name`, `description`) and four sections: **Trigger**, **Steps**, **Patterns**, **Definition of Done**. Concise, idempotent, single-responsibility.
+
+#### 03 · Catalog — what ships in this starter
+
+![Scene 03 Catalog](video/evidence/03-catalog-frame-490.png)
+
+> Three skills come baked in: `playwright-e2e`, `conventional-commits`, and `_template` (the base for new skills). Local skills live in `.skills/`, global ones in `~/.claude/skills/`.
+
+#### 04 · Skill #1 — `playwright-e2e`
+
+![Scene 04 Playwright skill](video/evidence/04-playwright-frame-730.png)
+
+> Triggers on **every technical task** before commit. Hard rule: no merge without **trace + screenshot + video**. Prefer `getByRole / getByLabel / getByTestId`; never `waitForTimeout` or mocks-to-pass.
+
+#### 05 · Skill #2 — `conventional-commits`
+
+![Scene 05 Conventional commits skill](video/evidence/05-commits-frame-970.png)
+
+> `<type>(<scope>)?: <subject>` — 10 types covered (`feat`, `fix`, `docs`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `style`). Breaking changes use `!` after the type or a `BREAKING CHANGE:` footer. Drives automatic SemVer + changelog.
+
+#### 06 · How to invoke a skill
+
+![Scene 06 How to invoke](video/evidence/06-how-to-invoke-frame-1180.png)
+
+> Two modes: **explicit** (`$skill-name` in the prompt) and **implicit** (the agent matches your request against each skill's `description` frontmatter). The `description` field is the most important thing in a skill — write it like a query.
+
+#### 07 · Skill #3 — Build your own from `_template`
+
+![Scene 07 Create your own](video/evidence/07-create-your-own-frame-1390.png)
+
+> `cp -R .skills/_template .skills/<your-skill>` → fill the frontmatter → write the four sections → reference it in `.skills/README.md`. The agent picks it up on the next prompt that matches the description.
+
+#### 08 · Best practices
+
+![Scene 08 Best practices](video/evidence/08-best-practices-frame-1570.png)
+
+> Skills that age well are **concise** (30–100 lines), **idempotent**, **single-responsibility**, with **direct language** and a **verifiable DoD**. Don't make a skill for one-off tasks, universal conventions, or generic stack knowledge.
+
+#### 09 · Outro — recap & CTA
+
+![Scene 09 Outro](video/evidence/09-outro-frame-1750.png)
+
+> Skills turn repeated conventions into agent superpowers. `cp -R .skills/_template .skills/<your-skill>` and ship the first one today.
+
+---
+
 ## Prerequisites
 
 | Requirement | macOS | Linux | Windows |
