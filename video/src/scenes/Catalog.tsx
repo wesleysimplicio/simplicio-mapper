@@ -8,32 +8,22 @@ import {
 } from "remotion";
 import { BackgroundFX } from "../components/BackgroundFX";
 import { AnimatedText } from "../components/AnimatedText";
+import { useT } from "../LangContext";
 import { theme } from "../theme";
 
-const SKILLS = [
-  {
-    icon: "🎭",
-    name: "playwright-e2e",
-    desc: "Testes end-to-end com trace, screenshot e vídeo",
-    color: theme.colors.accent2,
-  },
-  {
-    icon: "📝",
-    name: "conventional-commits",
-    desc: "Mensagens de commit padronizadas (SemVer-friendly)",
-    color: theme.colors.accent3,
-  },
-  {
-    icon: "📋",
-    name: "_template",
-    desc: "Base para criar suas próprias skills",
-    color: theme.colors.yellow,
-  },
+const SKILL_NAMES = ["playwright-e2e", "conventional-commits", "_template"] as const;
+const SKILL_ICONS = ["🎭", "📝", "📋"] as const;
+const SKILL_COLORS = [
+  theme.colors.accent2,
+  theme.colors.accent3,
+  theme.colors.yellow,
 ];
 
 export const Catalog: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const t = useT().catalog;
+  const footerP = spring({ frame: frame - 70, fps, config: { damping: 15, stiffness: 100 } });
 
   return (
     <AbsoluteFill>
@@ -50,13 +40,14 @@ export const Catalog: React.FC = () => {
               textTransform: "uppercase",
             }}
           >
-            02 — Catálogo
+            {t.overline}
           </div>
-          <AnimatedText text="Skills inclusas no starter" size={84} align="left" gradient />
+          <AnimatedText text={t.title} size={84} align="left" gradient />
         </div>
 
         <div style={{ display: "flex", gap: 28, flex: 1, alignItems: "stretch" }}>
-          {SKILLS.map((s, i) => {
+          {SKILL_NAMES.map((name, i) => {
+            const color = SKILL_COLORS[i];
             const p = spring({
               frame: frame - 22 - i * 10,
               fps,
@@ -64,15 +55,15 @@ export const Catalog: React.FC = () => {
             });
             return (
               <div
-                key={s.name}
+                key={name}
                 style={{
                   flex: 1,
                   padding: 32,
                   borderRadius: 24,
-                  background: `linear-gradient(160deg, ${s.color}25 0%, rgba(255,255,255,0.02) 100%)`,
-                  border: `1px solid ${s.color}55`,
+                  background: `linear-gradient(160deg, ${color}25 0%, rgba(255,255,255,0.02) 100%)`,
+                  border: `1px solid ${color}55`,
                   backdropFilter: "blur(12px)",
-                  boxShadow: `0 24px 60px ${s.color}33`,
+                  boxShadow: `0 24px 60px ${color}33`,
                   opacity: p,
                   transform: `translateY(${interpolate(p, [0, 1], [60, 0])}px) scale(${interpolate(p, [0, 1], [0.92, 1])})`,
                   display: "flex",
@@ -85,15 +76,15 @@ export const Catalog: React.FC = () => {
                     width: 80,
                     height: 80,
                     borderRadius: 20,
-                    background: `linear-gradient(135deg, ${s.color}, ${s.color}88)`,
+                    background: `linear-gradient(135deg, ${color}, ${color}88)`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     fontSize: 46,
-                    boxShadow: `0 12px 30px ${s.color}66`,
+                    boxShadow: `0 12px 30px ${color}66`,
                   }}
                 >
-                  {s.icon}
+                  {SKILL_ICONS[i]}
                 </div>
                 <div
                   style={{
@@ -103,7 +94,7 @@ export const Catalog: React.FC = () => {
                     color: theme.colors.text,
                   }}
                 >
-                  {s.name}
+                  {name}
                 </div>
                 <div
                   style={{
@@ -114,18 +105,18 @@ export const Catalog: React.FC = () => {
                     flex: 1,
                   }}
                 >
-                  {s.desc}
+                  {t.skillDescs[i]}
                 </div>
                 <div
                   style={{
                     paddingTop: 16,
-                    borderTop: `1px solid ${s.color}33`,
+                    borderTop: `1px solid ${color}33`,
                     fontFamily: theme.fonts.mono,
                     fontSize: 16,
-                    color: s.color,
+                    color,
                   }}
                 >
-                  .skills/{s.name}/SKILL.md
+                  .skills/{name}/SKILL.md
                 </div>
               </div>
             );
@@ -134,21 +125,20 @@ export const Catalog: React.FC = () => {
 
         <div
           style={{
-            opacity: spring({ frame: frame - 70, fps, config: { damping: 15, stiffness: 100 } }),
-            transform: `translateY(${interpolate(
-              spring({ frame: frame - 70, fps, config: { damping: 15, stiffness: 100 } }),
-              [0, 1],
-              [30, 0],
-            )}px)`,
+            opacity: footerP,
+            transform: `translateY(${interpolate(footerP, [0, 1], [30, 0])}px)`,
             fontFamily: theme.fonts.heading,
             fontSize: 24,
             color: theme.colors.textMuted,
             textAlign: "center",
           }}
         >
-          📂 Skills <b style={{ color: theme.colors.text }}>locais</b> ficam em{" "}
-          <code style={{ color: theme.colors.accent2 }}>.skills/</code>{" "}
-          · skills <b style={{ color: theme.colors.text }}>globais</b> em{" "}
+          {t.footerPrefix}
+          <b style={{ color: theme.colors.text }}>{t.footerLocalLabel}</b>
+          {t.footerLocalSep}
+          <code style={{ color: theme.colors.accent2 }}>.skills/</code>{" · "}
+          <b style={{ color: theme.colors.text }}>{t.footerGlobalLabel}</b>
+          {" → "}
           <code style={{ color: theme.colors.accent2 }}>~/.claude/skills/</code>
         </div>
       </AbsoluteFill>

@@ -25,7 +25,9 @@ Mesmo comando em todo lugar. Sem dependência de bash, sem clone, sem instalaç�
 
 ## 🎬 Vídeo tutorial das skills
 
-Tutorial animado de 59 segundos (Remotion · 1080p) explicando todas as skills do starter — o que são, como invocar (trigger explícito vs. implícito), as duas inclusas (`playwright-e2e`, `conventional-commits`) e como criar a sua a partir do `_template`.
+Tutorial animado de 59 segundos (Remotion · 1080p · em pt-BR) explicando todas as skills do starter — o que são, como invocar (trigger explícito vs. implícito), as duas inclusas (`playwright-e2e`, `conventional-commits`) e como criar a sua a partir do `_template`.
+
+> 🌎 Prefere inglês? O [README em inglês](README.md) tem a versão equivalente em English do mesmo vídeo.
 
 [![Capa do tutorial de Skills](video/assets/cover.png)](video/assets/skills-tutorial.mp4)
 

@@ -7,11 +7,13 @@ import {
   useVideoConfig,
 } from "remotion";
 import { BackgroundFX } from "../components/BackgroundFX";
+import { useT } from "../LangContext";
 import { theme } from "../theme";
 
 export const Intro: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const t = useT().intro;
 
   const titleP = spring({
     frame: frame - 8,
@@ -146,7 +148,7 @@ export const Intro: React.FC = () => {
             lineHeight: 1,
           }}
         >
-          Skills
+          {t.title}
         </div>
 
         <div
@@ -162,9 +164,11 @@ export const Intro: React.FC = () => {
             lineHeight: 1.3,
           }}
         >
-          Como usar as <b style={{ color: theme.colors.text }}>capacidades reutilizáveis</b>
+          {t.taglinePre}
+          <b style={{ color: theme.colors.text }}>{t.taglineMid}</b>
           <br />
-          do <code style={{ color: theme.colors.accent2 }}>agentic-starter</code>
+          {t.taglinePost.split("agentic-starter")[0]}
+          <code style={{ color: theme.colors.accent2 }}>agentic-starter</code>
         </div>
 
         <div
