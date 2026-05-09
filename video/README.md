@@ -47,9 +47,32 @@ npm run build:webm
 
 # Capa estática (PNG do frame 110)
 npm run still
+
+# Teste de regressão visual: 9 stills (1 por cena, frame estabilizado)
+npm run regression
 ```
 
 Saída em `assets/skills-tutorial.mp4` (versionado) — `out/` fica para drafts locais.
+
+---
+
+## Regressão visual
+
+`npm run regression` faz **bundle único + render de 9 stills** (~7 segundos no total) — um para cada cena, no frame em que todas as animações de entrada já estabilizaram. As evidências ficam em `evidence/<NN>-<scene>-frame-<F>.png` e estão versionadas (~13 MB total) como prova-de-vida do pipeline.
+
+| # | Cena | Frame settled | Verifica |
+|---|---|---|---|
+| 01 | Intro | 130 | logo orbital, título, badges |
+| 02 | WhatAreSkills | 310 | card definição + paper SKILL.md + pills |
+| 03 | Catalog | 490 | 3 cards (playwright/commits/_template) |
+| 04 | PlaywrightSkill | 730 | code block + evidence row |
+| 05 | CommitsSkill | 970 | anatomia, 10 chips, breaking change |
+| 06 | HowToInvoke | 1180 | 2 terminais com typing completo |
+| 07 | CreateYourOwn | 1390 | 4 steps + terminal + frontmatter |
+| 08 | BestPractices | 1570 | 6 cards + warning box |
+| 09 | Outro | 1750 | recap pills + CTA |
+
+O script falha (exit 1) se qualquer PNG ficar abaixo de 30 KB (sinal de cena em branco). Revisão visual humana ainda é necessária para alterações que mudem layout/cor.
 
 ---
 
