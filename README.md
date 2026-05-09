@@ -23,6 +23,24 @@ Same command everywhere. No bash dependency, no clone, no global install.
 
 ---
 
+## 🎬 Skills tutorial video
+
+A 59-second animated tutorial (Remotion · 1080p) that walks through every skill shipped in this starter — what they are, how to invoke them (explicit vs. implicit triggers), the two built-ins (`playwright-e2e`, `conventional-commits`), and how to author your own from `_template`.
+
+[![Skills Tutorial cover](video/assets/cover.png)](video/assets/skills-tutorial.mp4)
+
+> 🎥 **Watch:** [`video/assets/skills-tutorial.mp4`](video/assets/skills-tutorial.mp4) (19 MB · 1080p · H.264)
+> 🛠️ **Source / re-render:** [`video/`](video/README.md) · `cd video && npm install && npm run build`
+
+<details>
+<summary>Embedded player (click to expand)</summary>
+
+<video src="video/assets/skills-tutorial.mp4" controls width="100%"></video>
+
+</details>
+
+---
+
 ## Prerequisites
 
 | Requirement | macOS | Linux | Windows |

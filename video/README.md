@@ -2,6 +2,17 @@
 
 Vídeo explicativo (1080p · 30fps · ~59s) sobre **como usar as skills** do `agentic-starter`. Construído com [Remotion](https://www.remotion.dev/) — vídeo programático em React.
 
+[![Skills Tutorial — capa](./assets/cover.png)](./assets/skills-tutorial.mp4)
+
+> 🎬 **Assistir:** [`assets/skills-tutorial.mp4`](./assets/skills-tutorial.mp4) (19 MB · 59 s · 1080p · H.264)
+
+<details>
+<summary>Player embarcado (clique para expandir)</summary>
+
+<video src="./assets/skills-tutorial.mp4" controls width="100%"></video>
+
+</details>
+
 ---
 
 ## Índice das cenas
@@ -38,7 +49,7 @@ npm run build:webm
 npm run still
 ```
 
-Saída em `out/skills-tutorial.mp4`.
+Saída em `assets/skills-tutorial.mp4` (versionado) — `out/` fica para drafts locais.
 
 ---
 

@@ -23,6 +23,24 @@ Mesmo comando em todo lugar. Sem dependência de bash, sem clone, sem instalaç�
 
 ---
 
+## 🎬 Vídeo tutorial das skills
+
+Tutorial animado de 59 segundos (Remotion · 1080p) explicando todas as skills do starter — o que são, como invocar (trigger explícito vs. implícito), as duas inclusas (`playwright-e2e`, `conventional-commits`) e como criar a sua a partir do `_template`.
+
+[![Capa do tutorial de Skills](video/assets/cover.png)](video/assets/skills-tutorial.mp4)
+
+> 🎥 **Assistir:** [`video/assets/skills-tutorial.mp4`](video/assets/skills-tutorial.mp4) (19 MB · 1080p · H.264)
+> 🛠️ **Código / re-render:** [`video/`](video/README.md) · `cd video && npm install && npm run build`
+
+<details>
+<summary>Player embarcado (clique para expandir)</summary>
+
+<video src="video/assets/skills-tutorial.mp4" controls width="100%"></video>
+
+</details>
+
+---
+
 ## Pré-requisitos
 
 | Requisito | macOS | Linux | Windows |

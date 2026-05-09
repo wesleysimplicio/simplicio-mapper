@@ -5,9 +5,9 @@
   "private": true,
   "scripts": {
     "start": "remotion studio",
-    "build": "remotion render SkillsTutorial out/skills-tutorial.mp4",
-    "build:webm": "remotion render SkillsTutorial out/skills-tutorial.webm --codec=vp8",
-    "still": "remotion still SkillsTutorial out/cover.png --frame=60"
+    "build": "remotion render SkillsTutorial assets/skills-tutorial.mp4",
+    "build:webm": "remotion render SkillsTutorial assets/skills-tutorial.webm --codec=vp8",
+    "still": "remotion still SkillsTutorial assets/cover.png --frame=110"
   },
   "dependencies": {
     "@remotion/cli": "4.0.250",
