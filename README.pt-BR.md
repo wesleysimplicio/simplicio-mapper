@@ -29,7 +29,7 @@ Tutorial animado de 59 segundos (Remotion · 1080p) explicando todas as skills d
 
 [![Capa do tutorial de Skills](video/assets/cover.png)](video/assets/skills-tutorial.mp4)
 
-> 🎥 **Assistir:** [`video/assets/skills-tutorial.mp4`](video/assets/skills-tutorial.mp4) (19 MB · 1080p · H.264)
+> 🎥 **Assistir o vídeo completo:** [`video/assets/skills-tutorial.mp4`](video/assets/skills-tutorial.mp4) (19 MB · 1080p · H.264)
 > 🛠️ **Código / re-render:** [`video/`](video/README.md) · `cd video && npm install && npm run build`
 
 <details>
@@ -38,6 +38,64 @@ Tutorial animado de 59 segundos (Remotion · 1080p) explicando todas as skills d
 <video src="video/assets/skills-tutorial.mp4" controls width="100%"></video>
 
 </details>
+
+### Walkthrough — todas as cenas em imagens
+
+Prefere imagens? Cada cena foi capturada no estado estabilizado. Lê de cima pra baixo pra acompanhar o fluxo completo do tutorial.
+
+#### 01 · Intro — gancho "Skills"
+
+![Cena 01 Intro](video/evidence/01-intro-frame-130.png)
+
+> Logo animado + tagline + as CLIs de agente que leem o mesmo arquivo de skill (Claude Code, Codex, Copilot, Cursor, Aider).
+
+#### 02 · O que é uma skill?
+
+![Cena 02 O que são skills](video/evidence/02-what-are-skills-frame-310.png)
+
+> Skill é um manual curto em Markdown em `.skills/<nome>/SKILL.md` com frontmatter (`name`, `description`) e quatro sections: **Trigger**, **Steps**, **Padrões**, **Definition of Done**. Concisa, idempotente, single-responsibility.
+
+#### 03 · Catálogo — o que vem no starter
+
+![Cena 03 Catálogo](video/evidence/03-catalog-frame-490.png)
+
+> Três skills inclusas: `playwright-e2e`, `conventional-commits` e `_template` (base pra criar novas). Skills locais ficam em `.skills/`; globais em `~/.claude/skills/`.
+
+#### 04 · Skill #1 — `playwright-e2e`
+
+![Cena 04 Skill playwright](video/evidence/04-playwright-frame-730.png)
+
+> Ativa em **toda task técnica** antes do commit. Hard rule: sem **trace + screenshot + video** não faz merge. Use `getByRole / getByLabel / getByTestId`; nunca `waitForTimeout` ou mock pra fazer passar.
+
+#### 05 · Skill #2 — `conventional-commits`
+
+![Cena 05 Skill conventional commits](video/evidence/05-commits-frame-970.png)
+
+> `<type>(<scope>)?: <subject>` — 10 tipos cobertos (`feat`, `fix`, `docs`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `style`). Breaking change usa `!` após o type ou footer `BREAKING CHANGE:`. Habilita SemVer + changelog automáticos.
+
+#### 06 · Como invocar uma skill
+
+![Cena 06 Como invocar](video/evidence/06-how-to-invoke-frame-1180.png)
+
+> Dois modos: **explícito** (`$skill-name` no prompt) e **implícito** (o agente casa o pedido contra o `description` do frontmatter). O `description` é a coisa mais importante de uma skill — escreve como uma query.
+
+#### 07 · Skill #3 — Crie a sua a partir do `_template`
+
+![Cena 07 Crie a sua](video/evidence/07-create-your-own-frame-1390.png)
+
+> `cp -R .skills/_template .skills/<sua-skill>` → preenche o frontmatter → escreve as 4 sections → adiciona em `.skills/README.md`. O agente já pega no próximo prompt que casar com o description.
+
+#### 08 · Boas práticas
+
+![Cena 08 Boas práticas](video/evidence/08-best-practices-frame-1570.png)
+
+> Skills que envelhecem bem são **concisas** (30–100 linhas), **idempotentes**, **single-responsibility**, com **linguagem direta** e **DoD verificável**. Não cria skill pra coisa única, convenção universal ou conhecimento genérico de stack.
+
+#### 09 · Outro — recap & CTA
+
+![Cena 09 Outro](video/evidence/09-outro-frame-1750.png)
+
+> Skills transformam convenções repetidas em superpoderes do agente. `cp -R .skills/_template .skills/<sua-skill>` e cria a sua hoje.
 
 ---
 

@@ -33,6 +33,39 @@ Total: **59 s** (1.770 frames). A capa estática (`npm run still`) é renderizad
 
 ---
 
+## Galeria — todas as cenas em imagens
+
+Cada PNG abaixo é o frame **estabilizado** da cena (capturado por `npm run regression`, mesmas imagens versionadas em [`evidence/`](./evidence)). Útil pra revisar o conteúdo sem rodar o vídeo.
+
+### 01 · Intro
+![01 Intro](./evidence/01-intro-frame-130.png)
+
+### 02 · O que é uma skill?
+![02 What are Skills](./evidence/02-what-are-skills-frame-310.png)
+
+### 03 · Catálogo
+![03 Catalog](./evidence/03-catalog-frame-490.png)
+
+### 04 · Skill `playwright-e2e`
+![04 Playwright skill](./evidence/04-playwright-frame-730.png)
+
+### 05 · Skill `conventional-commits`
+![05 Conventional commits skill](./evidence/05-commits-frame-970.png)
+
+### 06 · Como invocar uma skill
+![06 How to invoke](./evidence/06-how-to-invoke-frame-1180.png)
+
+### 07 · Crie a sua a partir do `_template`
+![07 Create your own](./evidence/07-create-your-own-frame-1390.png)
+
+### 08 · Boas práticas
+![08 Best practices](./evidence/08-best-practices-frame-1570.png)
+
+### 09 · Outro
+![09 Outro](./evidence/09-outro-frame-1750.png)
+
+---
+
 ## Comandos
 
 ```bash
