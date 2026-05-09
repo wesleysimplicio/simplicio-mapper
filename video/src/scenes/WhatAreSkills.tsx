@@ -10,6 +10,7 @@ export const WhatAreSkills: React.FC = () => {
   const { fps } = useVideoConfig();
 
   const cardP = spring({ frame: frame - 30, fps, config: { damping: 15, stiffness: 100 } });
+  const pillsP = spring({ frame: frame - 60, fps, config: { damping: 15, stiffness: 100 } });
 
   return (
     <AbsoluteFill>
@@ -72,12 +73,8 @@ export const WhatAreSkills: React.FC = () => {
           style={{
             display: "flex",
             gap: 18,
-            opacity: spring({ frame: frame - 60, fps, config: { damping: 15, stiffness: 100 } }),
-            transform: `translateY(${interpolate(
-              spring({ frame: frame - 60, fps, config: { damping: 15, stiffness: 100 } }),
-              [0, 1],
-              [40, 0],
-            )}px)`,
+            opacity: pillsP,
+            transform: `translateY(${interpolate(pillsP, [0, 1], [40, 0])}px)`,
           }}
         >
           {[

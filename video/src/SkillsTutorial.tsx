@@ -13,31 +13,40 @@ import { SceneTransition } from "./components/SceneTransition";
 import { theme } from "./theme";
 
 const SCENES = [
-  { Component: Intro, duration: 150 },
-  { Component: WhatAreSkills, duration: 180 },
-  { Component: Catalog, duration: 180 },
-  { Component: PlaywrightSkill, duration: 240 },
-  { Component: CommitsSkill, duration: 240 },
-  { Component: HowToInvoke, duration: 210 },
-  { Component: CreateYourOwn, duration: 210 },
-  { Component: BestPractices, duration: 180 },
-  { Component: Outro, duration: 180 },
-];
+  { Component: Intro, duration: 150, label: "Intro" },
+  { Component: WhatAreSkills, duration: 180, label: "Conceito" },
+  { Component: Catalog, duration: 180, label: "Catálogo" },
+  { Component: PlaywrightSkill, duration: 240, label: "playwright-e2e" },
+  { Component: CommitsSkill, duration: 240, label: "conventional-commits" },
+  { Component: HowToInvoke, duration: 210, label: "Como invocar" },
+  { Component: CreateYourOwn, duration: 210, label: "Crie a sua" },
+  { Component: BestPractices, duration: 180, label: "Boas práticas" },
+  { Component: Outro, duration: 180, label: "Encerramento" },
+] as const;
 
-export const TOTAL_DURATION = SCENES.reduce((sum, s) => sum + s.duration, 0);
+type Timed = {
+  Component: React.FC;
+  duration: number;
+  label: string;
+  from: number;
+};
+
+const TIMELINE: Timed[] = SCENES.reduce<Timed[]>((acc, s) => {
+  const from = acc.length === 0 ? 0 : acc[acc.length - 1].from + acc[acc.length - 1].duration;
+  acc.push({ Component: s.Component, duration: s.duration, label: s.label, from });
+  return acc;
+}, []);
+
+export const TOTAL_DURATION = TIMELINE.reduce((sum, t) => sum + t.duration, 0);
 
 export const SkillsTutorial: React.FC = () => {
-  let cursor = 0;
-
   return (
     <AbsoluteFill style={{ background: theme.colors.bgFrom }}>
-      {SCENES.map((s, i) => {
-        const from = cursor;
-        cursor += s.duration;
-        const Comp = s.Component;
+      {TIMELINE.map((t, i) => {
+        const Comp = t.Component;
         return (
-          <Sequence key={i} from={from} durationInFrames={s.duration}>
-            <SceneTransition durationInFrames={s.duration}>
+          <Sequence key={i} from={t.from} durationInFrames={t.duration}>
+            <SceneTransition durationInFrames={t.duration}>
               <Comp />
             </SceneTransition>
           </Sequence>
@@ -48,18 +57,6 @@ export const SkillsTutorial: React.FC = () => {
     </AbsoluteFill>
   );
 };
-
-const SCENE_LABELS = [
-  "Intro",
-  "Conceito",
-  "Catálogo",
-  "playwright-e2e",
-  "conventional-commits",
-  "Como invocar",
-  "Crie a sua",
-  "Boas práticas",
-  "Encerramento",
-];
 
 const ProgressBar: React.FC = () => {
   const frame = useCurrentFrame();
@@ -82,15 +79,10 @@ const ProgressBar: React.FC = () => {
 
 const SceneLabel: React.FC = () => {
   const frame = useCurrentFrame();
-  let cursor = 0;
-  let active = 0;
-  for (let i = 0; i < SCENES.length; i++) {
-    if (frame >= cursor && frame < cursor + SCENES[i].duration) {
-      active = i;
-      break;
-    }
-    cursor += SCENES[i].duration;
-  }
+  const activeIndex = TIMELINE.findIndex(
+    (t) => frame >= t.from && frame < t.from + t.duration,
+  );
+  const active = activeIndex === -1 ? 0 : activeIndex;
   return (
     <div
       style={{
@@ -112,9 +104,9 @@ const SceneLabel: React.FC = () => {
         {String(active + 1).padStart(2, "0")}
       </span>
       <span style={{ margin: "0 8px", opacity: 0.4 }}>/</span>
-      <span>{String(SCENES.length).padStart(2, "0")}</span>
+      <span>{String(TIMELINE.length).padStart(2, "0")}</span>
       <span style={{ margin: "0 12px", opacity: 0.4 }}>·</span>
-      <span style={{ color: theme.colors.text }}>{SCENE_LABELS[active]}</span>
+      <span style={{ color: theme.colors.text }}>{TIMELINE[active].label}</span>
     </div>
   );
 };

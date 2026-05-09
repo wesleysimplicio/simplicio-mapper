@@ -29,7 +29,7 @@ Vídeo explicativo (1080p · 30fps · ~59s) sobre **como usar as skills** do `ag
 | 08 | `BestPractices`       | 6,0 s   | 6 dicas + lista do que **não** virar skill                     |
 | 09 | `Outro`               | 6,0 s   | Recap em pílulas + CTA                                         |
 
-Total: **59 s** (1.770 frames).
+Total: **59 s** (1.770 frames). A capa estática (`npm run still`) é renderizada do frame **110** — momento em que o título e o subtítulo já estão totalmente visíveis.
 
 ---
 
@@ -45,7 +45,7 @@ npm run build
 # Versão WebM
 npm run build:webm
 
-# Capa estática (PNG do frame 60)
+# Capa estática (PNG do frame 110)
 npm run still
 ```
 
