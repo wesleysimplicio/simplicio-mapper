@@ -3,11 +3,13 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate } fr
 import { BackgroundFX } from "../components/BackgroundFX";
 import { AnimatedText } from "../components/AnimatedText";
 import { Card } from "../components/Card";
+import { useT } from "../LangContext";
 import { theme } from "../theme";
 
 export const WhatAreSkills: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const t = useT().whatAreSkills;
 
   const cardP = spring({ frame: frame - 30, fps, config: { damping: 15, stiffness: 100 } });
   const pillsP = spring({ frame: frame - 60, fps, config: { damping: 15, stiffness: 100 } });
@@ -27,19 +29,22 @@ export const WhatAreSkills: React.FC = () => {
               textTransform: "uppercase",
             }}
           >
-            01 — Conceito
+            {t.overline}
           </div>
-          <AnimatedText text="O que é uma Skill?" size={88} align="left" gradient />
+          <AnimatedText text={t.title} size={88} align="left" gradient />
         </div>
 
         <div style={{ display: "flex", gap: 28, alignItems: "flex-start" }}>
           <Card delay={20} width={780} glow={theme.colors.accent2}>
             <div style={{ fontSize: 32, fontWeight: 700, marginBottom: 16, color: theme.colors.accent2 }}>
-              📘 Definição
+              {t.cardTitle}
             </div>
             <div style={{ fontSize: 28, lineHeight: 1.5, color: theme.colors.text }}>
-              Skill é um <b>manual operacional curto</b> em Markdown que ensina o agente a
-              executar uma tarefa recorrente do <b>jeito certo</b>.
+              {t.cardBody[0]}
+              <b>{t.cardBody[1]}</b>
+              {t.cardBody[2]}
+              <b>{t.cardBody[3]}</b>
+              {t.cardBody[4]}
             </div>
             <div
               style={{
@@ -54,7 +59,7 @@ export const WhatAreSkills: React.FC = () => {
               }}
             >
               <span style={{ color: theme.colors.accent2 }}>📁</span>{"  "}
-              <code>.skills/&lt;nome-da-skill&gt;/SKILL.md</code>
+              <code>{t.pathLabel}</code>
             </div>
           </Card>
 
@@ -65,7 +70,7 @@ export const WhatAreSkills: React.FC = () => {
               flex: 1,
             }}
           >
-            <SkillPaper />
+            <SkillPaper paper={t.paper} />
           </div>
         </div>
 
@@ -78,9 +83,9 @@ export const WhatAreSkills: React.FC = () => {
           }}
         >
           {[
-            { icon: "🎯", title: "Trigger claro", text: "Ativa por palavra-chave ou descrição" },
-            { icon: "📝", title: "30-100 linhas", text: "Curta, direta, sem floreio" },
-            { icon: "✅", title: "DoD verificável", text: "Checklist objetivo no fim" },
+            { icon: "🎯", title: t.pillTitles[0], text: t.pillBodies[0] },
+            { icon: "📝", title: t.pillTitles[1], text: t.pillBodies[1] },
+            { icon: "✅", title: t.pillTitles[2], text: t.pillBodies[2] },
           ].map((c, i) => (
             <Pill key={c.title} delay={60 + i * 8} {...c} />
           ))}
@@ -119,7 +124,15 @@ const Pill: React.FC<{
   );
 };
 
-const SkillPaper: React.FC = () => {
+type PaperStrings = {
+  descValue: string;
+  triggerExample: string;
+  step1: string;
+  step2: string;
+  dodItem: string;
+};
+
+const SkillPaper: React.FC<{ paper: PaperStrings }> = ({ paper }) => {
   return (
     <div
       style={{
@@ -152,16 +165,16 @@ const SkillPaper: React.FC = () => {
       </div>
       <div style={{ fontSize: 16, marginTop: 4 }}>
         <span style={{ color: "#7c3aed" }}>description</span>:{" "}
-        <span style={{ color: "#059669" }}>"escrever testes e2e..."</span>
+        <span style={{ color: "#059669" }}>{paper.descValue}</span>
       </div>
       <div style={{ height: 1, background: "#e5e7eb", margin: "16px 0" }} />
       <div style={{ fontSize: 18, fontWeight: 700, color: "#111827" }}># Trigger</div>
-      <div style={{ fontSize: 14, color: "#4b5563", marginTop: 4 }}>- Quando ativar.</div>
+      <div style={{ fontSize: 14, color: "#4b5563", marginTop: 4 }}>{paper.triggerExample}</div>
       <div style={{ fontSize: 18, fontWeight: 700, color: "#111827", marginTop: 12 }}># Steps</div>
-      <div style={{ fontSize: 14, color: "#4b5563", marginTop: 4 }}>1. Faça X.</div>
-      <div style={{ fontSize: 14, color: "#4b5563" }}>2. Faça Y.</div>
+      <div style={{ fontSize: 14, color: "#4b5563", marginTop: 4 }}>{paper.step1}</div>
+      <div style={{ fontSize: 14, color: "#4b5563" }}>{paper.step2}</div>
       <div style={{ fontSize: 18, fontWeight: 700, color: "#111827", marginTop: 12 }}># Definition of Done</div>
-      <div style={{ fontSize: 14, color: "#4b5563", marginTop: 4 }}>- [ ] Critério 1</div>
+      <div style={{ fontSize: 14, color: "#4b5563", marginTop: 4 }}>{paper.dodItem}</div>
     </div>
   );
 };

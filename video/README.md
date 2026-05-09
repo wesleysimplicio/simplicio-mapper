@@ -1,15 +1,24 @@
 # Skills Tutorial — Vídeo Remotion
 
-Vídeo explicativo (1080p · 30fps · ~59s) sobre **como usar as skills** do `agentic-starter`. Construído com [Remotion](https://www.remotion.dev/) — vídeo programático em React.
+Vídeo explicativo (1080p · 30fps · ~59s) sobre **como usar as skills** do `agentic-starter`. Construído com [Remotion](https://www.remotion.dev/) — vídeo programático em React. Mesma timeline em **dois idiomas** (pt-BR e en) via `<LangProvider>` + dicionário em `src/i18n.ts`.
 
-[![Skills Tutorial — capa](./assets/cover.png)](./assets/skills-tutorial.mp4)
+| Idioma | Vídeo | Capa | Stills | Composition ID |
+|---|---|---|---|---|
+| 🇧🇷 pt-BR | [`assets/skills-tutorial.mp4`](./assets/skills-tutorial.mp4) | [`assets/cover.png`](./assets/cover.png) | [`evidence/`](./evidence) | `SkillsTutorialPT` |
+| 🇺🇸 English | [`assets/skills-tutorial-en.mp4`](./assets/skills-tutorial-en.mp4) | [`assets/cover-en.png`](./assets/cover-en.png) | [`evidence-en/`](./evidence-en) | `SkillsTutorialEN` |
 
-> 🎬 **Assistir:** [`assets/skills-tutorial.mp4`](./assets/skills-tutorial.mp4) (19 MB · 59 s · 1080p · H.264)
+[![Skills Tutorial cover (pt-BR)](./assets/cover.png)](./assets/skills-tutorial.mp4)
 
 <details>
-<summary>Player embarcado (clique para expandir)</summary>
+<summary>Players embarcados (clique para expandir)</summary>
+
+**pt-BR:**
 
 <video src="./assets/skills-tutorial.mp4" controls width="100%"></video>
+
+**English:**
+
+<video src="./assets/skills-tutorial-en.mp4" controls width="100%"></video>
 
 </details>
 
@@ -35,34 +44,52 @@ Total: **59 s** (1.770 frames). A capa estática (`npm run still`) é renderizad
 
 ## Galeria — todas as cenas em imagens
 
-Cada PNG abaixo é o frame **estabilizado** da cena (capturado por `npm run regression`, mesmas imagens versionadas em [`evidence/`](./evidence)). Útil pra revisar o conteúdo sem rodar o vídeo.
+Cada PNG abaixo é o frame **estabilizado** da cena (capturado por `npm run regression`, mesmas imagens versionadas em [`evidence/`](./evidence) e [`evidence-en/`](./evidence-en)). Útil pra revisar o conteúdo sem rodar o vídeo.
 
 ### 01 · Intro
-![01 Intro](./evidence/01-intro-frame-130.png)
+| 🇧🇷 pt-BR | 🇺🇸 English |
+|---|---|
+| ![01 Intro pt](./evidence/01-intro-frame-130.png) | ![01 Intro en](./evidence-en/01-intro-frame-130.png) |
 
-### 02 · O que é uma skill?
-![02 What are Skills](./evidence/02-what-are-skills-frame-310.png)
+### 02 · O que é uma skill? · What is a skill?
+| 🇧🇷 | 🇺🇸 |
+|---|---|
+| ![02 pt](./evidence/02-what-are-skills-frame-310.png) | ![02 en](./evidence-en/02-what-are-skills-frame-310.png) |
 
-### 03 · Catálogo
-![03 Catalog](./evidence/03-catalog-frame-490.png)
+### 03 · Catálogo · Catalog
+| 🇧🇷 | 🇺🇸 |
+|---|---|
+| ![03 pt](./evidence/03-catalog-frame-490.png) | ![03 en](./evidence-en/03-catalog-frame-490.png) |
 
 ### 04 · Skill `playwright-e2e`
-![04 Playwright skill](./evidence/04-playwright-frame-730.png)
+| 🇧🇷 | 🇺🇸 |
+|---|---|
+| ![04 pt](./evidence/04-playwright-frame-730.png) | ![04 en](./evidence-en/04-playwright-frame-730.png) |
 
 ### 05 · Skill `conventional-commits`
-![05 Conventional commits skill](./evidence/05-commits-frame-970.png)
+| 🇧🇷 | 🇺🇸 |
+|---|---|
+| ![05 pt](./evidence/05-commits-frame-970.png) | ![05 en](./evidence-en/05-commits-frame-970.png) |
 
-### 06 · Como invocar uma skill
-![06 How to invoke](./evidence/06-how-to-invoke-frame-1180.png)
+### 06 · Como invocar · How to invoke
+| 🇧🇷 | 🇺🇸 |
+|---|---|
+| ![06 pt](./evidence/06-how-to-invoke-frame-1180.png) | ![06 en](./evidence-en/06-how-to-invoke-frame-1180.png) |
 
-### 07 · Crie a sua a partir do `_template`
-![07 Create your own](./evidence/07-create-your-own-frame-1390.png)
+### 07 · Crie a sua · Build your own
+| 🇧🇷 | 🇺🇸 |
+|---|---|
+| ![07 pt](./evidence/07-create-your-own-frame-1390.png) | ![07 en](./evidence-en/07-create-your-own-frame-1390.png) |
 
-### 08 · Boas práticas
-![08 Best practices](./evidence/08-best-practices-frame-1570.png)
+### 08 · Boas práticas · Best practices
+| 🇧🇷 | 🇺🇸 |
+|---|---|
+| ![08 pt](./evidence/08-best-practices-frame-1570.png) | ![08 en](./evidence-en/08-best-practices-frame-1570.png) |
 
 ### 09 · Outro
-![09 Outro](./evidence/09-outro-frame-1750.png)
+| 🇧🇷 | 🇺🇸 |
+|---|---|
+| ![09 pt](./evidence/09-outro-frame-1750.png) | ![09 en](./evidence-en/09-outro-frame-1750.png) |
 
 ---
 
@@ -72,20 +99,24 @@ Cada PNG abaixo é o frame **estabilizado** da cena (capturado por `npm run regr
 # Studio interativo (preview com hot reload em http://localhost:3000)
 npm start
 
-# Render final em MP4 (1920x1080)
+# Render do MP4 em pt-BR (default)
 npm run build
 
-# Versão WebM
-npm run build:webm
+# Render do MP4 em English
+npm run build:en
 
-# Capa estática (PNG do frame 110)
-npm run still
+# Render dos dois (pt + en, sequencial)
+npm run build:all
 
-# Teste de regressão visual: 9 stills (1 por cena, frame estabilizado)
+# Capas estáticas (frame 110)
+npm run still           # pt-BR -> assets/cover.png
+npm run still:en        # English -> assets/cover-en.png
+
+# Teste de regressão visual: 18 stills (9 cenas × 2 idiomas, frames estabilizados)
 npm run regression
 ```
 
-Saída em `assets/skills-tutorial.mp4` (versionado) — `out/` fica para drafts locais.
+Saídas versionadas em `assets/` e `evidence/` / `evidence-en/`. A pasta `out/` fica como rascunho local.
 
 ---
 

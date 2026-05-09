@@ -7,11 +7,13 @@ import {
   useVideoConfig,
 } from "remotion";
 import { BackgroundFX } from "../components/BackgroundFX";
+import { useT } from "../LangContext";
 import { theme } from "../theme";
 
 export const Outro: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const t = useT().outro;
 
   const titleP = spring({ frame: frame - 6, fps, config: { damping: 15, stiffness: 100 } });
   const recapP = spring({ frame: frame - 24, fps, config: { damping: 15, stiffness: 100 } });
@@ -43,7 +45,7 @@ export const Outro: React.FC = () => {
             letterSpacing: -3,
           }}
         >
-          Agora é com você.
+          {t.title}
         </div>
 
         <div
@@ -58,8 +60,9 @@ export const Outro: React.FC = () => {
             lineHeight: 1.4,
           }}
         >
-          Skills transformam <b style={{ color: theme.colors.text }}>convenções repetidas</b> em
-          superpoderes do agente.
+          {t.subtitlePre}
+          <b style={{ color: theme.colors.text }}>{t.subtitleMid}</b>
+          {t.subtitlePost}
         </div>
 
         {/* Recap pills */}
@@ -73,11 +76,11 @@ export const Outro: React.FC = () => {
           }}
         >
           {[
-            { label: "playwright-e2e", icon: "🎭", color: theme.colors.accent2 },
-            { label: "conventional-commits", icon: "📝", color: theme.colors.accent3 },
-            { label: "_template", icon: "📋", color: theme.colors.yellow },
-            { label: "DoD verificável", icon: "✅", color: theme.colors.green },
-            { label: "trigger por description", icon: "🎯", color: theme.colors.accent },
+            { label: t.pills[0], icon: "🎭", color: theme.colors.accent2 },
+            { label: t.pills[1], icon: "📝", color: theme.colors.accent3 },
+            { label: t.pills[2], icon: "📋", color: theme.colors.yellow },
+            { label: t.pills[3], icon: "✅", color: theme.colors.green },
+            { label: t.pills[4], icon: "🎯", color: theme.colors.accent },
           ].map((p, i) => {
             const sp = spring({
               frame: frame - 38 - i * 4,
@@ -138,7 +141,7 @@ export const Outro: React.FC = () => {
               border: `1px solid ${theme.colors.accent}88`,
             }}
           >
-            cp -R .skills/_template .skills/&lt;sua-skill&gt;
+            {t.ctaCommand}
           </div>
           <div
             style={{
@@ -147,7 +150,7 @@ export const Outro: React.FC = () => {
               color: theme.colors.textMuted,
             }}
           >
-            crie a sua primeira skill agora ⚡
+            {t.ctaLine}
           </div>
         </div>
 
@@ -162,7 +165,7 @@ export const Outro: React.FC = () => {
             opacity: ctaP,
           }}
         >
-          agentic-starter · skills tutorial
+          {t.footer}
         </div>
       </AbsoluteFill>
     </AbsoluteFill>

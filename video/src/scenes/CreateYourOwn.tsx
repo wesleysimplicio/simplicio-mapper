@@ -10,11 +10,13 @@ import { BackgroundFX } from "../components/BackgroundFX";
 import { AnimatedText } from "../components/AnimatedText";
 import { Terminal } from "../components/Terminal";
 import { CodeBlock, c } from "../components/CodeBlock";
+import { useT } from "../LangContext";
 import { theme } from "../theme";
 
 export const CreateYourOwn: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const t = useT().createYourOwn;
 
   return (
     <AbsoluteFill>
@@ -31,28 +33,26 @@ export const CreateYourOwn: React.FC = () => {
               textTransform: "uppercase",
             }}
           >
-            06 — Skill #3
+            {t.overline}
           </div>
-          <AnimatedText text="Crie a sua própria skill com _template" size={62} align="left" gradient />
+          <AnimatedText text={t.title} size={62} align="left" gradient />
         </div>
 
         <div style={{ display: "flex", gap: 28, flex: 1, alignItems: "stretch" }}>
           <div style={{ flex: 1.1, display: "flex", flexDirection: "column", gap: 18 }}>
-            <Step num={1} delay={20} title="Copie o template">
+            <Step num={1} delay={20} title={t.steps[0].title}>
               <code style={{ color: theme.colors.accent2, fontFamily: theme.fonts.mono }}>
-                cp -R .skills/_template .skills/&lt;sua-skill&gt;
+                {t.steps[0].body[0]}
               </code>
             </Step>
-            <Step num={2} delay={36} title="Preencha o frontmatter">
-              <span style={{ color: theme.colors.text }}>name</span> +{" "}
-              <span style={{ color: theme.colors.accent3 }}>description</span> (a parte mais
-              importante: é o que dispara o trigger implícito).
+            <Step num={2} delay={36} title={t.steps[1].title}>
+              {t.steps[1].body[0]}
             </Step>
-            <Step num={3} delay={52} title="Escreva 4 sections">
-              <b>Trigger</b> · <b>Steps</b> · <b>Padrões</b> · <b>Definition of Done</b>
+            <Step num={3} delay={52} title={t.steps[2].title}>
+              {t.steps[2].body[0]}
             </Step>
-            <Step num={4} delay={68} title="Referencie no README">
-              Adicione a linha em <code style={{ color: theme.colors.accent2 }}>.skills/README.md</code>.
+            <Step num={4} delay={68} title={t.steps[3].title}>
+              {t.steps[3].body[0]}
             </Step>
           </div>
 
@@ -60,17 +60,9 @@ export const CreateYourOwn: React.FC = () => {
             <Terminal
               delay={26}
               width="100%"
-              title="bash — criando skill nova"
+              title={t.terminal.title}
               charsPerFrame={2.6}
-              lines={[
-                { type: "prompt", text: "cp -R .skills/_template .skills/db-migration" },
-                { type: "ok", text: "skill esqueleto criada" },
-                { type: "prompt", text: "$EDITOR .skills/db-migration/SKILL.md" },
-                { type: "out", text: "# editando frontmatter + sections..." },
-                { type: "prompt", text: "git add .skills/db-migration/" },
-                { type: "prompt", text: 'git commit -m "feat(skills): add db-migration"' },
-                { type: "ok", text: "skill pronta — agente já pode invocar" },
-              ]}
+              lines={t.terminal.lines as Array<{ type: "prompt" | "out" | "ok" | "err"; text: string }>}
             />
           </div>
         </div>
@@ -87,7 +79,7 @@ export const CreateYourOwn: React.FC = () => {
         >
           <CodeBlock
             delay={90}
-            title="SKILL.md (frontmatter mínimo)"
+            title={t.codeTitle}
             fontSize={22}
             width="100%"
             lines={[
@@ -100,10 +92,7 @@ export const CreateYourOwn: React.FC = () => {
               [
                 { text: "description", color: c.keyword },
                 { text: ": " },
-                {
-                  text: "criar migrations reversíveis com naming consistente",
-                  color: c.string,
-                },
+                { text: t.codeDescription, color: c.string },
               ],
               [{ text: "---", color: c.comment }],
             ]}

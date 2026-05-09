@@ -8,24 +8,43 @@ import {
 } from "remotion";
 import { BackgroundFX } from "../components/BackgroundFX";
 import { AnimatedText } from "../components/AnimatedText";
+import { useT } from "../LangContext";
 import { theme } from "../theme";
 
-const TYPES = [
-  { type: "feat", color: theme.colors.green, desc: "nova feature" },
-  { type: "fix", color: theme.colors.red, desc: "correção de bug" },
-  { type: "docs", color: "#60a5fa", desc: "documentação" },
-  { type: "refactor", color: theme.colors.accent, desc: "reestruturação" },
-  { type: "perf", color: theme.colors.yellow, desc: "performance" },
-  { type: "test", color: theme.colors.accent2, desc: "testes" },
-  { type: "build", color: "#fb923c", desc: "build / deps" },
-  { type: "ci", color: "#a3e635", desc: "pipeline" },
-  { type: "chore", color: theme.colors.textMuted, desc: "manutenção" },
-  { type: "style", color: theme.colors.accent3, desc: "formatação" },
+const TYPE_COLORS: Record<string, string> = {
+  feat: theme.colors.green,
+  fix: theme.colors.red,
+  docs: "#60a5fa",
+  refactor: theme.colors.accent,
+  perf: theme.colors.yellow,
+  test: theme.colors.accent2,
+  build: "#fb923c",
+  ci: "#a3e635",
+  chore: theme.colors.textMuted,
+  style: theme.colors.accent3,
+};
+const TYPE_ORDER = [
+  "feat",
+  "fix",
+  "docs",
+  "refactor",
+  "perf",
+  "test",
+  "build",
+  "ci",
+  "chore",
+  "style",
 ];
 
 export const CommitsSkill: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const t = useT().commits;
+  const TYPES = TYPE_ORDER.map((type) => ({
+    type,
+    color: TYPE_COLORS[type],
+    desc: t.typeDescs[type],
+  }));
 
   return (
     <AbsoluteFill>
@@ -57,7 +76,7 @@ export const CommitsSkill: React.FC = () => {
                 textTransform: "uppercase",
               }}
             >
-              04 · Skill #2
+              {t.overline}
             </div>
             <AnimatedText text="conventional-commits" size={70} align="left" font="mono" gradient />
           </div>
@@ -180,7 +199,7 @@ export const CommitsSkill: React.FC = () => {
                 marginBottom: 4,
               }}
             >
-              Breaking change?
+              {t.breakingTitle}
             </div>
             <div
               style={{
@@ -202,8 +221,9 @@ export const CommitsSkill: React.FC = () => {
                 marginTop: 4,
               }}
             >
-              ou footer:{" "}
-              <span style={{ color: theme.colors.red }}>BREAKING CHANGE:</span> &lt;impacto&gt;
+              {t.breakingFooter}
+              <span style={{ color: theme.colors.red }}>BREAKING CHANGE:</span>{" "}
+              &lt;{t.breakingFooterImpact.replace(/[<>]/g, "")}&gt;
             </div>
           </div>
         </div>
@@ -217,7 +237,7 @@ export const CommitsSkill: React.FC = () => {
             opacity: spring({ frame: frame - 110, fps, config: { damping: 16, stiffness: 110 } }),
           }}
         >
-          ⚙️ habilita changelog automático + version bump por <b style={{ color: theme.colors.text }}>SemVer</b>
+          {t.semverNote[0]}<b style={{ color: theme.colors.text }}>{t.semverNote[1]}</b>
         </div>
       </AbsoluteFill>
     </AbsoluteFill>

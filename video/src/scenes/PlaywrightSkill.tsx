@@ -9,11 +9,13 @@ import {
 import { BackgroundFX } from "../components/BackgroundFX";
 import { AnimatedText } from "../components/AnimatedText";
 import { CodeBlock, c } from "../components/CodeBlock";
+import { useT } from "../LangContext";
 import { theme } from "../theme";
 
 export const PlaywrightSkill: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const t = useT().playwright;
 
   const evidenceP = spring({
     frame: frame - 70,
@@ -51,7 +53,7 @@ export const PlaywrightSkill: React.FC = () => {
                 textTransform: "uppercase",
               }}
             >
-              03 · Skill #1
+              {t.overline}
             </div>
             <AnimatedText text="playwright-e2e" size={70} align="left" font="mono" gradient />
           </div>
@@ -59,17 +61,22 @@ export const PlaywrightSkill: React.FC = () => {
 
         <div style={{ display: "flex", gap: 28, flex: 1 }}>
           <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 18 }}>
-            <Box delay={20} title="Trigger" color={theme.colors.accent2}>
-              Ativa em <b>TODA task técnica</b> — feature, fix, refactor — antes do commit. Smoke test mínimo se a task não tem UI.
+            <Box delay={20} title={t.triggerLabel} color={theme.colors.accent2}>
+              {t.triggerBody[0]}
+              <b>{t.triggerBody[1]}</b>
+              {t.triggerBody[2]}
             </Box>
-            <Box delay={36} title="Hard rule" color={theme.colors.red}>
-              Sem evidência completa <b>não tem merge</b>: trace + screenshot + video em
-              <code style={{ color: theme.colors.accent2 }}> playwright-report/</code>.
+            <Box delay={36} title={t.hardRuleLabel} color={theme.colors.red}>
+              {t.hardRuleBody[0]}
+              <b>{t.hardRuleBody[1]}</b>
+              {t.hardRuleBody[2]}
+              <code style={{ color: theme.colors.accent2 }}>{t.hardRuleBody[3]}</code>
+              {t.hardRuleBody[4]}
             </Box>
-            <Box delay={52} title="Padrões-chave" color={theme.colors.accent3}>
-              <span style={{ color: theme.colors.green }}>✓</span> getByRole / getByLabel / getByTestId
+            <Box delay={52} title={t.patternsLabel} color={theme.colors.accent3}>
+              <span style={{ color: theme.colors.green }}>✓</span> {t.patternsGoodBody}
               <br />
-              <span style={{ color: theme.colors.red }}>✗</span> waitForTimeout / mock pra fazer passar
+              <span style={{ color: theme.colors.red }}>✗</span> {t.patternsBadBody}
             </Box>
           </div>
 
@@ -130,7 +137,7 @@ export const PlaywrightSkill: React.FC = () => {
                 "",
                 [
                   { text: "    " },
-                  { text: "// estado final (auto-retry)", color: c.comment },
+                  { text: t.codeComment, color: c.comment },
                 ],
                 [
                   { text: "    " },
@@ -167,10 +174,10 @@ export const PlaywrightSkill: React.FC = () => {
           }}
         >
           {[
-            { icon: "🎬", label: "trace.zip" },
-            { icon: "📸", label: "screenshot.png" },
-            { icon: "🎥", label: "video.webm" },
-            { icon: "📊", label: "report HTML" },
+            { icon: "🎬", label: t.evidenceLabels[0] },
+            { icon: "📸", label: t.evidenceLabels[1] },
+            { icon: "🎥", label: t.evidenceLabels[2] },
+            { icon: "📊", label: t.evidenceLabels[3] },
           ].map((e, i) => (
             <div
               key={e.label}

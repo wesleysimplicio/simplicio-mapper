@@ -8,20 +8,20 @@ import {
 } from "remotion";
 import { BackgroundFX } from "../components/BackgroundFX";
 import { AnimatedText } from "../components/AnimatedText";
+import { useT } from "../LangContext";
 import { theme } from "../theme";
 
-const TIPS = [
-  { icon: "📏", title: "Concisão", text: "30-100 linhas. Acima vira doc — move pra .specs/." },
-  { icon: "♻️", title: "Idempotente", text: "Rodar duas vezes = mesmo efeito. Não acumula estado." },
-  { icon: "🎯", title: "Single-responsibility", text: "Uma skill, uma responsabilidade. Vontade de juntar? Divida." },
-  { icon: "✍️", title: "Linguagem direta", text: "Verbo no imperativo. Sem floreio, sem rodeio." },
-  { icon: "✅", title: "DoD verificável", text: "Checklist booleano no fim — true/false, nunca subjetivo." },
-  { icon: "💡", title: "Exemplos concretos", text: "Code blocks com a stack real. Sem pseudocódigo." },
-];
+const TIP_ICONS = ["📏", "♻️", "🎯", "✍️", "✅", "💡"];
 
 export const BestPractices: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const t = useT().bestPractices;
+  const TIPS = t.tips.map((tip, i) => ({
+    icon: TIP_ICONS[i],
+    title: tip.title,
+    text: tip.body,
+  }));
 
   return (
     <AbsoluteFill>
@@ -38,9 +38,9 @@ export const BestPractices: React.FC = () => {
               textTransform: "uppercase",
             }}
           >
-            07 — Boas práticas
+            {t.overline}
           </div>
-          <AnimatedText text="Skills que envelhecem bem" size={78} align="left" gradient />
+          <AnimatedText text={t.title} size={78} align="left" gradient />
         </div>
 
         <div
@@ -51,7 +51,7 @@ export const BestPractices: React.FC = () => {
             flex: 1,
           }}
         >
-          {TIPS.map((t, i) => {
+          {TIPS.map((tip, i) => {
             const p = spring({
               frame: frame - 25 - i * 7,
               fps,
@@ -59,7 +59,7 @@ export const BestPractices: React.FC = () => {
             });
             return (
               <div
-                key={t.title}
+                key={tip.title}
                 style={{
                   padding: 28,
                   borderRadius: 22,
@@ -75,7 +75,7 @@ export const BestPractices: React.FC = () => {
                   gap: 10,
                 }}
               >
-                <div style={{ fontSize: 50 }}>{t.icon}</div>
+                <div style={{ fontSize: 50 }}>{tip.icon}</div>
                 <div
                   style={{
                     fontFamily: theme.fonts.heading,
@@ -84,7 +84,7 @@ export const BestPractices: React.FC = () => {
                     color: theme.colors.text,
                   }}
                 >
-                  {t.title}
+                  {tip.title}
                 </div>
                 <div
                   style={{
@@ -94,7 +94,7 @@ export const BestPractices: React.FC = () => {
                     lineHeight: 1.4,
                   }}
                 >
-                  {t.text}
+                  {tip.text}
                 </div>
               </div>
             );
@@ -131,7 +131,7 @@ export const BestPractices: React.FC = () => {
                 letterSpacing: 2,
               }}
             >
-              Não crie skill para
+              {t.notForLabel}
             </div>
             <div
               style={{
@@ -141,8 +141,13 @@ export const BestPractices: React.FC = () => {
                 lineHeight: 1.4,
               }}
             >
-              algo que aparece <b>uma única vez</b> · convenção <b>universal</b> (vai pra global) ·
-              conhecimento <b>genérico de stack</b>
+              {t.notForBody[0]}
+              <b>{t.notForBody[1]}</b>
+              {t.notForBody[2]}
+              <b>{t.notForBody[3]}</b>
+              {t.notForBody[4]}
+              <b>{t.notForBody[5]}</b>
+              {t.notForBody[6] ?? ""}
             </div>
           </div>
         </div>

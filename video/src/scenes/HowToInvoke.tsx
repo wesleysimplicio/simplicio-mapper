@@ -9,11 +9,13 @@ import {
 import { BackgroundFX } from "../components/BackgroundFX";
 import { AnimatedText } from "../components/AnimatedText";
 import { Terminal } from "../components/Terminal";
+import { useT } from "../LangContext";
 import { theme } from "../theme";
 
 export const HowToInvoke: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const t = useT().howToInvoke;
 
   return (
     <AbsoluteFill>
@@ -30,9 +32,9 @@ export const HowToInvoke: React.FC = () => {
               textTransform: "uppercase",
             }}
           >
-            05 — Como invocar
+            {t.overline}
           </div>
-          <AnimatedText text="Dois jeitos de ativar uma skill" size={70} align="left" gradient />
+          <AnimatedText text={t.title} size={70} align="left" gradient />
         </div>
 
         <div style={{ display: "flex", gap: 32, flex: 1 }}>
@@ -41,8 +43,9 @@ export const HowToInvoke: React.FC = () => {
             <ModeHeader
               num="01"
               icon="🎯"
-              title="Trigger explícito"
-              subtitle="você cita a skill pelo nome"
+              title={t.mode[0]}
+              badge={t.modeBadge[0]}
+              subtitle={t.modeSubtitle[0]}
               color={theme.colors.accent2}
               delay={20}
             />
@@ -52,13 +55,10 @@ export const HowToInvoke: React.FC = () => {
               title="claude code"
               charsPerFrame={2.0}
               lines={[
-                {
-                  type: "prompt",
-                  text: '$playwright-e2e — escreve teste para o fluxo de checkout',
-                },
-                { type: "out", text: "→ carregando .skills/playwright-e2e/SKILL.md" },
-                { type: "ok", text: "skill ativa: seguindo Steps 1..10" },
-                { type: "out", text: "→ criando tests/e2e/checkout.spec.ts" },
+                { type: "prompt", text: t.explicit.prompt },
+                { type: "out", text: t.explicit.load },
+                { type: "ok", text: t.explicit.ok },
+                { type: "out", text: t.explicit.create },
               ]}
             />
           </div>
@@ -68,8 +68,9 @@ export const HowToInvoke: React.FC = () => {
             <ModeHeader
               num="02"
               icon="🧠"
-              title="Trigger implícito"
-              subtitle="match por description no frontmatter"
+              title={t.mode[1]}
+              badge={t.modeBadge[1]}
+              subtitle={t.modeSubtitle[1]}
               color={theme.colors.accent3}
               delay={28}
             />
@@ -79,13 +80,10 @@ export const HowToInvoke: React.FC = () => {
               title="claude code"
               charsPerFrame={2.0}
               lines={[
-                { type: "prompt", text: 'faz commit dessas mudanças, por favor' },
-                {
-                  type: "out",
-                  text: "→ skill conventional-commits: description casa",
-                },
-                { type: "ok", text: "padrão aplicado: feat(skills): ..." },
-                { type: "out", text: "→ commit pronto pra push" },
+                { type: "prompt", text: t.implicit.prompt },
+                { type: "out", text: t.implicit.match },
+                { type: "ok", text: t.implicit.ok },
+                { type: "out", text: t.implicit.ready },
               ]}
             />
           </div>
@@ -117,9 +115,11 @@ export const HowToInvoke: React.FC = () => {
               lineHeight: 1.4,
             }}
           >
-            O <b style={{ color: theme.colors.yellow }}>description</b> é o que mais
-            importa: escreva como uma <i>query</i> imaginando como o pedido aparecerá
-            depois.
+            {t.hintBody[0]}
+            <b style={{ color: theme.colors.yellow }}>{t.hintBody[1]}</b>
+            {t.hintBody[2]}
+            <i>{t.hintBody[3]}</i>
+            {t.hintBody[4]}
           </div>
         </div>
       </AbsoluteFill>
@@ -131,10 +131,11 @@ const ModeHeader: React.FC<{
   num: string;
   icon: string;
   title: string;
+  badge: string;
   subtitle: string;
   color: string;
   delay: number;
-}> = ({ num, icon, title, subtitle, color, delay }) => {
+}> = ({ icon, title, badge, subtitle, color, delay }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const p = spring({ frame: frame - delay, fps, config: { damping: 14, stiffness: 100 } });
@@ -172,7 +173,7 @@ const ModeHeader: React.FC<{
             letterSpacing: 3,
           }}
         >
-          MODO {num}
+          {badge}
         </div>
         <div
           style={{
