@@ -14,6 +14,21 @@ Este arquivo dá ao agent **tudo que ele precisa saber pra entregar uma task** s
 
 ---
 
+## Localização de Projetos (CHECK OBRIGATÓRIO no início de toda task)
+
+Antes de qualquer análise, o agent **DEVE** rodar:
+
+```bash
+ls projects/
+```
+
+- **`projects/` vazia (só `.gitkeep`)** -> o projeto a analisar é a **raiz do repo**. Single-project mode.
+- **`projects/` tem subpastas** -> cada subpasta é um projeto independente. Monorepo mode. Raiz vira workspace (config/docs/shared apenas).
+
+Regra fixa, sem ambiguidade. Detalhes: [`projects/README.md`](./projects/README.md).
+
+---
+
 ## Stack
 
 `<STACK>` (placeholder — substitui pela stack real do projeto, ex: `Node.js 20 + TypeScript + Next.js 14 + Playwright + Vitest`).
