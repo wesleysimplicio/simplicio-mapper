@@ -83,6 +83,19 @@ Por isso, **o `description` é a coisa mais importante do frontmatter**. Escreva
 | [`_template/`](./_template/SKILL.md) | Template base para criar novas skills |
 | [`playwright-e2e/`](./playwright-e2e/SKILL.md) | Escrever ou atualizar testes E2E com Playwright |
 | [`conventional-commits/`](./conventional-commits/SKILL.md) | Padronizar mensagens de commit |
+| [`ralph-loop/`](./ralph-loop/SKILL.md) | **Always-on.** Loop autônomo read→plan→execute→lint→unit→e2e→fix→repeat até DoD verde |
+| [`caveman/`](./caveman/SKILL.md) | **Always-on.** Modo terse de resposta para economizar tokens (~65% saída) |
+| [`everything-claude-code/`](./everything-claude-code/SKILL.md) | **Always-on.** Catálogo + protocolo de uso da suite ECC (60 agents, 221 skills) em paralelo |
+
+### Skills always-on (padrão do projeto)
+
+Três skills são **ativadas automaticamente em toda sessão** via `.claude/settings.json` SessionStart hook:
+
+- `caveman` — economiza tokens sem perder substância técnica
+- `ralph-loop` — loop até DoD verde em toda task técnica
+- `everything-claude-code` — máximo de agents em paralelo a cada alteração
+
+Não precisam de invocação explícita. Para desativar pontualmente: `stop caveman` / `normal mode` (caveman); explicitar "sem ralph" no pedido (ralph-loop).
 
 ---
 

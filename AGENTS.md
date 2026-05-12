@@ -144,6 +144,16 @@ Lista negra. Nada aqui é negociável.
 
 Skills moram em `.skills/<nome>/SKILL.md` e são capacidades reutilizáveis que o agent invoca quando o trigger casa. Lista atual:
 
+### Always-on (padrão obrigatório do projeto)
+
+Estas três skills são **ativadas automaticamente em toda sessão** (via `.claude/settings.json` SessionStart hook) e não devem ser ignoradas:
+
+- **`caveman`** — modo terse de resposta. Economiza ~65% tokens de output sem perder substância técnica. Default level: `full`. Boundaries: código, commits, PRs e docs canônicos permanecem em prosa normal. Desativa via `stop caveman` / `normal mode`.
+- **`ralph-loop`** — loop autônomo `read → plan → execute → lint → unit → e2e → fix → repeat` até DoD verde. Obrigatório em TODA task técnica com AC mensurável. Dual exit gate: indicadores verdes + `EXIT_SIGNAL: true`.
+- **`everything-claude-code`** — bundle de ~60 agents + ~221 skills. Padrão: usar o **máximo de agents ECC em paralelo** a cada alteração (single message, múltiplas Agent calls). Reviewers da stack + `security-reviewer` obrigatórios após edits.
+
+### Sob demanda
+
 - **`playwright-e2e`** — como escrever teste Playwright neste projeto. Trigger: nova feature de UI ou fluxo end-to-end. Cobre fixtures, page objects, evidências (trace/screenshot/video) e padrões de assert.
 - **`conventional-commits`** — regras de commit (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `perf:`, `style:`, `ci:`, `build:`). Trigger: hora de commitar. Inclui exemplos, breaking changes (`!`/`BREAKING CHANGE:`) e scope.
 - **`_template`** — base pra criar skill nova. Copia, renomeia pasta, preenche frontmatter (`name`, `description`, `trigger`, `steps`, `dod`).
