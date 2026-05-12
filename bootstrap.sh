@@ -430,9 +430,12 @@ INIT_PROMPT='Read INIT.md and execute it. Do NOT modify any user source files (.
 
 declare -a CLI_OPTS=(
   "claude|Claude Code|claude"
-  "codex|Codex CLI|codex"
+  "codex|Codex CLI (OpenAI)|codex"
+  "cursor|Cursor (cursor-agent, Cursor 3.0+)|cursor-agent"
+  "vscode|VS Code Agent Mode (paste into Chat)|code"
+  "windsurf|Windsurf / Cascade (Codeium)|windsurf"
+  "kiro|Kiro (AWS, paste into Chat)|kiro"
   "copilot|GitHub Copilot CLI (chat — no agent loop)|gh"
-  "cursor|Cursor Agent (cursor-agent)|cursor-agent"
   "deepseek|Deepseek (via aider --model deepseek/deepseek-coder)|aider"
   "kimi|Kimi K2.6 (via aider --model openrouter/moonshotai/kimi-k2)|aider"
   "minimax|MiniMax M2.7 (via aider --model openrouter/minimax/minimax-text-01)|aider"
@@ -466,10 +469,11 @@ choose_cli() {
     echo ""
   } >&2
 
-  read -r -p "Number [13]: " idx
-  idx="${idx:-13}"
+  local default_idx="${#CLI_OPTS[@]}"   # last option = "skip"
+  read -r -p "Number [$default_idx]: " idx
+  idx="${idx:-$default_idx}"
   if ! [[ "$idx" =~ ^[0-9]+$ ]] || (( idx < 1 || idx > ${#CLI_OPTS[@]} )); then
-    idx=13
+    idx="$default_idx"
   fi
   IFS='|' read -r key _ _ <<< "${CLI_OPTS[$((idx-1))]}"
   echo "$key"
@@ -522,6 +526,46 @@ case "$CLI_CHOICE" in
   cursor)
     command -v cursor-agent >/dev/null 2>&1 || { echo "Cursor Agent CLI not installed (Cursor 3.0+)."; exit 1; }
     exec cursor-agent "$INIT_PROMPT"
+    ;;
+  vscode)
+    copy_to_clipboard "$INIT_PROMPT" && echo "Prompt copied to clipboard." || echo "(clipboard unavailable — copy manually below)"
+    echo ""
+    echo "VS Code Agent Mode runs in-IDE (no autonomous CLI loop)."
+    echo "1) Open this folder in VS Code."
+    echo "2) Open Chat (Cmd+Ctrl+I / Ctrl+Alt+I)."
+    echo "3) Switch mode to 'Agent'."
+    echo "4) Paste the prompt:"
+    echo ""
+    echo "  $INIT_PROMPT"
+    echo ""
+    if command -v code >/dev/null 2>&1; then
+      code . >/dev/null 2>&1 || true
+    fi
+    ;;
+  windsurf)
+    copy_to_clipboard "$INIT_PROMPT" && echo "Prompt copied to clipboard." || echo "(clipboard unavailable — copy manually below)"
+    echo ""
+    echo "Windsurf Cascade runs in-IDE."
+    echo "1) Open this folder in Windsurf."
+    echo "2) Open Cascade panel."
+    echo "3) Switch to Write mode."
+    echo "4) Paste the prompt."
+    echo ""
+    if command -v windsurf >/dev/null 2>&1; then
+      windsurf . >/dev/null 2>&1 || true
+    fi
+    ;;
+  kiro)
+    copy_to_clipboard "$INIT_PROMPT" && echo "Prompt copied to clipboard." || echo "(clipboard unavailable — copy manually below)"
+    echo ""
+    echo "Kiro runs in-IDE."
+    echo "1) Open this folder in Kiro."
+    echo "2) Open Chat panel."
+    echo "3) Paste the prompt and run in Agent mode."
+    echo ""
+    if command -v kiro >/dev/null 2>&1; then
+      kiro . >/dev/null 2>&1 || true
+    fi
     ;;
   deepseek)
     command -v aider >/dev/null 2>&1 || { echo "aider not installed: pipx install aider-chat"; exit 1; }
