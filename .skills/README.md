@@ -95,7 +95,7 @@ Três skills são **ativadas automaticamente em toda sessão** via `.claude/sett
 - `ralph-loop` — loop até DoD verde em toda task técnica
 - `everything-claude-code` — máximo de agents em paralelo a cada alteração
 
-Não precisam de invocação explícita. Para desativar pontualmente: `stop caveman` / `normal mode` (caveman); explicitar "sem ralph" no pedido (ralph-loop).
+Não precisam de invocação explícita. Neste README, skills marcadas como **always-on** devem ser tratadas como obrigatórias durante a sessão, sem opt-out local documentado nesta seção.
 
 ---
 
