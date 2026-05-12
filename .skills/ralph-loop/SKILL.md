@@ -59,7 +59,7 @@ NÃO ativa pra: pergunta one-off, lookup, exploração read-only, decisão arqui
 - **Uma task por loop** — foca no item de maior prioridade. Não acumula escopo.
 - **Search before assume** — `Explore` agent antes de declarar "não existe".
 - **Subagents pra trabalho independente** — disparar 3-5+ paralelo (research, read, review).
-- **Testes limitados a ~20% do esforço por loop** — prioridade: implementação > docs > testes. Não escrever teste pra código não-implementado-nesta-loop.
+- **Testes proporcionais ao risco e ao DoD** — escrever os testes mínimos necessários para validar a mudança, cobrir regressão e cumprir unit + E2E + coverage diff exigidos pelo loop/DoD. Não impor quota fixa de esforço. Não escrever teste pra comportamento ainda não implementado nesta loop.
 - **Files protegidos**: `.specs/sprints/*/SPRINT.md` em curso, `.claude/settings.json` (só via `update-config`), `AGENTS.md`/`CLAUDE.md` (só com aprovação).
 - **Stack-aware**: identifica linguagem → carrega `*-patterns` + `*-security` + `*-testing` da stack ANTES de codar.
 - **Reviewer agents obrigatório** após edits: `*-reviewer` da stack + `security-reviewer` se toca auth/input/segredo.
