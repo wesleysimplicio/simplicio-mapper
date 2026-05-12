@@ -1,21 +1,32 @@
 #!/usr/bin/env bash
 # bootstrap.sh — Agentic Starter installer/upgrader.
 #
+# Philosophy: zero questions about the project itself. The agent reads code
+# and infers domain, personas, vision, team. The only human input is operational
+# (gitignore append y/N, which CLI to hand off to).
+#
 # What it does:
-#   1. Auto-detects PRODUCT_NAME (cwd basename), DOMAIN ("generico"), TEAM ("Plataforma"),
-#      STACK (Node, .NET, Python, Go, Rust, Flutter, PHP, Ruby, Kotlin, Java, Elixir).
-#      The agent (INIT.md) refines TEAM/DOMAIN with the human afterwards.
-#   2. Asks only TWO questions:
+#   1. Auto-detects PRODUCT_NAME from (in order):
+#        package.json "name", angular.json "projects" key, *.csproj filename,
+#        pyproject.toml [project].name, Cargo.toml [package].name,
+#        pubspec.yaml "name", composer.json "name", go.mod module,
+#        projects/<single-subfolder> name, or cwd basename.
+#      Auto-detects STACK (Node, .NET, Python, Go, Rust, Flutter, PHP, Ruby,
+#      Kotlin, Java, Elixir, Angular).
+#      Auto-detects PROJECT_MODE via projects/ folder:
+#        - projects/ missing or empty (only .gitkeep) -> "root"  (single project at repo root)
+#        - projects/ has subfolders                   -> "monorepo" (each subfolder = project)
+#   2. Asks ONLY TWO operational questions:
 #      - Append our recommended ignore entries to .gitignore? (y/N)
 #      - Which CLI/LLM should run INIT.md?
-#   3. Substitutes <PRODUCT_NAME>/<TEAM>/<DOMAIN>/<STACK> ONLY inside starter-managed
-#      paths (.specs/, .agents/, .skills/, .claude/, .codex/, .github/copilot*,
-#      .github/workflows/{ci,dod}.yml, plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md
-#      ONLY if those root files contain a placeholder).
-#   4. NEVER overwrites/modifies pre-existing user files (.razor, .cs, .ts, .py,
-#      package.json, README.md, AGENTS.md, CLAUDE.md, INIT.md, .gitignore, etc).
-#      Existing instruction files are flagged in .starter-meta.json so INIT.md
-#      can read them and improve in place (essence preserved).
+#      NEVER asks about team, domain, vision, personas, product purpose.
+#      The agent infers those from the codebase via INIT.md.
+#   3. Substitutes <PRODUCT_NAME>/<STACK> ONLY inside starter-managed paths.
+#      (<TEAM>/<DOMAIN> placeholders are no longer populated by bootstrap;
+#      INIT.md infers and writes them via the agent.)
+#   4. NEVER overwrites/modifies pre-existing user files. Existing instruction
+#      files are flagged in .starter-meta.json so INIT.md can read and improve
+#      in place (essence preserved).
 #   5. Hands off to the chosen CLI to execute INIT.md.
 #
 # Usage interactive:
@@ -38,7 +49,7 @@ while [[ $# -gt 0 ]]; do
     -y|--yes)              NON_INTERACTIVE=1; shift ;;
     --cli)                 CLI_PRESET="$2"; shift 2 ;;
     --append-gitignore)    APPEND_GITIGNORE_PRESET="$2"; shift 2 ;;  # yes|no
-    -h|--help)             sed -n '2,28p' "$0"; exit 0 ;;
+    -h|--help)             sed -n '2,33p' "$0"; exit 0 ;;
     *) echo "Unknown flag: $1" >&2; exit 1 ;;
   esac
 done
@@ -46,53 +57,155 @@ done
 # ---------------------------------------------------------------------------
 # auto-detect stack
 # ---------------------------------------------------------------------------
-detect_stack() {
-  if [[ -f package.json ]]; then
-    if   grep -q '"next"'                package.json; then echo "next-ts"
-    elif grep -q '"react"'               package.json; then echo "react-ts"
-    elif grep -q '"vue"'                 package.json; then echo "vue-ts"
-    elif grep -q '"@nestjs/core"\|"nestjs"' package.json; then echo "nestjs"
-    elif grep -q '"express"'             package.json; then echo "node-express"
+detect_stack_in() {
+  local d="${1:-.}"
+  if [[ -f "$d/angular.json" ]]; then echo "angular"; return; fi
+  if [[ -f "$d/package.json" ]]; then
+    if   grep -q '"next"'                "$d/package.json"; then echo "next-ts"
+    elif grep -q '"@angular/core"'       "$d/package.json"; then echo "angular"
+    elif grep -q '"react"'               "$d/package.json"; then echo "react-ts"
+    elif grep -q '"vue"'                 "$d/package.json"; then echo "vue-ts"
+    elif grep -q '"@nestjs/core"\|"nestjs"' "$d/package.json"; then echo "nestjs"
+    elif grep -q '"express"'             "$d/package.json"; then echo "node-express"
     else echo "node-ts"
     fi
-  elif compgen -G "*.csproj" >/dev/null 2>&1; then echo "dotnet"
-  elif compgen -G "*.sln"    >/dev/null 2>&1; then echo "dotnet"
-  elif [[ -f pyproject.toml || -f requirements.txt ]]; then
-    if   grep -qi 'django'  pyproject.toml requirements.txt 2>/dev/null; then echo "python-django"
-    elif grep -qi 'fastapi' pyproject.toml requirements.txt 2>/dev/null; then echo "python-fastapi"
-    elif grep -qi 'flask'   pyproject.toml requirements.txt 2>/dev/null; then echo "python-flask"
+    return
+  fi
+  if compgen -G "$d/*.csproj" >/dev/null 2>&1 || compgen -G "$d/*.sln" >/dev/null 2>&1; then echo "dotnet"; return; fi
+  if [[ -f "$d/pyproject.toml" || -f "$d/requirements.txt" ]]; then
+    if   grep -qi 'django'  "$d/pyproject.toml" "$d/requirements.txt" 2>/dev/null; then echo "python-django"
+    elif grep -qi 'fastapi' "$d/pyproject.toml" "$d/requirements.txt" 2>/dev/null; then echo "python-fastapi"
+    elif grep -qi 'flask'   "$d/pyproject.toml" "$d/requirements.txt" 2>/dev/null; then echo "python-flask"
     else echo "python"
     fi
-  elif [[ -f go.mod ]];        then echo "go"
-  elif [[ -f Cargo.toml ]];    then echo "rust"
-  elif [[ -f pubspec.yaml ]];  then echo "flutter"
-  elif [[ -f composer.json ]]; then
-    if grep -q 'laravel/framework' composer.json; then echo "laravel"
-    else echo "php"
-    fi
-  elif [[ -f Gemfile ]];          then echo "ruby"
-  elif [[ -f mix.exs ]];          then echo "elixir"
-  elif [[ -f build.gradle.kts ]]; then echo "kotlin-gradle"
-  elif [[ -f build.gradle ]];     then echo "java-gradle"
-  elif [[ -f pom.xml ]];          then echo "java-maven"
-  else echo "unknown"
+    return
+  fi
+  [[ -f "$d/go.mod" ]]        && { echo "go"; return; }
+  [[ -f "$d/Cargo.toml" ]]    && { echo "rust"; return; }
+  [[ -f "$d/pubspec.yaml" ]]  && { echo "flutter"; return; }
+  if [[ -f "$d/composer.json" ]]; then
+    if grep -q 'laravel/framework' "$d/composer.json"; then echo "laravel"; else echo "php"; fi
+    return
+  fi
+  [[ -f "$d/Gemfile" ]]          && { echo "ruby"; return; }
+  [[ -f "$d/mix.exs" ]]          && { echo "elixir"; return; }
+  [[ -f "$d/build.gradle.kts" ]] && { echo "kotlin-gradle"; return; }
+  [[ -f "$d/build.gradle" ]]     && { echo "java-gradle"; return; }
+  [[ -f "$d/pom.xml" ]]          && { echo "java-maven"; return; }
+  echo "unknown"
+}
+
+# ---------------------------------------------------------------------------
+# auto-detect product name from manifest files (no human input)
+# ---------------------------------------------------------------------------
+read_json_field() {
+  local file="$1" field="$2"
+  [[ -f "$file" ]] || return 1
+  grep -m1 "\"$field\"[[:space:]]*:" "$file" 2>/dev/null \
+    | sed -E "s/.*\"$field\"[[:space:]]*:[[:space:]]*\"([^\"]+)\".*/\1/" \
+    | head -1
+}
+
+read_toml_field() {
+  local file="$1" field="$2"
+  [[ -f "$file" ]] || return 1
+  grep -m1 "^[[:space:]]*$field[[:space:]]*=" "$file" 2>/dev/null \
+    | sed -E "s/^[[:space:]]*$field[[:space:]]*=[[:space:]]*\"([^\"]+)\".*/\1/" \
+    | head -1
+}
+
+read_yaml_field() {
+  local file="$1" field="$2"
+  [[ -f "$file" ]] || return 1
+  grep -m1 "^[[:space:]]*$field[[:space:]]*:" "$file" 2>/dev/null \
+    | sed -E "s/^[[:space:]]*$field[[:space:]]*:[[:space:]]*\"?([^\"#[:space:]]+)\"?.*/\1/" \
+    | head -1
+}
+
+detect_product_name_in() {
+  local d="${1:-.}" name=""
+
+  name="$(read_json_field "$d/package.json" "name" || true)"
+  [[ -n "$name" ]] && { echo "$name"; return; }
+
+  if [[ -f "$d/angular.json" ]]; then
+    name="$(grep -A1 '"projects"[[:space:]]*:' "$d/angular.json" 2>/dev/null \
+      | grep -oE '"[A-Za-z0-9_-]+"' | head -1 | tr -d '"')"
+    [[ -n "$name" && "$name" != "projects" ]] && { echo "$name"; return; }
+  fi
+
+  if compgen -G "$d/*.csproj" >/dev/null 2>&1; then
+    name="$(basename "$(ls -1 "$d"/*.csproj | head -1)" .csproj)"
+    [[ -n "$name" ]] && { echo "$name"; return; }
+  fi
+
+  name="$(read_toml_field "$d/pyproject.toml" "name" || true)"
+  [[ -n "$name" ]] && { echo "$name"; return; }
+
+  name="$(read_toml_field "$d/Cargo.toml" "name" || true)"
+  [[ -n "$name" ]] && { echo "$name"; return; }
+
+  name="$(read_yaml_field "$d/pubspec.yaml" "name" || true)"
+  [[ -n "$name" ]] && { echo "$name"; return; }
+
+  name="$(read_json_field "$d/composer.json" "name" || true)"
+  [[ -n "$name" ]] && { echo "${name##*/}"; return; }
+
+  if [[ -f "$d/go.mod" ]]; then
+    name="$(grep -m1 '^module ' "$d/go.mod" | awk '{print $2}' | awk -F/ '{print $NF}')"
+    [[ -n "$name" ]] && { echo "$name"; return; }
+  fi
+
+  if [[ "$d" == "." ]]; then
+    basename "$PWD"
+  else
+    basename "$d"
   fi
 }
 
-PRODUCT_NAME="$(basename "$PWD")"
-TEAM="Plataforma"
-DOMAIN="generico"
-STACK="$(detect_stack)"
+# ---------------------------------------------------------------------------
+# project mode (projects/ folder convention)
+# ---------------------------------------------------------------------------
+detect_project_mode() {
+  if [[ ! -d projects ]]; then
+    echo "root"; return
+  fi
+  if find projects -mindepth 1 -maxdepth 1 -type d ! -name ".*" | grep -q .; then
+    echo "monorepo"
+  else
+    echo "root"
+  fi
+}
+
+PROJECT_MODE="$(detect_project_mode)"
+
+PROJECTS_JSON="[]"
+if [[ "$PROJECT_MODE" == "monorepo" ]]; then
+  entries=()
+  while IFS= read -r dir; do
+    pn="$(detect_product_name_in "$dir")"
+    st="$(detect_stack_in "$dir")"
+    entries+=("{\"name\":\"$pn\",\"path\":\"$dir\",\"stack\":\"$st\"}")
+  done < <(find projects -mindepth 1 -maxdepth 1 -type d ! -name ".*" | sort)
+  PROJECTS_JSON="[$(IFS=,; echo "${entries[*]}")]"
+  PRODUCT_NAME="$(basename "$PWD")"
+  STACK="monorepo"
+else
+  PRODUCT_NAME="$(detect_product_name_in .)"
+  STACK="$(detect_stack_in .)"
+fi
 
 echo "=========================================="
 echo "  Agentic Starter - Bootstrap"
 echo "=========================================="
 echo ""
-echo "Auto-detected (INIT.md will refine TEAM/DOMAIN with you):"
+echo "Auto-detected (agent will infer team/domain/personas/vision from code):"
+echo "  PROJECT_MODE: $PROJECT_MODE"
 echo "  PRODUCT_NAME: $PRODUCT_NAME"
-echo "  TEAM:         $TEAM"
-echo "  DOMAIN:       $DOMAIN"
 echo "  STACK:        $STACK"
+if [[ "$PROJECT_MODE" == "monorepo" ]]; then
+  echo "  PROJECTS:     $PROJECTS_JSON"
+fi
 echo ""
 
 # ---------------------------------------------------------------------------
@@ -101,7 +214,6 @@ echo ""
 EXISTING_INSTRUCTION_FILES=()
 for f in AGENTS.md CLAUDE.md INIT.md .github/copilot-instructions.md; do
   if [[ -f "$f" ]]; then
-    # if it's clearly ours (contains template marker) skip; else flag
     if ! grep -q 'Agentic Starter\|<PRODUCT_NAME>\|<STACK>' "$f" 2>/dev/null; then
       EXISTING_INSTRUCTION_FILES+=("$f")
     fi
@@ -118,10 +230,8 @@ if (( ${#EXISTING_INSTRUCTION_FILES[@]} > 0 )); then
 fi
 
 # ---------------------------------------------------------------------------
-# substitute placeholders ONLY in starter-managed paths
-#
-# Rule: if the file contains a <PRODUCT_NAME>/<STACK>/<TEAM>/<DOMAIN> placeholder,
-# it's a starter file -> substitute. Otherwise skip (it's user content).
+# substitute <PRODUCT_NAME>/<STACK> ONLY in starter-managed paths
+# <TEAM>/<DOMAIN> are left as-is for the agent to fill in.
 # ---------------------------------------------------------------------------
 STARTER_DIRS=(.specs .agents .skills .claude .codex)
 STARTER_GITHUB_PATTERNS=(
@@ -144,26 +254,22 @@ substitute_in_file() {
   local f="$1"
   [[ -f "$f" ]] || return 0
   grep -Iq . "$f" 2>/dev/null || return 0
-  grep -q '<PRODUCT_NAME>\|<TEAM>\|<DOMAIN>\|<STACK>' "$f" 2>/dev/null || return 0
+  grep -q '<PRODUCT_NAME>\|<STACK>' "$f" 2>/dev/null || return 0
   if sed --version >/dev/null 2>&1; then
     sed -i \
       -e "s|<PRODUCT_NAME>|$PRODUCT_NAME|g" \
-      -e "s|<TEAM>|$TEAM|g" \
-      -e "s|<DOMAIN>|$DOMAIN|g" \
       -e "s|<STACK>|$STACK|g" \
       "$f"
   else
     sed -i '' \
       -e "s|<PRODUCT_NAME>|$PRODUCT_NAME|g" \
-      -e "s|<TEAM>|$TEAM|g" \
-      -e "s|<DOMAIN>|$DOMAIN|g" \
       -e "s|<STACK>|$STACK|g" \
       "$f"
   fi
   TOUCHED=$((TOUCHED+1))
 }
 
-echo "Substituting placeholders inside starter-managed paths..."
+echo "Substituting <PRODUCT_NAME> / <STACK> inside starter-managed paths..."
 
 for dir in "${STARTER_DIRS[@]}"; do
   if [[ -d "$dir" ]]; then
@@ -299,13 +405,15 @@ fi
 cat > .starter-meta.json <<EOF
 {
   "product_name": "$PRODUCT_NAME",
-  "team": "$TEAM",
-  "domain": "$DOMAIN",
   "stack": "$STACK",
+  "project_mode": "$PROJECT_MODE",
+  "projects": $PROJECTS_JSON,
   "bootstrapped_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-  "starter_version": "0.2.0",
+  "starter_version": "0.3.0",
   "existing_instruction_files": $existing_files_json,
-  "init_must_ask": ["team", "domain", "vision_oneliner", "primary_personas"],
+  "init_must_ask": [],
+  "init_must_infer": ["team", "domain", "vision_oneliner", "personas_beyond_dev"],
+  "default_persona": "developer",
   "init_must_merge": $existing_files_json,
   "read_only_globs": ["**/*.razor", "**/*.cs", "**/*.csproj", "**/*.sln", "package.json", "pnpm-lock.yaml", "yarn.lock", "package-lock.json", "**/*.py", "**/*.go", "**/*.rs", "**/*.java", "**/*.kt", "**/*.dart", "**/*.php", "**/*.rb"]
 }
@@ -318,7 +426,7 @@ chmod +x .claude/hooks/*.sh 2>/dev/null || true
 # ---------------------------------------------------------------------------
 # choose CLI / LLM
 # ---------------------------------------------------------------------------
-INIT_PROMPT='Read INIT.md and execute it. Do NOT modify any user source files (.razor, .cs, .ts, .py, .go, .rs, package.json, etc). Only write inside .specs/, .agents/, .skills/, .claude/, .codex/, .github/copilot*, .github/workflows/dod.yml plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md. If AGENTS.md/CLAUDE.md/copilot-instructions.md already existed before bootstrap (see .starter-meta.json), READ them and IMPROVE in place — preserve their essence. Ask the human only the questions listed in .starter-meta.json -> init_must_ask (team, domain, vision oneliner, personas). Use parallel multi-agents.'
+INIT_PROMPT='Read INIT.md and execute it. Do NOT modify any user source files (.razor, .cs, .ts, .py, .go, .rs, package.json, etc). Only write inside .specs/, .agents/, .skills/, .claude/, .codex/, .github/copilot*, .github/workflows/dod.yml plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md. If AGENTS.md/CLAUDE.md/copilot-instructions.md already existed before bootstrap (see .starter-meta.json), READ them and IMPROVE in place — preserve their essence. DO NOT ask the human about team, domain, vision, personas, or product purpose: infer ALL of them by reading the codebase (README, package.json/angular.json/*.csproj/pyproject.toml/etc, entry points, routes, tests, env.example). Default persona is "developer"; additional personas must be derived from code (auth roles, route guards, UI flows, customer-facing copy). Honor projects/ convention: if .starter-meta.json.project_mode == "monorepo", iterate over .starter-meta.json.projects[] and produce per-project .specs/. Use parallel multi-agents.'
 
 declare -a CLI_OPTS=(
   "claude|Claude Code|claude"
