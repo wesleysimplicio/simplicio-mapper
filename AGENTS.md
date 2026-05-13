@@ -42,18 +42,16 @@ Este arquivo dá ao agent **tudo que ele precisa saber pra entregar uma task** s
 
 ---
 
-## Localização de Projetos (CHECK OBRIGATÓRIO no início de toda task)
+## Modo do projeto (CHECK OBRIGATÓRIO no início de toda task)
 
-Antes de qualquer análise, o agent **DEVE** rodar:
+Antes de qualquer análise, o agent **DEVE** ler `.starter-meta.json` e respeitar `project_mode`:
 
-```bash
-ls projects/
-```
+- **`root`** — projeto único na raiz do repo (default). Stack/PRODUCT_NAME na raiz; `.specs/` único.
+- **`monorepo`** — workspace com vários subprojetos. Detectado via `pnpm-workspace.yaml`, `lerna.json`, `nx.json`, `turbo.json`, `rush.json`, `package.json` com `"workspaces"`, ou **≥2 subpastas com manifesto** em `apps/` / `packages/` / `services/` / `projects/`. Cada subprojeto recebe seu próprio `.specs/`.
 
-- **`projects/` vazia (só `.gitkeep`)** -> o projeto a analisar é a **raiz do repo**. Single-project mode.
-- **`projects/` tem subpastas** -> cada subpasta é um projeto independente. Monorepo mode. Raiz vira workspace (config/docs/shared apenas).
+**Fallback sem `.starter-meta.json`**: assuma `root`. Não invente monorepo só porque existe uma pasta `apps/` ou `packages/` com um único subprojeto — a regra é workspace signal explícito **OU** ≥2 manifests irmãos.
 
-Regra fixa, sem ambiguidade. Detalhes: [`projects/README.md`](./projects/README.md).
+> Nota sobre instalação overlay: quando o starter é colocado em cima de um projeto host existente (ver `INSTALL.md`), os arquivos do starter podem estar gitignored. Isso não muda o `project_mode` — só muda a visibilidade no git do host.
 
 ---
 
