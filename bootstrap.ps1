@@ -4,14 +4,19 @@
 
 .DESCRIPTION
   Mirror of bootstrap.sh:
-    1. Auto-detects PRODUCT_NAME (cwd basename), DOMAIN ("generico"),
-       TEAM ("Plataforma"), STACK (Node, .NET, Python, Go, Rust, Flutter,
-       PHP/Laravel, Ruby, Elixir, Kotlin/Java).
-       INIT.md refines TEAM/DOMAIN with the human afterwards.
+    1. Auto-detects PRODUCT_NAME (cwd basename), STACK (Node, .NET, Python,
+       Go, Rust, Flutter, PHP/Laravel, Ruby, Elixir, Kotlin/Java).
+       Auto-detects PROJECT_MODE from workspace signals at cwd:
+         - monorepo signal (pnpm-workspace.yaml, lerna.json, nx.json,
+           turbo.json, rush.json, package.json with "workspaces", or >=2 of
+           apps/ packages/ services/ subfolders with manifests) -> "monorepo"
+         - otherwise -> "root" (single project at cwd)
+       INIT.md infers team/domain/vision/personas from the codebase (no human
+       prompts).
     2. Asks only TWO questions:
         - Append recommended ignore entries to .gitignore? (y/N)
         - Which CLI/LLM should run INIT.md?
-    3. Substitutes <PRODUCT_NAME>/<TEAM>/<DOMAIN>/<STACK> ONLY inside
+    3. Substitutes <PRODUCT_NAME>/<STACK> ONLY inside
        starter-managed paths (.specs/, .agents/, .skills/, .claude/,
        .codex/, .github/copilot*, .github/workflows/{ci,dod}.yml,
        plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md ONLY if those
@@ -75,20 +80,98 @@ function Detect-Stack {
   return "unknown"
 }
 
-$ProductName = (Get-Item -Path ".").Name
-$Team        = "Plataforma"
-$Domain      = "generico"
-$Stack       = Detect-Stack
+# ---------------------------------------------------------------------------
+# project mode (workspace signal detection — no projects/ folder needed)
+# ---------------------------------------------------------------------------
+function Has-WorkspaceSignal {
+  if (Test-Path "pnpm-workspace.yaml") { return $true }
+  if (Test-Path "lerna.json")          { return $true }
+  if (Test-Path "nx.json")             { return $true }
+  if (Test-Path "turbo.json")          { return $true }
+  if (Test-Path "rush.json")           { return $true }
+  if (Test-Path "package.json") {
+    if ((Get-Content "package.json" -Raw) -match '"workspaces"') { return $true }
+  }
+  return $false
+}
+
+function List-MonorepoDirs {
+  $dirs = @()
+  foreach ($parent in @("apps","packages","services","projects")) {
+    if (-not (Test-Path $parent -PathType Container)) { continue }
+    Get-ChildItem -Path $parent -Directory -ErrorAction SilentlyContinue | Where-Object { -not $_.Name.StartsWith(".") } | Sort-Object Name | ForEach-Object {
+      $d = $_.FullName
+      $manifests = @("package.json","pyproject.toml","go.mod","Cargo.toml","pubspec.yaml","composer.json","Gemfile","pom.xml","build.gradle","build.gradle.kts")
+      $hasManifest = $false
+      foreach ($m in $manifests) {
+        if (Test-Path (Join-Path $d $m)) { $hasManifest = $true; break }
+      }
+      if (-not $hasManifest) {
+        if (Get-ChildItem -Path $d -Filter "*.csproj" -File -ErrorAction SilentlyContinue) { $hasManifest = $true }
+      }
+      if ($hasManifest) { $dirs += (Resolve-Path -Relative $d) }
+    }
+  }
+  return $dirs
+}
+
+function Detect-ProjectMode {
+  if (Has-WorkspaceSignal) { return "monorepo" }
+  # Fallback: require >=2 sibling subfolders with manifests to avoid
+  # false-positives where a single vendored library lives under apps/.
+  $dirs = List-MonorepoDirs
+  if ($dirs.Count -ge 2)   { return "monorepo" }
+  return "root"
+}
+
+function Detect-ProductNameIn($path) {
+  if (Test-Path (Join-Path $path "package.json")) {
+    $content = Get-Content (Join-Path $path "package.json") -Raw
+    if ($content -match '"name"\s*:\s*"([^"]+)"') { return $Matches[1] }
+  }
+  if (Get-ChildItem -Path $path -Filter "*.csproj" -File -ErrorAction SilentlyContinue | Select-Object -First 1) {
+    return (Get-ChildItem -Path $path -Filter "*.csproj" -File | Select-Object -First 1).BaseName
+  }
+  if (Test-Path (Join-Path $path "pyproject.toml")) {
+    $content = Get-Content (Join-Path $path "pyproject.toml") -Raw
+    if ($content -match 'name\s*=\s*"([^"]+)"') { return $Matches[1] }
+  }
+  return (Get-Item $path).Name
+}
+
+function Detect-StackIn($path) {
+  Push-Location $path
+  try { return Detect-Stack } finally { Pop-Location }
+}
+
+$ProjectMode = Detect-ProjectMode
+$ProjectsList = @()
+if ($ProjectMode -eq "monorepo") {
+  foreach ($d in (List-MonorepoDirs)) {
+    $ProjectsList += [ordered]@{
+      name  = Detect-ProductNameIn $d
+      path  = $d
+      stack = Detect-StackIn $d
+    }
+  }
+  $ProductName = (Get-Item -Path ".").Name
+  $Stack       = "monorepo"
+} else {
+  $ProductName = Detect-ProductNameIn "."
+  $Stack       = Detect-Stack
+}
 
 Write-Host "=========================================="
 Write-Host "  Agentic Starter - Bootstrap (PowerShell)"
 Write-Host "=========================================="
 Write-Host ""
-Write-Host "Auto-detected (INIT.md will refine TEAM/DOMAIN with you):"
+Write-Host "Auto-detected (agent will infer team/domain/personas/vision from code):"
+Write-Host "  PROJECT_MODE: $ProjectMode"
 Write-Host "  PRODUCT_NAME: $ProductName"
-Write-Host "  TEAM:         $Team"
-Write-Host "  DOMAIN:       $Domain"
 Write-Host "  STACK:        $Stack"
+if ($ProjectMode -eq "monorepo" -and $ProjectsList.Count -gt 0) {
+  Write-Host "  PROJECTS:     $($ProjectsList.Count) subproject(s) detected"
+}
 Write-Host ""
 
 # ---------------------------------------------------------------------------
@@ -140,11 +223,9 @@ function Substitute-InFile($path) {
     $head = if ($bytes.Length -gt 8192) { $bytes[0..8191] } else { $bytes }
     if ($head -contains 0) { return }
     $content = [System.IO.Text.Encoding]::UTF8.GetString($bytes)
-    if ($content -notmatch '<PRODUCT_NAME>|<TEAM>|<DOMAIN>|<STACK>') { return }
+    if ($content -notmatch '<PRODUCT_NAME>|<STACK>') { return }
     $orig = $content
     $content = $content.Replace("<PRODUCT_NAME>", $script:ProductName)
-    $content = $content.Replace("<TEAM>",         $script:Team)
-    $content = $content.Replace("<DOMAIN>",       $script:Domain)
     $content = $content.Replace("<STACK>",        $script:Stack)
     if ($content -ne $orig) {
       [System.IO.File]::WriteAllText($path, $content, [System.Text.UTF8Encoding]::new($false))
@@ -282,13 +363,15 @@ $readOnlyGlobs = @(
 
 $meta = [ordered]@{
   product_name                = $ProductName
-  team                        = $Team
-  domain                      = $Domain
   stack                       = $Stack
+  project_mode                = $ProjectMode
+  projects                    = $ProjectsList
   bootstrapped_at             = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
-  starter_version             = "0.2.0"
+  starter_version             = "0.3.0"
   existing_instruction_files  = $ExistingInstructionFiles
-  init_must_ask               = @("team","domain","vision_oneliner","primary_personas")
+  init_must_ask               = @()
+  init_must_infer             = @("team","domain","vision_oneliner","personas_beyond_dev")
+  default_persona             = "developer"
   init_must_merge             = $ExistingInstructionFiles
   read_only_globs             = $readOnlyGlobs
 }
@@ -299,7 +382,7 @@ Write-Host ""
 # ---------------------------------------------------------------------------
 # choose CLI / LLM
 # ---------------------------------------------------------------------------
-$InitPrompt = 'Read INIT.md and execute it. Do NOT modify any user source files (.razor, .cs, .ts, .py, .go, .rs, package.json, etc). Only write inside .specs/, .agents/, .skills/, .claude/, .codex/, .github/copilot*, .github/workflows/dod.yml plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md. If AGENTS.md/CLAUDE.md/copilot-instructions.md already existed before bootstrap (see .starter-meta.json), READ them and IMPROVE in place — preserve their essence. Ask the human only the questions listed in .starter-meta.json -> init_must_ask (team, domain, vision oneliner, personas). Use parallel multi-agents.'
+$InitPrompt = 'Read INIT.md and execute it. Do NOT modify any user source files (.razor, .cs, .ts, .py, .go, .rs, package.json, etc). Only write inside .specs/, .agents/, .skills/, .claude/, .codex/, .github/copilot*, .github/workflows/dod.yml plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md. If AGENTS.md/CLAUDE.md/copilot-instructions.md already existed before bootstrap (see .starter-meta.json), READ them and IMPROVE in place — preserve their essence. DO NOT ask the human about team, domain, vision, personas, or product purpose: infer ALL of them by reading the codebase (README, package.json/angular.json/*.csproj/pyproject.toml/etc, entry points, routes, tests, env.example). Default persona is "developer"; additional personas must be derived from code (auth roles, route guards, UI flows, customer-facing copy). Honor workspace mode: if .starter-meta.json.project_mode == "monorepo", iterate over .starter-meta.json.projects[] and produce per-project .specs/. Use parallel multi-agents.'
 
 $CliOpts = @(
   @{ Key="claude";   Label="Claude Code";                                                       Cmd="claude" },
