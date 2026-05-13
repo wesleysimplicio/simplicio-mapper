@@ -309,8 +309,34 @@ pnpm-debug.log*
 *.tgz
 *.tar.gz
 
-# Agentic starter installed files
+# Agentic starter tracked files
+.starter-meta.json
+.claude/settings.local.json
+AGENTS.md
+CLAUDE.md
+INIT.md
+_BOOTSTRAP.md
+.agents/
+.agents/**
+.claude/
+.claude/**
+.codex/
+.codex/**
+.github/
+.github/**
+.skills/
+.skills/**
+.specs/
+.specs/**
+docs/**
 scripts/**
+playwright-report/**
+tests/**
+test-results/**
+coverage/**
+bootstrap.ps1
+bootstrap.sh
+playwright.config.ts
 "@
 
 function Handle-Gitignore {

@@ -142,8 +142,6 @@ AGENTS.md
 CLAUDE.md
 INIT.md
 _BOOTSTRAP.md
-README.md
-scripts/**
 .agents/
 .agents/**
 .claude/
@@ -156,6 +154,15 @@ scripts/**
 .skills/**
 .specs/
 .specs/**
+docs/**
+scripts/**
+playwright-report/**
+tests/**
+test-results/**
+coverage/**
+bootstrap.ps1
+bootstrap.sh
+playwright.config.ts
 `;
 
 const GITATTRIBUTES_CONTENT = `# Cross-platform line endings.

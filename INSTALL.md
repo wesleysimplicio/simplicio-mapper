@@ -120,51 +120,41 @@ git remote -v
 
 ## Passo 4 — Adicionar starter ao `.gitignore` do host
 
-Cole o bloco abaixo no fim do `.gitignore` do projeto host. As linhas **seguras** (sem chance de colidir com nomes do host) já estão ativas. As linhas **arriscadas** (nomes comuns) estão **comentadas** — descomente uma a uma só depois de confirmar que o host não tem aquele arquivo:
+Cole o bloco abaixo no fim do `.gitignore` do projeto host para manter o overlay fora do git do projeto:
 
 ```gitignore
 # === Agentic Starter (overlay privado, per-dev) — não commitar no repo do host ===
-# SEGURO: nomes específicos do starter, baixa chance de colisão.
-.agents/
-.skills/
-.specs/
-.claude/
-.codex/
+# Agentic starter tracked files
 .starter-meta.json
+.claude/settings.local.json
+AGENTS.md
+CLAUDE.md
+INIT.md
 _BOOTSTRAP.md
-INSTALL.md
-bootstrap.sh
-bootstrap.ps1
-bin/
+.agents/
+.agents/**
+.claude/
+.claude/**
+.codex/
+.codex/**
+.github/
+.github/**
+.skills/
+.skills/**
+.specs/
+.specs/**
+docs/**
 scripts/**
-playwright-report/
-
-# Copilot/CI específico do starter (não da pasta .github/ inteira)
-.github/copilot-instructions.md
-.github/copilot/
-.github/workflows/dod.yml
-
-# ARRISCADO: descomente uma linha de cada vez, só após confirmar que o host
-# não tem o arquivo (rode `git ls-files <arquivo>` — se aparecer, NÃO
-# descomenta, pois o git vai parar de rastrear edições no arquivo do host).
-#
-# Se o host JÁ tem AGENTS.md/CLAUDE.md/INIT.md/README*.md/package.json/
-# playwright.config.ts/tests/, o bootstrap NÃO sobrescreve (Passo 2 usou
-# --ignore-existing). Esses arquivos do host continuam normais.
-#
-# AGENTS.md
-# CLAUDE.md
-# INIT.md
-# README.pt-BR.md
-# playwright.config.ts
-# tests/
-# presentation/
-# video/
-# .github/PULL_REQUEST_TEMPLATE.md
-# .github/ISSUE_TEMPLATE/
+playwright-report/**
+tests/**
+test-results/**
+coverage/**
+bootstrap.ps1
+bootstrap.sh
+playwright.config.ts
 ```
 
-> **Por que comentado?** Se você gitignora um arquivo que já está rastreado pelo git do host, o git **não sobrescreve o arquivo no disco**, mas **para de notar edições dele**. Isso esconde mudanças reais do host. Sempre confirma com `git ls-files <arquivo>` antes de descomentar.
+> Se algum desses arquivos já for rastreado pelo git do host, o arquivo continua no disco e no histórico, mas novas mudanças podem ficar menos óbvias no fluxo diário. Antes de usar como overlay privado, confirme com `git ls-files <arquivo>` quando houver dúvida.
 
 ### Atenção a colisões
 
