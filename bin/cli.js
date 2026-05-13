@@ -53,6 +53,8 @@ const TEMPLATE_PATHS = [
   '.github',
   '.skills',
   '.specs',
+  'docs',
+  'scripts',
   'bootstrap.sh',
   'bootstrap.ps1',
   'playwright.config.ts',
@@ -87,6 +89,9 @@ const WALK_SKIP_DIRS = new Set([
   'node_modules', '.git', 'dist', 'build', 'out',
   '.next', '.nuxt', 'coverage', 'playwright-report', 'test-results',
 ]);
+
+const GITIGNORE_MARKER = '# === Agentic Starter (auto-managed)';
+const GITIGNORE_END_MARKER = '# === End Agentic Starter (auto-managed) ===';
 
 const RECOMMENDED_IGNORES = `# === Agentic Starter (auto-managed) — do not remove this header ===
 # Local agent state and ephemeral artifacts created by the starter.
@@ -163,6 +168,7 @@ coverage/**
 bootstrap.ps1
 bootstrap.sh
 playwright.config.ts
+# === End Agentic Starter (auto-managed) ===
 `;
 
 const GITATTRIBUTES_CONTENT = `# Cross-platform line endings.
@@ -263,6 +269,7 @@ const opts = {
   dryRun: false,
   silent: false,
   skipMeta: false,
+  update: false,
   cli: '',
   appendGitignore: '',
 };
@@ -275,6 +282,7 @@ for (let i = 0; i < argv.length; i++) {
     case '-f':
     case '--force':            opts.force = true; break;
     case '--dry-run':          opts.dryRun = true; break;
+    case '--update':           opts.update = true; break;
     case '--silent':           opts.silent = true; break;
     case '--skip-meta':        opts.skipMeta = true; break;
     case '--cli':              opts.cli = argv[++i]; break;
@@ -294,6 +302,13 @@ for (let i = 0; i < argv.length; i++) {
   }
 }
 
+if (opts.update) {
+  opts.yes = true;
+  opts.force = true;
+  opts.appendGitignore = opts.appendGitignore || 'yes';
+  opts.cli = opts.cli || 'skip';
+}
+
 function printHelp() {
   console.log(`agentic-starter v${PKG.version}
 
@@ -307,6 +322,7 @@ OPTIONS
   -f, --force                 Overwrite starter template files (NEVER touches user
                               instruction files: AGENTS.md, CLAUDE.md, INIT.md,
                               .github/copilot-instructions.md, .gitignore)
+  --update                    Safe update mode: --yes --force --append-gitignore yes --cli skip
   --dry-run                   Print actions without writing files
   --skip-meta                 Do not write .starter-meta.json
   --cli <key>                 Pick CLI for INIT.md handoff (claude|codex|copilot|cursor|
@@ -320,6 +336,7 @@ EXAMPLES
   npx @wesleysimplicio/agentic-starter
   npx @wesleysimplicio/agentic-starter --yes
   npx @wesleysimplicio/agentic-starter --yes --cli claude --append-gitignore yes
+  npx @wesleysimplicio/agentic-starter@latest --update
 
 DOCS
   https://github.com/wesleysimplicio/agentic-starter
@@ -556,13 +573,16 @@ async function handleGitignore(rl) {
   const gi = path.join(CWD, '.gitignore');
   if (fs.existsSync(gi)) {
     const existing = readSafe(gi);
-    if (existing.includes('Agentic Starter (auto-managed)')) {
-      log('→ Recommended entries already present in .gitignore. Nothing to do.\n');
-    } else if (opts.dryRun) {
+    if (opts.dryRun) {
       log('  append (dry):   .gitignore\n');
     } else {
-      fs.appendFileSync(gi, '\n' + RECOMMENDED_IGNORES);
-      log('→ Recommended entries APPENDED to .gitignore (original content preserved).\n');
+      const next = upsertGitignore(existing);
+      fs.writeFileSync(gi, next);
+      if (existing.includes(GITIGNORE_MARKER) || existing.includes('# Agentic starter tracked files')) {
+        log('→ Recommended entries UPDATED in .gitignore.\n');
+      } else {
+        log('→ Recommended entries APPENDED to .gitignore (original content preserved).\n');
+      }
     }
   } else if (opts.dryRun) {
     log('  create (dry):   .gitignore\n');
@@ -583,6 +603,26 @@ async function handleGitignore(rl) {
     log('→ .gitattributes left untouched (already exists).');
   }
   log('');
+}
+
+function upsertGitignore(existing) {
+  const starts = [
+    existing.indexOf(GITIGNORE_MARKER),
+    existing.indexOf('# Agentic starter tracked files'),
+  ].filter(index => index >= 0);
+
+  if (starts.length === 0) {
+    return existing.replace(/\s*$/, '') + '\n\n' + RECOMMENDED_IGNORES + '\n';
+  }
+
+  const start = Math.min(...starts);
+  const end = existing.indexOf(GITIGNORE_END_MARKER, start);
+  const before = existing.slice(0, start).replace(/\s*$/, '');
+  const after = end >= 0
+    ? existing.slice(end + GITIGNORE_END_MARKER.length).replace(/^\s*/, '')
+    : '';
+
+  return before + '\n\n' + RECOMMENDED_IGNORES + (after ? '\n' + after : '\n');
 }
 
 function looksBinary(buf) {

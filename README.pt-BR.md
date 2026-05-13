@@ -182,6 +182,14 @@ Tudo o resto — `PRODUCT_NAME`, stack, dependências — auto-detectado de `pac
 npx @wesleysimplicio/agentic-starter --yes --cli skip --append-gitignore no
 ```
 
+#### Atualizar um overlay existente
+
+```bash
+npx @wesleysimplicio/agentic-starter@latest --update
+```
+
+Equivale a `--yes --force --append-gitignore yes --cli skip`: atualiza arquivos gerenciados pelo starter, atualiza o bloco do `.gitignore`, preserva arquivos de instrução existentes e não abre handoff para agente.
+
 #### Preview sem escrever
 
 ```bash
@@ -194,6 +202,7 @@ npx @wesleysimplicio/agentic-starter --dry-run --yes
 |---|---|
 | `-y, --yes` | Não-interativo (defaults: sem append no `.gitignore`, pula handoff) |
 | `-f, --force` | Sobrescreve arquivos do template do starter. **Nunca** toca arquivos de instrução do usuário (`AGENTS.md`, `CLAUDE.md`, `INIT.md`, `.github/copilot-instructions.md`, `.gitignore`) |
+| `--update` | Modo seguro para atualizar overlay existente: força arquivos do starter, atualiza `.gitignore`, pula handoff |
 | `--dry-run` | Imprime ações sem escrever |
 | `--cli <key>` | Escolhe CLI pro handoff do `INIT.md`: `claude`, `codex`, `copilot`, `cursor`, `deepseek`, `kimi`, `minimax`, `glm`, `hermes`, `openclaw`, `aider`, `other`, `skip` |
 | `--append-gitignore <yes\|no>` | Adiciona ignores recomendados ao `.gitignore` |
