@@ -134,6 +134,27 @@ pnpm-debug.log*
 # Tarballs
 *.tgz
 *.tar.gz
+
+# Agentic starter tracked files
+.starter-meta.json
+.claude/settings.local.json
+AGENTS.md
+CLAUDE.md
+INIT.md
+_BOOTSTRAP.md
+README.md
+.agents/
+.agents/**
+.claude/
+.claude/**
+.codex/
+.codex/**
+.github/
+.github/**
+.skills/
+.skills/**
+.specs/
+.specs/**
 `;
 
 const GITATTRIBUTES_CONTENT = `# Cross-platform line endings.
