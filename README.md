@@ -212,6 +212,21 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap.ps1
 
 All three paths produce the same result and ask the same two questions.
 
+### D. Overlay onto an existing project (private, gitignored)
+
+Want to drop the starter into a project that already has its own git, **without polluting the host repo**? Each dev installs locally, files stay gitignored. Full step-by-step in [INSTALL.md](INSTALL.md). Short version:
+
+```bash
+# from inside the host project root
+git clone --depth=1 https://github.com/wesleysimplicio/agentic-starter.git /tmp/agentic-starter-src
+# --ignore-existing protects your host's package.json/README.md/etc from being overwritten
+rsync -av --ignore-existing --exclude='.git' /tmp/agentic-starter-src/ ./
+rm -rf /tmp/agentic-starter-src
+# append the "Agentic Starter (overlay privado)" block from INSTALL.md to your .gitignore FIRST
+# then run bootstrap
+./bootstrap.sh
+```
+
 ---
 
 ## CLI handoff — supported agents

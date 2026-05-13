@@ -10,12 +10,16 @@
 #        package.json "name", angular.json "projects" key, *.csproj filename,
 #        pyproject.toml [project].name, Cargo.toml [package].name,
 #        pubspec.yaml "name", composer.json "name", go.mod module,
-#        projects/<single-subfolder> name, or cwd basename.
+#        or cwd basename.
 #      Auto-detects STACK (Node, .NET, Python, Go, Rust, Flutter, PHP, Ruby,
 #      Kotlin, Java, Elixir, Angular).
-#      Auto-detects PROJECT_MODE via projects/ folder:
-#        - projects/ missing or empty (only .gitkeep) -> "root"  (single project at repo root)
-#        - projects/ has subfolders                   -> "monorepo" (each subfolder = project)
+#      Auto-detects PROJECT_MODE from workspace signals at cwd:
+#        - monorepo signal present (pnpm-workspace.yaml, lerna.json, nx.json,
+#          turbo.json, rush.json, package.json with "workspaces", or any of
+#          apps/ packages/ services/ containing manifest subfolders) -> "monorepo"
+#        - otherwise -> "root" (single project at cwd)
+#      No projects/ folder needed. Overlay-friendly: drop the starter on top of
+#      any host project and it Just Works.
 #   2. Asks ONLY TWO operational questions:
 #      - Append our recommended ignore entries to .gitignore? (y/N)
 #      - Which CLI/LLM should run INIT.md?
@@ -164,17 +168,46 @@ detect_product_name_in() {
 }
 
 # ---------------------------------------------------------------------------
-# project mode (projects/ folder convention)
+# project mode (workspace signal detection — no projects/ folder needed)
 # ---------------------------------------------------------------------------
+has_workspace_signal() {
+  [[ -f "pnpm-workspace.yaml" ]] && return 0
+  [[ -f "lerna.json" ]]          && return 0
+  [[ -f "nx.json" ]]             && return 0
+  [[ -f "turbo.json" ]]          && return 0
+  [[ -f "rush.json" ]]           && return 0
+  if [[ -f "package.json" ]] && grep -q '"workspaces"' "package.json" 2>/dev/null; then
+    return 0
+  fi
+  return 1
+}
+
+list_monorepo_dirs() {
+  for parent in apps packages services projects; do
+    [[ -d "$parent" ]] || continue
+    while IFS= read -r dir; do
+      for manifest in package.json pyproject.toml go.mod Cargo.toml pubspec.yaml composer.json Gemfile pom.xml build.gradle build.gradle.kts; do
+        if [[ -f "$dir/$manifest" ]] || compgen -G "$dir/*.csproj" >/dev/null 2>&1; then
+          echo "$dir"
+          break
+        fi
+      done
+    done < <(find "$parent" -mindepth 1 -maxdepth 1 -type d ! -name ".*" | sort)
+  done
+}
+
 detect_project_mode() {
-  if [[ ! -d projects ]]; then
-    echo "root"; return
+  if has_workspace_signal; then
+    echo "monorepo"; return
   fi
-  if find projects -mindepth 1 -maxdepth 1 -type d ! -name ".*" | grep -q .; then
-    echo "monorepo"
-  else
-    echo "root"
+  # Fallback: require >=2 sibling subfolders with manifests to avoid
+  # false-positives where a single vendored library lives under apps/.
+  local count
+  count="$(list_monorepo_dirs | wc -l | tr -d ' ')"
+  if [[ "${count:-0}" -ge 2 ]]; then
+    echo "monorepo"; return
   fi
+  echo "root"
 }
 
 PROJECT_MODE="$(detect_project_mode)"
@@ -183,11 +216,14 @@ PROJECTS_JSON="[]"
 if [[ "$PROJECT_MODE" == "monorepo" ]]; then
   entries=()
   while IFS= read -r dir; do
+    [[ -n "$dir" ]] || continue
     pn="$(detect_product_name_in "$dir")"
     st="$(detect_stack_in "$dir")"
     entries+=("{\"name\":\"$pn\",\"path\":\"$dir\",\"stack\":\"$st\"}")
-  done < <(find projects -mindepth 1 -maxdepth 1 -type d ! -name ".*" | sort)
-  PROJECTS_JSON="[$(IFS=,; echo "${entries[*]}")]"
+  done < <(list_monorepo_dirs)
+  if (( ${#entries[@]} > 0 )); then
+    PROJECTS_JSON="[$(IFS=,; echo "${entries[*]}")]"
+  fi
   PRODUCT_NAME="$(basename "$PWD")"
   STACK="monorepo"
 else
@@ -426,7 +462,7 @@ chmod +x .claude/hooks/*.sh 2>/dev/null || true
 # ---------------------------------------------------------------------------
 # choose CLI / LLM
 # ---------------------------------------------------------------------------
-INIT_PROMPT='Read INIT.md and execute it. Do NOT modify any user source files (.razor, .cs, .ts, .py, .go, .rs, package.json, etc). Only write inside .specs/, .agents/, .skills/, .claude/, .codex/, .github/copilot*, .github/workflows/dod.yml plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md. If AGENTS.md/CLAUDE.md/copilot-instructions.md already existed before bootstrap (see .starter-meta.json), READ them and IMPROVE in place — preserve their essence. DO NOT ask the human about team, domain, vision, personas, or product purpose: infer ALL of them by reading the codebase (README, package.json/angular.json/*.csproj/pyproject.toml/etc, entry points, routes, tests, env.example). Default persona is "developer"; additional personas must be derived from code (auth roles, route guards, UI flows, customer-facing copy). Honor projects/ convention: if .starter-meta.json.project_mode == "monorepo", iterate over .starter-meta.json.projects[] and produce per-project .specs/. Use parallel multi-agents.'
+INIT_PROMPT='Read INIT.md and execute it. Do NOT modify any user source files (.razor, .cs, .ts, .py, .go, .rs, package.json, etc). Only write inside .specs/, .agents/, .skills/, .claude/, .codex/, .github/copilot*, .github/workflows/dod.yml plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md. If AGENTS.md/CLAUDE.md/copilot-instructions.md already existed before bootstrap (see .starter-meta.json), READ them and IMPROVE in place — preserve their essence. DO NOT ask the human about team, domain, vision, personas, or product purpose: infer ALL of them by reading the codebase (README, package.json/angular.json/*.csproj/pyproject.toml/etc, entry points, routes, tests, env.example). Default persona is "developer"; additional personas must be derived from code (auth roles, route guards, UI flows, customer-facing copy). Honor workspace mode: if .starter-meta.json.project_mode == "monorepo", iterate over .starter-meta.json.projects[] and produce per-project .specs/. Use parallel multi-agents.'
 
 declare -a CLI_OPTS=(
   "claude|Claude Code|claude"
