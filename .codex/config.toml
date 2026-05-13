@@ -1,4 +1,3 @@
-model = "gpt-5.4"
 # Codex CLI config - <PRODUCT_NAME>
 #
 # Lido automaticamente pelo Codex CLI quando rodado nesta pasta de trabalho.
@@ -38,6 +37,9 @@ max_entries = 0  # 0 = ilimitado
 # ---------------------------------------------------------------------------
 # Modelo padrao usado pra tasks neste repo. Substitua pelo modelo disponivel
 # na sua conta (ex: "gpt-5.3-codex", "o4-mini", etc.).
+[model]
+model = "gpt-5.5"
+
 # ---------------------------------------------------------------------------
 # Features (experimental)
 # ---------------------------------------------------------------------------
