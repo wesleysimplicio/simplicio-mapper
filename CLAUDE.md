@@ -6,6 +6,40 @@
 
 # AGENTS.md
 
+## Operational Context
+
+Before changing code, agents should check the project-specific operational docs:
+
+| Need | File |
+|---|---|
+| Local setup, services, URLs and credentials policy | `docs/local-setup.md` |
+| Domain concepts, rules and edge cases | `docs/domain-map.md` |
+| Architecture, request path and integrations | `docs/architecture-map.md` |
+| Feature entry points and expected scenarios | `docs/features/README.md` |
+| Evidence policy and artifact naming | `docs/evidence/README.md` |
+| Common failures and fixes | `docs/troubleshooting.md` |
+| Reusable local commands | `scripts/README.md` |
+
+Key placeholders to replace in real projects:
+
+- `<APP_NAME>`
+- `<FRONTEND_URL>`
+- `<BACKEND_URL>`
+- `<DATABASE_REQUIREMENT>`
+- `<AUTH_FLOW>`
+- `<EVIDENCE_COMMAND>`
+
+Agent checklist:
+
+- [ ] Confirm whether the project lives at repo root or under `projects/`.
+- [ ] Read `docs/local-setup.md` and relevant `docs/features/*`.
+- [ ] Confirm real start/test/build commands.
+- [ ] Run validation before edits when practical.
+- [ ] Keep changes small and scoped.
+- [ ] Run relevant tests/build after edits.
+- [ ] Generate screenshot/video/trace for UI or end-to-end flows.
+- [ ] Report blockers with the command, log excerpt and likely cause.
+
 > Master instruction file lido por **Claude Code**, **Codex CLI**, **GitHub Copilot**, **Hermes Agent** (Nous Research), **OpenClaw**, **Cursor**, **Aider** e qualquer outro agent que respeite o padrão `AGENTS.md`. É o contrato entre humano e IA neste repositório.
 >
 > Mudou algo aqui? Reflete em `CLAUDE.md` e `.github/copilot-instructions.md` (mantém os três alinhados ou usa symlink).

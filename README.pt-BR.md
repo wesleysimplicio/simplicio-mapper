@@ -8,6 +8,23 @@ Esqueleto de repositório AI-friendly, neutro de stack. Joga em **qualquer** pro
 
 ---
 
+## Documentação operacional para agentes
+
+Este starter agora inclui templates genéricos e preenchíveis para deixar qualquer projeto mais fácil de operar por agentes:
+
+- `docs/local-setup.md`: como instalar, subir, validar e acessar o projeto.
+- `docs/domain-map.md`: conceitos de negócio, regras críticas e casos especiais.
+- `docs/architecture-map.md`: formato do sistema, caminho da requisição e integrações.
+- `docs/features/README.md`: template de feature com arquivos, endpoints, regras e evidências.
+- `docs/evidence/README.md`: política de screenshot/video/trace e nome de artefatos.
+- `docs/troubleshooting.md`: diagnóstico e correções repetíveis.
+- `scripts/`: placeholders neutros de stack para start, test e evidência.
+- `tests/e2e/smoke.spec.ts`: smoke test Playwright genérico baseado em `BASE_URL`.
+
+Preencha esses arquivos depois de instalar o starter em um projeto real. O objetivo é reduzir tempo de descoberta para humanos e agentes sem impor framework.
+
+---
+
 ## TL;DR — começa em 60 segundos
 
 Escolha **um** caminho de instalação abaixo, rode dentro da pasta do projeto, e deixa o agente executar `INIT.md`.

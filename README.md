@@ -8,6 +8,23 @@ AI-friendly, stack-neutral repository scaffold. Drop it into **any** project —
 
 ---
 
+## Operational Docs For Agents
+
+This starter now includes generic, fill-in templates that make any project easier for agents to operate:
+
+- `docs/local-setup.md`: how to install, start, validate and access the project.
+- `docs/domain-map.md`: business concepts, critical rules and edge cases.
+- `docs/architecture-map.md`: system shape, request path and integrations.
+- `docs/features/README.md`: feature documentation template with files, endpoints, rules and evidence.
+- `docs/evidence/README.md`: screenshot/video/trace policy and artifact naming.
+- `docs/troubleshooting.md`: repeatable diagnosis and fixes.
+- `scripts/`: stack-neutral placeholders for start, test and evidence commands.
+- `tests/e2e/smoke.spec.ts`: generic Playwright smoke test driven by `BASE_URL`.
+
+Fill these files after installing the starter in a real project. The goal is to reduce discovery time for humans and agents without forcing a framework.
+
+---
+
 ## TL;DR — get going in 60 seconds
 
 Pick **one** of the install paths below, run it inside your project folder, then let the agent run `INIT.md`.
