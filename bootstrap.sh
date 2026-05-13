@@ -381,6 +381,9 @@ pnpm-debug.log*
 # Tarballs
 *.tgz
 *.tar.gz
+
+# Agentic starter installed files
+scripts/**
 '
 
 handle_gitignore() {

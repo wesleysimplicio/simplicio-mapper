@@ -143,6 +143,7 @@ CLAUDE.md
 INIT.md
 _BOOTSTRAP.md
 README.md
+scripts/**
 .agents/
 .agents/**
 .claude/

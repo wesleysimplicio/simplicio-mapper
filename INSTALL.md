@@ -136,6 +136,8 @@ INSTALL.md
 bootstrap.sh
 bootstrap.ps1
 bin/
+scripts/**
+playwright-report/
 
 # Copilot/CI específico do starter (não da pasta .github/ inteira)
 .github/copilot-instructions.md
