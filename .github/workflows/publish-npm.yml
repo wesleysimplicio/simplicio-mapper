@@ -11,6 +11,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -69,6 +70,18 @@ jobs:
       - name: Verify package contents (dry run)
         if: steps.meta.outputs.should_publish == 'true'
         run: npm pack --dry-run
+
+      - name: Verify npm auth (whoami)
+        if: steps.meta.outputs.should_publish == 'true'
+        run: |
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "::error::Secret NPM_TOKEN está vazio ou ausente no repositório."
+            exit 1
+          fi
+          echo "Token length: ${#NODE_AUTH_TOKEN}"
+          npm whoami
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to npm
         if: steps.meta.outputs.should_publish == 'true'
