@@ -47,6 +47,9 @@ const TEMPLATE_PATHS = [
   'CLAUDE.md',
   'INIT.md',
   '_BOOTSTRAP.md',
+  'README.md',
+  'README.pt-BR.md',
+  'INSTALL.md',
   '.agents',
   '.claude',
   '.codex',
@@ -66,6 +69,12 @@ const PROTECTED_INSTRUCTION_FILES = [
   'CLAUDE.md',
   'INIT.md',
   '.github/copilot-instructions.md',
+];
+
+const COLLISION_PRONE_TEMPLATE_FILES = [
+  'README.md',
+  'README.pt-BR.md',
+  'INSTALL.md',
 ];
 
 const STARTER_DIRS = ['.specs', '.agents', '.skills', '.claude', '.codex'];
@@ -509,8 +518,44 @@ function detectExistingInstructionFiles() {
   return found;
 }
 
-function copyTemplate(existingProtected) {
-  const protectedSet = new Set(existingProtected);
+function looksStarterManagedContent(content) {
+  return /Agentic Starter Pack|@wesleysimplicio\/agentic-starter|<PRODUCT_NAME>|<STACK>/.test(content);
+}
+
+function readExistingMeta() {
+  try {
+    return JSON.parse(readSafe(path.join(CWD, '.starter-meta.json')) || '{}');
+  } catch {
+    return {};
+  }
+}
+
+function detectPreservedUserFiles() {
+  const metaPath = path.join(CWD, '.starter-meta.json');
+  const hasMeta = fs.existsSync(metaPath);
+  const meta = readExistingMeta();
+  if (Array.isArray(meta.preserved_user_files)) {
+    return Array.from(new Set(meta.preserved_user_files)).sort();
+  }
+
+  const preserved = new Set();
+  const heuristicFiles = hasMeta ? ['README.md'] : COLLISION_PRONE_TEMPLATE_FILES;
+
+  for (const rel of heuristicFiles) {
+    const abs = path.join(CWD, rel);
+    if (!fs.existsSync(abs)) continue;
+
+    const content = readSafe(abs);
+    if (!looksStarterManagedContent(content)) {
+      preserved.add(rel);
+    }
+  }
+
+  return Array.from(preserved).sort();
+}
+
+function copyTemplate(existingProtected, preservedUserFiles) {
+  const protectedSet = new Set([...existingProtected, ...preservedUserFiles]);
   let copied = 0, skipped = 0, missing = 0;
 
   for (const rel of TEMPLATE_PATHS) {
@@ -692,7 +737,7 @@ function substitute(productName, stack) {
   log(`→ ${touched} files updated (only starter-managed paths)${opts.dryRun ? ' (dry-run)' : ''}.\n`);
 }
 
-function writeMeta(productName, stack, projectMode, projectsList, existingInstructionFiles) {
+function writeMeta(productName, stack, projectMode, projectsList, existingInstructionFiles, preservedUserFiles) {
   if (opts.skipMeta) return;
   const meta = {
     product_name: productName,
@@ -703,6 +748,7 @@ function writeMeta(productName, stack, projectMode, projectsList, existingInstru
     starter_version: PKG.version,
     cli: '@wesleysimplicio/agentic-starter',
     existing_instruction_files: existingInstructionFiles,
+    preserved_user_files: preservedUserFiles,
     init_must_ask: [],
     init_must_infer: ['team', 'domain', 'vision_oneliner', 'personas_beyond_dev'],
     default_persona: 'developer',
@@ -878,19 +924,25 @@ async function main() {
   log(`  MODE:         ${opts.dryRun ? 'dry-run' : 'write'}${opts.force ? ' (force)' : ''}\n`);
 
   const existingInstructionFiles = detectExistingInstructionFiles();
+  const preservedUserFiles = detectPreservedUserFiles();
   if (existingInstructionFiles.length > 0) {
     log('Detected pre-existing instruction files (will be preserved):');
     for (const f of existingInstructionFiles) log(`  - ${f}`);
     log('  -> INIT.md will READ them and IMPROVE in place (essence preserved).\n');
   }
+  if (preservedUserFiles.length > 0) {
+    log('Detected pre-existing user-owned template collisions (will be preserved):');
+    for (const f of preservedUserFiles) log(`  - ${f}`);
+    log('');
+  }
 
-  copyTemplate(existingInstructionFiles);
+  copyTemplate(existingInstructionFiles, preservedUserFiles);
 
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
   try {
     await handleGitignore(rl);
     substitute(productName, stack);
-    writeMeta(productName, stack, projectMode, projectsList, existingInstructionFiles);
+    writeMeta(productName, stack, projectMode, projectsList, existingInstructionFiles, preservedUserFiles);
     log('');
 
     const cliChoice = await chooseCli(rl);
