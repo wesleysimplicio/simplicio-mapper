@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/session-start-skills.sh"
+            "command": "node ./bin/hook-runner.js claude session-start"
           }
         ]
       }
@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/post-edit.sh \"$CLAUDE_FILE_PATH\""
+            "command": "node ./bin/hook-runner.js claude post-edit \"$CLAUDE_FILE_PATH\""
           }
         ]
       }
@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [[ \"$CLAUDE_BASH_COMMAND\" == *\"git commit\"* ]]; then .claude/hooks/pre-commit.sh; fi"
+            "command": "node ./bin/hook-runner.js claude pre-commit-if-needed"
           }
         ]
       }

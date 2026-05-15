@@ -6,6 +6,10 @@ AI-friendly, stack-neutral repository scaffold. Drop it into **any** project —
 
 > Starter pack, not a framework. Ships structure, instructions, process. Stack is yours.
 
+![Agentic Starter hero](assets/agentic-starter-hero.png)
+
+> Visual summary: drop the starter into a messy software project and it turns scattered context into structure, reusable skills, tests, docs, and guardrails for AI coding agents.
+
 ---
 
 ## Operational Docs For Agents

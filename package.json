@@ -15,6 +15,7 @@
     "README.md",
     "README.pt-BR.md",
     "INSTALL.md",
+    "assets/",
     "docs/",
     "scripts/",
     ".agents/",

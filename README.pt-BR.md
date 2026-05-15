@@ -6,6 +6,10 @@ Esqueleto de repositório AI-friendly, neutro de stack. Joga em **qualquer** pro
 
 > Starter pack, não framework. Entrega estrutura, instruções, processo. A stack é sua.
 
+![Hero do Agentic Starter](assets/agentic-starter-hero.png)
+
+> Resumo visual: joga o starter em um projeto baguncado e ele transforma contexto espalhado em estrutura, skills reutilizaveis, testes, docs e guardrails para agentes de coding.
+
 ---
 
 ## Documentação operacional para agentes
