@@ -18,12 +18,12 @@ export const Productivity: React.FC = () => {
   const overlineP = spring({
     frame,
     fps,
-    config: { damping: 18, stiffness: 130 },
+    config: { damping: 16, stiffness: 150 },
   });
   const titleP = spring({
-    frame: frame - 18,
+    frame: frame - 10,
     fps,
-    config: { damping: 16, stiffness: 110 },
+    config: { damping: 14, stiffness: 130 },
   });
 
   return (
@@ -81,9 +81,9 @@ export const Productivity: React.FC = () => {
         >
           {t.metrics.map((m, i) => {
             const p = spring({
-              frame: frame - 50 - i * 40,
+              frame: frame - 30 - i * 25,
               fps,
-              config: { damping: 12, stiffness: 100 },
+              config: { damping: 10, stiffness: 110 },
             });
             return (
               <div

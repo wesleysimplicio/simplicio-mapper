@@ -27,17 +27,17 @@ export const MultiAgent: React.FC = () => {
   const overlineP = spring({
     frame,
     fps,
-    config: { damping: 18, stiffness: 130 },
+    config: { damping: 16, stiffness: 150 },
   });
   const titleP = spring({
-    frame: frame - 20,
+    frame: frame - 10,
     fps,
-    config: { damping: 16, stiffness: 110 },
+    config: { damping: 14, stiffness: 130 },
   });
   const centerP = spring({
-    frame: frame - 50,
+    frame: frame - 30,
     fps,
-    config: { damping: 14, stiffness: 100 },
+    config: { damping: 12, stiffness: 120 },
   });
 
   return (
@@ -125,9 +125,9 @@ export const MultiAgent: React.FC = () => {
             const x = 350 + Math.cos(orbitAngle) * radius;
             const y = 250 + Math.sin(orbitAngle) * radius * 0.7;
             const p = spring({
-              frame: frame - 80 - i * 12,
+              frame: frame - 50 - i * 8,
               fps,
-              config: { damping: 14, stiffness: 130 },
+              config: { damping: 12, stiffness: 150 },
             });
             return (
               <div

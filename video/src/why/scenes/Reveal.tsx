@@ -16,19 +16,19 @@ export const Reveal: React.FC = () => {
   const t = useWhyT().reveal;
 
   const preP = spring({
-    frame: frame - 6,
+    frame: frame - 4,
     fps,
-    config: { damping: 16, stiffness: 110 },
+    config: { damping: 14, stiffness: 130 },
   });
   const brandP = spring({
-    frame: frame - 50,
+    frame: frame - 28,
     fps,
-    config: { damping: 12, stiffness: 90 },
+    config: { damping: 11, stiffness: 110 },
   });
   const subP = spring({
-    frame: frame - 110,
+    frame: frame - 65,
     fps,
-    config: { damping: 18, stiffness: 130 },
+    config: { damping: 16, stiffness: 140 },
   });
 
   const brandScale = interpolate(brandP, [0, 1], [0.5, 1]);

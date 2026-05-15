@@ -54,8 +54,8 @@ export const SideBySide: React.FC = () => {
           chat={t.leftChat}
           accent={theme.colors.red}
           badge={t.leftBadge}
-          startFrame={20}
-          stepFrames={60}
+          startFrame={10}
+          stepFrames={40}
           isBad
         />
         <Pane
@@ -63,8 +63,8 @@ export const SideBySide: React.FC = () => {
           chat={t.rightChat}
           accent={theme.colors.green}
           badge={t.rightBadge}
-          startFrame={30}
-          stepFrames={60}
+          startFrame={20}
+          stepFrames={40}
         />
       </AbsoluteFill>
     </AbsoluteFill>

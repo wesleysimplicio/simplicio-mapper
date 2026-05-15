@@ -10,6 +10,12 @@ Esqueleto de repositório AI-friendly, neutro de stack. Joga em **qualquer** pro
 
 > Resumo visual: joga o starter em um projeto baguncado e ele transforma contexto espalhado em estrutura, skills reutilizaveis, testes, docs e guardrails para agentes de coding.
 
+### Assista: por que agentic-starter? (53s)
+
+[![Assistir ao vídeo](video/assets/why-cover.png)](https://github.com/wesleysimplicio/agentic-starter/raw/main/video/assets/why-agentic-starter.mp4)
+
+> Clica na capa pra rodar. Link direto: [`video/assets/why-agentic-starter.mp4`](video/assets/why-agentic-starter.mp4) · Versão em inglês: [`video/assets/why-agentic-starter-en.mp4`](video/assets/why-agentic-starter-en.mp4).
+
 ---
 
 ## Documentação operacional para agentes

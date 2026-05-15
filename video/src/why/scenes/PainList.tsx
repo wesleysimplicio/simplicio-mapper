@@ -75,9 +75,9 @@ export const PainList: React.FC = () => {
         >
           {t.items.map((item, i) => {
             const p = spring({
-              frame: frame - 40 - i * 25,
+              frame: frame - 20 - i * 14,
               fps,
-              config: { damping: 16, stiffness: 130 },
+              config: { damping: 14, stiffness: 150 },
             });
             return (
               <div

@@ -1,7 +1,9 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Audio,
   Sequence,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -20,15 +22,15 @@ import { Lang } from "./i18n";
 import { theme } from "../theme";
 
 const SCENES = [
-  { Component: Hook, duration: 150 },
-  { Component: PainTyping, duration: 300 },
-  { Component: PainList, duration: 240 },
-  { Component: Reveal, duration: 180 },
-  { Component: Anatomy, duration: 360 },
-  { Component: SideBySide, duration: 540 },
-  { Component: Productivity, duration: 240 },
-  { Component: MultiAgent, duration: 240 },
-  { Component: CTA, duration: 150 },
+  { Component: Hook, duration: 80 },
+  { Component: PainTyping, duration: 200 },
+  { Component: PainList, duration: 130 },
+  { Component: Reveal, duration: 110 },
+  { Component: Anatomy, duration: 240 },
+  { Component: SideBySide, duration: 380 },
+  { Component: Productivity, duration: 160 },
+  { Component: MultiAgent, duration: 160 },
+  { Component: CTA, duration: 130 },
 ] as const;
 
 type Timed = {
@@ -65,6 +67,7 @@ export const WhyAgenticStarter: React.FC<WhyAgenticStarterProps> = ({
             </Sequence>
           );
         })}
+        <Audio src={staticFile("sfx/rock-bg.mp3")} volume={0.45} />
         <ProgressBar />
         <SceneLabel />
       </AbsoluteFill>
