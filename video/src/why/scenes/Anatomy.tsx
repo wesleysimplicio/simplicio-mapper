@@ -18,17 +18,17 @@ export const Anatomy: React.FC = () => {
   const overlineP = spring({
     frame,
     fps,
-    config: { damping: 18, stiffness: 130 },
+    config: { damping: 16, stiffness: 150 },
   });
   const titleP = spring({
-    frame: frame - 20,
+    frame: frame - 10,
     fps,
-    config: { damping: 16, stiffness: 110 },
+    config: { damping: 14, stiffness: 130 },
   });
   const glueP = spring({
-    frame: frame - 280,
+    frame: frame - 170,
     fps,
-    config: { damping: 18, stiffness: 120 },
+    config: { damping: 16, stiffness: 140 },
   });
 
   return (
@@ -86,9 +86,9 @@ export const Anatomy: React.FC = () => {
         >
           {t.pieces.map((piece, i) => {
             const p = spring({
-              frame: frame - 50 - i * 30,
+              frame: frame - 30 - i * 18,
               fps,
-              config: { damping: 14, stiffness: 130 },
+              config: { damping: 12, stiffness: 150 },
             });
             return (
               <div

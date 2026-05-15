@@ -29,16 +29,16 @@ export const PainTyping: React.FC = () => {
   });
 
   const bubbles: Bubble[] = [
-    { role: "user", text: t.user1, fromFrame: 20 },
-    { role: "ai", text: t.ai1, fromFrame: 80 },
-    { role: "user", text: t.user2, fromFrame: 140 },
-    { role: "ai", text: t.ai2, fromFrame: 200, highlight: true },
+    { role: "user", text: t.user1, fromFrame: 10 },
+    { role: "ai", text: t.ai1, fromFrame: 50 },
+    { role: "user", text: t.user2, fromFrame: 90 },
+    { role: "ai", text: t.ai2, fromFrame: 130, highlight: true },
   ];
 
   const annotationP = spring({
-    frame: frame - 250,
+    frame: frame - 160,
     fps,
-    config: { damping: 14, stiffness: 110 },
+    config: { damping: 12, stiffness: 130 },
   });
 
   return (

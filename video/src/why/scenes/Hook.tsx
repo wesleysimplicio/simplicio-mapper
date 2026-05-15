@@ -15,19 +15,19 @@ export const Hook: React.FC = () => {
   const t = useWhyT().hook;
 
   const line1P = spring({
-    frame: frame - 8,
+    frame: frame - 4,
     fps,
-    config: { damping: 16, stiffness: 110 },
+    config: { damping: 14, stiffness: 130 },
   });
   const line2P = spring({
-    frame: frame - 40,
+    frame: frame - 24,
     fps,
-    config: { damping: 14, stiffness: 100 },
+    config: { damping: 12, stiffness: 120 },
   });
   const subP = spring({
-    frame: frame - 90,
+    frame: frame - 50,
     fps,
-    config: { damping: 18, stiffness: 120 },
+    config: { damping: 16, stiffness: 140 },
   });
 
   const cursorBlink = Math.floor(frame / 15) % 2 === 0 ? 1 : 0;

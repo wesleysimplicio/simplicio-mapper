@@ -10,6 +10,12 @@ AI-friendly, stack-neutral repository scaffold. Drop it into **any** project —
 
 > Visual summary: drop the starter into a messy software project and it turns scattered context into structure, reusable skills, tests, docs, and guardrails for AI coding agents.
 
+### Watch: why agentic-starter? (53s)
+
+[![Watch the video](video/assets/why-cover.png)](https://github.com/wesleysimplicio/agentic-starter/raw/main/video/assets/why-agentic-starter.mp4)
+
+> Click the cover to play. Direct link: [`video/assets/why-agentic-starter.mp4`](video/assets/why-agentic-starter.mp4) · English version: [`video/assets/why-agentic-starter-en.mp4`](video/assets/why-agentic-starter-en.mp4).
+
 ---
 
 ## Operational Docs For Agents

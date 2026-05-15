@@ -16,24 +16,24 @@ export const CTA: React.FC = () => {
   const t = useWhyT().cta;
 
   const titleP = spring({
-    frame: frame - 6,
-    fps,
-    config: { damping: 16, stiffness: 110 },
-  });
-  const cmdP = spring({
-    frame: frame - 40,
+    frame: frame - 4,
     fps,
     config: { damping: 14, stiffness: 130 },
   });
-  const repoP = spring({
-    frame: frame - 80,
+  const cmdP = spring({
+    frame: frame - 25,
     fps,
-    config: { damping: 16, stiffness: 120 },
+    config: { damping: 12, stiffness: 150 },
+  });
+  const repoP = spring({
+    frame: frame - 50,
+    fps,
+    config: { damping: 14, stiffness: 140 },
   });
   const footerP = spring({
-    frame: frame - 110,
+    frame: frame - 70,
     fps,
-    config: { damping: 18, stiffness: 130 },
+    config: { damping: 16, stiffness: 150 },
   });
 
   return (
