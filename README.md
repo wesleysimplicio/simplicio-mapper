@@ -44,81 +44,27 @@ Same command everywhere. No bash dependency, no clone, no global install.
 
 ---
 
-## 🎬 Skills tutorial video
+## What Agentic Starter Changes
 
-A 59-second animated tutorial (Remotion · 1080p · in English) that walks through every skill shipped in this starter — what they are, how to invoke them (explicit vs. implicit triggers), the two built-ins (`playwright-e2e`, `conventional-commits`), and how to author your own from `_template`.
+The point of the starter is not “more files”. It is faster agent execution with less ambiguity, less tribal knowledge, and safer delivery loops.
 
-> 🌎 Prefer Portuguese? See the [pt-BR README](README.pt-BR.md) — the Portuguese version of the same video lives there.
+#### 01 · From project chaos to operational structure
 
-[![Skills Tutorial cover (EN)](video/assets/cover-en.png)](video/assets/skills-tutorial-en.mp4)
+![Project transformation](assets/agentic-starter-transformation.png)
 
-> 🎥 **Watch the full video:** [`video/assets/skills-tutorial-en.mp4`](video/assets/skills-tutorial-en.mp4) (19 MB · 1080p · H.264)
-> 🛠️ **Source / re-render:** [`video/`](video/README.md) · `cd video && npm install && npm run build:en`
+> Drop the starter into an existing codebase and it converts scattered context into repeatable docs, validation, agent instructions, and delivery guardrails.
 
-<details>
-<summary>Embedded player (click to expand)</summary>
+#### 02 · Shared context for parallel agents
 
-<video src="video/assets/skills-tutorial-en.mp4" controls width="100%"></video>
+![Multi-agent collaboration](assets/agentic-starter-multi-agent.png)
 
-</details>
+> Agents stop working as isolated chat sessions and start collaborating around the same project map: architecture, tasks, checks, and output expectations.
 
-### Walkthrough — every scene of the tutorial
+#### 03 · A stable foundation for safe speed
 
-Prefer images over a 59-second video? Each scene is captured below at its settled state. Read top-to-bottom for the full skill flow.
+![Operational foundation](assets/agentic-starter-foundation.png)
 
-#### 01 · Intro — "Skills" hook
-
-![Scene 01 Intro](video/evidence-en/01-intro-frame-130.png)
-
-> Animated logo + tagline + the agent CLIs that read the same skill files (Claude Code, Codex, Copilot, Cursor, Aider).
-
-#### 02 · What is a skill?
-
-![Scene 02 What are Skills](video/evidence-en/02-what-are-skills-frame-310.png)
-
-> A skill is a short Markdown manual at `.skills/<name>/SKILL.md` with a frontmatter (`name`, `description`) and four sections: **Trigger**, **Steps**, **Patterns**, **Definition of Done**. Concise, idempotent, single-responsibility.
-
-#### 03 · Catalog — what ships in this starter
-
-![Scene 03 Catalog](video/evidence-en/03-catalog-frame-490.png)
-
-> Three skills come baked in: `playwright-e2e`, `conventional-commits`, and `_template` (the base for new skills). Local skills live in `.skills/`, global ones in `~/.claude/skills/`.
-
-#### 04 · Skill #1 — `playwright-e2e`
-
-![Scene 04 Playwright skill](video/evidence-en/04-playwright-frame-730.png)
-
-> Triggers on **every technical task** before commit. Hard rule: no merge without **trace + screenshot + video**. Prefer `getByRole / getByLabel / getByTestId`; never `waitForTimeout` or mocks-to-pass.
-
-#### 05 · Skill #2 — `conventional-commits`
-
-![Scene 05 Conventional commits skill](video/evidence-en/05-commits-frame-970.png)
-
-> `<type>(<scope>)?: <subject>` — 10 types covered (`feat`, `fix`, `docs`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `style`). Breaking changes use `!` after the type or a `BREAKING CHANGE:` footer. Drives automatic SemVer + changelog.
-
-#### 06 · How to invoke a skill
-
-![Scene 06 How to invoke](video/evidence-en/06-how-to-invoke-frame-1180.png)
-
-> Two modes: **explicit** (`$skill-name` in the prompt) and **implicit** (the agent matches your request against each skill's `description` frontmatter). The `description` field is the most important thing in a skill — write it like a query.
-
-#### 07 · Skill #3 — Build your own from `_template`
-
-![Scene 07 Create your own](video/evidence-en/07-create-your-own-frame-1390.png)
-
-> `cp -R .skills/_template .skills/<your-skill>` → fill the frontmatter → write the four sections → reference it in `.skills/README.md`. The agent picks it up on the next prompt that matches the description.
-
-#### 08 · Best practices
-
-![Scene 08 Best practices](video/evidence-en/08-best-practices-frame-1570.png)
-
-> Skills that age well are **concise** (30–100 lines), **idempotent**, **single-responsibility**, with **direct language** and a **verifiable DoD**. Don't make a skill for one-off tasks, universal conventions, or generic stack knowledge.
-
-#### 09 · Outro — recap & CTA
-
-![Scene 09 Outro](video/evidence-en/09-outro-frame-1750.png)
-
-> Skills turn repeated conventions into agent superpowers. `cp -R .skills/_template .skills/<your-skill>` and ship the first one today.
+> The end state is an agent-ready project foundation: domain context, architecture, workflow, quality gates, and evidence paths that make automation reliable instead of risky.
 
 ---
 
