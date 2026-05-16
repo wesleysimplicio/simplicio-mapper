@@ -22,7 +22,7 @@ type Props = {
 };
 
 export const Terminal: React.FC<Props> = ({
-  title = "bash — agentic-starter",
+  title = "bash — llm-project-mapper",
   lines,
   delay = 0,
   width = 900,

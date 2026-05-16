@@ -1,4 +1,4 @@
-# Agentic Starter Pack
+# LLM Project Mapper
 
 > 🇺🇸 English. Leia em português: [README.pt-BR.md](README.pt-BR.md).
 
@@ -6,15 +6,15 @@ AI-friendly, stack-neutral repository scaffold. Drop it into **any** project —
 
 > Starter pack, not a framework. Ships structure, instructions, process. Stack is yours.
 
-![Agentic Starter hero](assets/agentic-starter-hero.png)
+![LLM Project Mapper hero](assets/llm-project-mapper-hero.png)
 
 > Visual summary: drop the starter into a messy software project and it turns scattered context into structure, reusable skills, tests, docs, and guardrails for AI coding agents.
 
-### Watch: why agentic-starter? (53s)
+### Watch: why llm-project-mapper? (53s)
 
-[![Watch the video](video/assets/why-cover.png)](https://github.com/wesleysimplicio/agentic-starter/raw/main/video/assets/why-agentic-starter.mp4)
+[![Watch the video](video/assets/why-cover.png)](https://github.com/wesleysimplicio/llm-project-mapper/raw/main/video/assets/why-llm-project-mapper.mp4)
 
-> Click the cover to play. Direct link: [`video/assets/why-agentic-starter.mp4`](video/assets/why-agentic-starter.mp4) · English version: [`video/assets/why-agentic-starter-en.mp4`](video/assets/why-agentic-starter-en.mp4).
+> Click the cover to play. Direct link: [`video/assets/why-llm-project-mapper.mp4`](video/assets/why-llm-project-mapper.mp4) · English version: [`video/assets/why-llm-project-mapper-en.mp4`](video/assets/why-llm-project-mapper-en.mp4).
 
 ---
 
@@ -41,34 +41,34 @@ Pick **one** of the install paths below, run it inside your project folder, then
 
 | OS | Recommended one-liner |
 |---|---|
-| **macOS** | `npx @wesleysimplicio/agentic-starter` |
-| **Linux** | `npx @wesleysimplicio/agentic-starter` |
-| **Windows (PowerShell)** | `npx @wesleysimplicio/agentic-starter` |
-| **Windows (cmd.exe)** | `npx @wesleysimplicio/agentic-starter` |
+| **macOS** | `npx @wesleysimplicio/llm-project-mapper` |
+| **Linux** | `npx @wesleysimplicio/llm-project-mapper` |
+| **Windows (PowerShell)** | `npx @wesleysimplicio/llm-project-mapper` |
+| **Windows (cmd.exe)** | `npx @wesleysimplicio/llm-project-mapper` |
 
 Same command everywhere. No bash dependency, no clone, no global install.
 
 ---
 
-## What Agentic Starter Changes
+## What LLM Project Mapper Changes
 
 The point of the starter is not “more files”. It is faster agent execution with less ambiguity, less tribal knowledge, and safer delivery loops.
 
 #### 01 · From project chaos to operational structure
 
-![Project transformation](assets/agentic-starter-transformation.png)
+![Project transformation](assets/llm-project-mapper-transformation.png)
 
 > Drop the starter into an existing codebase and it converts scattered context into repeatable docs, validation, agent instructions, and delivery guardrails.
 
 #### 02 · Shared context for parallel agents
 
-![Multi-agent collaboration](assets/agentic-starter-multi-agent.png)
+![Multi-agent collaboration](assets/llm-project-mapper-multi-agent.png)
 
 > Agents stop working as isolated chat sessions and start collaborating around the same project map: architecture, tasks, checks, and output expectations.
 
 #### 03 · A stable foundation for safe speed
 
-![Operational foundation](assets/agentic-starter-foundation.png)
+![Operational foundation](assets/llm-project-mapper-foundation.png)
 
 > The end state is an agent-ready project foundation: domain context, architecture, workflow, quality gates, and evidence paths that make automation reliable instead of risky.
 
@@ -122,7 +122,7 @@ Stack-neutral: anything specific to your stack gets filled by `INIT.md` when the
 
 ```bash
 # inside your project folder (works on macOS, Linux, Windows)
-npx @wesleysimplicio/agentic-starter
+npx @wesleysimplicio/llm-project-mapper
 ```
 
 Runs interactively. Asks **only**:
@@ -135,13 +135,13 @@ Everything else — `PRODUCT_NAME`, stack, dependencies — auto-detected from `
 #### Non-interactive (CI / scripts)
 
 ```bash
-npx @wesleysimplicio/agentic-starter --yes --cli skip --append-gitignore no
+npx @wesleysimplicio/llm-project-mapper --yes --cli skip --append-gitignore no
 ```
 
 #### Update an existing starter overlay
 
 ```bash
-npx @wesleysimplicio/agentic-starter@latest --update
+npx @wesleysimplicio/llm-project-mapper@latest --update
 ```
 
 This is equivalent to `--yes --force --append-gitignore yes --cli skip`: it refreshes starter-managed files, updates the starter `.gitignore` block, preserves existing instruction files, and does not launch an agent.
@@ -149,7 +149,7 @@ This is equivalent to `--yes --force --append-gitignore yes --cli skip`: it refr
 #### Preview without writing
 
 ```bash
-npx @wesleysimplicio/agentic-starter --dry-run --yes
+npx @wesleysimplicio/llm-project-mapper --dry-run --yes
 ```
 
 #### Full flag list
@@ -172,7 +172,7 @@ npx @wesleysimplicio/agentic-starter --dry-run --yes
 Clone the starter and run the script:
 
 ```bash
-git clone --depth=1 https://github.com/wesleysimplicio/agentic-starter.git tmp-starter
+git clone --depth=1 https://github.com/wesleysimplicio/llm-project-mapper.git tmp-starter
 cp -R tmp-starter/. ./ && rm -rf tmp-starter
 chmod +x ./bootstrap.sh   # only the first time
 ./bootstrap.sh
@@ -181,7 +181,7 @@ chmod +x ./bootstrap.sh   # only the first time
 ### C. `bootstrap.ps1` — native Windows (PowerShell)
 
 ```powershell
-git clone --depth=1 https://github.com/wesleysimplicio/agentic-starter.git tmp-starter
+git clone --depth=1 https://github.com/wesleysimplicio/llm-project-mapper.git tmp-starter
 Copy-Item -Recurse -Force tmp-starter\* .\
 Remove-Item -Recurse -Force tmp-starter
 
@@ -200,11 +200,11 @@ Want to drop the starter into a project that already has its own git, **without 
 
 ```bash
 # from inside the host project root
-git clone --depth=1 https://github.com/wesleysimplicio/agentic-starter.git /tmp/agentic-starter-src
+git clone --depth=1 https://github.com/wesleysimplicio/llm-project-mapper.git /tmp/llm-project-mapper-src
 # --ignore-existing protects your host's package.json/README.md/etc from being overwritten
-rsync -av --ignore-existing --exclude='.git' /tmp/agentic-starter-src/ ./
-rm -rf /tmp/agentic-starter-src
-# append the "Agentic Starter (overlay privado)" block from INSTALL.md to your .gitignore FIRST
+rsync -av --ignore-existing --exclude='.git' /tmp/llm-project-mapper-src/ ./
+rm -rf /tmp/llm-project-mapper-src
+# append the "LLM Project Mapper (overlay privado)" block from INSTALL.md to your .gitignore FIRST
 # then run bootstrap
 ./bootstrap.sh
 ```

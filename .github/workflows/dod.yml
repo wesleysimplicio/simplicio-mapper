@@ -23,7 +23,7 @@ jobs:
   dod-check:
     name: Definition of Done
     runs-on: ubuntu-latest
-    if: github.repository != 'wesleysimplicio/agentic-starter'
+    if: github.repository != 'wesleysimplicio/llm-project-mapper'
     timeout-minutes: 15
     steps:
       - name: Checkout

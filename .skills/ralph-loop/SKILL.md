@@ -7,7 +7,7 @@ source: https://github.com/frankbria/ralph-claude-code
 
 # Skill: `ralph-loop`
 
-Padrão Ralph Wiggum technique adaptado pro Agentic-Starter. Toda task técnica passa por este loop. Não opcional.
+Padrão Ralph Wiggum technique adaptado pro LLM-Project-Mapper. Toda task técnica passa por este loop. Não opcional.
 
 > **Sempre ativo neste projeto.** Disparado via `/ralph-loop "<objetivo>"`, `$ralph-loop` no prompt, ou implicitamente quando task tem AC mensurável.
 

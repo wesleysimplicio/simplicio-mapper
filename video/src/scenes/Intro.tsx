@@ -167,8 +167,8 @@ export const Intro: React.FC = () => {
           {t.taglinePre}
           <b style={{ color: theme.colors.text }}>{t.taglineMid}</b>
           <br />
-          {t.taglinePost.split("agentic-starter")[0]}
-          <code style={{ color: theme.colors.accent2 }}>agentic-starter</code>
+          {t.taglinePost.split("llm-project-mapper")[0]}
+          <code style={{ color: theme.colors.accent2 }}>llm-project-mapper</code>
         </div>
 
         <div

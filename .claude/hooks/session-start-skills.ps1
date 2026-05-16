@@ -1,5 +1,5 @@
 # SessionStart hook do Claude Code.
-# Injeta no contexto da sessao as skills always-on do Agentic Starter.
+# Injeta no contexto da sessao as skills always-on do LLM Project Mapper.
 
 [CmdletBinding()]
 param()
@@ -7,7 +7,7 @@ param()
 $ErrorActionPreference = 'Stop'
 
 @'
-[Agentic-Starter - Skills always-on ativas neste projeto]
+[LLM-Project-Mapper - Skills always-on ativas neste projeto]
 
 Tres skills sao padrao obrigatorio e estao ativas desde o inicio da sessao:
 

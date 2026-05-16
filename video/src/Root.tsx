@@ -2,9 +2,9 @@ import React from "react";
 import { Composition } from "remotion";
 import { SkillsTutorial, TOTAL_DURATION } from "./SkillsTutorial";
 import {
-  WhyAgenticStarter,
+  WhyLlmProjectMapper,
   WHY_TOTAL_DURATION,
-} from "./why/WhyAgenticStarter";
+} from "./why/WhyLlmProjectMapper";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -28,8 +28,8 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{ language: "en" as const }}
       />
       <Composition
-        id="WhyAgenticStarterPT"
-        component={WhyAgenticStarter}
+        id="WhyLlmProjectMapperPT"
+        component={WhyLlmProjectMapper}
         durationInFrames={WHY_TOTAL_DURATION}
         fps={30}
         width={1920}
@@ -37,8 +37,8 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{ language: "pt" as const }}
       />
       <Composition
-        id="WhyAgenticStarterEN"
-        component={WhyAgenticStarter}
+        id="WhyLlmProjectMapperEN"
+        component={WhyLlmProjectMapper}
         durationInFrames={WHY_TOTAL_DURATION}
         fps={30}
         width={1920}

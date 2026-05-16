@@ -24,9 +24,9 @@ Update command:
 .\scripts\update-starter.ps1
 ```
 
-Use `AGENTIC_STARTER_SOURCE` to test from a local clone instead of npm:
+Use `LLM_PROJECT_MAPPER_SOURCE` to test from a local clone instead of npm:
 
 ```powershell
-$env:AGENTIC_STARTER_SOURCE="C:\Users\you\source\repos\agentic-starter"
+$env:LLM_PROJECT_MAPPER_SOURCE="C:\Users\you\source\repos\llm-project-mapper"
 .\scripts\update-starter.ps1
 ```

@@ -1,6 +1,6 @@
-# INSTALL.md — Instalando o Agentic Starter em um projeto existente
+# INSTALL.md — Instalando o LLM Project Mapper em um projeto existente
 
-> Guia passo-a-passo para usar o Agentic Starter **como overlay privado** em cima de um projeto que já existe (ex.: front-end Angular/React/Next, API .NET, monorepo, etc.). Os arquivos do starter ficam **no disco do dev**, mas **fora do git do projeto host** — cada dev instala o seu, o repo principal não é poluído.
+> Guia passo-a-passo para usar o LLM Project Mapper **como overlay privado** em cima de um projeto que já existe (ex.: front-end Angular/React/Next, API .NET, monorepo, etc.). Os arquivos do starter ficam **no disco do dev**, mas **fora do git do projeto host** — cada dev instala o seu, o repo principal não é poluído.
 >
 > Se você quer rodar o starter como repo standalone (clone direto, sem projeto host), veja o [README](README.md). Esse guia é só para **overlay**.
 
@@ -8,7 +8,7 @@
 
 ## TL;DR — 4 passos
 
-1. **Baixa** o agentic-starter num diretório temporário.
+1. **Baixa** o llm-project-mapper num diretório temporário.
 2. **Copia** o conteúdo (sem `.git`) para a raiz do projeto host.
 3. **Remove** o diretório temporário e qualquer rastro de git do starter.
 4. **Adiciona** os caminhos do starter ao `.gitignore` do host.
@@ -23,7 +23,7 @@ Depois, roda `bootstrap.sh` / `bootstrap.ps1` dentro do host para preencher plac
 |---|---|
 | Git | clonar o starter |
 | Bash 4+ ou PowerShell 5.1+ | rodar o bootstrap |
-| Node.js >= 16.7 (opcional) | se preferir `npx @wesleysimplicio/agentic-starter` em vez de clone |
+| Node.js >= 16.7 (opcional) | se preferir `npx @wesleysimplicio/llm-project-mapper` em vez de clone |
 
 ---
 
@@ -33,17 +33,17 @@ Depois, roda `bootstrap.sh` / `bootstrap.ps1` dentro do host para preencher plac
 
 ```bash
 cd /tmp
-git clone --depth=1 https://github.com/wesleysimplicio/agentic-starter.git agentic-starter-src
+git clone --depth=1 https://github.com/wesleysimplicio/llm-project-mapper.git llm-project-mapper-src
 ```
 
 ### Windows PowerShell
 
 ```powershell
 cd $env:TEMP
-git clone --depth=1 https://github.com/wesleysimplicio/agentic-starter.git agentic-starter-src
+git clone --depth=1 https://github.com/wesleysimplicio/llm-project-mapper.git llm-project-mapper-src
 ```
 
-> Alternativa sem clone: `npx @wesleysimplicio/agentic-starter` dentro do projeto host (Passo 2 e Passo 3 ficam automáticos). Pula para o **Passo 4** depois.
+> Alternativa sem clone: `npx @wesleysimplicio/llm-project-mapper` dentro do projeto host (Passo 2 e Passo 3 ficam automáticos). Pula para o **Passo 4** depois.
 
 ---
 
@@ -59,7 +59,7 @@ Assuma que o seu projeto host é `~/code/meu-front` (Linux/macOS) ou `C:\Users\m
 cd ~/code/meu-front
 
 # copia tudo do starter, exceto .git do starter, e NUNCA sobrescreve arquivos do host
-rsync -av --ignore-existing --exclude='.git' /tmp/agentic-starter-src/ ./
+rsync -av --ignore-existing --exclude='.git' /tmp/llm-project-mapper-src/ ./
 ```
 
 > Se `rsync` não estiver instalado, instala (`brew install rsync` / `sudo apt install rsync`) — **não use `cp -R`** sem proteção contra sobrescrita.
@@ -73,7 +73,7 @@ cd "C:\Users\me\source\meu-front"
 
 # /E recursivo; /XD .git exclui pasta .git do starter;
 # /XC /XN /XO pula arquivos que já existem no destino (changed/newer/older).
-robocopy "$env:TEMP\agentic-starter-src" "." /E /XD .git /XC /XN /XO
+robocopy "$env:TEMP\llm-project-mapper-src" "." /E /XD .git /XC /XN /XO
 # robocopy retorna 0-7 como sucesso; código 1 = arquivos copiados, OK.
 ```
 
@@ -81,7 +81,7 @@ robocopy "$env:TEMP\agentic-starter-src" "." /E /XD .git /XC /XN /XO
 
 ## Passo 3 — Limpar rastros de git do starter
 
-Garante que o repo do host **não** vira clone do agentic-starter.
+Garante que o repo do host **não** vira clone do llm-project-mapper.
 
 > A `--exclude='.git'` no `rsync` (Passo 2) e o `/XD .git` no `robocopy` já garantem que o `.git` do starter **não** foi copiado. Esse passo é só validação + limpeza do diretório temporário.
 
@@ -91,11 +91,11 @@ Garante que o repo do host **não** vira clone do agentic-starter.
 cd ~/code/meu-front
 
 # remove diretório temporário do starter
-rm -rf /tmp/agentic-starter-src
+rm -rf /tmp/llm-project-mapper-src
 
 # confirma que NÃO há remote apontando pro repo do starter
 git remote -v
-# se aparecer algo como 'origin → wesleysimplicio/agentic-starter',
+# se aparecer algo como 'origin → wesleysimplicio/llm-project-mapper',
 # significa que o .git do starter foi copiado por engano.
 # NÃO rode rm -rf .git cegamente — você pode estar deletando o git do HOST.
 # Em vez disso:
@@ -109,7 +109,7 @@ git remote -v
 ```powershell
 cd "C:\Users\me\source\meu-front"
 
-Remove-Item -Recurse -Force "$env:TEMP\agentic-starter-src"
+Remove-Item -Recurse -Force "$env:TEMP\llm-project-mapper-src"
 
 # confere remotes
 git remote -v
@@ -123,8 +123,8 @@ git remote -v
 Cole o bloco abaixo no fim do `.gitignore` do projeto host para manter o overlay fora do git do projeto:
 
 ```gitignore
-# === Agentic Starter (overlay privado, per-dev) — não commitar no repo do host ===
-# Agentic starter tracked files
+# === LLM Project Mapper (overlay privado, per-dev) — não commitar no repo do host ===
+# LLM Project Mapper tracked files
 .starter-meta.json
 .claude/settings.local.json
 AGENTS.md
@@ -222,17 +222,17 @@ Esperado: nenhum arquivo do starter aparece como untracked/modified. Se algum ap
 
 ## Atualizar o starter depois
 
-Quando sair uma versão nova do agentic-starter:
+Quando sair uma versão nova do llm-project-mapper:
 
 ```bash
 # baixa nova versão
 cd /tmp
-rm -rf agentic-starter-src
-git clone --depth=1 https://github.com/wesleysimplicio/agentic-starter.git agentic-starter-src
+rm -rf llm-project-mapper-src
+git clone --depth=1 https://github.com/wesleysimplicio/llm-project-mapper.git llm-project-mapper-src
 
 # repete o Passo 2 — rsync mantém os seus específicos
 cd ~/code/meu-front
-rsync -av --exclude='.git' --exclude='.specs/product' --exclude='.specs/architecture' --exclude='.specs/sprints' /tmp/agentic-starter-src/ ./
+rsync -av --exclude='.git' --exclude='.specs/product' --exclude='.specs/architecture' --exclude='.specs/sprints' /tmp/llm-project-mapper-src/ ./
 ```
 
 O `--exclude` preserva o conteúdo que **você** escreveu em `.specs/` (vision, ADRs, sprints). Adapta se você customizou outras pastas.
@@ -257,7 +257,7 @@ rm -f .github/copilot-instructions.md .github/workflows/dod.yml
 # rm -f playwright.config.ts
 # rm -rf tests/  presentation/  video/
 
-# tira o bloco "Agentic Starter (overlay privado)" do .gitignore manualmente
+# tira o bloco "LLM Project Mapper (overlay privado)" do .gitignore manualmente
 ```
 
 Não há `git rm` envolvido — esses arquivos estão gitignored, nunca foram commitados.
@@ -283,7 +283,7 @@ O bloco recomendado para esse caso (modo compartilhado) é o que o `bootstrap.sh
 | Sou o único dev usando agents nesse projeto | **Overlay privado** (este guia) |
 | Quero testar antes de commitar para o time | **Overlay privado** primeiro |
 | Time inteiro vai trabalhar com agents | **Shared** (commita no repo do host) |
-| Projeto novo do zero, agents desde o dia 1 | **Standalone** — clona o agentic-starter direto, não overlay |
+| Projeto novo do zero, agents desde o dia 1 | **Standalone** — clona o llm-project-mapper direto, não overlay |
 
 ---
 

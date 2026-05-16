@@ -1,10 +1,10 @@
 // Cue sheet — SFX cues a serem aplicados em editor externo (CapCut/Premiere) ou
 // localmente via `<Audio>` apontando para arquivos em assets/sfx/ (não bundlados
 // no repo para manter o tarball leve). Frames calculados a partir do TIMELINE
-// em WhyAgenticStarter.tsx (30 fps).
+// em WhyLlmProjectMapper.tsx (30 fps).
 //
 // Para usar audio local: baixe SFX free de pixabay/freesound em assets/sfx/,
-// importe via `staticFile()` no WhyAgenticStarter.tsx e adicione `<Audio>`
+// importe via `staticFile()` no WhyLlmProjectMapper.tsx e adicione `<Audio>`
 // dentro de `<Sequence from={cue.from}>`.
 
 export type SfxCue = {

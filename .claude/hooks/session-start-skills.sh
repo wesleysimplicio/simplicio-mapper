@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# SessionStart hook — injeta skills always-on do Agentic-Starter no contexto da sessão.
+# SessionStart hook — injeta skills always-on do LLM-Project-Mapper no contexto da sessão.
 # Disparado automaticamente pelo Claude Code conforme .claude/settings.json.
 # Stdout vira contexto adicional pro agent (formato livre).
 
 set -euo pipefail
 
 cat <<'EOF'
-[Agentic-Starter — Skills always-on ativas neste projeto]
+[LLM-Project-Mapper — Skills always-on ativas neste projeto]
 
 Três skills são padrão obrigatório e estão ativas desde o início da sessão:
 

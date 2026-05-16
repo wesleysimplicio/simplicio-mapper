@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * Agentic Starter - CLI scaffolder.
+ * LLM Project Mapper - CLI scaffolder.
  *
  * Run inside any project to install the starter pack:
- *   npx @wesleysimplicio/agentic-starter
+ *   npx @wesleysimplicio/llm-project-mapper
  *
  * Behavior (mirror of bootstrap.sh / bootstrap.ps1):
  *   1. Auto-detects PRODUCT_NAME and STACK (Node/.NET/Python/Go/Rust/Flutter/PHP/...).
@@ -99,10 +99,10 @@ const WALK_SKIP_DIRS = new Set([
   '.next', '.nuxt', 'coverage', 'playwright-report', 'test-results',
 ]);
 
-const GITIGNORE_MARKER = '# === Agentic Starter (auto-managed)';
-const GITIGNORE_END_MARKER = '# === End Agentic Starter (auto-managed) ===';
+const GITIGNORE_MARKER = '# === LLM Project Mapper (auto-managed)';
+const GITIGNORE_END_MARKER = '# === End LLM Project Mapper (auto-managed) ===';
 
-const RECOMMENDED_IGNORES = `# === Agentic Starter (auto-managed) — do not remove this header ===
+const RECOMMENDED_IGNORES = `# === LLM Project Mapper (auto-managed) — do not remove this header ===
 # Local agent state and ephemeral artifacts created by the starter.
 .starter-meta.json
 .codex/local
@@ -149,7 +149,7 @@ pnpm-debug.log*
 *.tgz
 *.tar.gz
 
-# Agentic starter tracked files
+# LLM Project Mapper tracked files
 .starter-meta.json
 .claude/settings.local.json
 AGENTS.md
@@ -177,7 +177,7 @@ coverage/**
 bootstrap.ps1
 bootstrap.sh
 playwright.config.ts
-# === End Agentic Starter (auto-managed) ===
+# === End LLM Project Mapper (auto-managed) ===
 `;
 
 const GITATTRIBUTES_CONTENT = `# Cross-platform line endings.
@@ -319,12 +319,12 @@ if (opts.update) {
 }
 
 function printHelp() {
-  console.log(`agentic-starter v${PKG.version}
+  console.log(`llm-project-mapper v${PKG.version}
 
-Scaffold the Agentic Starter pack into the current directory.
+Scaffold the LLM Project Mapper pack into the current directory.
 
 USAGE
-  npx @wesleysimplicio/agentic-starter [options]
+  npx @wesleysimplicio/llm-project-mapper [options]
 
 OPTIONS
   -y, --yes                   Non-interactive (defaults: no gitignore append, skip CLI handoff)
@@ -342,13 +342,13 @@ OPTIONS
   -h, --help                  Show this help
 
 EXAMPLES
-  npx @wesleysimplicio/agentic-starter
-  npx @wesleysimplicio/agentic-starter --yes
-  npx @wesleysimplicio/agentic-starter --yes --cli claude --append-gitignore yes
-  npx @wesleysimplicio/agentic-starter@latest --update
+  npx @wesleysimplicio/llm-project-mapper
+  npx @wesleysimplicio/llm-project-mapper --yes
+  npx @wesleysimplicio/llm-project-mapper --yes --cli claude --append-gitignore yes
+  npx @wesleysimplicio/llm-project-mapper@latest --update
 
 DOCS
-  https://github.com/wesleysimplicio/agentic-starter
+  https://github.com/wesleysimplicio/llm-project-mapper
 `);
 }
 
@@ -512,14 +512,14 @@ function detectExistingInstructionFiles() {
     const abs = path.join(CWD, rel);
     if (!fs.existsSync(abs)) continue;
     const content = readSafe(abs);
-    if (/Agentic Starter|<PRODUCT_NAME>|<STACK>/.test(content)) continue;
+    if (/LLM Project Mapper|<PRODUCT_NAME>|<STACK>/.test(content)) continue;
     found.push(rel);
   }
   return found;
 }
 
 function looksStarterManagedContent(content) {
-  return /Agentic Starter Pack|@wesleysimplicio\/agentic-starter|<PRODUCT_NAME>|<STACK>/.test(content);
+  return /LLM Project Mapper|@wesleysimplicio\/llm-project-mapper|<PRODUCT_NAME>|<STACK>/.test(content);
 }
 
 function readExistingMeta() {
@@ -623,7 +623,7 @@ async function handleGitignore(rl) {
     } else {
       const next = upsertGitignore(existing);
       fs.writeFileSync(gi, next);
-      if (existing.includes(GITIGNORE_MARKER) || existing.includes('# Agentic starter tracked files')) {
+      if (existing.includes(GITIGNORE_MARKER) || existing.includes('# LLM Project Mapper tracked files')) {
         log('→ Recommended entries UPDATED in .gitignore.\n');
       } else {
         log('→ Recommended entries APPENDED to .gitignore (original content preserved).\n');
@@ -653,6 +653,7 @@ async function handleGitignore(rl) {
 function upsertGitignore(existing) {
   const starts = [
     existing.indexOf(GITIGNORE_MARKER),
+    existing.indexOf('# LLM Project Mapper tracked files'),
     existing.indexOf('# Agentic starter tracked files'),
   ].filter(index => index >= 0);
 
@@ -746,7 +747,7 @@ function writeMeta(productName, stack, projectMode, projectsList, existingInstru
     projects: projectsList,
     bootstrapped_at: new Date().toISOString(),
     starter_version: PKG.version,
-    cli: '@wesleysimplicio/agentic-starter',
+    cli: '@wesleysimplicio/llm-project-mapper',
     existing_instruction_files: existingInstructionFiles,
     preserved_user_files: preservedUserFiles,
     init_must_ask: [],
@@ -890,8 +891,8 @@ function handoff(cliChoice) {
       log('  1) Open an agent in this folder.');
       log('  2) Paste the prompt above.');
       log('  3) Review .specs/product/VISION.md, DOMAIN.md, architecture/DESIGN.md.');
-      log('  4) git add -A && git commit -m "chore: bootstrap agentic starter"\n');
-      log('Docs: https://github.com/wesleysimplicio/agentic-starter');
+      log('  4) git add -A && git commit -m "chore: bootstrap llm project mapper"\n');
+      log('Docs: https://github.com/wesleysimplicio/llm-project-mapper');
       return;
   }
 }
@@ -911,7 +912,7 @@ async function main() {
   const stack        = projectMode === 'monorepo' ? 'monorepo' : detectStack();
 
   log('==========================================');
-  log('  Agentic Starter - Bootstrap (npx)');
+  log('  LLM Project Mapper - Bootstrap (npx)');
   log(`  v${PKG.version}`);
   log('==========================================\n');
   log('Auto-detected (agent will infer team/domain/personas/vision from code):');
