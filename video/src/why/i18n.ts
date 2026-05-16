@@ -96,7 +96,7 @@ export const STRINGS_WHY: Record<Lang, WhyStrings> = {
     },
     reveal: {
       pre: "E se a IA já soubesse de tudo?",
-      brand: "agentic-starter",
+      brand: "llm-project-mapper",
       sub: "um padrão que faz qualquer agente entender o projeto na primeira mensagem",
     },
     anatomy: {
@@ -124,8 +124,8 @@ export const STRINGS_WHY: Record<Lang, WhyStrings> = {
     },
     sideBySide: {
       overline: "04 — Antes vs depois",
-      leftTitle: "Sem agentic-starter",
-      rightTitle: "Com agentic-starter",
+      leftTitle: "Sem llm-project-mapper",
+      rightTitle: "Com llm-project-mapper",
       leftChat: [
         { role: "user", text: "implementa o login" },
         { role: "ai", text: "qual stack? qual padrão de auth?" },
@@ -161,9 +161,9 @@ export const STRINGS_WHY: Record<Lang, WhyStrings> = {
     },
     cta: {
       title: "Começa em 30 segundos.",
-      command: "npx @wesleysimplicio/agentic-starter init",
-      repo: "github.com/wesleysimplicio/agentic-starter",
-      footer: "agentic-starter · pare de explicar seu projeto pra IA",
+      command: "npx @wesleysimplicio/llm-project-mapper init",
+      repo: "github.com/wesleysimplicio/llm-project-mapper",
+      footer: "llm-project-mapper · pare de explicar seu projeto pra IA",
     },
     sceneLabels: [
       "Hook",
@@ -203,7 +203,7 @@ export const STRINGS_WHY: Record<Lang, WhyStrings> = {
     },
     reveal: {
       pre: "What if AI already knew everything?",
-      brand: "agentic-starter",
+      brand: "llm-project-mapper",
       sub: "a standard that lets any agent understand the project on the first message",
     },
     anatomy: {
@@ -231,8 +231,8 @@ export const STRINGS_WHY: Record<Lang, WhyStrings> = {
     },
     sideBySide: {
       overline: "04 — Before vs after",
-      leftTitle: "Without agentic-starter",
-      rightTitle: "With agentic-starter",
+      leftTitle: "Without llm-project-mapper",
+      rightTitle: "With llm-project-mapper",
       leftChat: [
         { role: "user", text: "implement login" },
         { role: "ai", text: "which stack? auth pattern?" },
@@ -268,9 +268,9 @@ export const STRINGS_WHY: Record<Lang, WhyStrings> = {
     },
     cta: {
       title: "Start in 30 seconds.",
-      command: "npx @wesleysimplicio/agentic-starter init",
-      repo: "github.com/wesleysimplicio/agentic-starter",
-      footer: "agentic-starter · stop explaining your project to AI",
+      command: "npx @wesleysimplicio/llm-project-mapper init",
+      repo: "github.com/wesleysimplicio/llm-project-mapper",
+      footer: "llm-project-mapper · stop explaining your project to AI",
     },
     sceneLabels: [
       "Hook",

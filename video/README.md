@@ -1,6 +1,6 @@
 # Skills Tutorial — Vídeo Remotion
 
-Vídeo explicativo (1080p · 30fps · ~59s) sobre **como usar as skills** do `agentic-starter`. Construído com [Remotion](https://www.remotion.dev/) — vídeo programático em React. Mesma timeline em **dois idiomas** (pt-BR e en) via `<LangProvider>` + dicionário em `src/i18n.ts`.
+Vídeo explicativo (1080p · 30fps · ~59s) sobre **como usar as skills** do `llm-project-mapper`. Construído com [Remotion](https://www.remotion.dev/) — vídeo programático em React. Mesma timeline em **dois idiomas** (pt-BR e en) via `<LangProvider>` + dicionário em `src/i18n.ts`.
 
 | Idioma | Vídeo | Capa | Stills | Composition ID |
 |---|---|---|---|---|

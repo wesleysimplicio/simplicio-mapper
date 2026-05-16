@@ -107,7 +107,7 @@ export const STRINGS: Record<Lang, Strings> = {
       title: "Skills",
       taglinePre: "Como usar as ",
       taglineMid: "capacidades reutilizáveis",
-      taglinePost: "do agentic-starter",
+      taglinePost: "do llm-project-mapper",
     },
     whatAreSkills: {
       overline: "01 — Conceito",
@@ -316,7 +316,7 @@ export const STRINGS: Record<Lang, Strings> = {
       ],
       ctaCommand: "cp -R .skills/_template .skills/<sua-skill>",
       ctaLine: "crie a sua primeira skill agora ⚡",
-      footer: "agentic-starter · skills tutorial",
+      footer: "llm-project-mapper · skills tutorial",
     },
     sceneLabels: [
       "Intro",
@@ -335,7 +335,7 @@ export const STRINGS: Record<Lang, Strings> = {
       title: "Skills",
       taglinePre: "How to use the ",
       taglineMid: "reusable capabilities",
-      taglinePost: "of agentic-starter",
+      taglinePost: "of llm-project-mapper",
     },
     whatAreSkills: {
       overline: "01 — Concept",
@@ -545,7 +545,7 @@ export const STRINGS: Record<Lang, Strings> = {
       ],
       ctaCommand: "cp -R .skills/_template .skills/<your-skill>",
       ctaLine: "ship your first skill today ⚡",
-      footer: "agentic-starter · skills tutorial",
+      footer: "llm-project-mapper · skills tutorial",
     },
     sceneLabels: [
       "Intro",

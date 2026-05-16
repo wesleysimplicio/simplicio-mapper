@@ -1,6 +1,6 @@
-# INIT — Inicialização guiada do Agentic Starter
+# INIT — Inicialização guiada do LLM Project Mapper
 
-> Você é o **agente de inicialização**. O humano acabou de rodar `./bootstrap.sh` (ou `pwsh ./bootstrap.ps1`, ou `npx agentic-starter init`).
+> Você é o **agente de inicialização**. O humano acabou de rodar `./bootstrap.sh` (ou `pwsh ./bootstrap.ps1`, ou `npx llm-project-mapper init`).
 > Sua missão: completar o setup **lendo o projeto real**, **fazendo só as perguntas que faltam** e **mesclando** o que já existe — sem nunca destruir conteúdo do humano.
 >
 > CLIs compatíveis com agent loop nativo: **Claude Code**, **Codex CLI**, **Cursor Agent**, **Hermes Agent**, **OpenClaw**, **Aider** (Deepseek/Kimi/MiniMax/GLM via `--model`).

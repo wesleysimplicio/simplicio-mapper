@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# bootstrap.sh — Agentic Starter installer/upgrader.
+# bootstrap.sh — LLM Project Mapper installer/upgrader.
 #
 # Philosophy: zero questions about the project itself. The agent reads code
 # and infers domain, personas, vision, team. The only human input is operational
@@ -232,7 +232,7 @@ else
 fi
 
 echo "=========================================="
-echo "  Agentic Starter - Bootstrap"
+echo "  LLM Project Mapper - Bootstrap"
 echo "=========================================="
 echo ""
 echo "Auto-detected (agent will infer team/domain/personas/vision from code):"
@@ -250,7 +250,7 @@ echo ""
 EXISTING_INSTRUCTION_FILES=()
 for f in AGENTS.md CLAUDE.md INIT.md .github/copilot-instructions.md; do
   if [[ -f "$f" ]]; then
-    if ! grep -q 'Agentic Starter\|<PRODUCT_NAME>\|<STACK>' "$f" 2>/dev/null; then
+    if ! grep -q 'LLM Project Mapper\|<PRODUCT_NAME>\|<STACK>' "$f" 2>/dev/null; then
       EXISTING_INSTRUCTION_FILES+=("$f")
     fi
   fi
@@ -335,7 +335,7 @@ echo ""
 # ---------------------------------------------------------------------------
 # .gitignore — NEVER overwrite. Append (or create) on opt-in only.
 # ---------------------------------------------------------------------------
-RECOMMENDED_IGNORES='# === Agentic Starter (auto-managed) — do not remove this header ===
+RECOMMENDED_IGNORES='# === LLM Project Mapper (auto-managed) — do not remove this header ===
 # Local agent state and ephemeral artifacts created by the starter.
 .starter-meta.json
 .codex/local
@@ -382,7 +382,7 @@ pnpm-debug.log*
 *.tgz
 *.tar.gz
 
-# Agentic starter tracked files
+# LLM Project Mapper tracked files
 .starter-meta.json
 .claude/settings.local.json
 AGENTS.md
@@ -440,7 +440,7 @@ handle_gitignore() {
   fi
 
   if [[ -f .gitignore ]]; then
-    if grep -q "Agentic Starter (auto-managed)" .gitignore 2>/dev/null; then
+    if grep -q "LLM Project Mapper (auto-managed)" .gitignore 2>/dev/null; then
       echo "-> Recommended entries already present in .gitignore. Nothing to do."
     else
       printf '\n%s\n' "$RECOMMENDED_IGNORES" >> .gitignore
@@ -683,9 +683,9 @@ Recommended next steps:
   1) Open an agent in this folder.
   2) Paste the prompt above.
   3) Review .specs/product/VISION.md, DOMAIN.md, architecture/DESIGN.md.
-  4) git add -A && git commit -m "chore: bootstrap agentic starter"
+  4) git add -A && git commit -m "chore: bootstrap llm project mapper"
 
-Docs: https://github.com/wesleysimplicio/agentic-starter
+Docs: https://github.com/wesleysimplicio/llm-project-mapper
 EOF
     ;;
 esac

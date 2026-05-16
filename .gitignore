@@ -62,7 +62,7 @@ Thumbs.db
 *.tar.gz
 .pnpm-store/
 
-# Agentic starter tracked files
+# LLM Project Mapper tracked files
 .starter-meta.json
 .claude/settings.local.json
 AGENTS.md

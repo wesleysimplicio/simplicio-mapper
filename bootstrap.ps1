@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Agentic Starter installer/upgrader (Windows native / PowerShell 5.1+ / pwsh 7+).
+  LLM Project Mapper installer/upgrader (Windows native / PowerShell 5.1+ / pwsh 7+).
 
 .DESCRIPTION
   Mirror of bootstrap.sh:
@@ -162,7 +162,7 @@ if ($ProjectMode -eq "monorepo") {
 }
 
 Write-Host "=========================================="
-Write-Host "  Agentic Starter - Bootstrap (PowerShell)"
+Write-Host "  LLM Project Mapper - Bootstrap (PowerShell)"
 Write-Host "=========================================="
 Write-Host ""
 Write-Host "Auto-detected (agent will infer team/domain/personas/vision from code):"
@@ -182,7 +182,7 @@ $candidates = @("AGENTS.md","CLAUDE.md","INIT.md",".github/copilot-instructions.
 foreach ($f in $candidates) {
   if (Test-Path $f) {
     $content = Get-Content $f -Raw -ErrorAction SilentlyContinue
-    if ($content -and $content -notmatch 'Agentic Starter|<PRODUCT_NAME>|<STACK>') {
+    if ($content -and $content -notmatch 'LLM Project Mapper|<PRODUCT_NAME>|<STACK>') {
       $ExistingInstructionFiles += $f
     }
   }
@@ -262,7 +262,7 @@ Write-Host ""
 # .gitignore — NEVER overwrite. Append (or create) on opt-in only.
 # ---------------------------------------------------------------------------
 $RecommendedIgnores = @"
-# === Agentic Starter (auto-managed) — do not remove this header ===
+# === LLM Project Mapper (auto-managed) — do not remove this header ===
 # Local agent state and ephemeral artifacts created by the starter.
 .starter-meta.json
 .codex/local
@@ -309,7 +309,7 @@ pnpm-debug.log*
 *.tgz
 *.tar.gz
 
-# Agentic starter tracked files
+# LLM Project Mapper tracked files
 .starter-meta.json
 .claude/settings.local.json
 AGENTS.md
@@ -366,7 +366,7 @@ function Handle-Gitignore {
 
   if (Test-Path ".gitignore") {
     $existing = Get-Content ".gitignore" -Raw -ErrorAction SilentlyContinue
-    if ($existing -match "Agentic Starter \(auto-managed\)") {
+    if ($existing -match "LLM Project Mapper \(auto-managed\)") {
       Write-Host "-> Recommended entries already present in .gitignore. Nothing to do."
     } else {
       Add-Content -Path ".gitignore" -Value "`n$RecommendedIgnores"
@@ -568,9 +568,9 @@ Recommended next steps:
   1) Open an agent in this folder.
   2) Paste the prompt above.
   3) Review .specs/product/VISION.md, DOMAIN.md, architecture/DESIGN.md.
-  4) git add -A; git commit -m "chore: bootstrap agentic starter"
+  4) git add -A; git commit -m "chore: bootstrap llm project mapper"
 
-Docs: https://github.com/wesleysimplicio/agentic-starter
+Docs: https://github.com/wesleysimplicio/llm-project-mapper
 "@ | Write-Host
   }
 }

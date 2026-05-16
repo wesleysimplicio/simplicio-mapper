@@ -382,7 +382,7 @@ Mede semanalmente. Ajusta loop.
 ## Próximo Passo
 
 ```bash
-git clone agentic-starter meu-projeto
+git clone llm-project-mapper meu-projeto
 cd meu-projeto
 # Customizar <PLACEHOLDERS>
 # Primeiro spec: VISION.md

@@ -1,8 +1,8 @@
-# 🚀 BOOTSTRAP — Agentic Starter Pack
+# 🚀 BOOTSTRAP — LLM Project Mapper
 
 **Para Claude Code executar com multi-agents.**
 
-Wesley criou pasta vazia `/Users/wesleysimplicio/Projetos/novos/agentic-starter/`.
+Wesley criou pasta vazia `/Users/wesleysimplicio/Projetos/novos/llm-project-mapper/`.
 Sua missão: popular com starter completo + gerar apresentação PDF/PPT.
 
 ---
@@ -18,7 +18,7 @@ Plus: apresentação visual sobre **"Como ser AI Agent Specialist"** baseada nos
 ## 📁 File tree completo (criar TUDO)
 
 ```
-agentic-starter/
+llm-project-mapper/
 ├── README.md                          # explica o starter pack
 ├── AGENTS.md                          # instruction file Codex/Claude Code
 ├── CLAUDE.md                          # symlink ou cópia de AGENTS.md
@@ -335,14 +335,14 @@ Aloca @gerente (Opus) como orchestrator. Spawn em paralelo onde não tem depend�
 - [ ] `.gitignore` inclui artifacts certos
 - [ ] PDF e PPTX gerados em `presentation/`
 - [ ] PDF abre, slides legíveis
-- [ ] Wesley consegue `cp -R agentic-starter/ ../novo-projeto/` e ter base AI-friendly
+- [ ] Wesley consegue `cp -R llm-project-mapper/ ../novo-projeto/` e ter base AI-friendly
 - [ ] README explica próximos passos pós-clone
 
 ---
 
 ## 🎬 Comando inicial pro Claude Code
 
-Wesley vai abrir Claude Code dentro de `/Users/wesleysimplicio/Projetos/novos/agentic-starter/` e rodar:
+Wesley vai abrir Claude Code dentro de `/Users/wesleysimplicio/Projetos/novos/llm-project-mapper/` e rodar:
 
 ```
 Lê _BOOTSTRAP.md e executa. Use multi-agents (@gerente orquestra, spawn 
