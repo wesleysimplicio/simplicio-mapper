@@ -4,6 +4,8 @@
 >
 > If you want to run the starter as a standalone repo (direct clone, no host project), see [README.md](README.md). This guide is for **overlay**.
 
+<img src="assets/overlay-install.svg" alt="Animated terminal screencast showing cd into host-project, npx llm-project-mapper, CLI prompts, and ls .specs/" width="100%">
+
 > 🇧🇷 Portuguese version: [INSTALL.md](INSTALL.md).
 
 ---

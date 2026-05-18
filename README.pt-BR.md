@@ -198,6 +198,8 @@ Os três caminhos produzem o mesmo resultado e fazem as mesmas duas perguntas.
 
 Quer colocar o starter num projeto que já tem git próprio, **sem poluir o repo do host**? Cada dev instala localmente, os arquivos ficam gitignored. Passo-a-passo completo em [INSTALL.md](INSTALL.md). Versão curta:
 
+<img src="assets/overlay-install.svg" alt="Terminal animado mostrando o fluxo de instalação overlay dentro de um projeto host" width="100%">
+
 ```bash
 # dentro da raiz do projeto host
 git clone --depth=1 https://github.com/wesleysimplicio/llm-project-mapper.git /tmp/llm-project-mapper-src

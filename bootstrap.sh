@@ -113,16 +113,16 @@ read_json_field() {
 read_toml_field() {
   local file="$1" field="$2"
   [[ -f "$file" ]] || return 1
-  grep -m1 "^[[:space:]]*$field[[:space:]]*=" "$file" 2>/dev/null \
-    | sed -E "s/^[[:space:]]*$field[[:space:]]*=[[:space:]]*\"([^\"]+)\".*/\1/" \
+  grep -m1 "^[[:space:]]*${field}[[:space:]]*=" "$file" 2>/dev/null \
+    | sed -E "s/^[[:space:]]*${field}[[:space:]]*=[[:space:]]*\"([^\"]+)\".*/\1/" \
     | head -1
 }
 
 read_yaml_field() {
   local file="$1" field="$2"
   [[ -f "$file" ]] || return 1
-  grep -m1 "^[[:space:]]*$field[[:space:]]*:" "$file" 2>/dev/null \
-    | sed -E "s/^[[:space:]]*$field[[:space:]]*:[[:space:]]*\"?([^\"#[:space:]]+)\"?.*/\1/" \
+  grep -m1 "^[[:space:]]*${field}[[:space:]]*:" "$file" 2>/dev/null \
+    | sed -E "s/^[[:space:]]*${field}[[:space:]]*:[[:space:]]*\"?([^\"#[:space:]]+)\"?.*/\1/" \
     | head -1
 }
 

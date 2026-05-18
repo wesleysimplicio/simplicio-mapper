@@ -7,6 +7,7 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 ## [Unreleased]
 
 ### Added
+- Animated overlay-install screencast at `assets/overlay-install.svg`, embedded in the README and install guides.
 - `LICENSE` (MIT) at repository root and shipped in npm tarball.
 - `CHANGELOG.md` (this file) covering history v0.1.0 → v0.2.0.
 - `npm run lint` script — wraps ESLint-equivalent checks for `bin/`, `tests/`, `scripts/`, shell scripts and Markdown.

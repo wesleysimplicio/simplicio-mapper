@@ -6,6 +6,8 @@
 >
 > Se você quer rodar o starter como repo standalone (clone direto, sem projeto host), veja o [README](README.md). Esse guia é só para **overlay**.
 
+<img src="assets/overlay-install.svg" alt="Terminal animado mostrando cd no host-project, npx llm-project-mapper, prompts do CLI e ls .specs/" width="100%">
+
 ---
 
 ## TL;DR — 4 passos

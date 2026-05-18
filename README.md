@@ -198,6 +198,8 @@ All three paths produce the same result and ask the same two questions.
 
 Want to drop the starter into a project that already has its own git, **without polluting the host repo**? Each dev installs locally, files stay gitignored. Full step-by-step in [INSTALL.md](INSTALL.md). Short version:
 
+<img src="assets/overlay-install.svg" alt="Animated terminal screencast showing the overlay install flow in a host project" width="100%">
+
 ```bash
 # from inside the host project root
 git clone --depth=1 https://github.com/wesleysimplicio/llm-project-mapper.git /tmp/llm-project-mapper-src
