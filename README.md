@@ -341,6 +341,13 @@ git add -A; git commit -m "chore: remove starter bootstrap files"
 
 ---
 
+## Companion tooling
+
+- **VS Code extension** — `vscode-extension/` ships a sidebar TreeView for `.specs/sprints/`, plus commands to open the current task, create ADRs, and run the `INIT.md` handoff. See [vscode-extension/README.md](vscode-extension/README.md). Will be published to the Marketplace as `wesleysimplicio.llm-project-mapper-vscode`.
+- **Telemetry (opt-in)** — `bin/cli.js` accepts `--telemetry on|off`. Default is off. See [PRIVACY.md](PRIVACY.md) for the exact payload and how to deploy your own [`telemetry-worker.js`](.github/workflows-templates/telemetry-worker.js).
+
+---
+
 ## Philosophy
 
 - **Specs as code.** What is not in `.specs/`, the agent does not see.

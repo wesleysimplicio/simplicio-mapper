@@ -294,6 +294,7 @@ const opts = {
   appendGitignore: '',
   preset: '',
   noUpdateCheck: false,
+  telemetry: '',
 };
 
 for (let i = 0; i < argv.length; i++) {
@@ -311,6 +312,7 @@ for (let i = 0; i < argv.length; i++) {
     case '--append-gitignore': opts.appendGitignore = argv[++i]; break;
     case '--preset':           opts.preset = argv[++i]; break;
     case '--no-update-check':  opts.noUpdateCheck = true; break;
+    case '--telemetry':        opts.telemetry = argv[++i]; break;
     case '-v':
     case '--version':
       console.log(PKG.version);
@@ -371,6 +373,10 @@ OPTIONS
                               to see available presets.
   --no-update-check           Disable the npm-registry semver check on startup
                               (also honored via env LLM_PROJECT_MAPPER_NO_UPDATE_CHECK=1)
+  --telemetry <on|off>        Opt in/out of anonymous install telemetry.
+                              Default is OFF. Also honored via env
+                              LLM_PROJECT_MAPPER_TELEMETRY=on|off. See PRIVACY.md
+                              for what gets sent.
   --silent                    Minimal output
   -v, --version               Print version
   -h, --help                  Show this help
@@ -425,6 +431,87 @@ function maybeNotifyUpdate() {
     },
   ).on('error', () => { /* offline or registry unreachable — silent */ })
    .on('timeout', function onTimeout() { this.destroy(); });
+}
+
+function telemetryEnabled() {
+  // Resolution order (last wins): config file < env var < CLI flag.
+  let enabled = false;
+  const configPath = path.join(os.homedir(), '.config', 'llm-project-mapper', 'telemetry.json');
+  try {
+    const cfg = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+    if (cfg && typeof cfg.enabled === 'boolean') enabled = cfg.enabled;
+  } catch { /* no config yet */ }
+  const envVal = (process.env.LLM_PROJECT_MAPPER_TELEMETRY || '').toLowerCase();
+  if (envVal === 'on'  || envVal === '1' || envVal === 'true')  enabled = true;
+  if (envVal === 'off' || envVal === '0' || envVal === 'false') enabled = false;
+  if (opts.telemetry === 'on')  enabled = true;
+  if (opts.telemetry === 'off') enabled = false;
+  return enabled;
+}
+
+function persistTelemetryChoice(enabled) {
+  try {
+    const dir = path.join(os.homedir(), '.config', 'llm-project-mapper');
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(
+      path.join(dir, 'telemetry.json'),
+      JSON.stringify({ enabled, choiceAt: new Date().toISOString() }, null, 2) + '\n',
+    );
+  } catch { /* best-effort */ }
+}
+
+function maybeSendTelemetry(productName, stack, projectMode) {
+  // Hard gates first — never send under any of these conditions.
+  if (opts.dryRun) return;
+  if (process.env.CI) return;
+  if (process.env.LLM_PROJECT_MAPPER_TELEMETRY === '0' || process.env.LLM_PROJECT_MAPPER_TELEMETRY === 'off') return;
+  if (opts.telemetry === 'off') return;
+
+  if (!telemetryEnabled()) return;
+
+  // Endpoint must be explicitly configured (no default beacon URL — opt-in even after opt-in).
+  const endpoint = process.env.LLM_PROJECT_MAPPER_TELEMETRY_URL;
+  if (!endpoint) return;
+
+  let url;
+  try {
+    url = new URL(endpoint);
+  } catch { return; }
+  if (url.protocol !== 'https:') return; // require TLS
+
+  const payload = {
+    starter_version: PKG.version,
+    stack: stack || 'unknown',
+    project_mode: projectMode || 'root',
+    preset: opts.preset || null,
+    node_version: process.versions.node,
+    os: process.platform,
+    arch: process.arch,
+    cli_runtime: '@wesleysimplicio/llm-project-mapper',
+    timestamp: new Date().toISOString(),
+  };
+  // Intentionally never include: product_name, cwd, hostname, username, env, paths, git remote.
+
+  const body = JSON.stringify(payload);
+  const req = https.request(
+    {
+      method: 'POST',
+      hostname: url.hostname,
+      port: url.port || 443,
+      path: url.pathname + url.search,
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(body),
+        'User-Agent': `llm-project-mapper/${PKG.version}`,
+      },
+      timeout: 1500,
+    },
+    (res) => { res.resume(); /* drain and discard */ },
+  );
+  req.on('error', () => { /* offline / endpoint down — silent */ });
+  req.on('timeout', () => req.destroy());
+  req.write(body);
+  req.end();
 }
 
 function readSafe(p) { try { return fs.readFileSync(p, 'utf8'); } catch { return ''; } }
@@ -1018,6 +1105,10 @@ async function main() {
     await handleGitignore(rl);
     substitute(productName, stack);
     writeMeta(productName, stack, projectMode, projectsList, existingInstructionFiles, preservedUserFiles);
+    if (opts.telemetry === 'on' || opts.telemetry === 'off') {
+      persistTelemetryChoice(opts.telemetry === 'on');
+    }
+    maybeSendTelemetry(productName, stack, projectMode);
     log('');
 
     const cliChoice = await chooseCli(rl);
