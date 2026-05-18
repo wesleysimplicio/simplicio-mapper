@@ -126,12 +126,14 @@ function lintPowerShell() {
     path.join(ROOT, 'bootstrap.ps1'),
     ...walk(path.join(ROOT, 'scripts'), (f) => f.endsWith('.ps1')),
     ...walk(path.join(ROOT, '.claude/hooks'), (f) => f.endsWith('.ps1')),
+    ...walk(path.join(ROOT, '.codex/hooks'), (f) => f.endsWith('.ps1')),
   ].filter(fs.existsSync);
+  const settings = path.join(ROOT, '.github', 'PSScriptAnalyzerSettings.psd1');
   for (const file of files) {
     const result = spawnSync('pwsh', [
       '-NoProfile',
       '-Command',
-      `Invoke-ScriptAnalyzer -Path '${file}' -Severity Warning -EnableExit`,
+      `$issues = Invoke-ScriptAnalyzer -Path '${file}' -Settings '${settings}'; if ($issues) { $issues | Format-List | Out-String | Write-Host; exit 1 } else { exit 0 }`,
     ], { encoding: 'utf8' });
     if (result.status !== 0) {
       log('error', `PSScriptAnalyzer failed for ${path.relative(ROOT, file)}\n${result.stdout.trim()}`);

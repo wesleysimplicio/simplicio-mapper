@@ -9,6 +9,8 @@
   "files": [
     "LICENSE",
     "CHANGELOG.md",
+    "PRIVACY.md",
+    "SHOWCASE.md",
     "bin/",
     "AGENTS.md",
     "CLAUDE.md",

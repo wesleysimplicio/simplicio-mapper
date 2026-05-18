@@ -6,6 +6,14 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 
 ## [Unreleased]
 
+### Added
+- `vscode-extension/` scaffold for `wesleysimplicio.llm-project-mapper-vscode`. Ships a TreeView for `.specs/sprints/`, plus commands `lpm.openCurrentTask`, `lpm.createAdr`, `lpm.runInit`, `lpm.refresh` and a live status-bar indicator. Pure filesystem walker (`src/scan.ts`) covered by `node --test` unit tests.
+- `--telemetry on|off` flag on `bin/cli.js` (default off). Honored via `LLM_PROJECT_MAPPER_TELEMETRY` env var. Persists user choice to `~/.config/llm-project-mapper/telemetry.json`. Hard-disabled under `CI`, `--dry-run`, or when no `LLM_PROJECT_MAPPER_TELEMETRY_URL` is set.
+- `PRIVACY.md` documenting telemetry payload shape, opt-in mechanics, and kill switches.
+- `.github/workflows-templates/telemetry-worker.js` — reference Cloudflare Worker template (PII-sanitized aggregator).
+- README sections (EN + PT-BR) under "Companion tooling" linking the new extension and PRIVACY.md.
+- `tests/unit/cli-telemetry.test.js` — 5 new tests covering opt-in/out persistence and help-text presence.
+
 ## [0.2.2] - 2026-05-18
 
 ### Added
