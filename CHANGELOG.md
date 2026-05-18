@@ -6,7 +6,10 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-05-18
+
 ### Added
+- `docs-site/` Docusaurus hub with GitHub Pages deployment workflow, local search, and versioned docs generated from repository markdown sources.
 - Animated overlay-install screencast at `assets/overlay-install.svg`, embedded in the README and install guides.
 - `LICENSE` (MIT) at repository root and shipped in npm tarball.
 - `CHANGELOG.md` (this file) covering history v0.1.0 → v0.2.0.
@@ -110,7 +113,8 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 - Remotion skills tutorial video in PT-BR. ([#1](https://github.com/wesleysimplicio/llm-project-mapper/pull/1))
 - i18n layer + English skills tutorial video. ([#2](https://github.com/wesleysimplicio/llm-project-mapper/pull/2))
 
-[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/wesleysimplicio/llm-project-mapper/releases/tag/v0.2.0
 [0.1.6]: https://github.com/wesleysimplicio/llm-project-mapper/releases/tag/v0.1.6
 [0.1.5]: https://github.com/wesleysimplicio/llm-project-mapper/releases/tag/v0.1.5

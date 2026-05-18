@@ -19,6 +19,21 @@ const { spawnSync } = require('node:child_process');
 
 const ROOT = path.resolve(__dirname, '..');
 const FIX = process.argv.includes('--fix');
+const SKIP_DIRS = new Set([
+  '.git',
+  '.docusaurus',
+  '.next',
+  '.nuxt',
+  '.svelte-kit',
+  '.turbo',
+  'build',
+  'coverage',
+  'dist',
+  'node_modules',
+  'out',
+  'playwright-report',
+  'test-results',
+]);
 
 const RESULTS = { errors: 0, warnings: 0, skipped: [] };
 
@@ -35,7 +50,7 @@ function log(level, message) {
 function walk(dir, predicate, acc = []) {
   if (!fs.existsSync(dir)) return acc;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === 'node_modules' || entry.name === '.git') continue;
+    if (SKIP_DIRS.has(entry.name)) continue;
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) walk(full, predicate, acc);
     else if (predicate(full)) acc.push(full);
@@ -48,6 +63,7 @@ function lintJavaScript() {
     ...walk(path.join(ROOT, 'bin'), (f) => f.endsWith('.js')),
     ...walk(path.join(ROOT, 'scripts'), (f) => f.endsWith('.js')),
     ...walk(path.join(ROOT, 'tests'), (f) => f.endsWith('.js')),
+    ...walk(path.join(ROOT, 'docs-site'), (f) => /\.(c|m)?js$/i.test(f)),
   ];
   for (const file of files) {
     const result = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' });

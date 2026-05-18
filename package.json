@@ -1,6 +1,6 @@
 {
   "name": "@wesleysimplicio/llm-project-mapper",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "AI-friendly project scaffold with AGENTS.md ecosystem (Claude Code, Codex, Copilot, Cursor, Aider, Hermes, OpenClaw). Specs as code, atomic tasks, automated Definition of Done, reusable skills, multi-agent ready.",
   "type": "commonjs",
   "bin": {
@@ -81,6 +81,10 @@
     "test:e2e": "playwright test",
     "lint": "node scripts/lint.js",
     "lint:fix": "node scripts/lint.js --fix",
+    "docs:sync": "node scripts/sync-docs-site.mjs",
+    "docs:build": "npm --prefix docs-site run build",
+    "docs:start": "npm --prefix docs-site run start",
+    "docs:version": "npm --prefix docs-site run docs:version --",
     "evidence": "playwright test --project=chromium",
     "pack:dry": "npm pack --dry-run",
     "release": "npm publish --access public"

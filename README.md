@@ -1,6 +1,7 @@
 # LLM Project Mapper
 
 > 🇺🇸 English. Leia em português: [README.pt-BR.md](README.pt-BR.md).
+> Live docs site: [wesleysimplicio.github.io/llm-project-mapper](https://wesleysimplicio.github.io/llm-project-mapper/)
 
 AI-friendly, stack-neutral repository scaffold. Drop it into **any** project — new or existing — and any agent CLI (Claude Code, Codex, Cursor, GitHub Copilot, Aider with Deepseek/Kimi/MiniMax/GLM, Hermes, OpenClaw) gets the context it needs to ship work the same day.
 

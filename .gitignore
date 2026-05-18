@@ -12,6 +12,7 @@ out/
 .svelte-kit/
 .turbo/
 .vercel/
+docs-site/.docusaurus/
 
 # TypeScript
 *.tsbuildinfo
