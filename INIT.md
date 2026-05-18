@@ -1,5 +1,7 @@
 # INIT — Inicialização guiada do LLM Project Mapper
 
+> 🇺🇸 English version: [INIT.en.md](INIT.en.md).
+
 > Você é o **agente de inicialização**. O humano acabou de rodar `./bootstrap.sh` (ou `pwsh ./bootstrap.ps1`, ou `npx llm-project-mapper init`).
 > Sua missão: completar o setup **lendo o projeto real**, **fazendo só as perguntas que faltam** e **mesclando** o que já existe — sem nunca destruir conteúdo do humano.
 >

@@ -7,14 +7,18 @@
     "llm-project-mapper": "bin/cli.js"
   },
   "files": [
+    "LICENSE",
+    "CHANGELOG.md",
     "bin/",
     "AGENTS.md",
     "CLAUDE.md",
     "INIT.md",
+    "INIT.en.md",
     "_BOOTSTRAP.md",
     "README.md",
     "README.pt-BR.md",
     "INSTALL.md",
+    "INSTALL.en.md",
     "assets/",
     "docs/",
     "scripts/",
@@ -71,9 +75,13 @@
     "access": "public"
   },
   "scripts": {
+    "test": "node --test",
+    "test:coverage": "node --test --experimental-test-coverage",
     "test:cli": "node bin/cli.js --help",
-    "test:e2e": "npx playwright test",
-    "evidence": "npx playwright test --project=chromium",
+    "test:e2e": "playwright test",
+    "lint": "node scripts/lint.js",
+    "lint:fix": "node scripts/lint.js --fix",
+    "evidence": "playwright test --project=chromium",
     "pack:dry": "npm pack --dry-run",
     "release": "npm publish --access public"
   },

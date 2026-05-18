@@ -1,5 +1,7 @@
 # INSTALL.md — Instalando o LLM Project Mapper em um projeto existente
 
+> 🇺🇸 English version: [INSTALL.en.md](INSTALL.en.md).
+
 > Guia passo-a-passo para usar o LLM Project Mapper **como overlay privado** em cima de um projeto que já existe (ex.: front-end Angular/React/Next, API .NET, monorepo, etc.). Os arquivos do starter ficam **no disco do dev**, mas **fora do git do projeto host** — cada dev instala o seu, o repo principal não é poluído.
 >
 > Se você quer rodar o starter como repo standalone (clone direto, sem projeto host), veja o [README](README.md). Esse guia é só para **overlay**.

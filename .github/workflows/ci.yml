@@ -1,5 +1,11 @@
 # CI pipeline — lint, unit tests com coverage, e E2E Playwright em matriz
 # Roda em push (main/develop) e em todo pull_request
+#
+# Design note: este arquivo é o TEMPLATE de CI que o starter copia para
+# repositórios consumidores. No próprio repo `wesleysimplicio/llm-project-mapper`
+# todos os jobs aqui são pulados via `if: github.repository != ...` porque o
+# starter não tem código de produção pra rodar lint/unit/e2e em formato
+# consumer. O CI real deste repo vive em `scaffold-self-check.yml`.
 
 name: CI
 

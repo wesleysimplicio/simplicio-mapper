@@ -1,6 +1,13 @@
 # DoD gate — valida Definition of Done em todo PR antes do merge
 # Verifica: coverage >= 80%, evidência Playwright presente, conventional commit,
 # referência a task no body, ADR linkado se houver mudanças em architecture/
+#
+# Design note: este arquivo é o TEMPLATE de DoD gate que o starter copia para
+# repositórios consumidores. O próprio repo `wesleysimplicio/llm-project-mapper`
+# pula este job via `if: github.repository != ...` porque não tem suite Vitest
+# com `coverage-summary.json`. O DoD do starter é validado por
+# `scaffold-self-check.yml` (structure + CLI smoke + npm pack + shellcheck +
+# PSScriptAnalyzer + unit tests cross-platform).
 
 name: DoD Gate
 

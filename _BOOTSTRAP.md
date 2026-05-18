@@ -345,13 +345,13 @@ Aloca @gerente (Opus) como orchestrator. Spawn em paralelo onde não tem depend�
 Wesley vai abrir Claude Code dentro de `/Users/wesleysimplicio/Projetos/novos/llm-project-mapper/` e rodar:
 
 ```
-Lê _BOOTSTRAP.md e executa. Use multi-agents (@gerente orquestra, spawn 
-@docs-writer, @architect, @workflow-writer, @sprints-writer, @skills-author, 
+Lê _BOOTSTRAP.md e executa. Use multi-agents (@gerente orquestra, spawn
+@docs-writer, @architect, @workflow-writer, @sprints-writer, @skills-author,
 @config-writer, @ci-engineer, @presentation-designer em paralelo onde possível).
 
 Stack neutra com placeholders <STACK>/<PRODUCT_NAME>/<TEAM>/<DOMAIN>.
 
-Apresentação Marp em presentation/, gera PDF + PPTX (instala marp-cli se 
+Apresentação Marp em presentation/, gera PDF + PPTX (instala marp-cli se
 precisar: npm i -g @marp-team/marp-cli).
 
 Quando terminar, roda check final:

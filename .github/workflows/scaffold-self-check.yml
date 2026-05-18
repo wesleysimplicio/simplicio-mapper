@@ -76,13 +76,17 @@ jobs:
           grep -q "README.md" README.pt-BR.md || { echo "::error::README.pt-BR.md missing en link"; exit 1; }
 
   cli-smoke:
-    name: CLI smoke (node ${{ matrix.node-version }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+    name: CLI smoke (node ${{ matrix.node-version }} on ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
-        node-version: [16, 18, 20, 22]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [18, 20, 22]
+        include:
+          - os: ubuntu-latest
+            node-version: 16
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -98,16 +102,31 @@ jobs:
       - name: Version command
         run: node bin/cli.js --version
 
-      - name: Dry-run scaffold (auto-detects from cwd + stack manifests)
+      - name: Dry-run scaffold (POSIX)
+        if: runner.os != 'Windows'
+        shell: bash
         run: |
           mkdir -p /tmp/scaffold-target
           cd /tmp/scaffold-target
-          # Synthetic stack manifest so detectStack() picks "next-ts"
           printf '%s\n' '{"name":"scaffold-target","version":"1.0.0","dependencies":{"next":"14.0.0","react":"18.0.0"}}' > package.json
           node $GITHUB_WORKSPACE/bin/cli.js \
             --dry-run \
             --yes \
             --cli skip \
+            --append-gitignore no
+
+      - name: Dry-run scaffold (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $target = Join-Path $env:RUNNER_TEMP 'scaffold-target'
+          New-Item -ItemType Directory -Force -Path $target | Out-Null
+          Set-Location $target
+          '{"name":"scaffold-target","version":"1.0.0","dependencies":{"next":"14.0.0","react":"18.0.0"}}' | Out-File -Encoding utf8 -FilePath 'package.json'
+          node "$env:GITHUB_WORKSPACE\bin\cli.js" `
+            --dry-run `
+            --yes `
+            --cli skip `
             --append-gitignore no
 
   npm-pack:
@@ -142,3 +161,86 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y shellcheck
           shellcheck -S warning bootstrap.sh
+
+  psanalyze:
+    name: PSScriptAnalyzer bootstrap.ps1
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PowerShell + PSScriptAnalyzer
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v pwsh >/dev/null 2>&1; then
+            sudo apt-get update -y
+            sudo apt-get install -y wget apt-transport-https software-properties-common
+            wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
+            sudo dpkg -i packages-microsoft-prod.deb
+            sudo apt-get update -y
+            sudo apt-get install -y powershell
+          fi
+          pwsh -NoProfile -Command "Install-Module PSScriptAnalyzer -Force -Scope CurrentUser"
+
+      - name: Analyze PowerShell scripts
+        shell: pwsh
+        run: |
+          $files = @('bootstrap.ps1')
+          if (Test-Path 'scripts') { $files += (Get-ChildItem -Path 'scripts' -Filter '*.ps1' -Recurse).FullName }
+          if (Test-Path '.claude/hooks') { $files += (Get-ChildItem -Path '.claude/hooks' -Filter '*.ps1' -Recurse).FullName }
+          $failed = $false
+          foreach ($f in $files) {
+            $issues = Invoke-ScriptAnalyzer -Path $f -Severity Warning -ExcludeRule PSAvoidUsingWriteHost,PSUseShouldProcessForStateChangingFunctions
+            if ($issues) {
+              $failed = $true
+              Write-Host "::error file=$f::PSScriptAnalyzer issues"
+              $issues | Format-List | Out-String | Write-Host
+            } else {
+              Write-Host "ok: $f"
+            }
+          }
+          if ($failed) { exit 1 }
+
+  unit:
+    name: Unit tests (node ${{ matrix.node-version }} on ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [18, 20, 22]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Run unit tests
+        run: npm test
+
+  lint-self:
+    name: Lint repo
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install shellcheck
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y shellcheck
+
+      - name: Run lint
+        run: node scripts/lint.js
