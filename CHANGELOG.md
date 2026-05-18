@@ -6,6 +6,11 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-05-18
+
+### Changed
+- Replaced the remaining historical legacy-name references in repository documentation so the package and project naming stay fully aligned as `llm-project-mapper`.
+
 ## [0.3.0] - 2026-05-18
 
 ### Added
@@ -62,19 +67,19 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 - `presentation/slides.md` regenerated after rename — PDF + PPTX rebuilt.
 
 ### Fixed
-- Residual `agentic-starter` mentions removed from `_BOOTSTRAP.md` and inline examples (legacy detection in `bin/cli.js` preserved for back-compat overlays).
+- Residual legacy naming mentions removed from `_BOOTSTRAP.md` and inline examples (legacy detection in `bin/cli.js` preserved for back-compat overlays).
 
 ## [0.2.0] - 2026-05-16
 
 ### Changed
-- **BREAKING** Renamed npm package `@wesleysimplicio/agentic-starter` → `@wesleysimplicio/llm-project-mapper`. ([#15](https://github.com/wesleysimplicio/llm-project-mapper/pull/15))
-- **BREAKING** Renamed CLI command `npx @wesleysimplicio/agentic-starter` → `npx @wesleysimplicio/llm-project-mapper`.
+- **BREAKING** Renamed the npm package to `@wesleysimplicio/llm-project-mapper`. ([#15](https://github.com/wesleysimplicio/llm-project-mapper/pull/15))
+- **BREAKING** Renamed the CLI command to `npx @wesleysimplicio/llm-project-mapper`.
 - **BREAKING** Env var `AGENTIC_STARTER_SOURCE` → `LLM_PROJECT_MAPPER_SOURCE`.
-- Video compositions renamed: `WhyAgenticStarter{PT,EN}` → `WhyLlmProjectMapper{PT,EN}`.
-- Assets renamed: `assets/agentic-starter-*.png` → `assets/llm-project-mapper-*.png`.
+- Video compositions renamed to `WhyLlmProjectMapper{PT,EN}`.
+- Assets renamed to `assets/llm-project-mapper-*.png`.
 
 ### Deprecated
-- npm package `@wesleysimplicio/agentic-starter` is marked deprecated and redirects users to the new name.
+- The previous package name is marked deprecated and redirects users to `@wesleysimplicio/llm-project-mapper`.
 
 ## [0.1.6] - 2026-05-15
 
@@ -88,7 +93,7 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 ## [0.1.5] - 2026-05-15
 
 ### Added
-- WhyAgenticStarter explainer video in PT-BR and EN (9 scenes, 80s, 1080p). ([#12](https://github.com/wesleysimplicio/llm-project-mapper/pull/12))
+- WhyLlmProjectMapper explainer video in PT-BR and EN (9 scenes, 80s, 1080p). ([#12](https://github.com/wesleysimplicio/llm-project-mapper/pull/12))
 - `video/src/why/` isolated directory with own i18n provider (`WhyLangProvider`, `STRINGS_WHY`).
 - npm scripts `build:why`, `build:why:en`, `build:why:all`, `still:why`, `still:why:en`.
 
