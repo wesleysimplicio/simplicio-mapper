@@ -6,6 +6,18 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-05-18
+
+### Added
+- Local PT-BR + EN narration pipeline for `video/assets/why-llm-project-mapper{,-en}.mp4`, generated from `video/src/why/narration.json` via `say` + `ffmpeg`.
+- Burned-in captions for the Why video via `@remotion/captions`, driven by the same narration source file.
+- Versioned `video/public/captions/why-{pt,en}.srt` exports from the narration pipeline for timing review.
+- `video/TTS-EVALUATION.md` comparing ElevenLabs, OpenAI `tts-1-hd`, and Azure Neural for future upgrades.
+
+### Changed
+- `video/public/sfx/rock-bg.mp3` is now mixed under narration at `volume=0.15`.
+- Root lint now checks `video/scripts/*.mjs`.
+
 ## [0.2.1] - 2026-05-18
 
 ### Added
@@ -113,7 +125,8 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 - Remotion skills tutorial video in PT-BR. ([#1](https://github.com/wesleysimplicio/llm-project-mapper/pull/1))
 - i18n layer + English skills tutorial video. ([#2](https://github.com/wesleysimplicio/llm-project-mapper/pull/2))
 
-[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/wesleysimplicio/llm-project-mapper/releases/tag/v0.2.0
 [0.1.6]: https://github.com/wesleysimplicio/llm-project-mapper/releases/tag/v0.1.6

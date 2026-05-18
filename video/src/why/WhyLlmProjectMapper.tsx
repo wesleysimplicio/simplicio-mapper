@@ -1,5 +1,10 @@
 import React from "react";
 import {
+  type Caption,
+  createTikTokStyleCaptions,
+  type TikTokPage,
+} from "@remotion/captions";
+import {
   AbsoluteFill,
   Audio,
   Sequence,
@@ -20,32 +25,61 @@ import { SceneTransition } from "../components/SceneTransition";
 import { WhyLangProvider, useWhyT } from "./LangContext";
 import { Lang } from "./i18n";
 import { theme } from "../theme";
+import narration from "./narration.json";
 
-const SCENES = [
-  { Component: Hook, duration: 80 },
-  { Component: PainTyping, duration: 200 },
-  { Component: PainList, duration: 130 },
-  { Component: Reveal, duration: 110 },
-  { Component: Anatomy, duration: 240 },
-  { Component: SideBySide, duration: 380 },
-  { Component: Productivity, duration: 160 },
-  { Component: MultiAgent, duration: 160 },
-  { Component: CTA, duration: 130 },
-] as const;
+const FPS = 30;
+const CAPTION_PAGE_WINDOW_MS = 1400;
+
+const SCENE_COMPONENTS = {
+  hook: Hook,
+  painTyping: PainTyping,
+  painList: PainList,
+  reveal: Reveal,
+  anatomy: Anatomy,
+  sideBySide: SideBySide,
+  productivity: Productivity,
+  multiAgent: MultiAgent,
+  cta: CTA,
+} as const;
 
 type Timed = {
   Component: React.FC;
-  duration: number;
+  durationInFrames: number;
   from: number;
+  id: keyof typeof SCENE_COMPONENTS;
 };
 
-const TIMELINE: Timed[] = SCENES.reduce<Timed[]>((acc, s) => {
-  const from = acc.length === 0 ? 0 : acc[acc.length - 1].from + acc[acc.length - 1].duration;
-  acc.push({ Component: s.Component, duration: s.duration, from });
-  return acc;
-}, []);
+const TIMELINE: Timed[] = narration.timeline.map((scene) => ({
+  id: scene.id as keyof typeof SCENE_COMPONENTS,
+  Component: SCENE_COMPONENTS[scene.id as keyof typeof SCENE_COMPONENTS],
+  durationInFrames: scene.durationInFrames,
+  from: scene.fromFrame,
+}));
 
-export const WHY_TOTAL_DURATION = TIMELINE.reduce((sum, t) => sum + t.duration, 0);
+const WHY_CAPTION_PAGES: Record<Lang, TikTokPage[]> = {
+  pt: buildCaptionPages("pt"),
+  en: buildCaptionPages("en"),
+};
+
+export const WHY_TOTAL_DURATION = TIMELINE.reduce(
+  (sum, t) => sum + t.durationInFrames,
+  0,
+);
+
+function buildCaptionPages(language: Lang) {
+  const captions: Caption[] = narration.timeline.map((cue, index) => ({
+    text: narration.tracks[language].cues[index],
+    startMs: Math.round((cue.fromFrame / FPS) * 1000),
+    endMs: Math.round(((cue.fromFrame + cue.durationInFrames) / FPS) * 1000),
+    timestampMs: null,
+    confidence: null,
+  }));
+
+  return createTikTokStyleCaptions({
+    captions,
+    combineTokensWithinMilliseconds: CAPTION_PAGE_WINDOW_MS,
+  }).pages;
+}
 
 export type WhyLlmProjectMapperProps = {
   language: Lang;
@@ -54,22 +88,25 @@ export type WhyLlmProjectMapperProps = {
 export const WhyLlmProjectMapper: React.FC<WhyLlmProjectMapperProps> = ({
   language,
 }) => {
+  const voiceTrack = narration.tracks[language];
   return (
     <WhyLangProvider lang={language}>
       <AbsoluteFill style={{ background: theme.colors.bgFrom }}>
         {TIMELINE.map((t, i) => {
           const Comp = t.Component;
           return (
-            <Sequence key={i} from={t.from} durationInFrames={t.duration}>
-              <SceneTransition durationInFrames={t.duration}>
+            <Sequence key={i} from={t.from} durationInFrames={t.durationInFrames}>
+              <SceneTransition durationInFrames={t.durationInFrames}>
                 <Comp />
               </SceneTransition>
             </Sequence>
           );
         })}
-        <Audio src={staticFile("sfx/rock-bg.mp3")} volume={0.45} />
+        <Audio src={staticFile(voiceTrack.output)} volume={1} />
+        <Audio src={staticFile("sfx/rock-bg.mp3")} volume={0.15} />
         <ProgressBar />
         <SceneLabel />
+        <RemotionCaptions language={language} />
       </AbsoluteFill>
     </WhyLangProvider>
   );
@@ -98,7 +135,7 @@ const SceneLabel: React.FC = () => {
   const frame = useCurrentFrame();
   const t = useWhyT();
   const activeIndex = TIMELINE.findIndex(
-    (s) => frame >= s.from && frame < s.from + s.duration,
+    (s) => frame >= s.from && frame < s.from + s.durationInFrames,
   );
   const active = activeIndex === -1 ? 0 : activeIndex;
   return (
@@ -125,6 +162,92 @@ const SceneLabel: React.FC = () => {
       <span>{String(TIMELINE.length).padStart(2, "0")}</span>
       <span style={{ margin: "0 12px", opacity: 0.4 }}>·</span>
       <span style={{ color: theme.colors.text }}>{t.sceneLabels[active]}</span>
+    </div>
+  );
+};
+
+const RemotionCaptions: React.FC<{language: Lang}> = ({language}) => {
+  const { fps, durationInFrames } = useVideoConfig();
+  const pages = WHY_CAPTION_PAGES[language];
+
+  return (
+    <>
+      {pages.map((page, index) => {
+        const pageStartFrame = Math.round((page.startMs / 1000) * fps);
+        const fallbackEndMs = Math.round((durationInFrames / fps) * 1000);
+        const nextStartMs = pages[index + 1]?.startMs ?? fallbackEndMs;
+        const pageEndMs = Math.max(
+          page.tokens[page.tokens.length - 1]?.toMs ?? page.startMs,
+          nextStartMs,
+        );
+        const pageDurationInFrames =
+          Math.max(1, Math.round((pageEndMs / 1000) * fps) - pageStartFrame);
+
+        return (
+          <Sequence
+            key={`${language}-${page.startMs}`}
+            from={pageStartFrame}
+            durationInFrames={pageDurationInFrames}
+          >
+            <CaptionPage page={page} />
+          </Sequence>
+        );
+      })}
+    </>
+  );
+};
+
+const CaptionPage: React.FC<{page: TikTokPage}> = ({page}) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const currentTimeMs = (frame / fps) * 1000;
+  const absoluteTimeMs = page.startMs + currentTimeMs;
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: 140,
+        right: 140,
+        bottom: 84,
+        display: "flex",
+        justifyContent: "center",
+        pointerEvents: "none",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 1240,
+          padding: "18px 28px",
+          borderRadius: 28,
+          background: "rgba(5, 10, 24, 0.74)",
+          border: "1px solid rgba(255,255,255,0.12)",
+          boxShadow: "0 18px 48px rgba(0,0,0,0.24)",
+          backdropFilter: "blur(16px)",
+          color: theme.colors.text,
+          fontFamily: theme.fonts.heading,
+          fontSize: 36,
+          lineHeight: 1.28,
+          fontWeight: 600,
+          textAlign: "center",
+          whiteSpace: "pre-wrap",
+        }}
+      >
+        {page.tokens.map((token) => {
+          const isActive =
+            token.fromMs <= absoluteTimeMs && token.toMs > absoluteTimeMs;
+          return (
+            <span
+              key={`${token.fromMs}-${token.toMs}-${token.text}`}
+              style={{
+                color: isActive ? theme.colors.accent2 : theme.colors.text,
+              }}
+            >
+              {token.text}
+            </span>
+          );
+        })}
+      </div>
     </div>
   );
 };

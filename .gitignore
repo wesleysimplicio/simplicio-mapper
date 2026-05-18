@@ -86,6 +86,8 @@ docs/**
 scripts/**
 playwright-report/**
 tests/**
+!tests/unit/
+!tests/unit/*.test.js
 test-results/**
 coverage/**
 bootstrap.ps1

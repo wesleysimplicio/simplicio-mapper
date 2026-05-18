@@ -64,6 +64,7 @@ function lintJavaScript() {
     ...walk(path.join(ROOT, 'scripts'), (f) => f.endsWith('.js')),
     ...walk(path.join(ROOT, 'tests'), (f) => f.endsWith('.js')),
     ...walk(path.join(ROOT, 'docs-site'), (f) => /\.(c|m)?js$/i.test(f)),
+    ...walk(path.join(ROOT, 'video', 'scripts'), (f) => /\.(c|m)?js$/i.test(f)),
   ];
   for (const file of files) {
     const result = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' });

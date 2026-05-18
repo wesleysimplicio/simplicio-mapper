@@ -2,6 +2,14 @@
 
 Vídeo explicativo (1080p · 30fps · ~59s) sobre **como usar as skills** do `llm-project-mapper`. Construído com [Remotion](https://www.remotion.dev/) — vídeo programático em React. Mesma timeline em **dois idiomas** (pt-BR e en) via `<LangProvider>` + dicionário em `src/i18n.ts`.
 
+O mesmo workspace também gera o vídeo **Why LLM Project Mapper** (`53s`) com:
+
+- narração PT-BR + EN versionada em `public/voice/`
+- legendas queimadas em tela via `@remotion/captions`, a partir do mesmo `video/src/why/narration.json`
+- `.srt` versionados em `public/captions/` gerados pelo mesmo pipeline
+- trilha de apoio mixada em volume reduzido (`0.15`)
+- render final em `assets/why-llm-project-mapper{,-en}.mp4`
+
 | Idioma | Vídeo | Capa | Stills | Composition ID |
 |---|---|---|---|---|
 | 🇧🇷 pt-BR | [`assets/skills-tutorial.mp4`](./assets/skills-tutorial.mp4) | [`assets/cover.png`](./assets/cover.png) | [`evidence/`](./evidence) | `SkillsTutorialPT` |
@@ -108,6 +116,14 @@ npm run build:en
 # Render dos dois (pt + en, sequencial)
 npm run build:all
 
+# Gera as narracoes PT-BR + EN do video Why
+npm run narrate:why
+
+# Render do video Why com narracao + legendas
+npm run build:why
+npm run build:why:en
+npm run build:why:all
+
 # Capas estáticas (frame 110)
 npm run still           # pt-BR -> assets/cover.png
 npm run still:en        # English -> assets/cover-en.png
@@ -189,3 +205,5 @@ video/
 - Primeira execução baixa o **Chrome Headless Shell** (~88 MB) — só uma vez.
 - Render usa `@remotion/compositor-linux-x64-gnu` (ffmpeg + libavcodec inclusos no pacote).
 - Sem dependências de mídia externa: todo o vídeo é gerado por código (CSS/SVG/animações).
+- A narração do vídeo Why é sintetizada localmente com `say` e mixada com `ffmpeg`. Comparativo de providers em [`TTS-EVALUATION.md`](./TTS-EVALUATION.md).
+- O pipeline também exporta `public/captions/why-{pt,en}.srt`, úteis para revisão de timing fora do Remotion.
