@@ -351,7 +351,7 @@ git add -A; git commit -m "chore: remove starter bootstrap files"
 
 ## Licença
 
-`<LICENSE_PLACEHOLDER>` (substitua por MIT, Apache-2.0, proprietária ou o que fizer sentido).
+[MIT](LICENSE) © 2026 Wesley Simplicio.
 
 ---
 

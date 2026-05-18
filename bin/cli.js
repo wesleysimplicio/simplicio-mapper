@@ -34,8 +34,10 @@
 'use strict';
 
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const readline = require('node:readline');
+const https = require('node:https');
 const { spawn, spawnSync } = require('node:child_process');
 
 const PACKAGE_ROOT = path.resolve(__dirname, '..');
@@ -271,6 +273,15 @@ const CLI_OPTS = [
 
 const INIT_PROMPT = 'Read INIT.md and execute it. Do NOT modify any user source files (.razor, .cs, .ts, .py, .go, .rs, package.json, etc). Only write inside .specs/, .agents/, .skills/, .claude/, .codex/, .github/copilot*, .github/workflows/dod.yml plus root AGENTS.md/CLAUDE.md/INIT.md/README*.md. If AGENTS.md/CLAUDE.md/copilot-instructions.md already existed before bootstrap (see .starter-meta.json), READ them and IMPROVE in place — preserve their essence. DO NOT ask the human about team, domain, vision, personas, or product purpose: infer ALL of them by reading the codebase (README, package.json/angular.json/*.csproj/pyproject.toml/etc, entry points, routes, tests, env.example). Default persona is "developer"; additional personas must be derived from code (auth roles, route guards, UI flows, customer-facing copy). Honor workspace mode: if .starter-meta.json.project_mode == "monorepo", iterate over .starter-meta.json.projects[] and produce per-project .specs/. Use parallel multi-agents.';
 
+const PRESETS = {
+  nextjs:  { label: 'Next.js 14 + React 18 + TypeScript', baseUrl: 'http://localhost:3000' },
+  dotnet:  { label: '.NET 8 (ASP.NET Core)', baseUrl: 'http://localhost:5000' },
+  fastapi: { label: 'Python 3.11 + FastAPI + Uvicorn', baseUrl: 'http://localhost:8000' },
+  go:      { label: 'Go 1.22 + net/http', baseUrl: 'http://localhost:8080' },
+  rails:   { label: 'Ruby on Rails 7', baseUrl: 'http://localhost:3000' },
+  flutter: { label: 'Flutter 3 + Dart', baseUrl: 'http://localhost:8080' },
+};
+
 const argv = process.argv.slice(2);
 const opts = {
   yes: false,
@@ -281,6 +292,8 @@ const opts = {
   update: false,
   cli: '',
   appendGitignore: '',
+  preset: '',
+  noUpdateCheck: false,
 };
 
 for (let i = 0; i < argv.length; i++) {
@@ -296,6 +309,8 @@ for (let i = 0; i < argv.length; i++) {
     case '--skip-meta':        opts.skipMeta = true; break;
     case '--cli':              opts.cli = argv[++i]; break;
     case '--append-gitignore': opts.appendGitignore = argv[++i]; break;
+    case '--preset':           opts.preset = argv[++i]; break;
+    case '--no-update-check':  opts.noUpdateCheck = true; break;
     case '-v':
     case '--version':
       console.log(PKG.version);
@@ -309,6 +324,20 @@ for (let i = 0; i < argv.length; i++) {
       console.error('Run with --help for usage.');
       process.exit(2);
   }
+}
+
+if (opts.preset === 'list') {
+  console.log('Available presets:');
+  for (const [key, def] of Object.entries(PRESETS)) {
+    console.log(`  ${key.padEnd(10)} ${def.label}`);
+  }
+  process.exit(0);
+}
+
+if (opts.preset && !PRESETS[opts.preset]) {
+  console.error(`Unknown preset: ${opts.preset}`);
+  console.error(`Available: ${Object.keys(PRESETS).join(', ')} (or "list").`);
+  process.exit(2);
 }
 
 if (opts.update) {
@@ -337,6 +366,11 @@ OPTIONS
   --cli <key>                 Pick CLI for INIT.md handoff (claude|codex|copilot|cursor|
                               deepseek|kimi|minimax|glm|hermes|openclaw|aider|other|skip)
   --append-gitignore <yes|no> Append recommended ignores to .gitignore (or create it)
+  --preset <name>             Stack hint recorded in .starter-meta.json for INIT.md to use
+                              (nextjs|dotnet|fastapi|go|rails|flutter). Use "--preset list"
+                              to see available presets.
+  --no-update-check           Disable the npm-registry semver check on startup
+                              (also honored via env LLM_PROJECT_MAPPER_NO_UPDATE_CHECK=1)
   --silent                    Minimal output
   -v, --version               Print version
   -h, --help                  Show this help
@@ -345,6 +379,8 @@ EXAMPLES
   npx @wesleysimplicio/llm-project-mapper
   npx @wesleysimplicio/llm-project-mapper --yes
   npx @wesleysimplicio/llm-project-mapper --yes --cli claude --append-gitignore yes
+  npx @wesleysimplicio/llm-project-mapper --yes --preset nextjs
+  npx @wesleysimplicio/llm-project-mapper --preset list
   npx @wesleysimplicio/llm-project-mapper@latest --update
 
 DOCS
@@ -354,6 +390,42 @@ DOCS
 
 const log = (...a) => { if (!opts.silent) console.log(...a); };
 const err = (...a) => console.error(...a);
+
+function maybeNotifyUpdate() {
+  if (opts.noUpdateCheck) return;
+  if (process.env.LLM_PROJECT_MAPPER_NO_UPDATE_CHECK === '1') return;
+  if (process.env.CI) return;
+  const cacheDir = path.join(os.homedir(), '.config', 'llm-project-mapper');
+  const cacheFile = path.join(cacheDir, 'update-check.json');
+  const TTL_MS = 24 * 60 * 60 * 1000;
+  let cached = null;
+  try {
+    cached = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+  } catch { /* no cache */ }
+  if (cached && Date.now() - cached.checkedAt < TTL_MS) {
+    if (cached.latest && cached.latest !== PKG.version) {
+      err(`\n  Update available ${PKG.version} → ${cached.latest}`);
+      err('  Run: npx @wesleysimplicio/llm-project-mapper@latest --update\n');
+    }
+    return;
+  }
+  https.get(
+    'https://registry.npmjs.org/@wesleysimplicio/llm-project-mapper/latest',
+    { headers: { Accept: 'application/json' }, timeout: 1500 },
+    (res) => {
+      let body = '';
+      res.on('data', (c) => { body += c; });
+      res.on('end', () => {
+        try {
+          const latest = JSON.parse(body).version;
+          fs.mkdirSync(cacheDir, { recursive: true });
+          fs.writeFileSync(cacheFile, JSON.stringify({ latest, checkedAt: Date.now() }) + '\n');
+        } catch { /* ignore */ }
+      });
+    },
+  ).on('error', () => { /* offline or registry unreachable — silent */ })
+   .on('timeout', function onTimeout() { this.destroy(); });
+}
 
 function readSafe(p) { try { return fs.readFileSync(p, 'utf8'); } catch { return ''; } }
 function existsHere(rel) { return fs.existsSync(path.join(CWD, rel)); }
@@ -748,6 +820,7 @@ function writeMeta(productName, stack, projectMode, projectsList, existingInstru
     bootstrapped_at: new Date().toISOString(),
     starter_version: PKG.version,
     cli: '@wesleysimplicio/llm-project-mapper',
+    preset: opts.preset || null,
     existing_instruction_files: existingInstructionFiles,
     preserved_user_files: preservedUserFiles,
     init_must_ask: [],
@@ -898,6 +971,7 @@ function handoff(cliChoice) {
 }
 
 async function main() {
+  maybeNotifyUpdate();
   if (path.resolve(CWD) === path.resolve(PACKAGE_ROOT)) {
     err('Refusing to scaffold into the package source directory.');
     err('Run this command from inside the project where you want the starter.');

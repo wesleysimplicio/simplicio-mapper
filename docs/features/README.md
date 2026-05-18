@@ -63,3 +63,9 @@ docs/features/<feature-name>.md
 
 - <RISK>
 ```
+
+---
+
+## Example
+
+See [`login.md`](./login.md) for a fully-filled example feature doc using the template above.

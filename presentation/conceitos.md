@@ -343,7 +343,7 @@ MCP (Model Context Protocol) = plugins que dão tools novas pro agent.
 sistema-sindico/
 ├── README.md                       # humano lê
 ├── AGENTS.md                       # ⭐ agent lê (Codex)
-├── CLAUDE.md                       # ⭐ agent lê (Claude Code)  
+├── CLAUDE.md                       # ⭐ agent lê (Claude Code)
 │   (ou symlink: CLAUDE.md → AGENTS.md)
 │
 ├── .github/
