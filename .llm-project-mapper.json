@@ -1,8 +1,8 @@
 {
-  "source": "https://github.com/wesleysimplicio/agentic-starter",
+  "source": "https://github.com/wesleysimplicio/llm-project-mapper",
   "requested_ref": "latest",
-  "resolved_ref": "v0.3.0",
-  "synced_at": "2026-05-18T19:16:49+00:00",
+  "resolved_ref": "v0.3.1",
+  "synced_at": "2026-05-18T19:20:53Z",
   "mode": "force",
   "managed_paths": [
     "AGENTS.md",

@@ -74,7 +74,7 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 ### Changed
 - **BREAKING** Renamed the npm package to `@wesleysimplicio/llm-project-mapper`. ([#15](https://github.com/wesleysimplicio/llm-project-mapper/pull/15))
 - **BREAKING** Renamed the CLI command to `npx @wesleysimplicio/llm-project-mapper`.
-- **BREAKING** Env var `AGENTIC_STARTER_SOURCE` → `LLM_PROJECT_MAPPER_SOURCE`.
+- **BREAKING** Source override env var renamed to `LLM_PROJECT_MAPPER_SOURCE`.
 - Video compositions renamed to `WhyLlmProjectMapper{PT,EN}`.
 - Assets renamed to `assets/llm-project-mapper-*.png`.
 
