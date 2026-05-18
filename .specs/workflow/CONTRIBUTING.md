@@ -109,6 +109,35 @@ Mensagem squash = title do PR. Histórico de `main` fica linear e legível.
 - Merge em `main` dispara `deploy-staging.yml` automaticamente.
 - Verifica smoke em staging (link no Slack pós-deploy).
 - Para produção: bump versão e tag SemVer (ver `RELEASE.md`).
+- Para mudanças **release-relevant** neste repositório, o padrão é fechar tudo no mesmo ciclo: npm publicado, tag GitHub criada, GitHub Release correspondente e `main` limpa/sincronizada.
+
+### 9. Fechamento release-relevant neste repositório
+
+Antes de considerar o trabalho encerrado, executar:
+
+```bash
+npm run lint
+npm test
+npm run docs:build
+npm run test:e2e -- --reporter=list,html
+```
+
+Se tudo estiver verde:
+
+```bash
+# version + lockfile
+npm install --package-lock-only
+
+# publish
+npm publish --access public
+
+# tag + release
+git tag -a vX.Y.Z -m "Release X.Y.Z"
+git push origin vX.Y.Z
+gh release create vX.Y.Z --title "vX.Y.Z" --notes-file <release-notes-file>
+```
+
+Objetivo: evitar divergência entre `package.json`, npm, tags, releases e `main`.
 
 ---
 

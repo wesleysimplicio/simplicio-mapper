@@ -10,6 +10,7 @@ Processo para cortar uma release de `<PRODUCT_NAME>` (`<DOMAIN>`, stack `<STACK>
 - **Tag é fonte de verdade.** Nada de "release sem tag". Sem tag, sem deploy de produção.
 - **CHANGELOG é contrato com o usuário.** Toda release tem entrada lida e revisada.
 - **Rollback em minutos.** Toda release tem caminho documentado de volta.
+- **Neste projeto, release-relevant change fecha só quando tudo fica sincronizado.** Isso inclui npm publicado, tag GitHub criada, GitHub Release correspondente e `main` limpa/sincronizada.
 
 ---
 
@@ -209,11 +210,25 @@ git push origin v2.0.0-rc.1
 - [ ] `main` verde (build, lint, unit, e2e).
 - [ ] Versão bumpada conforme SemVer.
 - [ ] `CHANGELOG.md` atualizado, revisado, em inglês.
+- [ ] `package-lock.json` sincronizado com a versão atual.
+- [ ] npm publicado na mesma versão de `package.json`.
 - [ ] Tag criada apontando pro commit certo.
+- [ ] GitHub Release criada/atualizada na mesma versão da tag.
 - [ ] Workflow de deploy completou verde.
 - [ ] Smoke tests passaram.
 - [ ] Métricas estáveis nos primeiros 30min.
 - [ ] Notificação pra `<TEAM>` enviada.
 - [ ] Release notes publicadas (`gh release create v1.5.0 -F CHANGELOG.md`).
+
+### Validação padrão deste repositório
+
+Antes de publicar/taguear/criar release, executar:
+
+```bash
+npm run lint
+npm test
+npm run docs:build
+npm run test:e2e -- --reporter=list,html
+```
 
 Em incidente, congelar releases até postmortem fechar com ação concreta no roadmap.

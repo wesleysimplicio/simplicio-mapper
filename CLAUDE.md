@@ -109,6 +109,28 @@ Adapta os comandos pra stack real (`pnpm`, `yarn`, `bun`, `dotnet`, `python`, `g
 
 ---
 
+## Padrão de sincronização deste projeto
+
+Para este repositório, sempre que a mudança for **release-relevant**, o fechamento padrão deve deixar tudo sincronizado no mesmo ciclo:
+
+- npm publicado na versão atual de `package.json`
+- tag GitHub `vX.Y.Z` criada e enviada
+- GitHub Release correspondente criada/atualizada
+- `main` limpa e sincronizada com `origin/main`
+
+Validação padrão obrigatória antes de publicar/sincronizar:
+
+```bash
+npm run lint
+npm test
+npm run docs:build
+npm run test:e2e -- --reporter=list,html
+```
+
+Se qualquer item acima falhar, **não** publique e **não** crie a release/tag até corrigir.
+
+---
+
 ## Workflow loop OBRIGATÓRIO
 
 Toda task técnica passa por esses passos. Não pula etapa.

@@ -51,6 +51,28 @@ Adapta pra `pnpm`, `yarn`, `bun`, `dotnet`, `python`, `go` conforme stack real.
 
 ---
 
+## Padrão de sincronização deste projeto
+
+Quando a mudança for **release-relevant**, o padrão deste repositório é fechar o trabalho com tudo sincronizado no mesmo ciclo:
+
+- npm publicado na mesma versão de `package.json`
+- tag GitHub `vX.Y.Z`
+- GitHub Release correspondente
+- `main` limpa e sincronizada com `origin/main`
+
+Validação obrigatória antes de publicar/sincronizar:
+
+```bash
+npm run lint
+npm test
+npm run docs:build
+npm run test:e2e -- --reporter=list,html
+```
+
+Se qualquer comando falhar, não publique e não crie a release/tag.
+
+---
+
 ## Workflow loop OBRIGATÓRIO (Agent Mode)
 
 Em Copilot Workspace/Agent Mode, todo plano de execução segue esse loop. Não pula etapa.

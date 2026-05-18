@@ -6,6 +6,11 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-05-18
+
+### Changed
+- Documented a project-specific default release policy: release-relevant work in `llm-project-mapper` must finish with npm, Git tag, GitHub Release, `main`, and validation all synchronized in the same cycle.
+
 ## [0.3.1] - 2026-05-18
 
 ### Changed
@@ -146,7 +151,9 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 - Remotion skills tutorial video in PT-BR. ([#1](https://github.com/wesleysimplicio/llm-project-mapper/pull/1))
 - i18n layer + English skills tutorial video. ([#2](https://github.com/wesleysimplicio/llm-project-mapper/pull/2))
 
-[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.2...HEAD
+[0.3.2]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.1...v0.3.2
+[0.3.1]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.0...v0.2.1
