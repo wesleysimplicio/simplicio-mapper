@@ -43,6 +43,31 @@ function runCli(args: string[], cwd: string): SpawnSyncReturns<string> {
   });
 }
 
+function listUnresolvedPlaceholders(dir: string): string[] {
+  const matches: string[] = [];
+  const exempt = /docs\/placeholders\.md|docs\/api-examples\/|task-template\.md|ADR-template\.md|sprint-XX|\.template\.|_template\/SKILL\.md|INIT\.md|INSTALL\.md|_BOOTSTRAP\.md|bootstrap\.(sh|ps1)|scripts\/check-placeholders\.sh|tests\/unit\/cli-install\.test\.js|\.github\/workflows-templates\//;
+
+  function walk(current: string) {
+    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+      if (['node_modules', '.git', 'playwright-report', 'test-results', 'coverage', 'video'].includes(entry.name)) continue;
+      const full = path.join(current, entry.name);
+      if (entry.isDirectory()) {
+        walk(full);
+        continue;
+      }
+      if (!entry.isFile()) continue;
+      const rel = path.relative(dir, full).replace(/\\/g, '/');
+      if (exempt.test(rel)) continue;
+      if (rel.endsWith('.svg') || rel.endsWith('.lock') || rel.endsWith('package-lock.json')) continue;
+      const content = fs.readFileSync(full, 'utf8');
+      if (/<[A-Z][A-Z0-9_]+>/.test(content)) matches.push(rel);
+    }
+  }
+
+  walk(dir);
+  return matches.sort();
+}
+
 async function attachEvidence(testInfo: TestInfo, res: SpawnSyncReturns<string>, dir: string) {
   await testInfo.attach('stdout.txt', { body: res.stdout ?? '', contentType: 'text/plain' });
   await testInfo.attach('stderr.txt', { body: res.stderr ?? '', contentType: 'text/plain' });
@@ -82,6 +107,8 @@ test.describe('CLI install flow', () => {
       for (const required of ['.starter-meta.json', 'AGENTS.md', 'CLAUDE.md', '.specs']) {
         expect(fs.existsSync(path.join(dir, required)), `missing ${required}`).toBe(true);
       }
+      expect(fs.existsSync(path.join(dir, '.specs', 'journal'))).toBe(true);
+      expect(fs.existsSync(path.join(dir, 'docs', 'local-setup.md'))).toBe(true);
       const meta = JSON.parse(fs.readFileSync(path.join(dir, '.starter-meta.json'), 'utf8'));
       expect(meta.product_name).toBeTruthy();
       expect(meta.stack).toBeTruthy();
@@ -175,6 +202,36 @@ test.describe('CLI install flow', () => {
       const agents2 = fs.readFileSync(path.join(dir, 'AGENTS.md'), 'utf8');
       expect(agents2).toContain('USER_MARKER_42');
       expect(agents2.length).toBeGreaterThanOrEqual(agents1.length);
+    } finally {
+      rmTmp(dir);
+    }
+  });
+
+  test('automatic mapping leaves starter-managed files without unresolved placeholders', async ({}, testInfo) => {
+    const dir = mkTmp();
+    try {
+      writeFile(dir, 'package.json', JSON.stringify({
+        name: '@acme/project-mapper-host',
+        description: 'Developer tooling for project mapping and repository workflows',
+        scripts: {
+          dev: 'next dev',
+          build: 'next build',
+          lint: 'eslint .',
+          test: 'node --test',
+          'test:e2e': 'playwright test',
+        },
+        dependencies: {
+          next: '14.0.0',
+          react: '18.0.0',
+        },
+      }));
+      const res = runCli(['--yes', '--cli', 'skip', '--append-gitignore', 'no'], dir);
+      await attachEvidence(testInfo, res, dir);
+      expect(res.status, res.stderr).toBe(0);
+      const unresolved = listUnresolvedPlaceholders(dir);
+      expect(unresolved).toEqual([]);
+      expect(fs.readFileSync(path.join(dir, 'docs', 'local-setup.md'), 'utf8')).toContain('npm run dev');
+      expect(fs.readFileSync(path.join(dir, '.specs', 'product', 'VISION.md'), 'utf8')).toContain('Project Mapper Host');
     } finally {
       rmTmp(dir);
     }

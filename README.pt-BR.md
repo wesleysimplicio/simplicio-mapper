@@ -37,7 +37,7 @@ Preencha esses arquivos depois de instalar o starter em um projeto real. O objet
 
 ## TL;DR — começa em 60 segundos
 
-Escolha **um** caminho de instalação abaixo, rode dentro da pasta do projeto, e deixa o agente executar `INIT.md`.
+Escolha **um** caminho de instalação abaixo e rode dentro da pasta do projeto. O bootstrap agora inicia automaticamente um mapeamento local e preenche a primeira versão dos arquivos; o `INIT.md` vira uma etapa opcional de refinamento com agente.
 
 | SO | Comando único recomendado |
 |---|---|
@@ -112,7 +112,7 @@ seu-projeto/
 └── presentation/             # slides do método (Marp)
 ```
 
-Neutro de stack: tudo que é específico da sua stack vai ser preenchido pelo `INIT.md` quando o agente inspecionar o código real.
+Neutro de stack: a primeira passada agora é preenchida automaticamente a partir do código real, e o `INIT.md` continua disponível para refinamento mais profundo com agente.
 
 ---
 
@@ -127,7 +127,7 @@ npx @wesleysimplicio/llm-project-mapper
 
 Roda interativo. Pergunta **só**:
 
-1. **Qual CLI/LLM usar pro handoff** (auto-detecta quais estão instaladas e marca `[installed]`).
+1. **Qual CLI/LLM usar pro handoff depois do mapeamento automático** (auto-detecta quais estão instaladas e marca `[installed]`).
 2. **Adicionar ignores recomendados ao `.gitignore`?** (sim/não — nunca sobrescreve o seu `.gitignore` existente).
 
 Tudo o resto — `PRODUCT_NAME`, stack, dependências — auto-detectado de `package.json` / `pyproject.toml` / `go.mod` / `*.csproj` / `Cargo.toml` / `pubspec.yaml` / `composer.json` / `Gemfile` / `mix.exs` / `pom.xml` / `build.gradle*`.
@@ -215,7 +215,7 @@ rm -rf /tmp/llm-project-mapper-src
 
 ## Handoff de CLI — agentes suportados
 
-Após o scaffold, o bootstrap pergunta qual CLI/LLM lançar com o `INIT.md`. Instalações detectadas ganham `[installed]` no menu.
+Após o scaffold e o mapeamento automático, o bootstrap pode lançar uma CLI/LLM com o `INIT.md` para uma segunda passada opcional. Instalações detectadas ganham `[installed]` no menu.
 
 | # | CLI / LLM | Loop de agente nativo? | Docs de instalação |
 |---|---|---|---|

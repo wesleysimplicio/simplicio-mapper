@@ -37,6 +37,34 @@ function runCli(args, cwd) {
   });
 }
 
+function listUnresolvedPlaceholders(dir) {
+  const matches = [];
+  const exempt = /docs\/placeholders\.md|docs\/api-examples\/|task-template\.md|ADR-template\.md|sprint-XX|\.template\.|_template\/SKILL\.md|INIT\.md|INSTALL\.md|_BOOTSTRAP\.md|bootstrap\.(sh|ps1)|scripts\/check-placeholders\.sh|tests\/unit\/cli-install\.test\.js|\.github\/workflows-templates\//;
+
+  function walk(current) {
+    const entries = fs.readdirSync(current, { withFileTypes: true });
+    for (const entry of entries) {
+      if (['node_modules', '.git', 'playwright-report', 'test-results', 'coverage', 'video'].includes(entry.name)) continue;
+      const full = path.join(current, entry.name);
+      if (entry.isDirectory()) {
+        walk(full);
+        continue;
+      }
+      if (!entry.isFile()) continue;
+      const rel = path.relative(dir, full).replace(/\\/g, '/');
+      if (exempt.test(rel)) continue;
+      if (rel.endsWith('.svg') || rel.endsWith('.lock') || rel.endsWith('package-lock.json')) continue;
+      const content = fs.readFileSync(full, 'utf8');
+      if (/<[A-Z][A-Z0-9_]+>/.test(content)) {
+        matches.push(rel);
+      }
+    }
+  }
+
+  walk(dir);
+  return matches.sort();
+}
+
 test('dry-run does not write any file to cwd', () => {
   const dir = mkTmp();
   try {
@@ -62,6 +90,45 @@ test('fresh install creates .starter-meta.json + AGENTS.md + .specs/', () => {
     assert.equal(fs.existsSync(path.join(dir, 'AGENTS.md')), true);
     assert.equal(fs.existsSync(path.join(dir, 'CLAUDE.md')), true);
     assert.equal(fs.existsSync(path.join(dir, '.specs')), true);
+    assert.equal(fs.existsSync(path.join(dir, 'docs', 'local-setup.md')), true);
+    assert.equal(fs.existsSync(path.join(dir, '.specs', 'journal')), true);
+  } finally {
+    rmTmp(dir);
+  }
+});
+
+test('automatic mapping fills starter-managed docs without unresolved placeholders', () => {
+  const dir = mkTmp();
+  try {
+    writeFile(dir, 'package.json', JSON.stringify({
+      name: '@acme/project-mapper-host',
+      description: 'Developer tooling for project mapping and repository workflows',
+      scripts: {
+        dev: 'next dev',
+        build: 'next build',
+        lint: 'eslint .',
+        test: 'node --test',
+        'test:e2e': 'playwright test',
+      },
+      dependencies: {
+        next: '14.0.0',
+        react: '18.0.0',
+      },
+    }));
+    const res = runCli(['--yes', '--cli', 'skip', '--append-gitignore', 'no'], dir);
+    assert.equal(res.status, 0, `cli failed: ${res.stderr}`);
+
+    const localSetup = fs.readFileSync(path.join(dir, 'docs', 'local-setup.md'), 'utf8');
+    assert.match(localSetup, /npm install/);
+    assert.match(localSetup, /npm run dev/);
+    assert.doesNotMatch(localSetup, /<FRONTEND_URL>|<BACKEND_URL>|<DATABASE_REQUIREMENT>/);
+
+    const vision = fs.readFileSync(path.join(dir, '.specs', 'product', 'VISION.md'), 'utf8');
+    assert.match(vision, /Project Mapper Host/);
+    assert.doesNotMatch(vision, /<PRODUCT_NAME>|<TEAM>|<DOMAIN>|<STACK>/);
+
+    const unresolved = listUnresolvedPlaceholders(dir);
+    assert.deepEqual(unresolved, [], `unresolved placeholders remain:\n${unresolved.join('\n')}`);
   } finally {
     rmTmp(dir);
   }

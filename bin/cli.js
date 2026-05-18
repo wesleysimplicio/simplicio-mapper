@@ -17,16 +17,17 @@
  *   2. Asks only TWO questions:
  *        - Append recommended ignore entries to .gitignore? (y/N)
  *        - Which CLI/LLM should run INIT.md?
- *   3. Substitutes <PRODUCT_NAME>/<STACK> ONLY inside starter-managed paths
+ *   3. Immediately runs an automatic local mapping pass that fills the
+ *      starter-managed docs from the detected project structure.
+ *   4. Substitutes <PRODUCT_NAME>/<STACK> ONLY inside starter-managed paths
  *      AND only when the file actually contains a placeholder (protects user
- *      .razor/.cs/.ts/.py/package.json). <TEAM>/<DOMAIN> are intentionally
- *      left as-is so INIT.md (run by the agent) can infer and fill them.
- *   4. NEVER overwrites pre-existing user files. Existing instruction
+ *      .razor/.cs/.ts/.py/package.json).
+ *   5. NEVER overwrites pre-existing user files. Existing instruction
  *      files (AGENTS.md/CLAUDE.md/INIT.md/copilot-instructions.md) are
  *      preserved AND flagged in .starter-meta.json so INIT.md can read
  *      them and improve in place (essence preserved).
- *   5. .gitignore: never overwritten. Appended on opt-in, created if missing.
- *   6. Hands off to the chosen CLI to execute INIT.md.
+ *   6. .gitignore: never overwritten. Appended on opt-in, created if missing.
+ *   7. Optionally hands off to the chosen CLI to further refine INIT.md.
  *
  * Pure Node.js. No bash dependency. Works on macOS, Linux, and Windows.
  */
@@ -39,6 +40,7 @@ const path = require('node:path');
 const readline = require('node:readline');
 const https = require('node:https');
 const { spawn, spawnSync } = require('node:child_process');
+const { autoMapProject } = require('./auto-map');
 
 const PACKAGE_ROOT = path.resolve(__dirname, '..');
 const CWD = process.cwd();
@@ -353,6 +355,7 @@ function printHelp() {
   console.log(`llm-project-mapper v${PKG.version}
 
 Scaffold the LLM Project Mapper pack into the current directory.
+An automatic local mapping pass starts immediately after the files are applied.
 
 USAGE
   npx @wesleysimplicio/llm-project-mapper [options]
@@ -1076,7 +1079,7 @@ async function main() {
   log('  LLM Project Mapper - Bootstrap (npx)');
   log(`  v${PKG.version}`);
   log('==========================================\n');
-  log('Auto-detected (agent will infer team/domain/personas/vision from code):');
+  log('Auto-detected (bootstrap will map the project immediately after copy):');
   log(`  PROJECT_MODE: ${projectMode}`);
   log(`  PRODUCT_NAME: ${productName}`);
   log(`  STACK:        ${stack}`);
@@ -1105,6 +1108,13 @@ async function main() {
     await handleGitignore(rl);
     substitute(productName, stack);
     writeMeta(productName, stack, projectMode, projectsList, existingInstructionFiles, preservedUserFiles);
+    if (!opts.dryRun) {
+      autoMapProject({
+        cwd: CWD,
+        meta: readExistingMeta(),
+        log,
+      });
+    }
     if (opts.telemetry === 'on' || opts.telemetry === 'off') {
       persistTelemetryChoice(opts.telemetry === 'on');
     }

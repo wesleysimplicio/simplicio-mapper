@@ -38,7 +38,7 @@ Fill these files after installing the starter in a real project. The goal is to 
 
 ## TL;DR — get going in 60 seconds
 
-Pick **one** of the install paths below, run it inside your project folder, then let the agent run `INIT.md`.
+Pick **one** of the install paths below and run it inside your project folder. The bootstrap now starts an automatic local mapping pass immediately; `INIT.md` becomes an optional refinement step for a stronger agent.
 
 | OS | Recommended one-liner |
 |---|---|
@@ -113,7 +113,7 @@ your-project/
 └── presentation/             # method slides (Marp)
 ```
 
-Stack-neutral: anything specific to your stack gets filled by `INIT.md` when the agent inspects the real code.
+Stack-neutral: the bootstrap now fills the first pass automatically from the real project, and `INIT.md` remains available for deeper agent-driven refinement.
 
 ---
 
@@ -128,7 +128,7 @@ npx @wesleysimplicio/llm-project-mapper
 
 Runs interactively. Asks **only**:
 
-1. **Which CLI/LLM to hand off to** (auto-detects which ones are installed and marks them `[installed]`).
+1. **Which CLI/LLM to hand off to after the automatic mapping pass** (auto-detects which ones are installed and marks them `[installed]`).
 2. **Append recommended ignores to `.gitignore`?** (yes/no — never overwrites your existing `.gitignore`).
 
 Everything else — `PRODUCT_NAME`, stack, dependencies — auto-detected from `package.json` / `pyproject.toml` / `go.mod` / `*.csproj` / `Cargo.toml` / `pubspec.yaml` / `composer.json` / `Gemfile` / `mix.exs` / `pom.xml` / `build.gradle*`.
@@ -216,7 +216,7 @@ rm -rf /tmp/llm-project-mapper-src
 
 ## CLI handoff — supported agents
 
-After scaffolding, the bootstrap asks which CLI/LLM to launch with `INIT.md`. Detected installs get a `[installed]` mark in the menu.
+After scaffolding and auto-mapping, the bootstrap can optionally launch a CLI/LLM with `INIT.md` for a second-pass refinement. Detected installs get a `[installed]` mark in the menu.
 
 | # | CLI / LLM | Native agent loop? | Install docs |
 |---|---|---|---|

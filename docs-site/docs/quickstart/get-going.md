@@ -5,7 +5,7 @@ sidebar_position: 1
 ---
 ## TL;DR — get going in 60 seconds
 
-Pick **one** of the install paths below, run it inside your project folder, then let the agent run `INIT.md`.
+Pick **one** of the install paths below and run it inside your project folder. The bootstrap now starts an automatic local mapping pass immediately; `INIT.md` becomes an optional refinement step for a stronger agent.
 
 | OS | Recommended one-liner |
 |---|---|

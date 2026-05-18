@@ -6,13 +6,21 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-05-18
+
 ### Added
+- Automatic local project mapping immediately after bootstrap. `bin/auto-map.js` now inspects the host project, infers stack/domain/team/integrations, generates `.specs/journal/inspection-YYYY-MM-DD.md`, and pre-fills the starter-managed docs without waiting for a manual `INIT.md` handoff.
+- Regression coverage for the automatic mapping flow in both `tests/unit/cli-install.test.js` and `tests/e2e/cli.spec.ts`, including placeholder-clean assertions on the generated starter-managed files.
 - `vscode-extension/` scaffold for `wesleysimplicio.llm-project-mapper-vscode`. Ships a TreeView for `.specs/sprints/`, plus commands `lpm.openCurrentTask`, `lpm.createAdr`, `lpm.runInit`, `lpm.refresh` and a live status-bar indicator. Pure filesystem walker (`src/scan.ts`) covered by `node --test` unit tests.
 - `--telemetry on|off` flag on `bin/cli.js` (default off). Honored via `LLM_PROJECT_MAPPER_TELEMETRY` env var. Persists user choice to `~/.config/llm-project-mapper/telemetry.json`. Hard-disabled under `CI`, `--dry-run`, or when no `LLM_PROJECT_MAPPER_TELEMETRY_URL` is set.
 - `PRIVACY.md` documenting telemetry payload shape, opt-in mechanics, and kill switches.
 - `.github/workflows-templates/telemetry-worker.js` — reference Cloudflare Worker template (PII-sanitized aggregator).
 - README sections (EN + PT-BR) under "Companion tooling" linking the new extension and PRIVACY.md.
 - `tests/unit/cli-telemetry.test.js` — 5 new tests covering opt-in/out persistence and help-text presence.
+
+### Changed
+- Bootstrap messaging now explains that the mapping pass starts automatically and that `INIT.md` is an optional second-pass refinement step.
+- Package version bumped to `0.3.0` to ship the automatic mapping workflow and updated regression coverage.
 
 ## [0.2.2] - 2026-05-18
 
@@ -133,7 +141,8 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 - Remotion skills tutorial video in PT-BR. ([#1](https://github.com/wesleysimplicio/llm-project-mapper/pull/1))
 - i18n layer + English skills tutorial video. ([#2](https://github.com/wesleysimplicio/llm-project-mapper/pull/2))
 
-[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/wesleysimplicio/llm-project-mapper/releases/tag/v0.2.0
