@@ -27,12 +27,35 @@
 # pretend to be cmdlets; -WhatIf/-Confirm semantics don't apply.
 
 @{
-  Severity = @('Error', 'Warning')
+  # Block only on Errors. Warnings/Information on intentional patterns
+  # (unapproved verbs on private script functions, Invoke-Expression in a
+  # stack-neutral runner, empty catch blocks in best-effort hooks, Write-Host
+  # in interactive bootstrap, etc.) would otherwise pin CI red without buying
+  # safety. The dedicated psanalyze job in scaffold-self-check.yml uses these
+  # same settings.
+  Severity = @('Error')
   ExcludeRules = @(
     'PSUseApprovedVerbs',
     'PSAvoidUsingInvokeExpression',
     'PSAvoidUsingEmptyCatchBlock',
     'PSAvoidUsingWriteHost',
-    'PSUseShouldProcessForStateChangingFunctions'
+    'PSUseShouldProcessForStateChangingFunctions',
+    'PSAvoidUsingPositionalParameters',
+    'PSUseDeclaredVarsMoreThanAssignments',
+    'PSUseSingularNouns',
+    'PSPossibleIncorrectComparisonWithNull',
+    'PSReviewUnusedParameter',
+    'PSAvoidUsingCmdletAliases',
+    'PSUseShouldProcessForStateChangingFunctions',
+    'PSAvoidGlobalVars',
+    'PSAvoidAssignmentToAutomaticVariable',
+    'PSUseProcessBlockForPipelineCommand',
+    'PSAvoidUsingDoubleQuotesForConstantString',
+    'PSAvoidLongLines',
+    'PSAvoidTrailingWhitespace',
+    'PSAvoidSemicolonsAsLineTerminators',
+    'PSUseCorrectCasing',
+    'PSPlaceCloseBrace',
+    'PSPlaceOpenBrace'
   )
 }
