@@ -83,6 +83,7 @@ _BOOTSTRAP.md
 .specs/
 .specs/**
 docs/**
+!docs/YOOL_TUPLE_HAMT.md
 scripts/**
 playwright-report/**
 tests/**

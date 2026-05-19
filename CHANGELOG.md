@@ -6,6 +6,30 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-05-19
+
+### Added
+- Vendored YOOL/tuple/HAMT spec at `docs/YOOL_TUPLE_HAMT.md` (v0.2 from
+  https://github.com/wesleysimplicio/yool-tuple-hamt) plus `AGENTS.md` /
+  `CLAUDE.md` blocks defining the agent capability declaration template
+  (`yool_id`, `authority`, `lane`, `agent_terms` with **mandatory**
+  `cpu_quota_pct`, `disk_quota_mb`, `timeout_s`).
+- `bootstrap.sh` now scaffolds `.catalog/` (receipts/, artifacts/, README) so
+  the HAMT catalog has a predictable home in every starter-generated project.
+- Guardrail rationale anchored to Victor Genaro's review: *"precisa de
+  guardrail pra não fritar o processador. Você precisa de garbage collector
+  também pra não encher 100% do disco."*
+
+## [0.4.0] - 2026-05-19
+
+### Added
+- Added a local `rtk-cli` skill that teaches agents when and how to use RTK's compact shell output for repository exploration, `git`, `grep/find`, and verbose validation commands.
+
+### Changed
+- Updated `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, and session-start hooks to prefer RTK for shell-heavy workflows when it is installed, while explicitly keeping `curl`, `playwright`, and interactive or streaming commands on raw output.
+- Allowed `Bash(rtk *)` in `.claude/settings.json` so Claude Code sessions can invoke RTK without extra local permission friction.
+- Extended regression coverage to assert the shipped RTK skill, hook reminders, and contributor docs stay aligned.
+
 ## [0.3.2] - 2026-05-18
 
 ### Changed
@@ -151,7 +175,8 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 - Remotion skills tutorial video in PT-BR. ([#1](https://github.com/wesleysimplicio/llm-project-mapper/pull/1))
 - i18n layer + English skills tutorial video. ([#2](https://github.com/wesleysimplicio/llm-project-mapper/pull/2))
 
-[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.2...HEAD
+[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.2.2...v0.3.0

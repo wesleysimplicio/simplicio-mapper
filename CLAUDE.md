@@ -107,6 +107,27 @@ gh run watch                 # acompanha CI do branch atual
 
 Adapta os comandos pra stack real (`pnpm`, `yarn`, `bun`, `dotnet`, `python`, `go`).
 
+## Shell token-smart (RTK CLI, opcional)
+
+Se `rtk` estiver instalado na máquina, prefira-o em tarefas shell-heavy e de exploração para reduzir ruído e consumo de tokens:
+
+```bash
+rtk read AGENTS.md
+rtk grep "pattern" src/
+rtk find "*.ts" .
+rtk git status
+rtk git diff
+rtk git log -n 10
+rtk npm test
+```
+
+Regras:
+
+- Use `rtk read` / `rtk grep` / `rtk find` / `rtk git ...` como primeira opção quando o objetivo é inspeção textual compacta.
+- Use `rtk <comando>` em validações verbosas quando o output resumido basta para decidir o próximo passo.
+- **Não** passe por RTK comandos interativos, streaming ou em que o output bruto é a evidência principal (`curl`, `playwright`, `gh pr view --web`, logs longos que precisam ser preservados verbatim).
+- Se `rtk` não estiver instalado, siga com os comandos normais sem bloquear a task.
+
 ---
 
 ## Padrão de sincronização deste projeto
@@ -229,6 +250,7 @@ Estas três skills são **ativadas automaticamente no começo de toda sessão** 
 
 ### Sob demanda
 
+- **`rtk-cli`** — usa RTK CLI para reduzir tokens em exploração de repositório, git, grep/find e comandos shell verbosos sem perder o sinal técnico.
 - **`playwright-e2e`** — como escrever teste Playwright neste projeto. Trigger: nova feature de UI ou fluxo end-to-end. Cobre fixtures, page objects, evidências (trace/screenshot/video) e padrões de assert.
 - **`conventional-commits`** — regras de commit (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `perf:`, `style:`, `ci:`, `build:`). Trigger: hora de commitar. Inclui exemplos, breaking changes (`!`/`BREAKING CHANGE:`) e scope.
 - **`_template`** — base pra criar skill nova. Copia, renomeia pasta, preenche frontmatter (`name`, `description`, `trigger`, `steps`, `dod`).
@@ -309,6 +331,34 @@ npm run lint && npm test -- --coverage && npx playwright test
 - **Hooks do `.claude/hooks/`** rodam automaticamente: post-edit faz lint/format, pre-commit bloqueia commit vermelho.
 
 <!-- codex-long-running-agent-overlay:start -->
+## yool / tuple / HAMT (capability addressing)
+
+Spec: `docs/YOOL_TUPLE_HAMT.md` (vendored from https://github.com/wesleysimplicio/yool-tuple-hamt, version v0.2).
+
+Every agent registered in this repo MUST declare its capability with the following fields (header `### <Agent Name>` followed by frontmatter-style lines):
+
+```markdown
+### My Agent
+
+- yool_id: `agent.dev.python`
+- authority: dev | ops | review | audit
+- lane: fast | slow | background
+- agent_terms:
+    cpu_quota_pct: 60       # MANDATORY guardrail (spec §11.1)
+    disk_quota_mb: 100      # MANDATORY guardrail (spec §11.2)
+    timeout_s: 300
+```
+
+Guardrails are MANDATORY per Victor Genaro's review: *"precisa de guardrail pra não fritar o processador. Você precisa de garbage collector também pra não encher 100% do disco."* See spec §11.
+
+Build the HAMT catalog with:
+
+```bash
+node bin/build-hamt-catalog --source AGENTS.md --output .catalog/hamt.json
+```
+
+---
+
 ## Universal Long-Running Agent Overlay
 
 This section complements the repository-specific guidance already in this file. If anything here conflicts with the repo-specific rules above, the repo-specific rules win.
