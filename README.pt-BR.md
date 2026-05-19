@@ -35,6 +35,15 @@ Preencha esses arquivos depois de instalar o starter em um projeto real. O objet
 
 ---
 
+## Padroes
+
+- Especificacao canonica: [YOOL_TUPLE_HAMT.md](YOOL_TUPLE_HAMT.md)
+- Esquema de receipts e convencoes de armazenamento: [Esquema de receipts](YOOL_TUPLE_HAMT.md#184-receipt-schema-reference)
+
+O padrao yool / tuple / HAMT define o modelo de enderecamento de capacidades que este scaffold passa a assumir para repositorios multiagente. Mantenha a especificacao vendorizada na raiz para que qualquer agente chegue nela em um clique a partir do repo.
+
+---
+
 ## TL;DR — começa em 60 segundos
 
 Escolha **um** caminho de instalação abaixo e rode dentro da pasta do projeto. O bootstrap agora inicia automaticamente um mapeamento local e preenche a primeira versão dos arquivos; o `INIT.md` vira uma etapa opcional de refinamento com agente.

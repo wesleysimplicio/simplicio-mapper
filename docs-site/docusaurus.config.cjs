@@ -74,6 +74,7 @@ const config = {
         {to: '/', label: 'Docs Home', position: 'left'},
         {to: '/quickstart/get-going', label: 'Quickstart', position: 'left'},
         {to: '/guide/private-overlay', label: 'Guide', position: 'left'},
+        {to: '/yool-tuple-hamt', label: 'YOOL / tuple / HAMT', position: 'left'},
         {to: '/reference/cli-flags', label: 'Reference', position: 'left'},
         {type: 'docsVersionDropdown', position: 'right'},
         {
@@ -100,6 +101,7 @@ const config = {
             {label: 'Architecture Map', to: '/concepts/architecture-map'},
             {label: 'Domain Map', to: '/concepts/domain-map'},
             {label: 'Skills and Agents', to: '/concepts/skills-and-agents'},
+            {label: 'YOOL / tuple / HAMT', to: '/yool-tuple-hamt'},
           ],
         },
         {

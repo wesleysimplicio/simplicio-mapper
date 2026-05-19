@@ -64,6 +64,11 @@ test('--dry-run flag is recognized (not treated as unknown)', () => {
   assert.doesNotMatch(res.stderr, /Unknown flag/, `--dry-run was rejected as unknown: ${res.stderr}`);
 });
 
+test('--mcp-edge flag is recognized (not treated as unknown)', () => {
+  const res = runCli(['--dry-run', '--yes', '--cli', 'skip', '--append-gitignore', 'no', '--mcp-edge']);
+  assert.doesNotMatch(res.stderr, /Unknown flag/, `--mcp-edge was rejected as unknown: ${res.stderr}`);
+});
+
 test('--preset list prints the catalog and exits 0', () => {
   const res = runCli(['--preset', 'list']);
   assert.equal(res.status, 0);

@@ -36,6 +36,15 @@ Fill these files after installing the starter in a real project. The goal is to 
 
 ---
 
+## Patterns
+
+- Canonical spec: [YOOL_TUPLE_HAMT.md](YOOL_TUPLE_HAMT.md)
+- Receipts schema and storage conventions: [Receipt schema](YOOL_TUPLE_HAMT.md#184-receipt-schema-reference)
+
+The yool / tuple / HAMT pattern is the capability-addressing model this scaffold is standardizing for multi-agent repos. Keep the root spec vendored so agents can reach it from the repository root in one click.
+
+---
+
 ## TL;DR — get going in 60 seconds
 
 Pick **one** of the install paths below and run it inside your project folder. The bootstrap now starts an automatic local mapping pass immediately; `INIT.md` becomes an optional refinement step for a stronger agent.

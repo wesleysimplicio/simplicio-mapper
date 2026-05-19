@@ -37,7 +37,7 @@
 #   ./bootstrap.sh
 #
 # Usage non-interactive (CI):
-#   ./bootstrap.sh --yes --cli claude --append-gitignore yes
+#   ./bootstrap.sh --yes --cli claude --append-gitignore yes --mcp-edge
 
 set -euo pipefail
 
@@ -47,12 +47,14 @@ set -euo pipefail
 NON_INTERACTIVE=0
 CLI_PRESET=""
 APPEND_GITIGNORE_PRESET=""
+ENABLE_MCP_EDGE=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -y|--yes)              NON_INTERACTIVE=1; shift ;;
     --cli)                 CLI_PRESET="$2"; shift 2 ;;
     --append-gitignore)    APPEND_GITIGNORE_PRESET="$2"; shift 2 ;;  # yes|no
+    --mcp-edge)            ENABLE_MCP_EDGE=1; shift ;;
     -h|--help)             sed -n '2,33p' "$0"; exit 0 ;;
     *) echo "Unknown flag: $1" >&2; exit 1 ;;
   esac
@@ -382,6 +384,10 @@ pnpm-debug.log*
 *.tgz
 *.tar.gz
 
+# Runtime receipts
+.receipts/**
+!.receipts/.gitkeep
+
 # LLM Project Mapper tracked files
 .starter-meta.json
 .claude/settings.local.json
@@ -456,35 +462,148 @@ handle_gitignore
 echo ""
 
 # ---------------------------------------------------------------------------
-# .catalog/ skeleton (yool/tuple/HAMT pattern, see docs/YOOL_TUPLE_HAMT.md)
+# runtime scaffold (.catalog, .receipts, optional MCP edge starter)
 # ---------------------------------------------------------------------------
-handle_catalog_skeleton() {
-  mkdir -p .catalog/receipts .catalog/artifacts
-  : > .catalog/receipts/.gitkeep
-  : > .catalog/artifacts/.gitkeep
-  if [[ ! -f .catalog/README.md ]]; then
-    cat > .catalog/README.md <<'CATALOG_EOF'
-# .catalog/
+handle_runtime_scaffold() {
+  mkdir -p .catalog .receipts
+  : > .catalog/.gitkeep
+  : > .receipts/.gitkeep
 
-Runtime catalog for the yool/tuple/HAMT pattern (see `docs/YOOL_TUPLE_HAMT.md`).
-
-| Path | Purpose |
-|---|---|
-| `hamt.json` | HAMT registry built from AGENTS.md by `bin/build-hamt-catalog` |
-| `tuples.jsonl` | Append-only log of tuple-space operations (`out`/`in`) |
-| `receipts/<sha>.json` | Content-addressable execution records (immutable) |
-| `artifacts/` | Body files referenced by receipts; subject to GC per §11.2 |
-
-`receipts/` is the immutable Merkle chain — NEVER deleted, only artifact bodies are.
-GC runs nightly per the disk guardrail (spec §11.2).
+  if [[ ! -f .catalog/agents.json ]]; then
+    cat > .catalog/agents.json <<'CATALOG_EOF'
+{
+  "version": 1,
+  "generated_at": null,
+  "agents": [],
+  "notes": [
+    "Generated from AGENTS.md entries that declare yool_id, authority, lane, and agent_terms.",
+    "Refresh with bin/build-hamt-catalog after the wrapper is installed."
+  ]
+}
 CATALOG_EOF
-    echo "-> .catalog/ skeleton created."
+    echo "-> .catalog/agents.json stub created."
   else
-    echo "-> .catalog/ already exists (skeleton skipped)."
+    echo "-> .catalog/agents.json already exists (preserved)."
+  fi
+
+  echo "-> .catalog/.gitkeep and .receipts/.gitkeep ensured."
+}
+
+handle_mcp_edge_scaffold() {
+  [[ "$ENABLE_MCP_EDGE" == "1" ]] || return 0
+
+  mkdir -p mcp
+
+  if [[ ! -f mcp/server.ts ]]; then
+    cat > mcp/server.ts <<'MCP_TS_EOF'
+#!/usr/bin/env node
+/**
+ * WARNING: MCP is an edge adapter only.
+ * Do not move the inner agent loop into this file.
+ */
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import process from "node:process";
+
+const catalogPath = path.resolve(process.cwd(), ".catalog", "agents.json");
+
+async function readCatalog() {
+  const raw = await readFile(catalogPath, "utf8");
+  return JSON.parse(raw);
+}
+
+export async function snapshot() {
+  return {
+    catalogPath,
+    catalog: await readCatalog(),
+    generatedAt: new Date().toISOString()
+  };
+}
+
+export async function dispatch(tuple) {
+  return {
+    accepted: false,
+    reason: "TODO: wire tuple dispatch to the edge transport for your host runtime.",
+    tuple,
+    catalogPath
+  };
+}
+
+if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
+  const command = process.argv[2] ?? "snapshot";
+  if (command === "snapshot") {
+    console.log(JSON.stringify(await snapshot(), null, 2));
+  } else if (command === "dispatch") {
+    const tuple = process.argv[3] ? JSON.parse(process.argv[3]) : {};
+    console.log(JSON.stringify(await dispatch(tuple), null, 2));
+  } else {
+    console.error(`Unknown command: ${command}`);
+    process.exit(1);
+  }
+}
+MCP_TS_EOF
+    echo "-> mcp/server.ts created."
+  else
+    echo "-> mcp/server.ts already exists (preserved)."
+  fi
+
+  if [[ ! -f mcp/server.py ]]; then
+    cat > mcp/server.py <<'MCP_PY_EOF'
+#!/usr/bin/env python3
+"""
+WARNING: MCP is an edge adapter only.
+Do not move the inner agent loop into this file.
+"""
+from __future__ import annotations
+
+import json
+import pathlib
+import sys
+from datetime import datetime, timezone
+from typing import Any
+
+CATALOG_PATH = pathlib.Path.cwd() / ".catalog" / "agents.json"
+
+
+def read_catalog() -> dict[str, Any]:
+    return json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+
+
+def snapshot() -> dict[str, Any]:
+    return {
+        "catalogPath": str(CATALOG_PATH),
+        "catalog": read_catalog(),
+        "generatedAt": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+def dispatch(tuple_payload: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "accepted": False,
+        "reason": "TODO: wire tuple dispatch to the edge transport for your host runtime.",
+        "tuple": tuple_payload,
+        "catalogPath": str(CATALOG_PATH),
+    }
+
+
+if __name__ == "__main__":
+    command = sys.argv[1] if len(sys.argv) > 1 else "snapshot"
+    if command == "snapshot":
+        print(json.dumps(snapshot(), indent=2))
+    elif command == "dispatch":
+        payload = json.loads(sys.argv[2]) if len(sys.argv) > 2 else {}
+        print(json.dumps(dispatch(payload), indent=2))
+    else:
+        raise SystemExit(f"Unknown command: {command}")
+MCP_PY_EOF
+    echo "-> mcp/server.py created."
+  else
+    echo "-> mcp/server.py already exists (preserved)."
   fi
 }
 
-handle_catalog_skeleton
+handle_runtime_scaffold
+handle_mcp_edge_scaffold
 echo ""
 
 # ---------------------------------------------------------------------------
@@ -506,7 +625,8 @@ cat > .starter-meta.json <<EOF
   "project_mode": "$PROJECT_MODE",
   "projects": $PROJECTS_JSON,
   "bootstrapped_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-  "starter_version": "0.3.0",
+  "starter_version": "0.4.0",
+  "mcp_edge_enabled": $( [[ "$ENABLE_MCP_EDGE" == "1" ]] && echo "true" || echo "false" ),
   "existing_instruction_files": $existing_files_json,
   "init_must_ask": [],
   "init_must_infer": ["team", "domain", "vision_oneliner", "personas_beyond_dev"],

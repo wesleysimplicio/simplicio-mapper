@@ -90,6 +90,8 @@ test('fresh install creates .starter-meta.json + AGENTS.md + .specs/', () => {
     assert.equal(fs.existsSync(path.join(dir, 'AGENTS.md')), true);
     assert.equal(fs.existsSync(path.join(dir, 'CLAUDE.md')), true);
     assert.equal(fs.existsSync(path.join(dir, '.specs')), true);
+    assert.equal(fs.existsSync(path.join(dir, '.catalog', 'agents.json')), true);
+    assert.equal(fs.existsSync(path.join(dir, '.receipts', '.gitkeep')), true);
     assert.equal(fs.existsSync(path.join(dir, 'docs', 'local-setup.md')), true);
     assert.equal(fs.existsSync(path.join(dir, '.specs', 'journal')), true);
   } finally {
@@ -148,6 +150,39 @@ test('.starter-meta.json has the documented shape', () => {
     assert.ok(Array.isArray(meta.read_only_globs), 'read_only_globs not array');
     assert.ok(Array.isArray(meta.init_must_merge), 'init_must_merge not array');
     assert.ok(['root', 'monorepo'].includes(meta.project_mode), 'project_mode invalid');
+  } finally {
+    rmTmp(dir);
+  }
+});
+
+test('fresh install renders AGENTS.md with yool fields and receipt guidance', () => {
+  const dir = mkTmp();
+  try {
+    writeFile(dir, 'package.json', '{"name":"my-product","dependencies":{"next":"14.0.0"}}');
+    const res = runCli(['--yes', '--cli', 'skip', '--append-gitignore', 'no'], dir);
+    assert.equal(res.status, 0, `cli failed: ${res.stderr}`);
+    const agents = fs.readFileSync(path.join(dir, 'AGENTS.md'), 'utf8');
+    assert.match(agents, /yool_id:/);
+    assert.match(agents, /authority:/);
+    assert.match(agents, /lane:/);
+    assert.match(agents, /agent_terms:/);
+    assert.match(agents, /Receipts schema/);
+    assert.match(agents, /YOOL_TUPLE_HAMT\.md/);
+  } finally {
+    rmTmp(dir);
+  }
+});
+
+test('--mcp-edge creates edge templates and records the meta flag', () => {
+  const dir = mkTmp();
+  try {
+    writeFile(dir, 'package.json', '{"name":"my-product","dependencies":{"next":"14.0.0"}}');
+    const res = runCli(['--yes', '--cli', 'skip', '--append-gitignore', 'no', '--mcp-edge'], dir);
+    assert.equal(res.status, 0, `cli failed: ${res.stderr}`);
+    assert.equal(fs.existsSync(path.join(dir, 'mcp', 'server.ts')), true);
+    assert.equal(fs.existsSync(path.join(dir, 'mcp', 'server.py')), true);
+    const meta = JSON.parse(fs.readFileSync(path.join(dir, '.starter-meta.json'), 'utf8'));
+    assert.equal(meta.mcp_edge_enabled, true);
   } finally {
     rmTmp(dir);
   }

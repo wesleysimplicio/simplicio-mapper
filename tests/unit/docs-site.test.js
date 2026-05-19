@@ -33,6 +33,22 @@ test('docs site ships a landing page at the site root', () => {
   const landingPage = read('docs-site/src/pages/index.mdx');
   assert.match(landingPage, /\[Current docs \(v0\.x\)\]\(\/next\/\)/);
   assert.match(landingPage, /\[Stable snapshot\]\(\/intro\)/);
+  assert.match(landingPage, /\[YOOL \/ tuple \/ HAMT pattern\]\(\/yool-tuple-hamt\)/);
+});
+
+test('docs home links to the yool tuple hamt page from the root doc', () => {
+  const introDoc = read('docs-site/docs/intro.md');
+  assert.match(introDoc, /\*\*YOOL \/ tuple \/ HAMT\*\*/);
+  assert.match(introDoc, /\[YOOL \/ tuple \/ HAMT\]\(\/yool-tuple-hamt\)/);
+});
+
+test('docs site includes a dedicated yool tuple hamt page at the target route', () => {
+  const patternDoc = read('docs-site/docs/concepts/yool-tuple-hamt.md');
+  assert.match(patternDoc, /slug:\s*\/yool-tuple-hamt/);
+  assert.match(patternDoc, /## Static layout/);
+  assert.match(patternDoc, /## Dynamic flow/);
+  assert.match(patternDoc, /npx @wesleysimplicio\/llm-project-mapper/);
+  assert.match(patternDoc, /bin\/build-hamt-catalog/);
 });
 
 test('docs site package includes the Mermaid ELK dependency required by the theme bundle', () => {
@@ -48,4 +64,10 @@ test('docs deployment workflow publishes to GitHub Pages on main', () => {
   assert.match(workflow, /push:/);
   assert.match(workflow, /branches:\s*\n\s*-\s*main/);
   assert.match(workflow, /actions\/deploy-pages@v4/);
+});
+
+test('docs site navigation exposes the yool tuple hamt page', () => {
+  const config = read('docs-site/docusaurus.config.cjs');
+  assert.match(config, /label:\s*'YOOL \/ tuple \/ HAMT'/);
+  assert.match(config, /to:\s*'\/yool-tuple-hamt'/);
 });
