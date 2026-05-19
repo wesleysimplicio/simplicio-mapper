@@ -1,5 +1,9 @@
 # AGENTS.md
 
+> Canonical pattern spec: [YOOL_TUPLE_HAMT.md](YOOL_TUPLE_HAMT.md)
+>
+> Receipt schema reference: [YOOL_TUPLE_HAMT.md §1.8.4](YOOL_TUPLE_HAMT.md#184-receipt-schema-reference)
+
 ## Operational Context
 
 Before changing code, agents should check the project-specific operational docs:
@@ -327,7 +331,7 @@ npm run lint && npm test -- --coverage && npx playwright test
 <!-- yool-tuple-hamt:start -->
 ## yool / tuple / HAMT (capability addressing)
 
-Spec: `docs/YOOL_TUPLE_HAMT.md` (vendored from https://github.com/wesleysimplicio/yool-tuple-hamt, version v0.2).
+Spec: [`YOOL_TUPLE_HAMT.md`](YOOL_TUPLE_HAMT.md) (vendored from https://github.com/wesleysimplicio/yool-tuple-hamt, version v0.2).
 
 Every agent registered in this repo MUST declare its capability with the following fields (header `### <Agent Name>` followed by frontmatter-style lines):
 
@@ -351,10 +355,33 @@ Why these fields exist:
 - `agent_terms.cpu_quota_pct` — soft throttle via `os.nice` or cgroups. Per Victor Genaro's guardrail: *"precisa de guardrail pra não fritar o processador."*
 - `agent_terms.disk_quota_mb` — local disk cap before GC kicks in. Per the same review: *"você precisa de garbage collector também pra não encher 100% do disco."*
 
+### Receipts schema
+
+Every repo using this pattern should keep execution receipts under `.receipts/` and treat them as append-only execution evidence, not ad-hoc logs.
+
+Minimum receipt contract:
+
+```json
+{
+  "id": "sha256:<content-hash>",
+  "tuple_id": "sha256:<tuple-hash>",
+  "yool_id": "agent.dev.python",
+  "status": "ok",
+  "created_at": "2026-05-19T17:30:00Z",
+  "artifacts": [],
+  "cost": {
+    "tokens": 0,
+    "usd": 0
+  }
+}
+```
+
+Canonical source for receipt semantics, retention, and catalog placement: [YOOL_TUPLE_HAMT.md §1.8.4](YOOL_TUPLE_HAMT.md#184-receipt-schema-reference).
+
 Build the HAMT catalog with:
 
 ```bash
-node bin/build-hamt-catalog --source AGENTS.md --output .catalog/hamt.json
+node bin/build-hamt-catalog --source AGENTS.md --output .catalog/agents.json
 ```
 
 Without all four fields, the catalog build skips the entry. CI gate enforces full population for any new agent declaration.

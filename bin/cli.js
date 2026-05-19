@@ -51,6 +51,7 @@ const TEMPLATE_PATHS = [
   'CLAUDE.md',
   'INIT.md',
   '_BOOTSTRAP.md',
+  'YOOL_TUPLE_HAMT.md',
   'README.md',
   'README.pt-BR.md',
   'INSTALL.md',
@@ -285,10 +286,25 @@ const PRESETS = {
 };
 
 const argv = process.argv.slice(2);
+
+if (argv[0] === 'build-hamt-catalog') {
+  const wrapper = path.join(__dirname, 'build-hamt-catalog');
+  const child = spawnSync(process.execPath, [wrapper, ...argv.slice(1)], {
+    cwd: process.cwd(),
+    stdio: 'inherit',
+  });
+  if (child.error) {
+    console.error(`Failed to run build-hamt-catalog: ${child.error.message}`);
+    process.exit(1);
+  }
+  process.exit(child.status ?? 1);
+}
+
 const opts = {
   yes: false,
   force: false,
   dryRun: false,
+  mcpEdge: false,
   silent: false,
   skipMeta: false,
   update: false,
@@ -307,6 +323,7 @@ for (let i = 0; i < argv.length; i++) {
     case '-f':
     case '--force':            opts.force = true; break;
     case '--dry-run':          opts.dryRun = true; break;
+    case '--mcp-edge':         opts.mcpEdge = true; break;
     case '--update':           opts.update = true; break;
     case '--silent':           opts.silent = true; break;
     case '--skip-meta':        opts.skipMeta = true; break;
@@ -359,6 +376,7 @@ An automatic local mapping pass starts immediately after the files are applied.
 
 USAGE
   npx @wesleysimplicio/llm-project-mapper [options]
+  npx @wesleysimplicio/llm-project-mapper build-hamt-catalog [project-root] [--source <AGENTS.md>] [--output <.catalog/agents.json>]
 
 OPTIONS
   -y, --yes                   Non-interactive (defaults: no gitignore append, skip CLI handoff)
@@ -367,6 +385,7 @@ OPTIONS
                               .github/copilot-instructions.md, .gitignore)
   --update                    Safe update mode: --yes --force --append-gitignore yes --cli skip
   --dry-run                   Print actions without writing files
+  --mcp-edge                  Create mcp/server.ts and mcp/server.py edge adapters
   --skip-meta                 Do not write .starter-meta.json
   --cli <key>                 Pick CLI for INIT.md handoff (claude|codex|copilot|cursor|
                               deepseek|kimi|minimax|glm|hermes|openclaw|aider|other|skip)
@@ -391,6 +410,7 @@ EXAMPLES
   npx @wesleysimplicio/llm-project-mapper --yes --preset nextjs
   npx @wesleysimplicio/llm-project-mapper --preset list
   npx @wesleysimplicio/llm-project-mapper@latest --update
+  npx @wesleysimplicio/llm-project-mapper build-hamt-catalog
 
 DOCS
   https://github.com/wesleysimplicio/llm-project-mapper
@@ -833,6 +853,134 @@ function upsertGitignore(existing) {
   return before + '\n\n' + RECOMMENDED_IGNORES + (after ? '\n' + after : '\n');
 }
 
+function writeFileIfMissing(relPath, content) {
+  const abs = path.join(CWD, relPath);
+  if (fs.existsSync(abs)) {
+    log(`  preserve (exists): ${relPath}`);
+    return;
+  }
+  if (opts.dryRun) {
+    log(`  create (dry):      ${relPath}`);
+    return;
+  }
+  fs.mkdirSync(path.dirname(abs), { recursive: true });
+  fs.writeFileSync(abs, content);
+  log(`  create:            ${relPath}`);
+}
+
+function handleRuntimeScaffold() {
+  const catalogStub = `${JSON.stringify({
+    version: 1,
+    generated_at: null,
+    agents: [],
+    notes: [
+      'Generated from AGENTS.md entries that declare yool_id, authority, lane, and agent_terms.',
+      'Refresh with build-hamt-catalog after the wrapper is installed.',
+    ],
+  }, null, 2)}\n`;
+  const mcpServerTs = `#!/usr/bin/env node
+/**
+ * WARNING: MCP is an edge adapter only.
+ * Do not move the inner agent loop into this file.
+ */
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import process from "node:process";
+
+const catalogPath = path.resolve(process.cwd(), ".catalog", "agents.json");
+
+async function readCatalog() {
+  const raw = await readFile(catalogPath, "utf8");
+  return JSON.parse(raw);
+}
+
+export async function snapshot() {
+  return {
+    catalogPath,
+    catalog: await readCatalog(),
+    generatedAt: new Date().toISOString(),
+  };
+}
+
+export async function dispatch(tuple) {
+  return {
+    accepted: false,
+    reason: "TODO: wire tuple dispatch to the edge transport for your host runtime.",
+    tuple,
+    catalogPath,
+  };
+}
+
+if (process.argv[1] && import.meta.url === new URL(\`file://\${process.argv[1]}\`).href) {
+  const command = process.argv[2] ?? "snapshot";
+  if (command === "snapshot") {
+    console.log(JSON.stringify(await snapshot(), null, 2));
+  } else if (command === "dispatch") {
+    const tuple = process.argv[3] ? JSON.parse(process.argv[3]) : {};
+    console.log(JSON.stringify(await dispatch(tuple), null, 2));
+  } else {
+    console.error(\`Unknown command: \${command}\`);
+    process.exit(1);
+  }
+}
+`;
+  const mcpServerPy = `#!/usr/bin/env python3
+"""
+WARNING: MCP is an edge adapter only.
+Do not move the inner agent loop into this file.
+"""
+from __future__ import annotations
+
+import json
+import pathlib
+import sys
+from datetime import datetime, timezone
+from typing import Any
+
+CATALOG_PATH = pathlib.Path.cwd() / ".catalog" / "agents.json"
+
+
+def read_catalog() -> dict[str, Any]:
+    return json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+
+
+def snapshot() -> dict[str, Any]:
+    return {
+        "catalogPath": str(CATALOG_PATH),
+        "catalog": read_catalog(),
+        "generatedAt": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+def dispatch(tuple_payload: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "accepted": False,
+        "reason": "TODO: wire tuple dispatch to the edge transport for your host runtime.",
+        "tuple": tuple_payload,
+        "catalogPath": str(CATALOG_PATH),
+    }
+
+
+if __name__ == "__main__":
+    command = sys.argv[1] if len(sys.argv) > 1 else "snapshot"
+    if command == "snapshot":
+        print(json.dumps(snapshot(), indent=2))
+    elif command == "dispatch":
+        payload = json.loads(sys.argv[2]) if len(sys.argv) > 2 else {}
+        print(json.dumps(dispatch(payload), indent=2))
+    else:
+        raise SystemExit(f"Unknown command: {command}")
+`;
+
+  writeFileIfMissing(path.join('.catalog', '.gitkeep'), '');
+  writeFileIfMissing(path.join('.catalog', 'agents.json'), catalogStub);
+  writeFileIfMissing(path.join('.receipts', '.gitkeep'), '');
+  if (opts.mcpEdge) {
+    writeFileIfMissing(path.join('mcp', 'server.ts'), mcpServerTs);
+    writeFileIfMissing(path.join('mcp', 'server.py'), mcpServerPy);
+  }
+}
+
 function looksBinary(buf) {
   const head = buf.length > 8192 ? buf.subarray(0, 8192) : buf;
   return head.includes(0);
@@ -910,6 +1058,7 @@ function writeMeta(productName, stack, projectMode, projectsList, existingInstru
     bootstrapped_at: new Date().toISOString(),
     starter_version: PKG.version,
     cli: '@wesleysimplicio/llm-project-mapper',
+    mcp_edge_enabled: opts.mcpEdge,
     preset: opts.preset || null,
     existing_instruction_files: existingInstructionFiles,
     preserved_user_files: preservedUserFiles,
@@ -1106,6 +1255,7 @@ async function main() {
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
   try {
     await handleGitignore(rl);
+    handleRuntimeScaffold();
     substitute(productName, stack);
     writeMeta(productName, stack, projectMode, projectsList, existingInstructionFiles, preservedUserFiles);
     if (!opts.dryRun) {

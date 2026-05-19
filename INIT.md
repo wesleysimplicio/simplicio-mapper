@@ -21,7 +21,8 @@ Antes de qualquer Write/Edit, leia `.starter-meta.json` na raiz do repo. Ele é 
   "domain": "...",
   "stack": "...",
   "bootstrapped_at": "2026-05-08T19:45:00Z",
-  "starter_version": "0.2.0",
+  "starter_version": "0.4.0",
+  "mcp_edge_enabled": false,
   "existing_instruction_files": [".github/copilot-instructions.md"],
   "init_must_ask":   ["team", "domain", "vision_oneliner", "primary_personas"],
   "init_must_merge": [".github/copilot-instructions.md"],
@@ -55,6 +56,21 @@ playwright.config.ts (apenas se ainda não existe ou se é template nosso)
 ```
 
 Caminho fora dessa whitelist **e** que não é arquivo do template original → não escreve.
+
+## Artefatos criados pelo bootstrap
+
+Além da whitelist acima, o bootstrap pode preparar estes artefatos de scaffold/runtime:
+
+- `.catalog/.gitkeep`
+- `.catalog/agents.json` — stub inicial do catálogo HAMT/YOOL; a versão populada vem do builder.
+- `.receipts/.gitkeep` — diretório local para receipts; o default é ficar gitignored.
+- `mcp/server.ts` e `mcp/server.py` — **somente** quando `.starter-meta.json.mcp_edge_enabled == true`.
+
+Regras específicas:
+
+- Preserve o bloco de aviso dos arquivos em `mcp/`: **MCP é borda/edge, não o loop interno dos agentes**.
+- Se `AGENTS.md` já trouxer campos `yool_id`, `authority`, `lane` e `agent_terms`, trate isso como contrato do catálogo; não remova nem “simplifique”.
+- `mcp/` só existe para `snapshot` e `dispatch` de borda sobre `.catalog/agents.json`; não enfie orquestração interna ali.
 
 ---
 

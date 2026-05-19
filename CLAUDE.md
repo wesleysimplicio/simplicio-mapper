@@ -1,6 +1,10 @@
 # CLAUDE.md
 
 > Este arquivo espelha [AGENTS.md](./AGENTS.md). Edite ambos juntos OU mantenha apenas `AGENTS.md` e symlink `CLAUDE.md` -> `AGENTS.md` (`ln -sf AGENTS.md CLAUDE.md`). O Claude Code lê arquivo regular, não símbolo.
+>
+> Canonical pattern spec: [YOOL_TUPLE_HAMT.md](YOOL_TUPLE_HAMT.md)
+>
+> Receipt schema reference: [YOOL_TUPLE_HAMT.md §1.8.4](YOOL_TUPLE_HAMT.md#184-receipt-schema-reference)
 
 ---
 
@@ -333,7 +337,7 @@ npm run lint && npm test -- --coverage && npx playwright test
 <!-- codex-long-running-agent-overlay:start -->
 ## yool / tuple / HAMT (capability addressing)
 
-Spec: `docs/YOOL_TUPLE_HAMT.md` (vendored from https://github.com/wesleysimplicio/yool-tuple-hamt, version v0.2).
+Spec: [`YOOL_TUPLE_HAMT.md`](YOOL_TUPLE_HAMT.md) (vendored from https://github.com/wesleysimplicio/yool-tuple-hamt, version v0.2).
 
 Every agent registered in this repo MUST declare its capability with the following fields (header `### <Agent Name>` followed by frontmatter-style lines):
 
@@ -351,10 +355,33 @@ Every agent registered in this repo MUST declare its capability with the followi
 
 Guardrails are MANDATORY per Victor Genaro's review: *"precisa de guardrail pra não fritar o processador. Você precisa de garbage collector também pra não encher 100% do disco."* See spec §11.
 
+### Receipts schema
+
+Every repo using this pattern should keep execution receipts under `.receipts/` and treat them as append-only execution evidence, not ad-hoc logs.
+
+Minimum receipt contract:
+
+```json
+{
+  "id": "sha256:<content-hash>",
+  "tuple_id": "sha256:<tuple-hash>",
+  "yool_id": "agent.dev.python",
+  "status": "ok",
+  "created_at": "2026-05-19T17:30:00Z",
+  "artifacts": [],
+  "cost": {
+    "tokens": 0,
+    "usd": 0
+  }
+}
+```
+
+Canonical source for receipt semantics, retention, and catalog placement: [YOOL_TUPLE_HAMT.md §1.8.4](YOOL_TUPLE_HAMT.md#184-receipt-schema-reference).
+
 Build the HAMT catalog with:
 
 ```bash
-node bin/build-hamt-catalog --source AGENTS.md --output .catalog/hamt.json
+node bin/build-hamt-catalog --source AGENTS.md --output .catalog/agents.json
 ```
 
 ---

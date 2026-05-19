@@ -30,13 +30,15 @@
 .EXAMPLE
   PS> .\bootstrap.ps1
   PS> .\bootstrap.ps1 -NonInteractive -Cli claude -AppendGitignore yes
+  PS> .\bootstrap.ps1 -NonInteractive -Cli codex -AppendGitignore yes -McpEdge
 #>
 [CmdletBinding()]
 param(
   [switch]$NonInteractive,
   [string]$Cli              = "",
   [ValidateSet("yes","no","")]
-  [string]$AppendGitignore  = ""
+  [string]$AppendGitignore  = "",
+  [switch]$McpEdge
 )
 
 $ErrorActionPreference = "Stop"
@@ -309,6 +311,10 @@ pnpm-debug.log*
 *.tgz
 *.tar.gz
 
+# Runtime receipts
+.receipts/**
+!.receipts/.gitkeep
+
 # LLM Project Mapper tracked files
 .starter-meta.json
 .claude/settings.local.json
@@ -382,6 +388,152 @@ Handle-Gitignore
 Write-Host ""
 
 # ---------------------------------------------------------------------------
+# runtime scaffold (.catalog, .receipts, optional MCP edge starter)
+# ---------------------------------------------------------------------------
+function Handle-RuntimeScaffold {
+  New-Item -ItemType Directory -Force -Path ".catalog" | Out-Null
+  New-Item -ItemType Directory -Force -Path ".receipts" | Out-Null
+  Set-Content -Path ".catalog/.gitkeep" -Value "" -Encoding UTF8
+  Set-Content -Path ".receipts/.gitkeep" -Value "" -Encoding UTF8
+
+  if (-not (Test-Path ".catalog/agents.json")) {
+    @"
+{
+  "version": 1,
+  "generated_at": null,
+  "agents": [],
+  "notes": [
+    "Generated from AGENTS.md entries that declare yool_id, authority, lane, and agent_terms.",
+    "Refresh with bin/build-hamt-catalog after the wrapper is installed."
+  ]
+}
+"@ | Set-Content -Path ".catalog/agents.json" -Encoding UTF8
+    Write-Host "-> .catalog/agents.json stub created."
+  } else {
+    Write-Host "-> .catalog/agents.json already exists (preserved)."
+  }
+
+  Write-Host "-> .catalog/.gitkeep and .receipts/.gitkeep ensured."
+}
+
+function Handle-McpEdgeScaffold {
+  if (-not $script:McpEdge) { return }
+
+  New-Item -ItemType Directory -Force -Path "mcp" | Out-Null
+
+  if (-not (Test-Path "mcp/server.ts")) {
+    @'
+#!/usr/bin/env node
+/**
+ * WARNING: MCP is an edge adapter only.
+ * Do not move the inner agent loop into this file.
+ */
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import process from "node:process";
+
+const catalogPath = path.resolve(process.cwd(), ".catalog", "agents.json");
+
+async function readCatalog() {
+  const raw = await readFile(catalogPath, "utf8");
+  return JSON.parse(raw);
+}
+
+export async function snapshot() {
+  return {
+    catalogPath,
+    catalog: await readCatalog(),
+    generatedAt: new Date().toISOString()
+  };
+}
+
+export async function dispatch(tuple) {
+  return {
+    accepted: false,
+    reason: "TODO: wire tuple dispatch to the edge transport for your host runtime.",
+    tuple,
+    catalogPath
+  };
+}
+
+if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
+  const command = process.argv[2] ?? "snapshot";
+  if (command === "snapshot") {
+    console.log(JSON.stringify(await snapshot(), null, 2));
+  } else if (command === "dispatch") {
+    const tuple = process.argv[3] ? JSON.parse(process.argv[3]) : {};
+    console.log(JSON.stringify(await dispatch(tuple), null, 2));
+  } else {
+    console.error(`Unknown command: ${command}`);
+    process.exit(1);
+  }
+}
+'@ | Set-Content -Path "mcp/server.ts" -Encoding UTF8
+    Write-Host "-> mcp/server.ts created."
+  } else {
+    Write-Host "-> mcp/server.ts already exists (preserved)."
+  }
+
+  if (-not (Test-Path "mcp/server.py")) {
+    @'
+#!/usr/bin/env python3
+"""
+WARNING: MCP is an edge adapter only.
+Do not move the inner agent loop into this file.
+"""
+from __future__ import annotations
+
+import json
+import pathlib
+import sys
+from datetime import datetime, timezone
+from typing import Any
+
+CATALOG_PATH = pathlib.Path.cwd() / ".catalog" / "agents.json"
+
+
+def read_catalog() -> dict[str, Any]:
+    return json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+
+
+def snapshot() -> dict[str, Any]:
+    return {
+        "catalogPath": str(CATALOG_PATH),
+        "catalog": read_catalog(),
+        "generatedAt": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+def dispatch(tuple_payload: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "accepted": False,
+        "reason": "TODO: wire tuple dispatch to the edge transport for your host runtime.",
+        "tuple": tuple_payload,
+        "catalogPath": str(CATALOG_PATH),
+    }
+
+
+if __name__ == "__main__":
+    command = sys.argv[1] if len(sys.argv) > 1 else "snapshot"
+    if command == "snapshot":
+        print(json.dumps(snapshot(), indent=2))
+    elif command == "dispatch":
+        payload = json.loads(sys.argv[2]) if len(sys.argv) > 2 else {}
+        print(json.dumps(dispatch(payload), indent=2))
+    else:
+        raise SystemExit(f"Unknown command: {command}")
+'@ | Set-Content -Path "mcp/server.py" -Encoding UTF8
+    Write-Host "-> mcp/server.py created."
+  } else {
+    Write-Host "-> mcp/server.py already exists (preserved)."
+  }
+}
+
+Handle-RuntimeScaffold
+Handle-McpEdgeScaffold
+Write-Host ""
+
+# ---------------------------------------------------------------------------
 # .starter-meta.json (machine-readable handoff for INIT.md)
 # ---------------------------------------------------------------------------
 $readOnlyGlobs = @(
@@ -396,7 +548,8 @@ $meta = [ordered]@{
   project_mode                = $ProjectMode
   projects                    = $ProjectsList
   bootstrapped_at             = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
-  starter_version             = "0.3.0"
+  starter_version             = "0.4.0"
+  mcp_edge_enabled            = [bool]$McpEdge
   existing_instruction_files  = $ExistingInstructionFiles
   init_must_ask               = @()
   init_must_infer             = @("team","domain","vision_oneliner","personas_beyond_dev")
@@ -416,7 +569,7 @@ $InitPrompt = 'Read INIT.md and execute it. Do NOT modify any user source files 
 $CliOpts = @(
   @{ Key="claude";   Label="Claude Code";                                                       Cmd="claude" },
   @{ Key="codex";    Label="Codex CLI";                                                         Cmd="codex" },
-  @{ Key="copilot";  Label="GitHub Copilot CLI (chat — no agent loop)";                         Cmd="gh" },
+  @{ Key="copilot";  Label="GitHub Copilot CLI (chat - no agent loop)";                           Cmd="gh" },
   @{ Key="cursor";   Label="Cursor Agent (cursor-agent)";                                       Cmd="cursor-agent" },
   @{ Key="deepseek"; Label="Deepseek (via aider --model deepseek/deepseek-coder)";              Cmd="aider" },
   @{ Key="kimi";     Label="Kimi K2.6 (via aider --model openrouter/moonshotai/kimi-k2)";       Cmd="aider" },
@@ -426,7 +579,7 @@ $CliOpts = @(
   @{ Key="openclaw"; Label="OpenClaw";                                                          Cmd="openclaw" },
   @{ Key="aider";    Label="Aider (pick model interactively)";                                  Cmd="aider" },
   @{ Key="other";    Label="Other / manual (copy prompt to clipboard)";                         Cmd="" },
-  @{ Key="skip";     Label="Skip — I will run INIT.md later";                                   Cmd="" }
+  @{ Key="skip";     Label="Skip - I will run INIT.md later";                                     Cmd="" }
 )
 
 function Has-Cmd($name) {

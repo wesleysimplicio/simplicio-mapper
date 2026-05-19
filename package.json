@@ -4,7 +4,8 @@
   "description": "AI-friendly project scaffold with AGENTS.md ecosystem (Claude Code, Codex, Copilot, Cursor, Aider, Hermes, OpenClaw). Specs as code, atomic tasks, automated Definition of Done, reusable skills, multi-agent ready.",
   "type": "commonjs",
   "bin": {
-    "llm-project-mapper": "bin/cli.js"
+    "llm-project-mapper": "bin/cli.js",
+    "build-hamt-catalog": "bin/build-hamt-catalog"
   },
   "files": [
     "LICENSE",
@@ -17,6 +18,7 @@
     "INIT.md",
     "INIT.en.md",
     "_BOOTSTRAP.md",
+    "YOOL_TUPLE_HAMT.md",
     "README.md",
     "README.pt-BR.md",
     "INSTALL.md",

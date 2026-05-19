@@ -3,6 +3,10 @@
 > Instruction file lido automaticamente pelo **GitHub Copilot Chat** e **Copilot Workspace / Agent Mode**. Espelha [AGENTS.md](../AGENTS.md) com foco em **Agent Mode workflow**.
 >
 > Ao trabalhar em Agent Mode, o Copilot pode delegar pra custom agents em [`.agents/`](../.agents/) (canônico, padrão AGENTS.md ecosystem) e/ou em `.github/copilot/agents/` (mirror lido pelo Copilot Coding Agent). Lista atual: `tdd.agent.md`, `reviewer.agent.md`, `architect.agent.md`.
+>
+> Canonical pattern spec: [YOOL_TUPLE_HAMT.md](../YOOL_TUPLE_HAMT.md)
+>
+> Receipt schema reference: [YOOL_TUPLE_HAMT.md §1.8.4](../YOOL_TUPLE_HAMT.md#184-receipt-schema-reference)
 
 ---
 
@@ -170,6 +174,32 @@ Pra invocar explicitamente em Copilot Chat: `@ralph-loop`, `@tdd`, `@reviewer`, 
 - **`_template`** — base pra criar skill nova.
 
 Detalhes em `.skills/README.md`.
+
+---
+
+## yool / tuple / HAMT
+
+Spec: [YOOL_TUPLE_HAMT.md](../YOOL_TUPLE_HAMT.md).
+
+Required agent fields:
+
+```markdown
+- yool_id: `agent.dev.python.v1`
+- authority: dev | ops | review | audit
+- lane: fast | slow | background
+- agent_terms:
+    cpu_quota_pct: 60
+    disk_quota_mb: 100
+    timeout_s: 300
+```
+
+Receipts live under `.receipts/` and should follow the canonical schema in [YOOL_TUPLE_HAMT.md §1.8.4](../YOOL_TUPLE_HAMT.md#184-receipt-schema-reference).
+
+Build the HAMT catalog with:
+
+```bash
+node bin/build-hamt-catalog --source AGENTS.md --output .catalog/agents.json
+```
 
 ---
 

@@ -18,6 +18,7 @@ This docs site is a curated view over the repo's real documentation. The source 
 - **Quickstart**: install the starter in seconds and choose the right bootstrap path.
 - **Guide**: use the private overlay workflow on top of an existing host project.
 - **Concepts**: understand the architecture and domain map conventions the starter ships.
+- **YOOL / tuple / HAMT**: inspect the capability-addressing pattern used by the scaffold.
 - **Reference**: inspect CLI flags, the init handoff contract, and the SessionStart hook behavior.
 - **Community**: contribute improvements and add your real-world showcase.
 
@@ -28,5 +29,6 @@ This docs site is a curated view over the repo's real documentation. The source 
 | [Quickstart](/quickstart/get-going) | Fast install path, prerequisites, and starter overview |
 | [Guide](/guide/private-overlay) | Private overlay installation on an existing repo |
 | [Concepts](/concepts/skills-and-agents) | How the starter organizes skills, agents, and shared context |
+| [YOOL / tuple / HAMT](/yool-tuple-hamt) | Capability addressing, receipts, and MCP edge guidance |
 | [Reference](/reference/init-handoff) | Bootstrap contract, CLI flags, hooks, and generated docs |
 | [Community](/community/showcase) | Showcase entries and contribution workflow |
