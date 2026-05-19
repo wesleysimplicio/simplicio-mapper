@@ -6,6 +6,20 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-05-19
+
+### Added
+- `.skills/rtk-cli/SKILL.md` skill manifest (force-added past the `.skills/`
+  gitignore exclusion to match the other tracked starter skills). Documents
+  RTK CLI usage with trigger, steps, do-not list, and DoD. Already shipped
+  via npm tarball; now tracked in git so consumers can discover it on
+  GitHub.
+
+### Notes
+- Closes #71. RTK guidance was already present in AGENTS.md, CLAUDE.md and
+  `.github/copilot-instructions.md` — the missing piece was the skill folder
+  visibility on GitHub.
+
 ## [0.4.1] - 2026-05-19
 
 ### Added
