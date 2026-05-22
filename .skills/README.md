@@ -86,6 +86,23 @@ Por isso, **o `description` é a coisa mais importante do frontmatter**. Escreva
 | [`ralph-loop/`](./ralph-loop/SKILL.md) | **Always-on.** Loop autônomo read→plan→execute→lint→unit→e2e→fix→repeat até DoD verde |
 | [`caveman/`](./caveman/SKILL.md) | **Always-on.** Modo terse de resposta para economizar tokens (~65% saída) |
 | [`everything-claude-code/`](./everything-claude-code/SKILL.md) | **Always-on.** Catálogo + protocolo de uso da suite ECC (60 agents, 221 skills) em paralelo |
+| [`hyperframes/`](./hyperframes/SKILL.md) | Autoria de composição HTML para vídeo (timing, GSAP, captions, transitions, audio-reactive) |
+| [`hyperframes-cli/`](./hyperframes-cli/SKILL.md) | CLI `npx hyperframes` (init, lint, inspect, preview, render, doctor) |
+| [`hyperframes-media/`](./hyperframes-media/SKILL.md) | Preprocessing de assets (`tts`, `transcribe`, `remove-background`) |
+| [`hyperframes-registry/`](./hyperframes-registry/SKILL.md) | Instalar blocos prontos do catálogo via `hyperframes add` |
+| [`gsap/`](./gsap/SKILL.md) | Padrões GSAP timeline-based (paused, seekable) para hyperframes |
+| [`animejs/`](./animejs/SKILL.md) | Anime.js como frame adapter |
+| [`css-animations/`](./css-animations/SKILL.md) | CSS keyframe animations (seek-friendly) |
+| [`lottie/`](./lottie/SKILL.md) | Lottie / dotLottie paused playback |
+| [`three/`](./three/SKILL.md) | Three.js frame-synced via `hf-seek` |
+| [`waapi/`](./waapi/SKILL.md) | Web Animations API via `document.getAnimations()` |
+| [`tailwind/`](./tailwind/SKILL.md) | Tailwind v4 browser runtime no scaffold hyperframes |
+| [`typegpu/`](./typegpu/SKILL.md) | TypeGPU / WebGPU shaders em compositions |
+| [`contribute-catalog/`](./contribute-catalog/SKILL.md) | Contribuir blocos para o catálogo hyperframes |
+| [`remotion-to-hyperframes/`](./remotion-to-hyperframes/SKILL.md) | Migrar projetos Remotion para hyperframes |
+| [`website-to-hyperframes/`](./website-to-hyperframes/SKILL.md) | Converter site/landing em composição hyperframes |
+
+> Skills `hyperframes*`, `gsap`, `animejs`, `css-animations`, `lottie`, `three`, `waapi`, `tailwind`, `typegpu`, `contribute-catalog`, `remotion-to-hyperframes`, `website-to-hyperframes` são **vendored verbatim** de https://github.com/wesleysimplicio/hyperframes (Apache 2.0). Veja `.skills/UPSTREAM-LICENSE` para o texto da licença e `.skills/NOTICE.md` para atribuição.
 
 ### Skills always-on (padrão do projeto)
 
