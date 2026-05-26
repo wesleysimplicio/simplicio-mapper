@@ -90,6 +90,8 @@ docs/**
 !docs/YOOL_TUPLE_HAMT.md
 scripts/**
 !scripts/build_hamt.py
+!scripts/skillopt/
+!scripts/skillopt/*.js
 playwright-report/**
 tests/**
 !tests/unit/

@@ -5,7 +5,8 @@
   "type": "commonjs",
   "bin": {
     "llm-project-mapper": "bin/cli.js",
-    "build-hamt-catalog": "bin/build-hamt-catalog"
+    "build-hamt-catalog": "bin/build-hamt-catalog",
+    "skillopt": "bin/skillopt.js"
   },
   "files": [
     "LICENSE",

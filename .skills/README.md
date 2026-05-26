@@ -81,6 +81,7 @@ Por isso, **o `description` é a coisa mais importante do frontmatter**. Escreva
 | Skill | Quando ativa |
 | --- | --- |
 | [`_template/`](./_template/SKILL.md) | Template base para criar novas skills |
+| [`skillopt/`](./skillopt/SKILL.md) | Otimizar um `SKILL.md`/prompt com o loop SkillOpt (Rollout→Reflect→Edit→Gate) contra uma suíte de tarefas |
 | [`playwright-e2e/`](./playwright-e2e/SKILL.md) | Escrever ou atualizar testes E2E com Playwright |
 | [`conventional-commits/`](./conventional-commits/SKILL.md) | Padronizar mensagens de commit |
 | [`ralph-loop/`](./ralph-loop/SKILL.md) | **Always-on.** Loop autônomo read→plan→execute→lint→unit→e2e→fix→repeat até DoD verde |

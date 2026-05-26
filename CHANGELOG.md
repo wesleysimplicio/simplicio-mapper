@@ -7,6 +7,8 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 ## [Unreleased]
 
 ### Added
+- `skillopt` command and `bin/skillopt.js` wrapper implementing the [SkillOpt](https://microsoft.github.io/SkillOpt/) loop (Rollout → Reflect → Edit → Gate): optimizes a natural-language skill document against a task suite, treating the skill as the only trainable artifact. Emits `best_skill.md`, an optional run report, and a content-addressed receipt under `.catalog/receipts/`. Engine in `scripts/skillopt/engine.js` is deterministic, dependency-free, and exposes a pluggable scorer for real LLM adapters.
+- `.skills/skillopt/SKILL.md` skill manifest plus runnable `example.skill.md` / `example.suite.json` fixtures.
 - Root-level `YOOL_TUPLE_HAMT.md` vendored alongside the existing `docs/` copy so the canonical pattern spec is reachable directly from the repository root and ships with the npm package.
 - `build-hamt-catalog` wrapper plus stdlib-only `scripts/build_hamt.py`, enabling `npx @wesleysimplicio/llm-project-mapper build-hamt-catalog` to emit `.catalog/agents.json`.
 - Runtime scaffold defaults for `.catalog/.gitkeep`, `.catalog/agents.json`, `.receipts/.gitkeep`, and optional `mcp/server.{ts,py}` edge adapters via `--mcp-edge`.
