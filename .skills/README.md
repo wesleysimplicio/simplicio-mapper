@@ -101,8 +101,17 @@ Por isso, **o `description` é a coisa mais importante do frontmatter**. Escreva
 | [`contribute-catalog/`](./contribute-catalog/SKILL.md) | Contribuir blocos para o catálogo hyperframes |
 | [`remotion-to-hyperframes/`](./remotion-to-hyperframes/SKILL.md) | Migrar projetos Remotion para hyperframes |
 | [`website-to-hyperframes/`](./website-to-hyperframes/SKILL.md) | Converter site/landing em composição hyperframes |
+| [`using-superpowers/`](./using-superpowers/SKILL.md) | Entrypoint da methodology superpowers: como achar e usar skills antes de qualquer resposta |
+| [`brainstorming/`](./brainstorming/SKILL.md) | Refina ideia em design/spec via diálogo antes de implementar (hard-gate antes de codar) |
+| [`writing-plans/`](./writing-plans/SKILL.md) | Escreve plano de implementação em tasks bite-sized (2-5 min) a partir de spec |
+| [`test-driven-development/`](./test-driven-development/SKILL.md) | RED-GREEN-REFACTOR: sem código de produção sem teste falhando antes |
+| [`subagent-driven-development/`](./subagent-driven-development/SKILL.md) | Executa plano com subagent fresco por task + review duplo (spec, depois qualidade) |
+| [`systematic-debugging/`](./systematic-debugging/SKILL.md) | Root cause antes de fix: quatro fases, sem patch de sintoma |
+| [`verification-before-completion/`](./verification-before-completion/SKILL.md) | Evidência antes de afirmar conclusão: roda o comando de verificação antes de qualquer claim |
 
 > Skills `hyperframes*`, `gsap`, `animejs`, `css-animations`, `lottie`, `three`, `waapi`, `tailwind`, `typegpu`, `contribute-catalog`, `remotion-to-hyperframes`, `website-to-hyperframes` são **vendored verbatim** de https://github.com/wesleysimplicio/hyperframes (Apache 2.0). Veja `.skills/UPSTREAM-LICENSE` para o texto da licença e `.skills/NOTICE.md` para atribuição.
+>
+> Skills `using-superpowers`, `brainstorming`, `writing-plans`, `test-driven-development`, `subagent-driven-development`, `systematic-debugging`, `verification-before-completion` são **vendored verbatim** de https://github.com/obra/superpowers (MIT, Copyright (c) 2025 Jesse Vincent). Veja `.skills/UPSTREAM-LICENSE-superpowers` para o texto da licença e `.skills/NOTICE.md` para atribuição. Cada skill traz seus arquivos de apoio (`references/`, `*-prompt.md`, técnicas de debugging).
 
 ### Skills always-on (padrão do projeto)
 
