@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "simplicio-mapper"
+version = "0.5.0"
+description = "Python-first project mapper that emits .simplicio/project-map.json and precedent-index.json for the Simplicio ecosystem."
+readme = "PYPI.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [{ name = "Wesley Simplicio", email = "wesleybob4@gmail.com" }]
+keywords = ["simplicio", "mapper", "llm", "project-map", "precedent", "agent"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = []
+
+[project.scripts]
+simplicio-mapper = "simplicio_mapper.cli:main"
+llm-project-mapper = "simplicio_mapper.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/wesleysimplicio/simplicio-mapper"
+Repository = "https://github.com/wesleysimplicio/simplicio-mapper"
+Issues = "https://github.com/wesleysimplicio/simplicio-mapper/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["simplicio_mapper"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "simplicio_mapper",
+  "PYPI.md",
+  "README.md",
+  "README.pt-BR.md",
+  "SIMPLICIO_INTEGRATION.md",
+  "CHANGELOG.md",
+  "LICENSE",
+  "pyproject.toml",
+]
