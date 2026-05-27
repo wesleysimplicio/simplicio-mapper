@@ -48,6 +48,22 @@ npx @wesleysimplicio/llm-project-mapper map --incremental
 npx @wesleysimplicio/llm-project-mapper update
 ```
 
+### New: standalone Python CLI
+
+The mapper now ships as a dependency-free Python package, so Python-first teams
+can generate the same artifacts without a Node toolchain:
+
+```bash
+pip install simplicio-mapper
+
+simplicio-mapper map                 # write .simplicio/ artifacts
+simplicio-mapper update              # refresh and record changed files
+simplicio-mapper map --watch         # re-map as files change locally
+```
+
+Both `simplicio-mapper` and `llm-project-mapper` console scripts are installed,
+and the Python output is byte-for-byte compatible with the Node mapper's schema.
+
 Use `--watch` during long agent sessions to keep the map fresh. The schema and
 Python consumption example live in [SIMPLICIO_INTEGRATION.md](SIMPLICIO_INTEGRATION.md).
 
