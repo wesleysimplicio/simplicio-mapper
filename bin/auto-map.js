@@ -3,6 +3,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
+const { writeMappingArtifacts } = require('./mapper-artifacts');
 
 const TEXT_EXTS = new Set([
   '.md', '.txt', '.json', '.jsonc', '.yml', '.yaml', '.toml',
@@ -1312,6 +1313,7 @@ function autoMapProject({ cwd, meta, log = () => {} }) {
   }
 
   log(`→ auto-mapped ${written} project files from local inspection.`);
+  writeMappingArtifacts({ cwd, meta, incremental: false, log });
   return profile;
 }
 

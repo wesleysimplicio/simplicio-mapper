@@ -52,6 +52,7 @@ Apenas estes caminhos são "starter-managed". **Tudo fora daqui é território d
 .github/workflows/ci.yml
 .github/workflows/dod.yml
 AGENTS.md          CLAUDE.md          README.md          README.pt-BR.md
+SIMPLICIO_INTEGRATION.md
 playwright.config.ts (apenas se ainda não existe ou se é template nosso)
 ```
 
@@ -64,6 +65,7 @@ Além da whitelist acima, o bootstrap pode preparar estes artefatos de scaffold/
 - `.catalog/.gitkeep`
 - `.catalog/agents.json` — stub inicial do catálogo HAMT/YOOL; a versão populada vem do builder.
 - `.receipts/.gitkeep` — diretório local para receipts; o default é ficar gitignored.
+- `.simplicio/project-map.json` e `.simplicio/precedent-index.json` — artefatos estruturados para `simplicio-dev-cli` e orquestradores.
 - `mcp/server.ts` e `mcp/server.py` — **somente** quando `.starter-meta.json.mcp_edge_enabled == true`.
 
 Regras específicas:
@@ -107,6 +109,7 @@ Spawna `@inspector` (subagent `Explore` ou `general-purpose`):
 - Detecta scripts/comandos reais: `package.json` `scripts`, `Makefile`, `composer.json` `scripts`, `pyproject.toml` `[tool.poetry.scripts]`, `*.csproj` targets.
 - TODO/FIXME/HACK no código de produção (excluir `node_modules`/`vendor`/`dist`/`build`).
 - Issues abertas via `gh issue list --limit 50` se `gh` autenticado.
+- Valida os artefatos `.simplicio/project-map.json` e `.simplicio/precedent-index.json`; se faltarem, rode `npx @wesleysimplicio/llm-project-mapper map --incremental`.
 
 **Output do inspector** — relatório markdown salvo em `.specs/journal/inspection-<YYYY-MM-DD>.md` com seções:
 `Stack real`, `Estrutura de pastas`, `Entidades detectadas`, `Comandos úteis`, `Integrações`, `TODOs encontrados`, `Issues abertas`.
@@ -138,8 +141,9 @@ Para **cada caminho** em `init_must_merge`:
 
 1. **`@instruction-updater`** — atualiza `AGENTS.md`/`CLAUDE.md`/`.github/copilot-instructions.md`:
    - Substitui a seção `## Comandos importantes` por comandos **reais** extraídos pelo inspector (não placeholders).
-   - Adiciona links para os docs preenchidos em `.specs/`.
-   - Adiciona seção `## Skills/Agents disponíveis` com o que existe em `.skills/` e `.agents/`.
+  - Adiciona links para os docs preenchidos em `.specs/`.
+  - Adiciona seção `## Skills/Agents disponíveis` com o que existe em `.skills/` e `.agents/`.
+  - Confirma que `.starter-meta.json.simplicio` aponta para `project-map.json`, `precedent-index.json` e `SIMPLICIO_INTEGRATION.md`.
 
 2. **DoD checks**:
    - Todos os arquivos do tree existem (`AGENTS.md`, `CLAUDE.md`, `.specs/{product,architecture,workflow,sprints}/...`).
@@ -194,6 +198,7 @@ Mantém `.starter-meta.json` (referência futura).
 - [ ] `.starter-meta.json` lido e atualizado com respostas do humano.
 - [ ] `init_must_ask` perguntado **uma vez só**, em uma única mensagem.
 - [ ] Inspector rodou e produziu relatório com entidades/comandos/integrações reais.
+- [ ] `.simplicio/project-map.json` e `.simplicio/precedent-index.json` existem e foram atualizados depois da inspeção.
 - [ ] 6 docs do `.specs/` preenchidos com info real (não placeholder).
 - [ ] `init_must_merge` mesclado com essência preservada.
 - [ ] `AGENTS.md` ↔ `CLAUDE.md` ↔ `.github/copilot-instructions.md` alinhados.

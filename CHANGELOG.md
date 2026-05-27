@@ -7,6 +7,13 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 ## [Unreleased]
 
 ### Added
+- `map` / `update` CLI subcommands for generating and incrementally refreshing
+  `.simplicio/project-map.json` and `.simplicio/precedent-index.json`.
+- Rich machine-readable mapper artifacts with file inventory, roles, imports,
+  exports, entity extraction, architecture signals, dependency context, changed
+  files, and precedent snippets for downstream consumers.
+- `SIMPLICIO_INTEGRATION.md` documenting the JSON contract and Python consumer
+  example for `simplicio-dev-cli`.
 - `skillopt` command and `bin/skillopt.js` wrapper implementing the [SkillOpt](https://microsoft.github.io/SkillOpt/) loop (Rollout → Reflect → Edit → Gate): optimizes a natural-language skill document against a task suite, treating the skill as the only trainable artifact. Emits `best_skill.md`, an optional run report, and a content-addressed receipt under `.catalog/receipts/`. Engine in `scripts/skillopt/engine.js` is deterministic, dependency-free, and exposes a pluggable scorer for real LLM adapters.
 - `.skills/skillopt/SKILL.md` skill manifest plus runnable `example.skill.md` / `example.suite.json` fixtures.
 - Root-level `YOOL_TUPLE_HAMT.md` vendored alongside the existing `docs/` copy so the canonical pattern spec is reachable directly from the repository root and ships with the npm package.
@@ -15,6 +22,10 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 - Dedicated docs-site coverage for YOOL / tuple / HAMT, including the public `/yool-tuple-hamt` route and regression tests for the new page.
 
 ### Changed
+- Bootstrap now writes the structured mapper artifacts automatically and records
+  the `simplicio` integration block in `.starter-meta.json`.
+- INIT prompts now require validation of `.simplicio/project-map.json` and
+  `.simplicio/precedent-index.json` during agent inspection.
 - `AGENTS.md`, `CLAUDE.md`, and `.github/copilot-instructions.md` now point to the root spec, document the receipts schema, and align the generated catalog output on `.catalog/agents.json`.
 - The Node bootstrap path now mirrors the shell/PowerShell runtime scaffold so fresh `npx` installs create the catalog, receipts, and optional MCP edge templates consistently.
 

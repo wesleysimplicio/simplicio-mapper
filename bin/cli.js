@@ -313,6 +313,19 @@ if (argv[0] === 'skillopt') {
   process.exit(child.status ?? 1);
 }
 
+if (argv[0] === 'map' || argv[0] === 'update') {
+  const wrapper = path.join(__dirname, 'map.js');
+  const child = spawnSync(process.execPath, [wrapper, ...argv], {
+    cwd: process.cwd(),
+    stdio: 'inherit',
+  });
+  if (child.error) {
+    console.error(`Failed to run mapper update: ${child.error.message}`);
+    process.exit(1);
+  }
+  process.exit(child.status ?? 1);
+}
+
 const opts = {
   yes: false,
   force: false,
@@ -389,6 +402,8 @@ An automatic local mapping pass starts immediately after the files are applied.
 
 USAGE
   npx @wesleysimplicio/llm-project-mapper [options]
+  npx @wesleysimplicio/llm-project-mapper map [--root <dir>] [--incremental] [--watch]
+  npx @wesleysimplicio/llm-project-mapper update [--root <dir>] [--watch]
   npx @wesleysimplicio/llm-project-mapper build-hamt-catalog [project-root] [--source <AGENTS.md>] [--output <.catalog/agents.json>]
   npx @wesleysimplicio/llm-project-mapper skillopt --suite <suite.json> [--skill <SKILL.md>] [--out best_skill.md]
 
@@ -424,6 +439,7 @@ EXAMPLES
   npx @wesleysimplicio/llm-project-mapper --yes --preset nextjs
   npx @wesleysimplicio/llm-project-mapper --preset list
   npx @wesleysimplicio/llm-project-mapper@latest --update
+  npx @wesleysimplicio/llm-project-mapper map --incremental
   npx @wesleysimplicio/llm-project-mapper build-hamt-catalog
   npx @wesleysimplicio/llm-project-mapper skillopt --suite skillopt.suite.json
 
@@ -1073,6 +1089,12 @@ function writeMeta(productName, stack, projectMode, projectsList, existingInstru
     bootstrapped_at: new Date().toISOString(),
     starter_version: PKG.version,
     cli: '@wesleysimplicio/llm-project-mapper',
+    simplicio: {
+      project_map: '.simplicio/project-map.json',
+      precedent_index: '.simplicio/precedent-index.json',
+      integration_contract: 'SIMPLICIO_INTEGRATION.md',
+      update_command: 'npx @wesleysimplicio/llm-project-mapper map --incremental',
+    },
     mcp_edge_enabled: opts.mcpEdge,
     preset: opts.preset || null,
     existing_instruction_files: existingInstructionFiles,

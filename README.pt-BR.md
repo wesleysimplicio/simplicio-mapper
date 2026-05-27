@@ -33,6 +33,24 @@ Este starter agora inclui templates genéricos e preenchíveis para deixar qualq
 
 Preencha esses arquivos depois de instalar o starter em um projeto real. O objetivo é reduzir tempo de descoberta para humanos e agentes sem impor framework.
 
+## Saidas machine-readable do mapper
+
+O bootstrap tambem escreve `.simplicio/project-map.json` e
+`.simplicio/precedent-index.json` para ferramentas como `simplicio-dev-cli` e
+`simplicio-sprint`.
+
+Atualize esses artefatos sem rodar o starter inteiro:
+
+```bash
+npx @wesleysimplicio/llm-project-mapper map
+npx @wesleysimplicio/llm-project-mapper map --incremental
+npx @wesleysimplicio/llm-project-mapper update
+```
+
+Use `--watch` durante sessoes longas de agentes para manter o mapa fresco. O
+schema e um exemplo de consumo em Python ficam em
+[SIMPLICIO_INTEGRATION.md](SIMPLICIO_INTEGRATION.md).
+
 ---
 
 ## Padroes
