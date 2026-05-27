@@ -1,0 +1,138 @@
+"""Unit tests for the simplicio_mapper Python CLI and mapper.
+
+Pure stdlib (unittest). Run with: python3 -m unittest discover -s tests/python
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
+
+from simplicio_mapper import __version__  # noqa: E402
+from simplicio_mapper.cli import main  # noqa: E402
+from simplicio_mapper.mapper import (  # noqa: E402
+    ARTIFACT_SCHEMA,
+    PRECEDENT_SCHEMA,
+    build_artifacts,
+    write_mapping_artifacts,
+)
+
+
+def _write(base: Path, rel: str, content: str) -> None:
+    target = base / rel
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(content, encoding="utf-8")
+
+
+class MapperArtifactsTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.dir = Path(self._tmp.name)
+
+    def tearDown(self) -> None:
+        self._tmp.cleanup()
+
+    def test_build_artifacts_emits_rich_project_map(self) -> None:
+        _write(self.dir, "package.json", json.dumps({
+            "name": "artifact-host",
+            "scripts": {"test": "node --test", "lint": "node scripts/lint.js"},
+            "dependencies": {"express": "^4.0.0"},
+        }))
+        _write(self.dir, "src/server.js",
+               "const express = require('express');\nfunction startServer() {}\nmodule.exports = { startServer };\n")
+        _write(self.dir, "tests/server.test.js",
+               "const { test } = require('node:test');\ntest('starts server', () => {});\n")
+
+        result = build_artifacts(
+            cwd=str(self.dir),
+            meta={"product_name": "Artifact Host", "stack": "node-express", "project_mode": "root"},
+        )
+        project_map = result["project_map"]
+        precedent_index = result["precedent_index"]
+
+        self.assertEqual(project_map["schema"], ARTIFACT_SCHEMA)
+        self.assertEqual(project_map["product"]["name"], "Artifact Host")
+        self.assertTrue(any(
+            f["path"] == "src/server.js" and f["language"] == "javascript"
+            for f in project_map["files"]
+        ))
+        self.assertIn("src/server.js", project_map["entry_points"])
+        self.assertIn("tests/server.test.js", project_map["test_files"])
+        self.assertIn("express", project_map["architecture"]["signals"])
+        self.assertTrue(any(e["name"] == "server" for e in project_map["entities"]))
+        self.assertEqual(precedent_index["schema"], PRECEDENT_SCHEMA)
+        self.assertTrue(any(
+            item["path"] == "tests/server.test.js" and item["change_type"] == "test"
+            for item in precedent_index["items"]
+        ))
+
+    def test_write_mapping_artifacts_persists_files(self) -> None:
+        _write(self.dir, "package.json", json.dumps({"name": "write-host"}))
+        _write(self.dir, "src/index.js", "export function run() { return 1; }\n")
+
+        out = write_mapping_artifacts(cwd=str(self.dir), meta={"stack": "node"})
+        self.assertTrue(os.path.exists(out["project_map_path"]))
+        self.assertTrue(os.path.exists(out["precedent_path"]))
+
+        on_disk = json.loads(Path(out["project_map_path"]).read_text())
+        self.assertEqual(on_disk["update_mode"], "full")
+
+    def test_incremental_records_changed_files(self) -> None:
+        _write(self.dir, "package.json", json.dumps({"name": "incremental-host"}))
+        _write(self.dir, "src/index.js", "export function run() { return 1; }\n")
+        write_mapping_artifacts(cwd=str(self.dir), meta={"stack": "node"})
+
+        _write(self.dir, "src/index.js", "export function run() { return 2; }\n")
+        result = write_mapping_artifacts(cwd=str(self.dir), meta={"stack": "node"}, incremental=True)
+
+        project_map = result["project_map"]
+        self.assertEqual(project_map["update_mode"], "incremental")
+        self.assertIn("src/index.js", project_map["changed_files"])
+
+
+class CliTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.dir = Path(self._tmp.name)
+
+    def tearDown(self) -> None:
+        self._tmp.cleanup()
+
+    def test_main_map_writes_artifacts(self) -> None:
+        _write(self.dir, "package.json", json.dumps({"name": "cli-host"}))
+        _write(self.dir, "src/index.js", "export function run() {}\n")
+
+        code = main(["map", "--root", str(self.dir), "--stack", "node",
+                     "--product-name", "CLI Host", "--silent"])
+        self.assertEqual(code, 0)
+
+        project_map = json.loads((self.dir / ".simplicio" / "project-map.json").read_text())
+        self.assertEqual(project_map["product"]["name"], "CLI Host")
+        self.assertEqual(project_map["product"]["stack"], "node")
+
+    def test_unknown_option_exits_with_code_2(self) -> None:
+        with self.assertRaises(SystemExit) as ctx:
+            main(["map", "--bogus"])
+        self.assertEqual(ctx.exception.code, 2)
+
+    def test_help_exits_zero(self) -> None:
+        with self.assertRaises(SystemExit) as ctx:
+            main(["--help"])
+        self.assertEqual(ctx.exception.code, 0)
+
+    def test_version_matches_package(self) -> None:
+        with self.assertRaises(SystemExit) as ctx:
+            main(["--version"])
+        self.assertEqual(ctx.exception.code, 0)
+        self.assertTrue(__version__)
+
+
+if __name__ == "__main__":
+    unittest.main()
