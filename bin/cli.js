@@ -300,6 +300,19 @@ if (argv[0] === 'build-hamt-catalog') {
   process.exit(child.status ?? 1);
 }
 
+if (argv[0] === 'skillopt') {
+  const wrapper = path.join(__dirname, 'skillopt.js');
+  const child = spawnSync(process.execPath, [wrapper, ...argv.slice(1)], {
+    cwd: process.cwd(),
+    stdio: 'inherit',
+  });
+  if (child.error) {
+    console.error(`Failed to run skillopt: ${child.error.message}`);
+    process.exit(1);
+  }
+  process.exit(child.status ?? 1);
+}
+
 const opts = {
   yes: false,
   force: false,
@@ -377,6 +390,7 @@ An automatic local mapping pass starts immediately after the files are applied.
 USAGE
   npx @wesleysimplicio/llm-project-mapper [options]
   npx @wesleysimplicio/llm-project-mapper build-hamt-catalog [project-root] [--source <AGENTS.md>] [--output <.catalog/agents.json>]
+  npx @wesleysimplicio/llm-project-mapper skillopt --suite <suite.json> [--skill <SKILL.md>] [--out best_skill.md]
 
 OPTIONS
   -y, --yes                   Non-interactive (defaults: no gitignore append, skip CLI handoff)
@@ -411,6 +425,7 @@ EXAMPLES
   npx @wesleysimplicio/llm-project-mapper --preset list
   npx @wesleysimplicio/llm-project-mapper@latest --update
   npx @wesleysimplicio/llm-project-mapper build-hamt-catalog
+  npx @wesleysimplicio/llm-project-mapper skillopt --suite skillopt.suite.json
 
 DOCS
   https://github.com/wesleysimplicio/llm-project-mapper
