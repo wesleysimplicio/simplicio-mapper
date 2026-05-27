@@ -49,7 +49,7 @@ jobs:
 
       # Roda testes com coverage para gerar relatório
       - name: Run unit tests with coverage
-        run: npm test -- --coverage
+        run: npm run test:coverage
 
       # Bloqueia se coverage < 80%
       - name: Check coverage threshold (>=80%)
