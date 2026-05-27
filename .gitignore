@@ -17,6 +17,14 @@ docs-site/.docusaurus/
 # TypeScript
 *.tsbuildinfo
 
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
 # Logs
 *.log
 npm-debug.log*
@@ -98,6 +106,8 @@ tests/**
 !tests/unit/*.test.js
 !tests/e2e/
 !tests/e2e/*.spec.ts
+!tests/python/
+!tests/python/*.py
 test-results/**
 coverage/**
 bootstrap.ps1
