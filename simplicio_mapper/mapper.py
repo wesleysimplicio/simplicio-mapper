@@ -3,23 +3,27 @@
 This is the Python port of ``bin/mapper-artifacts.js``. It produces
 ``.simplicio/project-map.json`` (schema ``simplicio.project-map/v1``) and
 ``.simplicio/precedent-index.json`` (schema ``simplicio.precedent-index/v1``)
-as documented in ``SIMPLICIO_INTEGRATION.md``. Pure standard library, no
-third-party dependencies.
+as documented in ``SIMPLICIO_INTEGRATION.md``.
 """
 
 from __future__ import annotations
 
 import hashlib
-import json
 import os
 import re
 import subprocess
 from datetime import datetime, timezone
 from typing import Any, Callable
 
+import orjson
+
+from .cache import FileProcessingCache
+from .models import CodeEntity, PrecedentItem, ProjectFile
+
 ARTIFACT_SCHEMA = "simplicio.project-map/v1"
 PRECEDENT_SCHEMA = "simplicio.precedent-index/v1"
 ARTIFACT_VERSION = 1
+_JSON_WRITE_OPTIONS = orjson.OPT_INDENT_2 | orjson.OPT_APPEND_NEWLINE
 
 TEXT_EXTS = {
     ".md", ".txt", ".json", ".jsonc", ".yml", ".yaml", ".toml",
@@ -95,10 +99,15 @@ def _sha256(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def _json_text(data: Any) -> str:
+    return orjson.dumps(data).decode("utf-8")
+
+
 def _parse_json_safe(file: str) -> dict:
     try:
-        return json.loads(_read_safe(file) or "{}")
-    except (ValueError, TypeError):
+        with open(file, "rb") as handle:
+            return orjson.loads(handle.read() or b"{}")
+    except (OSError, orjson.JSONDecodeError, TypeError):
         return {}
 
 
@@ -239,9 +248,8 @@ def _roles_for(rel: str, pkg: dict) -> list[str]:
     return sorted(roles)
 
 
-def _importance_for(meta: dict) -> float:
+def _importance_for(roles: list[str], imports: list[str], exports: list[str], git_status: str) -> float:
     score = 0.12
-    roles = meta["roles"]
     if "entrypoint" in roles:
         score += 0.45
     if "test" in roles:
@@ -250,11 +258,11 @@ def _importance_for(meta: dict) -> float:
         score += 0.2
     if "domain" in roles:
         score += 0.2
-    if meta["imports"]:
+    if imports:
         score += 0.08
-    if meta["exports"]:
+    if exports:
         score += 0.08
-    if meta["git_status"] and meta["git_status"] != "clean":
+    if git_status and git_status != "clean":
         score += 0.2
     return min(1.0, round(score, 2))
 
@@ -273,20 +281,20 @@ def _token_words(value: Any) -> list[str]:
     return out
 
 
-def _collect_entities(files: list[dict]) -> list[dict]:
+def _collect_entities(files: list[ProjectFile]) -> list[dict]:
     scores: dict[str, int] = {}
     for file in files:
-        stem = os.path.basename(file["path"])
-        ext = os.path.splitext(file["path"])[1]
+        stem = os.path.basename(file.path)
+        ext = os.path.splitext(file.path)[1]
         if ext and stem.endswith(ext):
             stem = stem[: -len(ext)]
         for token in _token_words(stem):
             scores[token] = scores.get(token, 0) + 1
-        for symbol in file.get("exports", []):
+        for symbol in file.exports:
             for token in _token_words(symbol):
                 scores[token] = scores.get(token, 0) + 2
     ordered = sorted(scores.items(), key=lambda kv: (-kv[1], kv[0]))
-    return [{"name": name, "score": score} for name, score in ordered[:30]]
+    return [CodeEntity(name, score).to_dict() for name, score in ordered[:30]]
 
 
 _ARCH_CHECKS = [
@@ -308,17 +316,17 @@ _ARCH_CHECKS = [
 
 
 def _collect_architecture_signals(pkg: dict, corpus: str, stack: str) -> list[str]:
-    text = f"{stack}\n{json.dumps(pkg)}\n{corpus}".lower()
+    text = f"{stack}\n{_json_text(pkg)}\n{corpus}".lower()
     return sorted(name for name, rx in _ARCH_CHECKS if rx.search(text))
 
 
-def _group_modules(files: list[dict]) -> list[dict]:
+def _group_modules(files: list[ProjectFile]) -> list[dict]:
     groups: dict[str, dict] = {}
     for file in files:
-        first = file["path"].split("/")[0] if "/" in file["path"] else "."
+        first = file.path.split("/")[0] if "/" in file.path else "."
         group = groups.setdefault(first, {"name": first, "files": [], "roles": set()})
-        group["files"].append(file["path"])
-        group["roles"].update(file["roles"])
+        group["files"].append(file.path)
+        group["roles"].update(file.roles)
     result = []
     for group in sorted(groups.values(), key=lambda g: g["name"]):
         result.append({
@@ -330,51 +338,79 @@ def _group_modules(files: list[dict]) -> list[dict]:
     return result
 
 
-def _detect_changed_files(files, previous_map, status_map, incremental) -> list[str]:
+def _detect_changed_files(files: list[ProjectFile], previous_map: dict, status_map: dict, incremental: bool) -> list[str]:
     previous = {f["path"]: f for f in previous_map.get("files", [])}
     changed = {file for file, status in status_map.items() if status != "clean"}
     if incremental:
         for file in files:
-            before = previous.get(file["path"])
-            if not before or before.get("file_hash") != file["file_hash"] or before.get("size_bytes") != file["size_bytes"]:
-                changed.add(file["path"])
-    present = {entry["path"] for entry in files}
+            before = previous.get(file.path)
+            if not before or before.get("file_hash") != file.file_hash or before.get("size_bytes") != file.size_bytes:
+                changed.add(file.path)
+    present = {entry.path for entry in files}
     return sorted(file for file in changed if file in present)
 
 
 def _load_previous_map(output_dir: str) -> dict:
     target = os.path.join(output_dir, "project-map.json")
     try:
-        with open(target, "r", encoding="utf-8") as handle:
-            return json.load(handle)
-    except (OSError, ValueError):
+        with open(target, "rb") as handle:
+            return orjson.loads(handle.read() or b"{}")
+    except (OSError, orjson.JSONDecodeError, TypeError):
         return {}
 
 
-def _build_file_inventory(cwd: str, pkg: dict, status_map: dict) -> list[dict]:
-    inventory = []
+def _cached_parse_file(abs_path: str, rel: str, stat: os.stat_result, cache: FileProcessingCache | None) -> dict:
+    cached = cache.get_processed_file(rel, stat.st_size, stat.st_mtime_ns) if cache else None
+    if cached is not None:
+        return cached
+
+    text = _read_safe(abs_path)
+    language = _language_for(rel)
+    result = {
+        "language": language,
+        "file_hash": _sha256(text),
+        "imports": _parse_imports(text, language),
+        "exports": _parse_symbols(text),
+        "text_preview": text[:3000],
+    }
+    if cache is not None:
+        cache.set_processed_file(rel, stat.st_size, stat.st_mtime_ns, result)
+    return result
+
+
+def _build_file_inventory(
+    cwd: str,
+    pkg: dict,
+    status_map: dict,
+    cache: FileProcessingCache | None = None,
+) -> list[ProjectFile]:
+    inventory: list[ProjectFile] = []
     for abs_path in _collect_text_files(cwd):
         rel = _normalize_rel(os.path.relpath(abs_path, cwd))
-        text = _read_safe(abs_path)
-        stat = os.stat(abs_path)
-        language = _language_for(rel)
+        try:
+            stat = os.stat(abs_path)
+        except OSError:
+            continue
+        parsed = _cached_parse_file(abs_path, rel, stat, cache)
         roles = _roles_for(rel, pkg)
-        imports = _parse_imports(text, language)
-        exports = _parse_symbols(text)
-        entry = {
-            "path": rel,
-            "language": language,
-            "size_bytes": stat.st_size,
-            "last_modified": _iso(datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc)),
-            "file_hash": _sha256(text),
-            "git_status": status_map.get(rel, "clean"),
-            "roles": roles,
-            "imports": imports,
-            "exports": exports,
-        }
-        entry["importance"] = _importance_for(entry)
+        imports = list(parsed.get("imports") or [])
+        exports = list(parsed.get("exports") or [])
+        git_status = status_map.get(rel, "clean")
+        entry = ProjectFile(
+            path=rel,
+            language=str(parsed.get("language") or _language_for(rel)),
+            size_bytes=stat.st_size,
+            last_modified=_iso(datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc)),
+            file_hash=str(parsed.get("file_hash") or ""),
+            git_status=git_status,
+            roles=roles,
+            imports=imports,
+            exports=exports,
+            text_preview=str(parsed.get("text_preview") or ""),
+        )
+        entry.importance = _importance_for(entry.roles, entry.imports, entry.exports, entry.git_status)
         inventory.append(entry)
-    return sorted(inventory, key=lambda e: e["path"])
+    return sorted(inventory, key=lambda e: e.path)
 
 
 _RE_PLACEHOLDER = re.compile(r"<[A-Z][A-Z0-9_]+>")
@@ -392,12 +428,12 @@ def _extract_snippet(lines: list[str], line_index: int, radius: int = 2) -> str:
     return "\n".join(lines[start:end])[:1200]
 
 
-def _build_precedent_items(cwd: str, files: list[dict]) -> list[dict]:
-    items = []
+def _build_precedent_items(cwd: str, files: list[ProjectFile]) -> list[dict]:
+    items: list[PrecedentItem] = []
     for file in files:
-        abs_path = os.path.join(cwd, file["path"])
+        abs_path = os.path.join(cwd, file.path)
         lines = _read_safe(abs_path).split("\n")
-        is_test = "test" in file["roles"]
+        is_test = "test" in file.roles
         for i, line in enumerate(lines):
             change_type = None
             for rx, fixed_type in _PRECEDENT_PATTERNS:
@@ -410,23 +446,23 @@ def _build_precedent_items(cwd: str, files: list[dict]) -> list[dict]:
             if _RE_PLACEHOLDER.search(snippet):
                 break
             tags = list(dict.fromkeys(
-                [r for r in file["roles"] if r]
-                + ([file["language"]] if file["language"] else [])
-                + _token_words(file["path"])
+                [r for r in file.roles if r]
+                + ([file.language] if file.language else [])
+                + _token_words(file.path)
             ))[:10]
-            items.append({
-                "id": _sha256(f"{file['path']}:{i + 1}:{line}")[:16],
-                "path": file["path"],
-                "line": i + 1,
-                "language": file["language"],
-                "change_type": change_type,
-                "tags": tags,
-                "summary": f"{change_type} precedent in {file['path']}",
-                "snippet": snippet,
-            })
+            items.append(PrecedentItem(
+                id=_sha256(f"{file.path}:{i + 1}:{line}")[:16],
+                path=file.path,
+                line=i + 1,
+                language=file.language,
+                change_type=change_type,
+                tags=tags,
+                summary=f"{change_type} precedent in {file.path}",
+                snippet=snippet,
+            ))
             break
-    items.sort(key=lambda item: (item["path"], item["line"]))
-    return items[:250]
+    items.sort(key=lambda item: (item.path, item.line))
+    return [item.to_dict() for item in items[:250]]
 
 
 def build_artifacts(cwd: str, meta: dict | None = None, incremental: bool = False,
@@ -437,8 +473,11 @@ def build_artifacts(cwd: str, meta: dict | None = None, incremental: bool = Fals
     pkg = _parse_json_safe(os.path.join(abs_cwd, "package.json"))
     status_map = _git_status_map(abs_cwd)
     previous_map = _load_previous_map(abs_out)
-    files = _build_file_inventory(abs_cwd, pkg, status_map)
-    corpus = "\n".join(_read_safe(os.path.join(abs_cwd, f["path"]))[:3000] for f in files[:80])
+    cache_dir = os.path.join(abs_out, "cache")
+    with FileProcessingCache(cache_dir) as file_cache:
+        files = _build_file_inventory(abs_cwd, pkg, status_map, file_cache)
+    file_entries = [file.to_dict() for file in files]
+    corpus = "\n".join(file.text_preview for file in files[:80])
     changed_files = _detect_changed_files(files, previous_map, status_map, incremental)
     stack = meta.get("stack") or pkg.get("type") or "unknown"
     product_name = meta.get("product_name") or pkg.get("name") or os.path.basename(abs_cwd)
@@ -468,10 +507,10 @@ def build_artifacts(cwd: str, meta: dict | None = None, incremental: bool = Fals
             "stack": stack,
             "project_mode": meta.get("project_mode", "root"),
         },
-        "files": files,
-        "entry_points": [f["path"] for f in files if "entrypoint" in f["roles"]],
-        "test_files": [f["path"] for f in files if "test" in f["roles"]],
-        "config_files": [f["path"] for f in files if "config" in f["roles"]],
+        "files": file_entries,
+        "entry_points": [f.path for f in files if "entrypoint" in f.roles],
+        "test_files": [f.path for f in files if "test" in f.roles],
+        "config_files": [f.path for f in files if "config" in f.roles],
         "modules": _group_modules(files),
         "entities": _collect_entities(files),
         "architecture": {
@@ -506,9 +545,11 @@ def build_artifacts(cwd: str, meta: dict | None = None, incremental: bool = Fals
 
 
 def _write_json_stable(file: str, data: Any) -> None:
-    os.makedirs(os.path.dirname(file), exist_ok=True)
-    with open(file, "w", encoding="utf-8") as handle:
-        handle.write(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
+    directory = os.path.dirname(file)
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+    with open(file, "wb") as handle:
+        handle.write(orjson.dumps(data, option=_JSON_WRITE_OPTIONS))
 
 
 def write_mapping_artifacts(cwd: str, meta: dict | None = None, incremental: bool = False,
