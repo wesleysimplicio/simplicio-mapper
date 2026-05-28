@@ -1,6 +1,6 @@
 """Unit tests for the simplicio_mapper Python CLI and mapper.
 
-Pure stdlib (unittest). Run with: python3 -m unittest discover -s tests/python
+Run with: python3 -m unittest discover -s tests/python
 """
 
 from __future__ import annotations
@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from simplicio_mapper import __version__  # noqa: E402
+from simplicio_mapper.cache import FileProcessingCache  # noqa: E402
 from simplicio_mapper.cli import main  # noqa: E402
 from simplicio_mapper.mapper import (  # noqa: E402
     ARTIFACT_SCHEMA,
@@ -23,12 +24,46 @@ from simplicio_mapper.mapper import (  # noqa: E402
     build_artifacts,
     write_mapping_artifacts,
 )
+from simplicio_mapper.models import CodeEntity, ProjectFile  # noqa: E402
 
 
 def _write(base: Path, rel: str, content: str) -> None:
     target = base / rel
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(content, encoding="utf-8")
+
+
+class FileProcessingCacheTest(unittest.TestCase):
+    def test_cache_hits_same_file_signature(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            cache = FileProcessingCache(Path(tmp) / "cache")
+            try:
+                cache.set_processed_file("example.py", 11, 123, {"file_hash": "abc"})
+
+                self.assertEqual(
+                    cache.get_processed_file("example.py", 11, 123),
+                    {"file_hash": "abc"},
+                )
+                self.assertIsNone(cache.get_processed_file("example.py", 12, 124))
+            finally:
+                cache.close()
+
+    def test_primary_models_use_slots(self) -> None:
+        project_file = ProjectFile(
+            path="app.py",
+            language="python",
+            size_bytes=10,
+            last_modified="2026-01-01T00:00:00.000Z",
+            file_hash="abc",
+            git_status="clean",
+            roles=[],
+            imports=[],
+            exports=[],
+        )
+        entity = CodeEntity("app", 1)
+
+        self.assertFalse(hasattr(project_file, "__dict__"))
+        self.assertFalse(hasattr(entity, "__dict__"))
 
 
 class MapperArtifactsTest(unittest.TestCase):
@@ -80,6 +115,7 @@ class MapperArtifactsTest(unittest.TestCase):
         out = write_mapping_artifacts(cwd=str(self.dir), meta={"stack": "node"})
         self.assertTrue(os.path.exists(out["project_map_path"]))
         self.assertTrue(os.path.exists(out["precedent_path"]))
+        self.assertTrue((self.dir / ".simplicio" / "cache").exists())
 
         on_disk = json.loads(Path(out["project_map_path"]).read_text())
         self.assertEqual(on_disk["update_mode"], "full")
