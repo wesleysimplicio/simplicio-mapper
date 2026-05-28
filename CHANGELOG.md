@@ -7,11 +7,17 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 ## [Unreleased]
 
 ### Added
-- Standalone Python distribution `simplicio-mapper` on PyPI: dependency-free
+- Standalone Python distribution `simplicio-mapper` on PyPI: lightweight
   `simplicio_mapper.mapper` port of the Node mapper plus a `map` / `update` CLI
   exposed as the `simplicio-mapper` and `llm-project-mapper` console scripts.
   Generates the same `.simplicio/project-map.json` and `precedent-index.json`
   without requiring a Node toolchain.
+- Performance optimizations for the Python mapper (closes #82): `orjson` for
+  faster JSON serialization, persistent `diskcache` of per-file processing keyed
+  by path/size/mtime, and `__slots__`-backed internal models (`ProjectFile`,
+  `CodeEntity`, `PrecedentItem`) for lower memory on large projects. Schema and
+  artifact contracts remain stable; the package now ships with two lightweight
+  runtime dependencies (`orjson`, `diskcache`) instead of being dependency-free.
 - `map` / `update` CLI subcommands for generating and incrementally refreshing
   `.simplicio/project-map.json` and `.simplicio/precedent-index.json`.
 - Rich machine-readable mapper artifacts with file inventory, roles, imports,

@@ -86,7 +86,7 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           set -euo pipefail
-          echo "$PR_TITLE" | npx --yes commitlint --extends @commitlint/config-conventional || {
+          echo "$PR_TITLE" | npx --yes -p @commitlint/cli -p @commitlint/config-conventional commitlint --extends @commitlint/config-conventional || {
             echo "::error::Título do PR não segue Conventional Commits (ex: feat: ..., fix: ..., chore: ...)."
             exit 1
           }

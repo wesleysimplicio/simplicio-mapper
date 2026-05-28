@@ -49,8 +49,10 @@ npx @wesleysimplicio/llm-project-mapper update
 
 ### Novidade: CLI Python standalone
 
-O mapper agora tambem e distribuido como pacote Python sem dependencias, para
-times Python-first gerarem os mesmos artefatos sem toolchain Node:
+O mapper agora tambem e distribuido como pacote Python com dependencias leves
+de performance (`orjson` para serializacao JSON e `diskcache` para cache
+persistente de processamento de arquivos), permitindo times Python-first gerar
+os mesmos artefatos sem toolchain Node:
 
 ```bash
 pip install simplicio-mapper
