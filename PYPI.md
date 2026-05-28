@@ -16,6 +16,9 @@ The full contract is documented in
 
 ## Install
 
+Requires Python 3.10+. The package installs lightweight performance dependencies
+(`orjson` for JSON serialization and `diskcache` for persistent file-processing cache).
+
 ```bash
 pip install simplicio-mapper
 ```
