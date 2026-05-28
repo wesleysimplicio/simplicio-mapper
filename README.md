@@ -50,8 +50,10 @@ npx @wesleysimplicio/llm-project-mapper update
 
 ### New: standalone Python CLI
 
-The mapper now ships as a dependency-free Python package, so Python-first teams
-can generate the same artifacts without a Node toolchain:
+The mapper now ships as a Python package with lightweight performance
+dependencies (`orjson` for JSON serialization and `diskcache` for a persistent
+file-processing cache), so Python-first teams can generate the same artifacts
+without a Node toolchain:
 
 ```bash
 pip install simplicio-mapper
