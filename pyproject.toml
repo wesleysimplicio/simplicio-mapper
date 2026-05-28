@@ -25,7 +25,10 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = []
+dependencies = [
+  "orjson>=3.10,<4",
+  "diskcache>=5.6,<6",
+]
 
 [project.scripts]
 simplicio-mapper = "simplicio_mapper.cli:main"
