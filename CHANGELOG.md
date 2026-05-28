@@ -7,6 +7,11 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 ## [Unreleased]
 
 ### Added
+- Optional Rust acceleration crate `rust/simplicio_mapper_rs` exposing
+  `sha256_hex` and `parse_imports` via PyO3, plus `simplicio_mapper._native`
+  shim that routes mapper hot paths to it when installed and falls back to the
+  pure-Python implementation otherwise (closes #83). ADR-002 documents the
+  evaluation.
 - Standalone Python distribution `simplicio-mapper` on PyPI: dependency-free
   `simplicio_mapper.mapper` port of the Node mapper plus a `map` / `update` CLI
   exposed as the `simplicio-mapper` and `llm-project-mapper` console scripts.

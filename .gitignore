@@ -25,6 +25,10 @@ __pycache__/
 .venv/
 venv/
 
+# Rust
+rust/target/
+rust/Cargo.lock
+
 # Logs
 *.log
 npm-debug.log*
@@ -92,8 +96,9 @@ _BOOTSTRAP.md
 .github/**
 .skills/
 .skills/**
-.specs/
 .specs/**
+!.specs/architecture/
+!.specs/architecture/ADR-*.md
 docs/**
 !docs/YOOL_TUPLE_HAMT.md
 scripts/**

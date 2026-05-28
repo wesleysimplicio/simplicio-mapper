@@ -17,6 +17,7 @@ from typing import Any, Callable
 
 import orjson
 
+from . import _native
 from .cache import FileProcessingCache
 from .models import CodeEntity, PrecedentItem, ProjectFile
 
@@ -96,6 +97,8 @@ def _read_safe(file: str) -> str:
 
 
 def _sha256(text: str) -> str:
+    if _native.HAS_NATIVE and _native.sha256_hex is not None:
+        return _native.sha256_hex(text)
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
@@ -175,6 +178,8 @@ def _collect_text_files(cwd: str) -> list[str]:
 
 
 def _parse_imports(text: str, language: str) -> list[str]:
+    if _native.HAS_NATIVE and _native.parse_imports is not None and language:
+        return _native.parse_imports(text, language)
     patterns: list[re.Pattern[str]] = []
     if language in ("javascript", "typescript"):
         patterns.append(re.compile(r"import\s+[^'\"]*['\"]([^'\"]+)['\"]"))
