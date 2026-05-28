@@ -1,11 +1,11 @@
-# Publish to npm — publica o pacote automaticamente quando main é atualizada.
+# Publish to PyPI — publica o pacote Python automaticamente quando main é atualizada.
 # Idempotente: compara versão local com a publicada e só publica se diferente.
 #
 # Requisitos:
-#   - Secret `NPM_TOKEN` configurado no repositório (npm automation token).
-#   - Permissões `contents: write` (para criar tag) e `id-token: write` (provenance).
+#   - Secret `PYPI_API_TOKEN` configurado no repositório (token PyPI API).
+#   - Permissões `contents: write` (para criar tag).
 
-name: Publish to npm
+name: Publish to PyPI
 
 on:
   push:
@@ -18,12 +18,12 @@ permissions:
   id-token: write
 
 concurrency:
-  group: publish-npm-${{ github.ref }}
+  group: publish-pypi-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   publish:
-    name: Publish package
+    name: Publish Python package
     runs-on: ubuntu-latest
     if: github.repository == 'wesleysimplicio/simplicio-mapper'
     timeout-minutes: 15
@@ -33,23 +33,26 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          node-version: 22
-          registry-url: 'https://registry.npmjs.org'
-          cache: npm
+          python-version: '3.11'
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install build tooling
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install build twine
 
       - name: Read package metadata
         id: meta
         run: |
           set -euo pipefail
-          PKG_NAME=$(node -p "require('./package.json').name")
-          LOCAL_VERSION=$(node -p "require('./package.json').version")
-          PUBLISHED_VERSION=$(npm view "$PKG_NAME" version 2>/dev/null || echo "none")
+          PKG_NAME=$(python -c "import tomllib; print(tomllib.loads(open('pyproject.toml','rb').read().decode())['project']['name'])")
+          LOCAL_VERSION=$(python -c "import tomllib; print(tomllib.loads(open('pyproject.toml','rb').read().decode())['project']['version'])")
+          PUBLISHED_VERSION=$(curl -fsSL "https://pypi.org/pypi/${PKG_NAME}/json" 2>/dev/null | jq -r '.info.version' || echo "none")
+          if [ -z "$PUBLISHED_VERSION" ] || [ "$PUBLISHED_VERSION" = "null" ]; then
+            PUBLISHED_VERSION="none"
+          fi
           echo "name=$PKG_NAME" >> "$GITHUB_OUTPUT"
           echo "local=$LOCAL_VERSION" >> "$GITHUB_OUTPUT"
           echo "published=$PUBLISHED_VERSION" >> "$GITHUB_OUTPUT"
@@ -65,29 +68,33 @@ jobs:
       - name: Skip notice (version unchanged)
         if: steps.meta.outputs.should_publish != 'true'
         run: |
-          echo "::notice::Versão ${{ steps.meta.outputs.local }} já publicada no npm. Skipping."
+          echo "::notice::Versão ${{ steps.meta.outputs.local }} já publicada no PyPI. Skipping."
 
-      - name: Verify package contents (dry run)
+      - name: Build distributions
         if: steps.meta.outputs.should_publish == 'true'
-        run: npm pack --dry-run
+        run: python -m build
 
-      - name: Verify npm auth (whoami)
+      - name: Check distributions
         if: steps.meta.outputs.should_publish == 'true'
+        run: python -m twine check dist/*
+
+      - name: Verify PyPI token presence
+        if: steps.meta.outputs.should_publish == 'true'
+        env:
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
-            echo "::error::Secret NPM_TOKEN está vazio ou ausente no repositório."
+          if [ -z "${TWINE_PASSWORD:-}" ]; then
+            echo "::error::Secret PYPI_API_TOKEN está vazio ou ausente no repositório."
             exit 1
           fi
-          echo "Token length: ${#NODE_AUTH_TOKEN}"
-          npm whoami
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          echo "Token length: ${#TWINE_PASSWORD}"
 
-      - name: Publish to npm
+      - name: Publish to PyPI
         if: steps.meta.outputs.should_publish == 'true'
-        run: npm publish --provenance --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: python -m twine upload --non-interactive dist/*
 
       - name: Tag release
         if: steps.meta.outputs.should_publish == 'true'
@@ -107,7 +114,7 @@ jobs:
         if: always()
         run: |
           {
-            echo "## Publish to npm"
+            echo "## Publish to PyPI"
             echo ""
             echo "- Pacote: \`${{ steps.meta.outputs.name }}\`"
             echo "- Versão local: \`${{ steps.meta.outputs.local }}\`"

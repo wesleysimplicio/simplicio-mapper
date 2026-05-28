@@ -6,6 +6,8 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-05-28
+
 ### Added
 - Optional Rust acceleration crate `rust/simplicio_mapper_rs` exposing
   `sha256_hex` and `parse_imports` via PyO3, plus `simplicio_mapper._native`
