@@ -237,12 +237,13 @@ def _read_index_state(root: str, out: str) -> dict:
     return _read_json_safe(_state_path(root, out))
 
 
-def _write_index_state(root: str, out: str, signature: dict) -> None:
+def _write_index_state(root: str, out: str, signature: dict, counts: dict | None = None) -> None:
     path = _state_path(root, out)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     payload = {
         "schema": INDEX_STATE_SCHEMA,
         "signature": signature,
+        "counts": counts or {},
         "updated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
     with open(path, "w", encoding="utf-8") as handle:
@@ -261,22 +262,27 @@ def _index_result(
     status: str,
     skipped_reason: str | None = None,
     run_result: dict | None = None,
+    counts: dict | None = None,
     error: str | None = None,
 ) -> dict:
     paths = _artifact_paths(root, out)
     project_map = run_result.get("project_map", {}) if run_result else {}
     precedent_index = run_result.get("precedent_index", {}) if run_result else {}
     changed_files = list(project_map.get("changed_files") or [])
+    counts = counts or {
+        "files": len(project_map.get("files", []) or []),
+        "precedents": len(precedent_index.get("items", []) or []),
+        "changed_files": len(changed_files),
+    }
     return {
         "schema": INDEX_RESULT_SCHEMA,
         "status": status,
         "skipped_reason": skipped_reason,
-        "paths": paths,
-        "counts": {
-            "files": len(project_map.get("files", []) or []),
-            "precedents": len(precedent_index.get("items", []) or []),
-            "changed_files": len(changed_files),
+        "paths": {
+            key: path.replace(os.sep, "/")
+            for key, path in paths.items()
         },
+        "counts": counts,
         "changed_files": changed_files,
         "error": error,
     }
@@ -304,6 +310,7 @@ def _run_index(opts: dict) -> int:
             out,
             status="skipped",
             skipped_reason="already_fresh",
+            counts=state.get("counts") if isinstance(state.get("counts"), dict) else None,
         ))
         return 2
 
@@ -314,8 +321,9 @@ def _run_index(opts: dict) -> int:
         "silent": not opts["verbose"],
     })
     refreshed_signature = _freshness_signature(root, out)
-    _write_index_state(root, out, refreshed_signature)
-    _emit_index_json(opts, _index_result(root, out, status="updated", run_result=run_result))
+    payload = _index_result(root, out, status="updated", run_result=run_result)
+    _write_index_state(root, out, refreshed_signature, payload["counts"])
+    _emit_index_json(opts, payload)
     return 0
 
 
