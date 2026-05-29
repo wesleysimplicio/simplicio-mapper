@@ -60,11 +60,19 @@ pip install simplicio-mapper
 
 simplicio-mapper map                 # write .simplicio/ artifacts
 simplicio-mapper update              # refresh and record changed files
+simplicio-mapper index . --json      # idempotent, scriptable SendSprint bootstrap
 simplicio-mapper map --watch         # re-map as files change locally
 ```
 
 Both `simplicio-mapper` and `llm-project-mapper` console scripts are installed,
 and the Python output is byte-for-byte compatible with the Node mapper's schema.
+
+For orchestrators, `simplicio-mapper index <path>` is quiet by default. It
+returns `0` when artifacts are written/refreshed, `2` when the existing index is
+already fresh, and `1` on failure. Add `--json` for a stable
+`simplicio.mapper-index/v1` payload containing artifact paths, item counts,
+changed files and the skipped reason. Add `--verbose` only when progress logs
+are useful.
 
 Use `--watch` during long agent sessions to keep the map fresh. The schema and
 Python consumption example live in [SIMPLICIO_INTEGRATION.md](SIMPLICIO_INTEGRATION.md).

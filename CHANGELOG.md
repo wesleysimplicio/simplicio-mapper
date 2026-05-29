@@ -6,6 +6,13 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 
 ## [Unreleased]
 
+### Added
+- `simplicio-mapper index <path>` idempotent orchestration command for
+  SendSprint. It writes the standard `.simplicio/project-map.json` and
+  `precedent-index.json`, short-circuits fresh indexes with exit code `2`, and
+  exposes a stable `--json` payload with artifact paths, counts, changed files
+  and skipped reason.
+
 ## [0.6.0] - 2026-05-28
 
 ### Added

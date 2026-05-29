@@ -214,7 +214,8 @@ class CliTest(unittest.TestCase):
         _write(self.dir, "package.json", json.dumps({"name": "refresh-host"}))
         _write(self.dir, "src/index.js", "export function run() { return 1; }\n")
 
-        self.assertEqual(main(["index", str(self.dir), "--json"]), 0)
+        with redirect_stdout(StringIO()):
+            self.assertEqual(main(["index", str(self.dir), "--json"]), 0)
         _write(self.dir, "src/index.js", "export function run() { return 2; }\n")
 
         out = StringIO()
