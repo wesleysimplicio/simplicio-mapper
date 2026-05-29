@@ -10,6 +10,8 @@ import os
 import sys
 import tempfile
 import unittest
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -168,6 +170,62 @@ class CliTest(unittest.TestCase):
             main(["--version"])
         self.assertEqual(ctx.exception.code, 0)
         self.assertTrue(__version__)
+
+    def test_index_writes_json_contract(self) -> None:
+        _write(self.dir, "package.json", json.dumps({"name": "index-host"}))
+        _write(self.dir, "src/index.js", "export function run() {}\n")
+
+        out = StringIO()
+        with redirect_stdout(out):
+            code = main(["index", str(self.dir), "--json"])
+
+        self.assertEqual(code, 0)
+        payload = json.loads(out.getvalue())
+        self.assertEqual(payload["schema"], "simplicio.mapper-index/v1")
+        self.assertEqual(payload["status"], "updated")
+        self.assertEqual(payload["skipped_reason"], None)
+        self.assertTrue(payload["paths"]["project_map"].endswith(".simplicio/project-map.json"))
+        self.assertTrue(payload["paths"]["precedent_index"].endswith(".simplicio/precedent-index.json"))
+        self.assertGreaterEqual(payload["counts"]["files"], 2)
+        self.assertGreaterEqual(payload["counts"]["precedents"], 1)
+
+    def test_index_skips_fresh_artifacts_quietly(self) -> None:
+        _write(self.dir, "package.json", json.dumps({"name": "fresh-host"}))
+        _write(self.dir, "src/index.js", "export function run() {}\n")
+
+        self.assertEqual(main(["index", str(self.dir)]), 0)
+
+        out = StringIO()
+        with redirect_stdout(out):
+            code = main(["index", str(self.dir), "--json"])
+
+        self.assertEqual(code, 2)
+        payload = json.loads(out.getvalue())
+        self.assertEqual(payload["status"], "skipped")
+        self.assertEqual(payload["skipped_reason"], "already_fresh")
+
+        quiet_out = StringIO()
+        with redirect_stdout(quiet_out):
+            quiet_code = main(["index", str(self.dir)])
+        self.assertEqual(quiet_code, 2)
+        self.assertEqual(quiet_out.getvalue(), "")
+
+    def test_index_refreshes_after_file_change(self) -> None:
+        _write(self.dir, "package.json", json.dumps({"name": "refresh-host"}))
+        _write(self.dir, "src/index.js", "export function run() { return 1; }\n")
+
+        with redirect_stdout(StringIO()):
+            self.assertEqual(main(["index", str(self.dir), "--json"]), 0)
+        _write(self.dir, "src/index.js", "export function run() { return 2; }\n")
+
+        out = StringIO()
+        with redirect_stdout(out):
+            code = main(["index", str(self.dir), "--json"])
+
+        self.assertEqual(code, 0)
+        payload = json.loads(out.getvalue())
+        self.assertEqual(payload["status"], "updated")
+        self.assertIn("src/index.js", payload["changed_files"])
 
 
 if __name__ == "__main__":
