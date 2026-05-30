@@ -240,6 +240,44 @@ test('--append-gitignore yes appends managed block, idempotent on re-run', () =>
   }
 });
 
+test('--append-gitignore yes keeps shared starter files visible to git', () => {
+  const dir = mkTmp();
+  try {
+    writeFile(dir, 'package.json', '{"name":"test","dependencies":{"react":"18.0.0"}}');
+    writeFile(dir, '.gitignore', 'node_modules\n');
+    const res = runCli(['--yes', '--cli', 'skip', '--append-gitignore', 'yes'], dir);
+    assert.equal(res.status, 0, `cli failed: ${res.stderr}`);
+
+    const gitignore = fs.readFileSync(path.join(dir, '.gitignore'), 'utf8');
+    assert.match(gitignore, /LLM Project Mapper/);
+    assert.doesNotMatch(gitignore, /^AGENTS\.md$/m);
+    assert.doesNotMatch(gitignore, /^CLAUDE\.md$/m);
+    assert.doesNotMatch(gitignore, /^INIT\.md$/m);
+    assert.doesNotMatch(gitignore, /^\.agents\/$/m);
+    assert.doesNotMatch(gitignore, /^\.skills\/$/m);
+    assert.doesNotMatch(gitignore, /^\.specs\/$/m);
+    assert.doesNotMatch(gitignore, /^docs\/\*\*$/m);
+    assert.doesNotMatch(gitignore, /^scripts\/\*\*$/m);
+    assert.doesNotMatch(gitignore, /^tests\/\*\*$/m);
+  } finally {
+    rmTmp(dir);
+  }
+});
+
+test('--update leaves .gitignore untouched unless explicitly requested', () => {
+  const dir = mkTmp();
+  try {
+    const originalGitignore = 'node_modules\n';
+    writeFile(dir, 'package.json', '{"name":"test","dependencies":{"react":"18.0.0"}}');
+    writeFile(dir, '.gitignore', originalGitignore);
+    const res = runCli(['--update', '--no-update-check'], dir);
+    assert.equal(res.status, 0, `cli failed: ${res.stderr}`);
+    assert.equal(fs.readFileSync(path.join(dir, '.gitignore'), 'utf8'), originalGitignore);
+  } finally {
+    rmTmp(dir);
+  }
+});
+
 test('does NOT touch package.json (read-only glob)', () => {
   const dir = mkTmp();
   try {
