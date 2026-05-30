@@ -109,11 +109,11 @@ const GITIGNORE_END_MARKER = '# === End LLM Project Mapper (auto-managed) ===';
 
 const RECOMMENDED_IGNORES = `# === LLM Project Mapper (auto-managed) — do not remove this header ===
 # Local agent state and ephemeral artifacts created by the starter.
-.starter-meta.json
 .codex/local
 .codex/history
 .claude/sessions
 .claude/cache
+.claude/settings.local.json
 
 # Test artifacts (Playwright + coverage)
 test-results/
@@ -153,35 +153,6 @@ pnpm-debug.log*
 # Tarballs
 *.tgz
 *.tar.gz
-
-# LLM Project Mapper tracked files
-.starter-meta.json
-.claude/settings.local.json
-AGENTS.md
-CLAUDE.md
-INIT.md
-_BOOTSTRAP.md
-.agents/
-.agents/**
-.claude/
-.claude/**
-.codex/
-.codex/**
-.github/
-.github/**
-.skills/
-.skills/**
-.specs/
-.specs/**
-docs/**
-scripts/**
-playwright-report/**
-tests/**
-test-results/**
-coverage/**
-bootstrap.ps1
-bootstrap.sh
-playwright.config.ts
 # === End LLM Project Mapper (auto-managed) ===
 `;
 
@@ -390,7 +361,7 @@ if (opts.preset && !PRESETS[opts.preset]) {
 if (opts.update) {
   opts.yes = true;
   opts.force = true;
-  opts.appendGitignore = opts.appendGitignore || 'yes';
+  opts.appendGitignore = opts.appendGitignore || 'no';
   opts.cli = opts.cli || 'skip';
 }
 
@@ -412,7 +383,7 @@ OPTIONS
   -f, --force                 Overwrite starter template files (NEVER touches user
                               instruction files: AGENTS.md, CLAUDE.md, INIT.md,
                               .github/copilot-instructions.md, .gitignore)
-  --update                    Safe update mode: --yes --force --append-gitignore yes --cli skip
+  --update                    Safe update mode: --yes --force --append-gitignore no --cli skip
   --dry-run                   Print actions without writing files
   --mcp-edge                  Create mcp/server.ts and mcp/server.py edge adapters
   --skip-meta                 Do not write .starter-meta.json

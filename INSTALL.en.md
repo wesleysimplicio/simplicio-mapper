@@ -122,44 +122,23 @@ git remote -v
 
 ---
 
-## Step 4 — Add the starter to the host's `.gitignore`
+## Step 4 — Optional `.gitignore`
 
-Paste the block below at the end of the host's `.gitignore` to keep the overlay out of the host's git:
+Do not hide starter files when the team needs to share LLM context. If you use
+the recommended block, it should cover only local state/cache/build output, not
+`.agents/`, `.skills/`, `.specs/`, `AGENTS.md`, or `.starter-meta.json`:
 
 ```gitignore
-# === LLM Project Mapper (private overlay, per-dev) — do not commit on host repo ===
-# LLM Project Mapper tracked files
-.starter-meta.json
+# === LLM Project Mapper (auto-managed) — do not remove this header ===
+.codex/local
+.codex/history
+.claude/sessions
+.claude/cache
 .claude/settings.local.json
-AGENTS.md
-CLAUDE.md
-INIT.md
-INIT.en.md
-_BOOTSTRAP.md
-.agents/
-.agents/**
-.claude/
-.claude/**
-.codex/
-.codex/**
-.github/
-.github/**
-.skills/
-.skills/**
-.specs/
-.specs/**
-docs/**
-scripts/**
-playwright-report/**
-tests/**
-test-results/**
-coverage/**
-bootstrap.ps1
-bootstrap.sh
-playwright.config.ts
 ```
 
-> If any of these files is already tracked by the host's git, the file stays on disk and in history but new changes may become less obvious in daily workflow. Before using as a private overlay, confirm with `git ls-files <file>` when in doubt.
+`--update` leaves `.gitignore` untouched by default. Use
+`--append-gitignore yes` only when you want to refresh this local-only block.
 
 ### Collision behavior
 
@@ -275,7 +254,7 @@ If your **entire team** is going to use the agents and you want skills/specs/age
 
 - Do not gitignore the starter files.
 - Commit `.agents/`, `.skills/`, `.specs/`, `AGENTS.md`, `CLAUDE.md`, `INIT.md`, `.github/copilot*` in the host repo.
-- Keep `.claude/sessions`, `.claude/cache`, `.codex/local`, `.codex/history`, `.starter-meta.json` in `.gitignore` (per-dev local state, not shared).
+- Keep `.claude/sessions`, `.claude/cache`, `.claude/settings.local.json`, `.codex/local`, `.codex/history` in `.gitignore` (per-dev local state, not shared).
 
 The recommended block for that case (shared mode) is what `bootstrap.sh --append-gitignore yes` already adds — just that, without the "private overlay" block above.
 

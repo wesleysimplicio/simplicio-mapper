@@ -189,7 +189,7 @@ npx @wesleysimplicio/llm-project-mapper --yes --cli skip --append-gitignore no
 npx @wesleysimplicio/llm-project-mapper@latest --update
 ```
 
-Equivale a `--yes --force --append-gitignore yes --cli skip`: atualiza arquivos gerenciados pelo starter, atualiza o bloco do `.gitignore`, preserva arquivos de instrução existentes e não abre handoff para agente.
+Equivale a `--yes --force --append-gitignore no --cli skip`: atualiza arquivos gerenciados pelo starter, deixa o `.gitignore` intocado salvo pedido explícito, preserva arquivos de instrução existentes e não abre handoff para agente.
 
 #### Preview sem escrever
 
@@ -203,7 +203,7 @@ npx @wesleysimplicio/llm-project-mapper --dry-run --yes
 |---|---|
 | `-y, --yes` | Não-interativo (defaults: sem append no `.gitignore`, pula handoff) |
 | `-f, --force` | Sobrescreve arquivos do template do starter. **Nunca** toca arquivos de instrução do usuário (`AGENTS.md`, `CLAUDE.md`, `INIT.md`, `.github/copilot-instructions.md`, `.gitignore`) |
-| `--update` | Modo seguro para atualizar overlay existente: força arquivos do starter, atualiza `.gitignore`, pula handoff |
+| `--update` | Modo seguro para atualizar overlay existente: força arquivos do starter, deixa `.gitignore` intocado, pula handoff |
 | `--dry-run` | Imprime ações sem escrever |
 | `--cli <key>` | Escolhe CLI pro handoff do `INIT.md`: `claude`, `codex`, `copilot`, `cursor`, `deepseek`, `kimi`, `minimax`, `glm`, `hermes`, `openclaw`, `aider`, `other`, `skip` |
 | `--append-gitignore <yes\|no>` | Adiciona ignores recomendados ao `.gitignore` |

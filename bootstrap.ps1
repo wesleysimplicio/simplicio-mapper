@@ -266,11 +266,11 @@ Write-Host ""
 $RecommendedIgnores = @"
 # === LLM Project Mapper (auto-managed) — do not remove this header ===
 # Local agent state and ephemeral artifacts created by the starter.
-.starter-meta.json
 .codex/local
 .codex/history
 .claude/sessions
 .claude/cache
+.claude/settings.local.json
 
 # Test artifacts (Playwright + coverage)
 test-results/
@@ -314,35 +314,6 @@ pnpm-debug.log*
 # Runtime receipts
 .receipts/**
 !.receipts/.gitkeep
-
-# LLM Project Mapper tracked files
-.starter-meta.json
-.claude/settings.local.json
-AGENTS.md
-CLAUDE.md
-INIT.md
-_BOOTSTRAP.md
-.agents/
-.agents/**
-.claude/
-.claude/**
-.codex/
-.codex/**
-.github/
-.github/**
-.skills/
-.skills/**
-.specs/
-.specs/**
-docs/**
-scripts/**
-playwright-report/**
-tests/**
-test-results/**
-coverage/**
-bootstrap.ps1
-bootstrap.sh
-playwright.config.ts
 "@
 
 function Handle-Gitignore {

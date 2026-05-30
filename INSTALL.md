@@ -122,43 +122,24 @@ git remote -v
 
 ---
 
-## Passo 4 — Adicionar starter ao `.gitignore` do host
+## Passo 4 — `.gitignore` opcional
 
-Cole o bloco abaixo no fim do `.gitignore` do projeto host para manter o overlay fora do git do projeto:
+Não esconda os arquivos do starter quando o time precisa compartilhar o
+contexto com LLMs. Se quiser usar o bloco recomendado, ele deve cobrir só
+estado local/cache/build, não `.agents/`, `.skills/`, `.specs/`, `AGENTS.md`
+ou `.starter-meta.json`:
 
 ```gitignore
-# === LLM Project Mapper (overlay privado, per-dev) — não commitar no repo do host ===
-# LLM Project Mapper tracked files
-.starter-meta.json
+# === LLM Project Mapper (auto-managed) — do not remove this header ===
+.codex/local
+.codex/history
+.claude/sessions
+.claude/cache
 .claude/settings.local.json
-AGENTS.md
-CLAUDE.md
-INIT.md
-_BOOTSTRAP.md
-.agents/
-.agents/**
-.claude/
-.claude/**
-.codex/
-.codex/**
-.github/
-.github/**
-.skills/
-.skills/**
-.specs/
-.specs/**
-docs/**
-scripts/**
-playwright-report/**
-tests/**
-test-results/**
-coverage/**
-bootstrap.ps1
-bootstrap.sh
-playwright.config.ts
 ```
 
-> Se algum desses arquivos já for rastreado pelo git do host, o arquivo continua no disco e no histórico, mas novas mudanças podem ficar menos óbvias no fluxo diário. Antes de usar como overlay privado, confirme com `git ls-files <arquivo>` quando houver dúvida.
+O modo `--update` deixa o `.gitignore` intocado por padrão. Use
+`--append-gitignore yes` só quando quiser atualizar esse bloco local.
 
 ### Atenção a colisões
 
@@ -274,7 +255,7 @@ Se o seu **time inteiro** vai usar os agents e você quer que skills/specs/agent
 
 - Não gitignora os arquivos do starter.
 - Commita `.agents/`, `.skills/`, `.specs/`, `AGENTS.md`, `CLAUDE.md`, `INIT.md`, `.github/copilot*` no repo do host.
-- Mantém `.claude/sessions`, `.claude/cache`, `.codex/local`, `.codex/history`, `.starter-meta.json` no `.gitignore` (estado local de cada dev, não compartilha).
+- Mantém `.claude/sessions`, `.claude/cache`, `.claude/settings.local.json`, `.codex/local`, `.codex/history` no `.gitignore` (estado local de cada dev, não compartilha).
 
 O bloco recomendado para esse caso (modo compartilhado) é o que o `bootstrap.sh --append-gitignore yes` já adiciona — só ele, sem o bloco "overlay privado" acima.
 

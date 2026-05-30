@@ -6,6 +6,16 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 
 ## [Unreleased]
 
+## [0.6.2] - 2026-05-30
+
+### Changed
+- `--update` no longer appends or rewrites `.gitignore` unless
+  `--append-gitignore yes` is passed explicitly.
+- The recommended `.gitignore` block now keeps shared starter context visible
+  in Git (`AGENTS.md`, `.agents/`, `.skills/`, `.specs/`,
+  `.starter-meta.json`) and only ignores local state, caches, build output,
+  env files, logs, and test artifacts.
+
 ### Added
 - `simplicio-mapper index <path>` idempotent orchestration command for
   SendSprint. It writes the standard `.simplicio/project-map.json` and
@@ -237,7 +247,8 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 - Remotion skills tutorial video in PT-BR. ([#1](https://github.com/wesleysimplicio/llm-project-mapper/pull/1))
 - i18n layer + English skills tutorial video. ([#2](https://github.com/wesleysimplicio/llm-project-mapper/pull/2))
 
-[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.6.2...HEAD
+[0.6.2]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.6.1...v0.6.2
 [0.4.0]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.0...v0.3.1
