@@ -1,0 +1,1213 @@
+{
+  "schema": "simplicio.precedent-index/v1",
+  "version": 1,
+  "generated_at": "2026-05-30T20:28:55.569Z",
+  "source_project_map": ".simplicio/project-map.json",
+  "items": [
+    {
+      "id": "44ade7398d52bdd2",
+      "path": ".agents/reviewer.agent.md",
+      "line": 37,
+      "language": "markdown",
+      "change_type": "test",
+      "tags": [
+        "ui",
+        "markdown",
+        "agents",
+        "reviewer",
+        "agent"
+      ],
+      "summary": "test precedent in .agents/reviewer.agent.md",
+      "snippet": "- [ ] Cada acceptance criterion da task tem teste correspondente\n- [ ] Coverage do diff >= 80%\n- [ ] Testes têm nomes legíveis (`it('persists user when email is unique')`, não `it('test1')`)\n- [ ] Sem `skip`, `only`, `xit`, `xdescribe`\n- [ ] E2E Playwright presente em fluxo crítico (login, checkout, pagamento)"
+    },
+    {
+      "id": "596d396f0920467e",
+      "path": ".agents/tdd.agent.md",
+      "line": 28,
+      "language": "markdown",
+      "change_type": "test",
+      "tags": [
+        "markdown",
+        "agents",
+        "tdd",
+        "agent"
+      ],
+      "summary": "test precedent in .agents/tdd.agent.md",
+      "snippet": "- Cria arquivo de teste no path correto (segue `.specs/architecture/PATTERNS.md`).\n- Nome do teste descreve **comportamento esperado**, não implementação:\n  - Ruim: `it('calls userRepository.save')`\n  - Bom: `it('persists user when email is unique')`\n- Roda o teste. **Tem que falhar.** Se passa de primeira -> teste tá errado, refaz."
+    },
+    {
+      "id": "52e71492637eabba",
+      "path": ".claude/hooks/post-edit.ps1",
+      "line": 29,
+      "language": "powershell",
+      "change_type": "error-handling",
+      "tags": [
+        "powershell",
+        "claude",
+        "hooks",
+        "post",
+        "edit",
+        "ps1"
+      ],
+      "summary": "error-handling precedent in .claude/hooks/post-edit.ps1",
+      "snippet": "if ($jsTsExtensions -contains $ext) {\n    # Prettier formata, ESLint corrige o que da.\n    try {\n        & npx --no-install prettier --write $FilePath 2>$null\n    } catch { }"
+    },
+    {
+      "id": "3b2cb08ff16c4be5",
+      "path": ".github/copilot/agents/reviewer.agent.md",
+      "line": 37,
+      "language": "markdown",
+      "change_type": "test",
+      "tags": [
+        "ui",
+        "markdown",
+        "github",
+        "copilot",
+        "agents",
+        "reviewer",
+        "agent"
+      ],
+      "summary": "test precedent in .github/copilot/agents/reviewer.agent.md",
+      "snippet": "- [ ] Cada acceptance criterion da task tem teste correspondente\n- [ ] Coverage do diff >= 80%\n- [ ] Testes têm nomes legíveis (`it('persists user when email is unique')`, não `it('test1')`)\n- [ ] Sem `skip`, `only`, `xit`, `xdescribe`\n- [ ] E2E Playwright presente em fluxo crítico (login, checkout, pagamento)"
+    },
+    {
+      "id": "3a3cb1b15be22087",
+      "path": ".github/copilot/agents/tdd.agent.md",
+      "line": 28,
+      "language": "markdown",
+      "change_type": "test",
+      "tags": [
+        "markdown",
+        "github",
+        "copilot",
+        "agents",
+        "tdd",
+        "agent"
+      ],
+      "summary": "test precedent in .github/copilot/agents/tdd.agent.md",
+      "snippet": "- Cria arquivo de teste no path correto (segue `.specs/architecture/PATTERNS.md`).\n- Nome do teste descreve **comportamento esperado**, não implementação:\n  - Ruim: `it('calls userRepository.save')`\n  - Bom: `it('persists user when email is unique')`\n- Roda o teste. **Tem que falhar.** Se passa de primeira -> teste tá errado, refaz."
+    },
+    {
+      "id": "eed883962994809f",
+      "path": ".github/workflows-templates/telemetry-worker.js",
+      "line": 31,
+      "language": "javascript",
+      "change_type": "feature",
+      "tags": [
+        "javascript",
+        "github",
+        "workflows",
+        "templates",
+        "telemetry",
+        "worker"
+      ],
+      "summary": "feature precedent in .github/workflows-templates/telemetry-worker.js",
+      "snippet": "]);\n\nfunction sanitize(obj) {\n  const out = {};\n  for (const key of ALLOWED_FIELDS) {"
+    },
+    {
+      "id": "d1034b9b05e70e2b",
+      "path": ".skills/brainstorming/SKILL.md",
+      "line": 18,
+      "language": "markdown",
+      "change_type": "feature",
+      "tags": [
+        "markdown",
+        "skills",
+        "brainstorming",
+        "skill"
+      ],
+      "summary": "feature precedent in .skills/brainstorming/SKILL.md",
+      "snippet": "## Anti-Pattern: \"This Is Too Simple To Need A Design\"\n\nEvery project goes through this process. A todo list, a single-function utility, a config change — all of them. \"Simple\" projects are where unexamined assumptions cause the most wasted work. The design can be short (a few sentences for truly simple projects), but you MUST present it and get approval.\n\n## Checklist"
+    },
+    {
+      "id": "d15e93dfe9d9c0e9",
+      "path": ".skills/contribute-catalog/SKILL.md",
+      "line": 132,
+      "language": "markdown",
+      "change_type": "feature",
+      "tags": [
+        "markdown",
+        "skills",
+        "contribute",
+        "catalog",
+        "skill"
+      ],
+      "summary": "feature precedent in .skills/contribute-catalog/SKILL.md",
+      "snippet": "- Use `three@0.147.0` from CDN (global script)\n- `tl.eventCallback(\"onUpdate\", renderScene); renderScene();` — NO requestAnimationFrame\n- State proxy pattern: GSAP animates plain JS object, render function reads it\n- Seeded PRNG (`mulberry32`) for randomness\n"
+    },
+    {
+      "id": "e8eee4d4a0d0408a",
+      "path": ".skills/conventional-commits/SKILL.md",
+      "line": 77,
+      "language": "markdown",
+      "change_type": "test",
+      "tags": [
+        "markdown",
+        "skills",
+        "conventional",
+        "commits",
+        "skill"
+      ],
+      "summary": "test precedent in .skills/conventional-commits/SKILL.md",
+      "snippet": "perf(search): debounce input to reduce API calls from 30 to 3 per typing burst\n\ntest(auth): cover expired-token edge case in login flow\n\nbuild(deps): bump playwright to 1.45.0"
+    },
+    {
+      "id": "8cfe611c056cd75f",
+      "path": ".skills/css-animations/SKILL.md",
+      "line": 18,
+      "language": "markdown",
+      "change_type": "feature",
+      "tags": [
+        "markdown",
+        "skills",
+        "css",
+        "animations",
+        "skill"
+      ],
+      "summary": "feature precedent in .skills/css-animations/SKILL.md",
+      "snippet": "- Use finite `animation-duration` and `animation-iteration-count` because the negative-delay fallback cannot represent unbounded duration in environments without WAAPI-backed CSS animations.\n- Prefer `animation-fill-mode: both` so seeked states hold before and after active motion.\n- Avoid wall-clock JavaScript, hover-triggered state, and class toggles that depend on user events.\n\nThe adapter discovers elements with computed `animation-name`, seeks their browser `Animation` handles when available, and falls back to pausing with negative `animation-delay`."
+    },
+    {
+      "id": "8b7f814714706c10",
+      "path": ".skills/hyperframes-media/SKILL.md",
+      "line": 144,
+      "language": "markdown",
+      "change_type": "error-handling",
+      "tags": [
+        "markdown",
+        "skills",
+        "hyperframes",
+        "media",
+        "skill"
+      ],
+      "summary": "error-handling precedent in .skills/hyperframes-media/SKILL.md",
+      "snippet": "\n```html\n<!-- z=1 the inverse-alpha plate fills everything except the subject region -->\n<video\n  src=\"plate.webm\""
+    },
+    {
+      "id": "523eaaedaf8e054d",
+      "path": ".skills/hyperframes/SKILL.md",
+      "line": 41,
+      "language": "markdown",
+      "change_type": "error-handling",
+      "tags": [
+        "markdown",
+        "skills",
+        "hyperframes",
+        "skill"
+      ],
+      "summary": "error-handling precedent in .skills/hyperframes/SKILL.md",
+      "snippet": "### Step 2: Prompt expansion\n\nAlways run on every composition (except single-scene pieces and trivial edits). This step grounds the user's intent against `design.md` and `house-style.md` and produces a consistent intermediate that every downstream agent reads the same way.\n\nRead [references/prompt-expansion.md](references/prompt-expansion.md) for the full process and output format."
+    },
+    {
+      "id": "08112eb669457859",
+      "path": ".skills/playwright-e2e/SKILL.md",
+      "line": 36,
+      "language": "markdown",
+      "change_type": "test",
+      "tags": [
+        "markdown",
+        "skills",
+        "playwright",
+        "e2e",
+        "skill"
+      ],
+      "summary": "test precedent in .skills/playwright-e2e/SKILL.md",
+      "snippet": "## Steps\n\n1. **Identifique o cenário**. Liste o caminho feliz e os principais erros (input inválido, sessão expirada, 404/500, viewport mobile/desktop). Cada cenário vira um `test(...)`.\n2. **Crie o arquivo** em `tests/e2e/<feature>.spec.ts`. Nome em `kebab-case` casando com a feature (ex.: `tests/e2e/login.spec.ts`).\n3. **Importe fixtures padrão** do Playwright (`test`, `expect`) e qualquer fixture customizada do projeto (`tests/e2e/fixtures/`)."
+    },
+    {
+      "id": "7c1bae2c54eb2ea7",
+      "path": ".skills/subagent-driven-development/SKILL.md",
+      "line": 265,
+      "language": "markdown",
+      "change_type": "error-handling",
+      "tags": [
+        "markdown",
+        "skills",
+        "subagent",
+        "driven",
+        "development",
+        "skill"
+      ],
+      "summary": "error-handling precedent in .skills/subagent-driven-development/SKILL.md",
+      "snippet": "**If subagent fails task:**\n- Dispatch fix subagent with specific instructions\n- Don't try to fix manually (context pollution)\n\n## Integration"
+    },
+    {
+      "id": "4d61694d2e97140c",
+      "path": ".skills/systematic-debugging/condition-based-waiting.md",
+      "line": 62,
+      "language": "markdown",
+      "change_type": "feature",
+      "tags": [
+        "markdown",
+        "skills",
+        "systematic",
+        "debugging",
+        "condition",
+        "based",
+        "waiting"
+      ],
+      "summary": "feature precedent in .skills/systematic-debugging/condition-based-waiting.md",
+      "snippet": "Generic polling function:\n```typescript\nasync function waitFor<T>(\n  condition: () => T | undefined | null | false,\n  description: string,"
+    },
+    {
+      "id": "639e34b7faad90d6",
+      "path": ".skills/systematic-debugging/defense-in-depth.md",
+      "line": 14,
+      "language": "markdown",
+      "change_type": "error-handling",
+      "tags": [
+        "markdown",
+        "skills",
+        "systematic",
+        "debugging",
+        "defense",
+        "depth"
+      ],
+      "summary": "error-handling precedent in .skills/systematic-debugging/defense-in-depth.md",
+      "snippet": "Multiple layers: \"We made the bug impossible\"\n\nDifferent layers catch different cases:\n- Entry validation catches most bugs\n- Business logic catches edge cases"
+    },
+    {
+      "id": "363f205e825b25ef",
+      "path": ".skills/systematic-debugging/root-cause-tracing.md",
+      "line": 72,
+      "language": "markdown",
+      "change_type": "feature",
+      "tags": [
+        "markdown",
+        "skills",
+        "systematic",
+        "debugging",
+        "root",
+        "cause",
+        "tracing"
+      ],
+      "summary": "feature precedent in .skills/systematic-debugging/root-cause-tracing.md",
+      "snippet": "```typescript\n// Before the problematic operation\nasync function gitInit(directory: string) {\n  const stack = new Error().stack;\n  console.error('DEBUG git init:', {"
+    },
+    {
+      "id": "53ee8b31b93dd412",
+      "path": ".skills/systematic-debugging/SKILL.md",
+      "line": 217,
+      "language": "markdown",
+      "change_type": "error-handling",
+      "tags": [
+        "markdown",
+        "skills",
+        "systematic",
+        "debugging",
+        "skill"
+      ],
+      "summary": "error-handling precedent in .skills/systematic-debugging/SKILL.md",
+      "snippet": "## Red Flags - STOP and Follow Process\n\nIf you catch yourself thinking:\n- \"Quick fix for now, investigate later\"\n- \"Just try changing X and see if it works\""
+    },
+    {
+      "id": "d07cef8e7aa737b2",
+      "path": ".skills/tailwind/SKILL.md",
+      "line": 81,
+      "language": "markdown",
+      "change_type": "feature",
+      "tags": [
+        "markdown",
+        "skills",
+        "tailwind",
+        "skill"
+      ],
+      "summary": "feature precedent in .skills/tailwind/SKILL.md",
+      "snippet": "```\n\nFor repeated items, prefer class lists plus CSS custom properties over generating class names dynamically:\n\n```html"
+    },
+    {
+      "id": "ce051cdcb4112263",
+      "path": ".skills/test-driven-development/SKILL.md",
+      "line": 77,
+      "language": "markdown",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "markdown",
+        "skills",
+        "driven",
+        "development",
+        "skill"
+      ],
+      "summary": "test precedent in .skills/test-driven-development/SKILL.md",
+      "snippet": "<Good>\n```typescript\ntest('retries failed operations 3 times', async () => {\n  let attempts = 0;\n  const operation = () => {"
+    },
+    {
+      "id": "ca11e65ad577cdac",
+      "path": ".skills/test-driven-development/testing-anti-patterns.md",
+      "line": 26,
+      "language": "markdown",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "markdown",
+        "skills",
+        "driven",
+        "development",
+        "testing",
+        "anti",
+        "patterns"
+      ],
+      "summary": "test precedent in .skills/test-driven-development/testing-anti-patterns.md",
+      "snippet": "```typescript\n// ❌ BAD: Testing that the mock exists\ntest('renders sidebar', () => {\n  render(<Page />);\n  expect(screen.getByTestId('sidebar-mock')).toBeInTheDocument();"
+    },
+    {
+      "id": "4bf9f90b94a243bb",
+      "path": ".skills/three/SKILL.md",
+      "line": 44,
+      "language": "markdown",
+      "change_type": "feature",
+      "tags": [
+        "markdown",
+        "skills",
+        "three",
+        "skill"
+      ],
+      "summary": "feature precedent in .skills/three/SKILL.md",
+      "snippet": "  scene.add(new THREE.HemisphereLight(0xffffff, 0x223344, 2));\n\n  function renderAt(time) {\n    mesh.rotation.y = time * 0.7;\n    mesh.rotation.x = Math.sin(time * 0.6) * 0.16;"
+    },
+    {
+      "id": "8d65db3d80b22764",
+      "path": ".skills/typegpu/SKILL.md",
+      "line": 44,
+      "language": "markdown",
+      "change_type": "feature",
+      "tags": [
+        "markdown",
+        "skills",
+        "typegpu",
+        "skill"
+      ],
+      "summary": "feature precedent in .skills/typegpu/SKILL.md",
+      "snippet": "    });\n\n    function render(t) {\n      timeUniform[0] = t;\n      device.queue.writeBuffer(timeBuf, 0, timeUniform);"
+    },
+    {
+      "id": "424095e2b4c2ee33",
+      "path": ".skills/UPSTREAM-LICENSE",
+      "line": 76,
+      "language": "text",
+      "change_type": "error-handling",
+      "tags": [
+        "text",
+        "skills",
+        "upstream",
+        "license"
+      ],
+      "summary": "error-handling precedent in .skills/UPSTREAM-LICENSE",
+      "snippet": "      this License, each Contributor hereby grants to You a perpetual,\n      worldwide, non-exclusive, no-charge, royalty-free, irrevocable\n      (except as stated in this section) patent license to make, have made,\n      use, offer to sell, sell, import, and otherwise transfer the Work,\n      where such license applies only to those patent claims licensable"
+    },
+    {
+      "id": "2e75328573b73328",
+      "path": ".skills/writing-plans/SKILL.md",
+      "line": 76,
+      "language": "markdown",
+      "change_type": "test",
+      "tags": [
+        "markdown",
+        "skills",
+        "writing",
+        "plans",
+        "skill"
+      ],
+      "summary": "test precedent in .skills/writing-plans/SKILL.md",
+      "snippet": "\n```python\ndef test_specific_behavior():\n    result = function(input)\n    assert result == expected"
+    },
+    {
+      "id": "eb7be9b679ba709b",
+      "path": ".specs/architecture/PATTERNS.md",
+      "line": 110,
+      "language": "markdown",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "markdown",
+        "specs",
+        "architecture",
+        "patterns"
+      ],
+      "summary": "test precedent in .specs/architecture/PATTERNS.md",
+      "snippet": "```typescript\n// tests/unit/calculate-invoice-total.test.ts\ntest('aplica desconto quando cliente e VIP', () => {\n  const invoice = makeInvoice({ items: [{ price: 100 }], customer: { tier: 'vip' } });\n  expect(calculateInvoiceTotal(invoice)).toBe(90);"
+    },
+    {
+      "id": "d43913f31dc7031f",
+      "path": "bin/auto-map.js",
+      "line": 23,
+      "language": "javascript",
+      "change_type": "feature",
+      "tags": [
+        "javascript",
+        "bin",
+        "auto",
+        "map"
+      ],
+      "summary": "feature precedent in bin/auto-map.js",
+      "snippet": "]);\n\nfunction readSafe(file) {\n  try {\n    return fs.readFileSync(file, 'utf8');"
+    },
+    {
+      "id": "e777677cf72a6db3",
+      "path": "bin/build-hamt-catalog",
+      "line": 12,
+      "language": "text",
+      "change_type": "feature",
+      "tags": [
+        "entrypoint",
+        "text",
+        "bin",
+        "build",
+        "hamt",
+        "catalog"
+      ],
+      "summary": "feature precedent in bin/build-hamt-catalog",
+      "snippet": "const argv = process.argv.slice(2);\n\nfunction printHelp() {\n  console.log(`build-hamt-catalog\n"
+    },
+    {
+      "id": "ad60e1b50752bff1",
+      "path": "bin/cli.js",
+      "line": 368,
+      "language": "javascript",
+      "change_type": "feature",
+      "tags": [
+        "entrypoint",
+        "javascript",
+        "bin",
+        "cli"
+      ],
+      "summary": "feature precedent in bin/cli.js",
+      "snippet": "}\n\nfunction printHelp() {\n  console.log(`llm-project-mapper v${PKG.version}\n"
+    },
+    {
+      "id": "83104108d462e030",
+      "path": "bin/hook-runner.js",
+      "line": 17,
+      "language": "javascript",
+      "change_type": "feature",
+      "tags": [
+        "javascript",
+        "bin",
+        "hook",
+        "runner"
+      ],
+      "summary": "feature precedent in bin/hook-runner.js",
+      "snippet": "const isWindows = process.platform === 'win32';\n\nfunction runHook(scriptBaseName, args = []) {\n  const hooksDir = path.join(repoRoot, `.${tool}`, 'hooks');\n  const ext = isWindows ? '.ps1' : '.sh';"
+    },
+    {
+      "id": "14f4befca4af6820",
+      "path": "bin/map.js",
+      "line": 8,
+      "language": "javascript",
+      "change_type": "feature",
+      "tags": [
+        "javascript",
+        "bin",
+        "map"
+      ],
+      "summary": "feature precedent in bin/map.js",
+      "snippet": "const { writeMappingArtifacts } = require('./mapper-artifacts');\n\nfunction readJsonSafe(file) {\n  try {\n    return JSON.parse(fs.readFileSync(file, 'utf8'));"
+    },
+    {
+      "id": "f50fddc104af1144",
+      "path": "bin/mapper-artifacts.js",
+      "line": 32,
+      "language": "javascript",
+      "change_type": "feature",
+      "tags": [
+        "javascript",
+        "bin",
+        "mapper",
+        "artifacts"
+      ],
+      "summary": "feature precedent in bin/mapper-artifacts.js",
+      "snippet": "]);\n\nfunction normalizeRel(file) {\n  return file.split(path.sep).join('/');\n}"
+    },
+    {
+      "id": "cb797c4a0587f584",
+      "path": "bin/skillopt.js",
+      "line": 21,
+      "language": "javascript",
+      "change_type": "feature",
+      "tags": [
+        "entrypoint",
+        "javascript",
+        "bin",
+        "skillopt"
+      ],
+      "summary": "feature precedent in bin/skillopt.js",
+      "snippet": "const argv = process.argv.slice(2);\n\nfunction printHelp() {\n  console.log(`skillopt\n"
+    },
+    {
+      "id": "c6139b454c60abbe",
+      "path": "bootstrap.ps1",
+      "line": 49,
+      "language": "powershell",
+      "change_type": "feature",
+      "tags": [
+        "powershell",
+        "bootstrap",
+        "ps1"
+      ],
+      "summary": "feature precedent in bootstrap.ps1",
+      "snippet": "# auto-detect stack\n# ---------------------------------------------------------------------------\nfunction Detect-Stack {\n  if (Test-Path \"package.json\") {\n    $pkg = Get-Content \"package.json\" -Raw"
+    },
+    {
+      "id": "c8300c8697bdc2c2",
+      "path": "bootstrap.sh",
+      "line": 481,
+      "language": "shell",
+      "change_type": "feature",
+      "tags": [
+        "shell",
+        "bootstrap"
+      ],
+      "summary": "feature precedent in bootstrap.sh",
+      "snippet": "const catalogPath = path.resolve(process.cwd(), \".catalog\", \"agents.json\");\n\nasync function readCatalog() {\n  const raw = await readFile(catalogPath, \"utf8\");\n  return JSON.parse(raw);"
+    },
+    {
+      "id": "851799c9c0d9ecf6",
+      "path": "docs-site/docs/concepts/yool-tuple-hamt.md",
+      "line": 18,
+      "language": "markdown",
+      "change_type": "error-handling",
+      "tags": [
+        "markdown",
+        "docs",
+        "site",
+        "concepts",
+        "yool",
+        "tuple",
+        "hamt"
+      ],
+      "summary": "error-handling precedent in docs-site/docs/concepts/yool-tuple-hamt.md",
+      "snippet": "- MCP should stay at the edge for snapshot and dispatch, not become the inner loop.\n\n## Try it\n\n```bash"
+    },
+    {
+      "id": "9d81d1f86505e091",
+      "path": "docs-site/docs/guide/private-overlay.md",
+      "line": 68,
+      "language": "markdown",
+      "change_type": "error-handling",
+      "tags": [
+        "markdown",
+        "docs",
+        "site",
+        "guide",
+        "private",
+        "overlay"
+      ],
+      "summary": "error-handling precedent in docs-site/docs/guide/private-overlay.md",
+      "snippet": "cd ~/code/my-front\n\n# copies everything from the starter except its .git, and NEVER overwrites host files\nrsync -av --ignore-existing --exclude='.git' /tmp/llm-project-mapper-src/ ./\n```"
+    },
+    {
+      "id": "e5101ea0de80e66a",
+      "path": "docs-site/docusaurus.config.cjs",
+      "line": 9,
+      "language": "javascript",
+      "change_type": "error-handling",
+      "tags": [
+        "config",
+        "javascript",
+        "docs",
+        "site",
+        "docusaurus",
+        "cjs"
+      ],
+      "summary": "error-handling precedent in docs-site/docusaurus.config.cjs",
+      "snippet": "  projectName: 'llm-project-mapper',\n  trailingSlash: false,\n  onBrokenLinks: 'throw',\n  onBrokenAnchors: 'warn',\n  markdown: {"
+    },
+    {
+      "id": "d3e63563bc234ead",
+      "path": "docs-site/versioned_docs/version-0.2.0/guide/private-overlay.md",
+      "line": 68,
+      "language": "markdown",
+      "change_type": "error-handling",
+      "tags": [
+        "markdown",
+        "docs",
+        "site",
+        "versioned",
+        "version",
+        "guide",
+        "private",
+        "overlay"
+      ],
+      "summary": "error-handling precedent in docs-site/versioned_docs/version-0.2.0/guide/private-overlay.md",
+      "snippet": "cd ~/code/my-front\n\n# copies everything from the starter except its .git, and NEVER overwrites host files\nrsync -av --ignore-existing --exclude='.git' /tmp/llm-project-mapper-src/ ./\n```"
+    },
+    {
+      "id": "f4cb395d5ce595dc",
+      "path": "docs/api-examples/webhook.md",
+      "line": 39,
+      "language": "markdown",
+      "change_type": "feature",
+      "tags": [
+        "markdown",
+        "docs",
+        "api",
+        "examples",
+        "webhook"
+      ],
+      "summary": "feature precedent in docs/api-examples/webhook.md",
+      "snippet": "const crypto = require('node:crypto');\n\nfunction verify(rawBody, headerValue, secret) {\n  const parts = Object.fromEntries(\n    headerValue.split(',').map((kv) => kv.split('='))"
+    },
+    {
+      "id": "45624a0a3c32bca0",
+      "path": "docs/YOOL_TUPLE_HAMT.md",
+      "line": 117,
+      "language": "markdown",
+      "change_type": "feature",
+      "tags": [
+        "markdown",
+        "docs",
+        "yool",
+        "tuple",
+        "hamt"
+      ],
+      "summary": "feature precedent in docs/YOOL_TUPLE_HAMT.md",
+      "snippet": "```\n\nA yool is **not** a function. A function might back a yool, but the yool itself is the **addressable symbol + contract**, decoupled from implementation.\n\n### 2.2 tuple"
+    },
+    {
+      "id": "a3e8e47f38073b5c",
+      "path": "INSTALL.en.md",
+      "line": 65,
+      "language": "markdown",
+      "change_type": "error-handling",
+      "tags": [
+        "markdown",
+        "install"
+      ],
+      "summary": "error-handling precedent in INSTALL.en.md",
+      "snippet": "cd ~/code/my-front\n\n# copies everything from the starter except its .git, and NEVER overwrites host files\nrsync -av --ignore-existing --exclude='.git' /tmp/llm-project-mapper-src/ ./\n```"
+    },
+    {
+      "id": "dd5f761b862639f0",
+      "path": "PRIVACY.md",
+      "line": 48,
+      "language": "markdown",
+      "change_type": "error-handling",
+      "tags": [
+        "markdown",
+        "privacy"
+      ],
+      "summary": "error-handling precedent in PRIVACY.md",
+      "snippet": "- `CI=true` (or any truthy `CI` env var) — the starter never posts telemetry in CI.\n- `--dry-run` — never posts.\n- `LLM_PROJECT_MAPPER_TELEMETRY=0|off` — overrides everything except `CI`.\n- No `LLM_PROJECT_MAPPER_TELEMETRY_URL` configured — there is nowhere to post to, so nothing is sent.\n"
+    },
+    {
+      "id": "b994778812d3c8c2",
+      "path": "scripts/build_hamt.py",
+      "line": 29,
+      "language": "python",
+      "change_type": "feature",
+      "tags": [
+        "python",
+        "scripts",
+        "build",
+        "hamt"
+      ],
+      "summary": "feature precedent in scripts/build_hamt.py",
+      "snippet": "\n@dataclass\nclass Leaf:\n    key: str\n    value: dict[str, Any]"
+    },
+    {
+      "id": "47e5a810e03efdb1",
+      "path": "scripts/lint.js",
+      "line": 40,
+      "language": "javascript",
+      "change_type": "feature",
+      "tags": [
+        "javascript",
+        "scripts",
+        "lint"
+      ],
+      "summary": "feature precedent in scripts/lint.js",
+      "snippet": "const RESULTS = { errors: 0, warnings: 0, skipped: [] };\n\nfunction log(level, message) {\n  const tag = level === 'error' ? '\\x1b[31merror\\x1b[0m'\n    : level === 'warn' ? '\\x1b[33mwarn\\x1b[0m'"
+    },
+    {
+      "id": "f9a268593860025c",
+      "path": "scripts/skillopt/engine.js",
+      "line": 26,
+      "language": "javascript",
+      "change_type": "feature",
+      "tags": [
+        "javascript",
+        "scripts",
+        "skillopt",
+        "engine"
+      ],
+      "summary": "feature precedent in scripts/skillopt/engine.js",
+      "snippet": "const EPS = 1e-9;\n\nfunction normalize(text) {\n  return String(text).toLowerCase().replace(/\\s+/g, ' ').trim();\n}"
+    },
+    {
+      "id": "5e27e2a3cc511b67",
+      "path": "scripts/sync-docs-site.mjs",
+      "line": 136,
+      "language": "javascript",
+      "change_type": "error-handling",
+      "tags": [
+        "javascript",
+        "scripts",
+        "sync",
+        "docs",
+        "site",
+        "mjs"
+      ],
+      "summary": "error-handling precedent in scripts/sync-docs-site.mjs",
+      "snippet": "- MCP should stay at the edge for snapshot and dispatch, not become the inner loop.\n\n## Try it\n\n\\`\\`\\`bash"
+    },
+    {
+      "id": "0ce3ca398f144636",
+      "path": "SIMPLICIO_INTEGRATION.md",
+      "line": 115,
+      "language": "markdown",
+      "change_type": "feature",
+      "tags": [
+        "markdown",
+        "simplicio",
+        "integration"
+      ],
+      "summary": "feature precedent in SIMPLICIO_INTEGRATION.md",
+      "snippet": "import json\n\ndef load_simplicio_context(root: str, target: str):\n    base = Path(root) / \".simplicio\"\n    project_map = json.loads((base / \"project-map.json\").read_text())"
+    },
+    {
+      "id": "825d59d8c8dce284",
+      "path": "simplicio_mapper/_native.py",
+      "line": 18,
+      "language": "python",
+      "change_type": "error-handling",
+      "tags": [
+        "python",
+        "simplicio",
+        "mapper",
+        "native"
+      ],
+      "summary": "error-handling precedent in simplicio_mapper/_native.py",
+      "snippet": "parse_imports: Callable[[str, str], list[str]] | None = None\n\ntry:\n    from simplicio_mapper_rs import (  # type: ignore[import-not-found]\n        parse_imports as _native_parse_imports,"
+    },
+    {
+      "id": "83abbab757e87bbc",
+      "path": "simplicio_mapper/cache.py",
+      "line": 12,
+      "language": "python",
+      "change_type": "feature",
+      "tags": [
+        "python",
+        "simplicio",
+        "mapper",
+        "cache"
+      ],
+      "summary": "feature precedent in simplicio_mapper/cache.py",
+      "snippet": "\n\nclass FileProcessingCache:\n    \"\"\"Disk-backed cache for parsed file metadata.\n"
+    },
+    {
+      "id": "ff976992258284af",
+      "path": "simplicio_mapper/cli.py",
+      "line": 49,
+      "language": "python",
+      "change_type": "feature",
+      "tags": [
+        "entrypoint",
+        "python",
+        "simplicio",
+        "mapper",
+        "cli"
+      ],
+      "summary": "feature precedent in simplicio_mapper/cli.py",
+      "snippet": "\n\ndef _read_json_safe(file: str) -> dict:\n    try:\n        with open(file, \"r\", encoding=\"utf-8\") as handle:"
+    },
+    {
+      "id": "9a8e979dd472d3ca",
+      "path": "simplicio_mapper/mapper.py",
+      "line": 79,
+      "language": "python",
+      "change_type": "feature",
+      "tags": [
+        "python",
+        "simplicio",
+        "mapper"
+      ],
+      "summary": "feature precedent in simplicio_mapper/mapper.py",
+      "snippet": "\n\ndef _iso(dt: datetime) -> str:\n    return dt.astimezone(timezone.utc).isoformat(timespec=\"milliseconds\").replace(\"+00:00\", \"Z\")\n"
+    },
+    {
+      "id": "71f37f128d88f6ba",
+      "path": "simplicio_mapper/models.py",
+      "line": 6,
+      "language": "python",
+      "change_type": "feature",
+      "tags": [
+        "domain",
+        "python",
+        "simplicio",
+        "mapper",
+        "models"
+      ],
+      "summary": "feature precedent in simplicio_mapper/models.py",
+      "snippet": "\n\nclass ProjectFile:\n    \"\"\"Parsed project file metadata.\n"
+    },
+    {
+      "id": "9266e1a508d54e1a",
+      "path": "tests/e2e/build-hamt-catalog.spec.ts",
+      "line": 10,
+      "language": "typescript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "typescript",
+        "e2e",
+        "build",
+        "hamt",
+        "catalog",
+        "spec"
+      ],
+      "summary": "test precedent in tests/e2e/build-hamt-catalog.spec.ts",
+      "snippet": "const NODE = process.execPath;\n\nfunction mkTmp(): string {\n  return fs.mkdtempSync(path.join(os.tmpdir(), 'lpm-hamt-e2e-'));\n}"
+    },
+    {
+      "id": "eabe1b35d0f791f3",
+      "path": "tests/e2e/cli.spec.ts",
+      "line": 20,
+      "language": "typescript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "typescript",
+        "e2e",
+        "cli",
+        "spec"
+      ],
+      "summary": "test precedent in tests/e2e/cli.spec.ts",
+      "snippet": "const NODE = process.execPath;\n\nfunction mkTmp(): string {\n  return fs.mkdtempSync(path.join(os.tmpdir(), 'lpm-e2e-'));\n}"
+    },
+    {
+      "id": "35a8bfaaa809878e",
+      "path": "tests/e2e/skillopt.spec.ts",
+      "line": 10,
+      "language": "typescript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "typescript",
+        "e2e",
+        "skillopt",
+        "spec"
+      ],
+      "summary": "test precedent in tests/e2e/skillopt.spec.ts",
+      "snippet": "const NODE = process.execPath;\n\nfunction mkTmp(): string {\n  return fs.mkdtempSync(path.join(os.tmpdir(), 'lpm-skillopt-e2e-'));\n}"
+    },
+    {
+      "id": "fcf8ff6a39e0558d",
+      "path": "tests/e2e/smoke.spec.ts",
+      "line": 13,
+      "language": "typescript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "typescript",
+        "e2e",
+        "smoke",
+        "spec"
+      ],
+      "summary": "test precedent in tests/e2e/smoke.spec.ts",
+      "snippet": "const baseUrl = process.env.BASE_URL;\n\ntest.describe('downstream smoke (skipped without BASE_URL)', () => {\n  test.skip(!baseUrl, 'BASE_URL not set — skipping browser smoke');\n"
+    },
+    {
+      "id": "774e7d1f8f6f6e14",
+      "path": "tests/python/test_cli.py",
+      "line": 32,
+      "language": "python",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "python",
+        "cli"
+      ],
+      "summary": "test precedent in tests/python/test_cli.py",
+      "snippet": "\n\ndef _write(base: Path, rel: str, content: str) -> None:\n    target = base / rel\n    target.parent.mkdir(parents=True, exist_ok=True)"
+    },
+    {
+      "id": "fc60b39af42861dd",
+      "path": "tests/python/test_native.py",
+      "line": 20,
+      "language": "python",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "python",
+        "native"
+      ],
+      "summary": "test precedent in tests/python/test_native.py",
+      "snippet": "\n\ndef _reload_with_native(enabled: bool):\n    \"\"\"Reload _native and mapper with the rust module hidden when needed.\"\"\"\n    import simplicio_mapper._native as native_module"
+    },
+    {
+      "id": "489a022a6c8d961a",
+      "path": "tests/unit/build-hamt-catalog.test.js",
+      "line": 14,
+      "language": "javascript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "javascript",
+        "unit",
+        "build",
+        "hamt",
+        "catalog"
+      ],
+      "summary": "test precedent in tests/unit/build-hamt-catalog.test.js",
+      "snippet": "const CLI = path.resolve(__dirname, '..', '..', 'bin', 'cli.js');\n\nfunction mkTmp() {\n  return fs.mkdtempSync(path.join(os.tmpdir(), 'lpm-hamt-'));\n}"
+    },
+    {
+      "id": "877dea2b80665f74",
+      "path": "tests/unit/cli-args.test.js",
+      "line": 5,
+      "language": "javascript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "javascript",
+        "unit",
+        "cli",
+        "args"
+      ],
+      "summary": "test precedent in tests/unit/cli-args.test.js",
+      "snippet": "/*\n * Unit tests for bin/cli.js argument parsing.\n * Uses node:test (no extra dependency) and subprocess invocation so the tests\n * exercise the real binary end-to-end, including --help / --version short-circuit\n * and unknown-flag handling."
+    },
+    {
+      "id": "5c06c99e78ae3bc8",
+      "path": "tests/unit/cli-install.test.js",
+      "line": 18,
+      "language": "javascript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "javascript",
+        "unit",
+        "cli",
+        "install"
+      ],
+      "summary": "test precedent in tests/unit/cli-install.test.js",
+      "snippet": "const NODE = process.execPath;\n\nfunction mkTmp() {\n  return fs.mkdtempSync(path.join(os.tmpdir(), 'lpm-test-'));\n}"
+    },
+    {
+      "id": "ed57177ee9df663c",
+      "path": "tests/unit/cli-telemetry.test.js",
+      "line": 21,
+      "language": "javascript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "javascript",
+        "unit",
+        "cli",
+        "telemetry"
+      ],
+      "summary": "test precedent in tests/unit/cli-telemetry.test.js",
+      "snippet": "const NODE = process.execPath;\n\nfunction mkTmp() {\n  return fs.mkdtempSync(path.join(os.tmpdir(), 'lpm-tel-'));\n}"
+    },
+    {
+      "id": "4664eea0a2d4975c",
+      "path": "tests/unit/docs-site.test.js",
+      "line": 10,
+      "language": "javascript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "javascript",
+        "unit",
+        "docs",
+        "site"
+      ],
+      "summary": "test precedent in tests/unit/docs-site.test.js",
+      "snippet": "const ROOT = path.resolve(__dirname, '..', '..');\n\nfunction read(rel) {\n  return fs.readFileSync(path.join(ROOT, rel), 'utf8');\n}"
+    },
+    {
+      "id": "83e98ae9275885f5",
+      "path": "tests/unit/mapping-artifacts.test.js",
+      "line": 15,
+      "language": "javascript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "javascript",
+        "unit",
+        "mapping",
+        "artifacts"
+      ],
+      "summary": "test precedent in tests/unit/mapping-artifacts.test.js",
+      "snippet": "const NODE = process.execPath;\n\nfunction mkTmp() {\n  return fs.mkdtempSync(path.join(os.tmpdir(), 'mapper-artifacts-'));\n}"
+    },
+    {
+      "id": "b700c2e756d6bf7a",
+      "path": "tests/unit/overlay-docs.test.js",
+      "line": 17,
+      "language": "javascript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "javascript",
+        "unit",
+        "overlay",
+        "docs"
+      ],
+      "summary": "test precedent in tests/unit/overlay-docs.test.js",
+      "snippet": "];\n\ntest('overlay screencast asset captures the required flow', () => {\n  const svg = fs.readFileSync(SVG_PATH, 'utf8');\n"
+    },
+    {
+      "id": "d5df471a61db2547",
+      "path": "tests/unit/skillopt.test.js",
+      "line": 16,
+      "language": "javascript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "javascript",
+        "unit",
+        "skillopt"
+      ],
+      "summary": "test precedent in tests/unit/skillopt.test.js",
+      "snippet": "const CLI = path.resolve(__dirname, '..', '..', 'bin', 'cli.js');\n\nfunction mkTmp() {\n  return fs.mkdtempSync(path.join(os.tmpdir(), 'lpm-skillopt-'));\n}"
+    },
+    {
+      "id": "38f71380feda3f96",
+      "path": "tests/unit/why-video-narration.test.js",
+      "line": 11,
+      "language": "javascript",
+      "change_type": "test",
+      "tags": [
+        "test",
+        "javascript",
+        "unit",
+        "why",
+        "video",
+        "narration"
+      ],
+      "summary": "test precedent in tests/unit/why-video-narration.test.js",
+      "snippet": "const NARRATION_PATH = path.join(ROOT, 'video', 'src', 'why', 'narration.json');\n\ntest('why-video narration script defines a shared nine-scene timeline', () => {\n  const narration = JSON.parse(fs.readFileSync(NARRATION_PATH, 'utf8'));\n  assert.equal(narration.timeline.length, 9);"
+    },
+    {
+      "id": "52b48344c194aeff",
+      "path": "video/scripts/generate-why-voiceover.mjs",
+      "line": 14,
+      "language": "javascript",
+      "change_type": "feature",
+      "tags": [
+        "javascript",
+        "video",
+        "scripts",
+        "generate",
+        "why",
+        "voiceover",
+        "mjs"
+      ],
+      "summary": "feature precedent in video/scripts/generate-why-voiceover.mjs",
+      "snippet": "const FPS = 30;\n\nfunction run(command, args, options = {}) {\n  const result = spawnSync(command, args, {\n    cwd: ROOT,"
+    },
+    {
+      "id": "acb997386f8456d1",
+      "path": "video/scripts/regression.mjs",
+      "line": 87,
+      "language": "javascript",
+      "change_type": "error-handling",
+      "tags": [
+        "javascript",
+        "video",
+        "scripts",
+        "regression",
+        "mjs"
+      ],
+      "summary": "error-handling precedent in video/scripts/regression.mjs",
+      "snippet": "};\n\nmain().catch((err) => {\n  console.error(err);\n  process.exit(1);"
+    },
+    {
+      "id": "2e172e92b2c2b011",
+      "path": "video/src/scenes/PlaywrightSkill.tsx",
+      "line": 101,
+      "language": "typescript",
+      "change_type": "test",
+      "tags": [
+        "typescript",
+        "video",
+        "scenes",
+        "playwright",
+        "skill",
+        "tsx"
+      ],
+      "summary": "test precedent in video/src/scenes/PlaywrightSkill.tsx",
+      "snippet": "                [\n                  { text: \"test\", color: c.fn },\n                  { text: \".describe(\" },\n                  { text: \"'Login flow'\", color: c.string },\n                  { text: \", () => {\" },"
+    },
+    {
+      "id": "5541d0a0cb186e6d",
+      "path": "video/src/why/WhyLlmProjectMapper.tsx",
+      "line": 69,
+      "language": "typescript",
+      "change_type": "feature",
+      "tags": [
+        "typescript",
+        "video",
+        "why",
+        "llm",
+        "project",
+        "mapper",
+        "tsx"
+      ],
+      "summary": "feature precedent in video/src/why/WhyLlmProjectMapper.tsx",
+      "snippet": ");\n\nfunction buildCaptionPages(language: Lang) {\n  const captions: Caption[] = narration.timeline.map((cue, index) => ({\n    text: narration.tracks[language].cues[index],"
+    },
+    {
+      "id": "30f376277064d76f",
+      "path": "vscode-extension/src/extension.ts",
+      "line": 11,
+      "language": "typescript",
+      "change_type": "feature",
+      "tags": [
+        "typescript",
+        "vscode",
+        "extension"
+      ],
+      "summary": "feature precedent in vscode-extension/src/extension.ts",
+      "snippet": "import { listSprints, type Sprint, type TaskFile, statusLabel } from './scan';\n\nclass SprintsProvider implements vscode.TreeDataProvider<TreeNode> {\n  private readonly emitter = new vscode.EventEmitter<TreeNode | void>();\n  readonly onDidChangeTreeData = this.emitter.event;"
+    },
+    {
+      "id": "71f27a33f40b4683",
+      "path": "vscode-extension/src/scan.ts",
+      "line": 28,
+      "language": "typescript",
+      "change_type": "feature",
+      "tags": [
+        "typescript",
+        "vscode",
+        "extension",
+        "scan"
+      ],
+      "summary": "feature precedent in vscode-extension/src/scan.ts",
+      "snippet": "const FRONTMATTER_STATUS_RE = /^status:\\s*([a-z]+)/im;\n\nexport function readFirstHeading(text: string): string {\n  const lines = text.split(/\\r?\\n/);\n  for (const line of lines) {"
+    },
+    {
+      "id": "926e39dda7f6ab67",
+      "path": "vscode-extension/test/scan.test.js",
+      "line": 20,
+      "language": "javascript",
+      "change_type": "error-handling",
+      "tags": [
+        "test",
+        "javascript",
+        "vscode",
+        "extension",
+        "scan"
+      ],
+      "summary": "error-handling precedent in vscode-extension/test/scan.test.js",
+      "snippet": "// Easier: require the compiled JS if `out/scan.js` exists, otherwise skip.\nlet scan;\ntry {\n  scan = require('../out/scan.js');\n} catch {"
+    },
+    {
+      "id": "8cb1cdd2cb680063",
+      "path": "YOOL_TUPLE_HAMT.md",
+      "line": 117,
+      "language": "markdown",
+      "change_type": "feature",
+      "tags": [
+        "markdown",
+        "yool",
+        "tuple",
+        "hamt"
+      ],
+      "summary": "feature precedent in YOOL_TUPLE_HAMT.md",
+      "snippet": "```\n\nA yool is **not** a function. A function might back a yool, but the yool itself is the **addressable symbol + contract**, decoupled from implementation.\n\n### 2.2 tuple"
+    }
+  ]
+}

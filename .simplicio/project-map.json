@@ -1,0 +1,5123 @@
+{
+  "schema": "simplicio.project-map/v1",
+  "version": 1,
+  "generated_at": "2026-05-30T20:28:55.569Z",
+  "update_mode": "full",
+  "product": {
+    "name": "simplicio-mapper",
+    "stack": "node,python",
+    "project_mode": "root"
+  },
+  "files": [
+    {
+      "path": "_BOOTSTRAP.md",
+      "language": "markdown",
+      "size_bytes": 15516,
+      "last_modified": "2026-05-27T19:13:27.982Z",
+      "file_hash": "69b9732b300a05e2e0573b4abcd4c1387862a80b10f34f391177e1fafed24569",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".agents/_template.agent.md",
+      "language": "markdown",
+      "size_bytes": 1249,
+      "last_modified": "2026-05-27T19:13:27.964Z",
+      "file_hash": "5eb35a660c5ba18df9daba2a3cc4aa07d5e40b76a1d8b91cf61e009a54a24e08",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".agents/architect.agent.md",
+      "language": "markdown",
+      "size_bytes": 4106,
+      "last_modified": "2026-05-27T19:13:27.964Z",
+      "file_hash": "ac90998f7fd820db5966c5420180c33df9559411279eee1c2d1530e0f8061ded",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".agents/ralph-loop.agent.md",
+      "language": "markdown",
+      "size_bytes": 12921,
+      "last_modified": "2026-05-27T19:13:27.964Z",
+      "file_hash": "ad1385af9a2c5dd3ff100879bcf4075cfddbfdee2f7284ff3d676a93146e7f02",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".agents/README.md",
+      "language": "markdown",
+      "size_bytes": 3480,
+      "last_modified": "2026-05-27T19:13:27.964Z",
+      "file_hash": "3fc3bb35ad1983275fb658e923567ee825068830b2e3ed3b095b71d56bc7bada",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".agents/reviewer.agent.md",
+      "language": "markdown",
+      "size_bytes": 4211,
+      "last_modified": "2026-05-27T19:13:27.964Z",
+      "file_hash": "375a30565f9546566e207d28d393d79d6aacf751b0a29c1da3542bba80cf1a3f",
+      "git_status": "clean",
+      "roles": [
+        "ui"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".agents/tdd.agent.md",
+      "language": "markdown",
+      "size_bytes": 3783,
+      "last_modified": "2026-05-27T19:13:27.965Z",
+      "file_hash": "7af0937c9b72fbc5c56f0f5812e051fcb0b503c248b06f6d02402f3092d65b98",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".claude/hooks/post-edit.ps1",
+      "language": "powershell",
+      "size_bytes": 1067,
+      "last_modified": "2026-05-27T19:13:27.965Z",
+      "file_hash": "b35d43aa930881562e1a90731713dca1dfb97bffa49d13e1ff99d50b2d3b59a9",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".claude/hooks/post-edit.sh",
+      "language": "shell",
+      "size_bytes": 827,
+      "last_modified": "2026-05-27T19:13:27.966Z",
+      "file_hash": "cace03da4dae5ca54265aedd619142c652b0c04bf7e31c06b1e76a85c6121c46",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".claude/hooks/pre-commit.ps1",
+      "language": "powershell",
+      "size_bytes": 1513,
+      "last_modified": "2026-05-27T19:13:27.966Z",
+      "file_hash": "54b32275634de5cb67dd0145e9fa9ba5e6e52f4a10aa1e6e71b5c8a768ebb247",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".claude/hooks/pre-commit.sh",
+      "language": "shell",
+      "size_bytes": 1181,
+      "last_modified": "2026-05-27T19:13:27.966Z",
+      "file_hash": "54cbf5ad38c89251a3b48629f700643bb50eb82e1ceddc4fb43f0ad1dae30baa",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".claude/hooks/session-start-skills.ps1",
+      "language": "powershell",
+      "size_bytes": 1617,
+      "last_modified": "2026-05-27T19:13:27.966Z",
+      "file_hash": "20a04deea6912a86d2e0cea3b0c70c50d85839fb5b176e819dd346743da6ad73",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".claude/hooks/session-start-skills.sh",
+      "language": "shell",
+      "size_bytes": 1736,
+      "last_modified": "2026-05-27T19:13:27.966Z",
+      "file_hash": "315510ed03c29ce711c1fb863c3c7131c02d89040ffbd7e1a88731284bbe9217",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".claude/settings.json",
+      "language": "json",
+      "size_bytes": 1291,
+      "last_modified": "2026-05-27T19:13:27.966Z",
+      "file_hash": "f557c4a344278f23d295fda4a7c038edfd2c3e168f0cc0be19346f39449860f5",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".codex/config.toml",
+      "language": "toml",
+      "size_bytes": 165,
+      "last_modified": "2026-05-27T19:13:27.966Z",
+      "file_hash": "9d2763736c4d3ce0c5e29d801232e38a10a80f190c5ad99b64fbab5b48b35612",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.32
+    },
+    {
+      "path": ".codex/hooks.json",
+      "language": "json",
+      "size_bytes": 732,
+      "last_modified": "2026-05-27T19:13:27.967Z",
+      "file_hash": "9c93364a341c2f2ed40329817eae58cc55d94271e4af89c7dab073d2a330c95b",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".codex/hooks/pre-commit.ps1",
+      "language": "powershell",
+      "size_bytes": 1513,
+      "last_modified": "2026-05-27T19:13:27.967Z",
+      "file_hash": "54b32275634de5cb67dd0145e9fa9ba5e6e52f4a10aa1e6e71b5c8a768ebb247",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".codex/hooks/pre-commit.sh",
+      "language": "shell",
+      "size_bytes": 1181,
+      "last_modified": "2026-05-27T19:13:27.967Z",
+      "file_hash": "54cbf5ad38c89251a3b48629f700643bb50eb82e1ceddc4fb43f0ad1dae30baa",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".codex/hooks/session-start-skills.ps1",
+      "language": "powershell",
+      "size_bytes": 1611,
+      "last_modified": "2026-05-27T19:13:27.967Z",
+      "file_hash": "02e519ca9850349272469c1709d78b93f82de19d44dbd5c0ea9e9428840a3d23",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".gitattributes",
+      "language": "text",
+      "size_bytes": 1648,
+      "last_modified": "2026-05-27T19:13:27.967Z",
+      "file_hash": "96f80145439bb304a8df03985942d66e71688880c62cd648f8c2cee4018fc049",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/CODEOWNERS",
+      "language": "text",
+      "size_bytes": 19,
+      "last_modified": "2026-05-27T19:13:27.967Z",
+      "file_hash": "92ec0744a28967e8b4d132dd259fd428aff8e4406aa6a5c13d336cfdf2c55cb8",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/copilot-instructions.md",
+      "language": "markdown",
+      "size_bytes": 10156,
+      "last_modified": "2026-05-27T19:13:27.968Z",
+      "file_hash": "07f2d7ee68700def02a6692a40404483b571afa4728a438772eaa79b0dd26fa0",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/copilot/agents/_template.agent.md",
+      "language": "markdown",
+      "size_bytes": 1249,
+      "last_modified": "2026-05-27T19:13:27.969Z",
+      "file_hash": "5eb35a660c5ba18df9daba2a3cc4aa07d5e40b76a1d8b91cf61e009a54a24e08",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/copilot/agents/architect.agent.md",
+      "language": "markdown",
+      "size_bytes": 4106,
+      "last_modified": "2026-05-27T19:13:27.969Z",
+      "file_hash": "ac90998f7fd820db5966c5420180c33df9559411279eee1c2d1530e0f8061ded",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/copilot/agents/ralph-loop.agent.md",
+      "language": "markdown",
+      "size_bytes": 12921,
+      "last_modified": "2026-05-27T19:13:27.969Z",
+      "file_hash": "ad1385af9a2c5dd3ff100879bcf4075cfddbfdee2f7284ff3d676a93146e7f02",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/copilot/agents/reviewer.agent.md",
+      "language": "markdown",
+      "size_bytes": 4211,
+      "last_modified": "2026-05-27T19:13:27.969Z",
+      "file_hash": "375a30565f9546566e207d28d393d79d6aacf751b0a29c1da3542bba80cf1a3f",
+      "git_status": "clean",
+      "roles": [
+        "ui"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/copilot/agents/tdd.agent.md",
+      "language": "markdown",
+      "size_bytes": 3783,
+      "last_modified": "2026-05-27T19:13:27.969Z",
+      "file_hash": "7af0937c9b72fbc5c56f0f5812e051fcb0b503c248b06f6d02402f3092d65b98",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/bug.md",
+      "language": "markdown",
+      "size_bytes": 1786,
+      "last_modified": "2026-05-27T19:13:27.968Z",
+      "file_hash": "3be023dbefc0062af774949946ef8cf59e122b73d5d41bbba45d0d84751657f6",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/feature.md",
+      "language": "markdown",
+      "size_bytes": 1686,
+      "last_modified": "2026-05-27T19:13:27.968Z",
+      "file_hash": "68f31941467f7322699d13b8947d0b9239b9050fba9460df410adfe857a25992",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "language": "markdown",
+      "size_bytes": 2209,
+      "last_modified": "2026-05-27T19:13:27.968Z",
+      "file_hash": "a00b5059ebdab28826809a0e5397c4d5c6eaf4cf0547b357c0671a6c909a4bd5",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/workflows-templates/llm-project-mapper-init.yml",
+      "language": "yaml",
+      "size_bytes": 2880,
+      "last_modified": "2026-05-27T19:13:27.970Z",
+      "file_hash": "7f90766013bb59d64d5eba70256d104219271a8243cd1c93716775362276bb5f",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/workflows-templates/README.md",
+      "language": "markdown",
+      "size_bytes": 1024,
+      "last_modified": "2026-05-27T19:13:27.970Z",
+      "file_hash": "d51359ce9142da6b3bdb99a80266dff857ed867a1fd75bdcb367560de75b76b3",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/workflows-templates/telemetry-worker.js",
+      "language": "javascript",
+      "size_bytes": 2770,
+      "last_modified": "2026-05-27T19:13:27.970Z",
+      "file_hash": "a42a20f4ad403e0527a9eafa65dd75e1f4fd38dfb8f029737406a14977b937ed",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "sanitize"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "language": "yaml",
+      "size_bytes": 3529,
+      "last_modified": "2026-05-29T16:58:56.509Z",
+      "file_hash": "3d2a5c4700dcb9d3a424139ca4a3a128e09f99c7eede63a098229d2f3fdcd963",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/workflows/docs-site.yml",
+      "language": "yaml",
+      "size_bytes": 1193,
+      "last_modified": "2026-05-27T19:13:27.970Z",
+      "file_hash": "182d1c4ec06ec62a924fa619c5ea5a579d28fc7019a67abd05440f95780b0c4e",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/workflows/dod.yml",
+      "language": "yaml",
+      "size_bytes": 4917,
+      "last_modified": "2026-05-29T16:58:56.509Z",
+      "file_hash": "8232456ff2c0e30d1396a8d7e8e26a84b8666345f544d96a99ea605ad95bfacf",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/workflows/publish-pypi.yml",
+      "language": "yaml",
+      "size_bytes": 4401,
+      "last_modified": "2026-05-29T16:58:56.510Z",
+      "file_hash": "0b8c9d6f4b4f47f86fbfeb41a208288e3126fe3c43a5c44396e7a4aca30c48e1",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".github/workflows/scaffold-self-check.yml",
+      "language": "yaml",
+      "size_bytes": 7443,
+      "last_modified": "2026-05-27T19:13:27.971Z",
+      "file_hash": "a8d4d071fe012c2466c858d7b296c5239cf03d4f3952bdcfbcd479436d9a1ee1",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".gitignore",
+      "language": "text",
+      "size_bytes": 1549,
+      "last_modified": "2026-05-29T16:58:56.510Z",
+      "file_hash": "b7662e20f2490785f80f7abcbca5d0a9a23ce6d1a30306c9aaac5ac643b2a90a",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".llm-project-mapper.json",
+      "language": "json",
+      "size_bytes": 955,
+      "last_modified": "2026-05-27T19:13:27.971Z",
+      "file_hash": "96a13ccdb9b51439024178d2a411ebe0c5491df7e3448281e210fc3e3bc5cf68",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".pytest_cache/.gitignore",
+      "language": "text",
+      "size_bytes": 37,
+      "last_modified": "2026-05-27T19:24:51.554Z",
+      "file_hash": "3ed731b65d06150c138e2dadb0be0697550888a6b47eb8c45ecc9adba8b8e9bd",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".pytest_cache/README.md",
+      "language": "markdown",
+      "size_bytes": 302,
+      "last_modified": "2026-05-27T19:24:51.554Z",
+      "file_hash": "73fd6fccdd802c419a6b2d983d6c3173b7da97558ac4b589edec2dfe443db9ad",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".pytest_cache/v/cache/lastfailed",
+      "language": "text",
+      "size_bytes": 201,
+      "last_modified": "2026-05-30T20:21:28.379Z",
+      "file_hash": "ad303b1a22bc275c0478d01e98e7639ec0e4bf9574e323ed83204a2c7828e7a3",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".pytest_cache/v/cache/nodeids",
+      "language": "text",
+      "size_bytes": 1251,
+      "last_modified": "2026-05-30T20:21:28.379Z",
+      "file_hash": "bc5bc228f7a7a400f7bb3930f59f5338399493590c5da7acf6d190b79cda6221",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/_template/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 2973,
+      "last_modified": "2026-05-27T19:13:27.972Z",
+      "file_hash": "449fc6a7bcbec3836b0e0201fb1381e5d9e27be46cc0eae153f855d207d1a6bd",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/animejs/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 3309,
+      "last_modified": "2026-05-27T19:13:27.972Z",
+      "file_hash": "1ca46135880d2475c7149d5e54fc41ce3d85d63809fddfdb4f4ded649120f8de",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/brainstorming/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 10634,
+      "last_modified": "2026-05-27T19:13:27.972Z",
+      "file_hash": "bba47904a7f6bbee3bf8a107ebbe84e65d392be683bbb898ded736b29e415f90",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "utility"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": ".skills/brainstorming/visual-companion.md",
+      "language": "markdown",
+      "size_bytes": 12047,
+      "last_modified": "2026-05-27T19:13:27.972Z",
+      "file_hash": "a2bc6fc47d0df1df981d02f707a16225b147f462e7059175ad2bc5e6dd29fcae",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/caveman/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 3396,
+      "last_modified": "2026-05-27T19:13:27.972Z",
+      "file_hash": "d05f7d2b79b3bda5cf8a51c1b512e5dda1644075437920bca3cb4b3f9cffe6c0",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/contribute-catalog/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 7243,
+      "last_modified": "2026-05-27T19:13:27.972Z",
+      "file_hash": "bfae812b3e4b6c0dff55d82cdea4464df2aebea9d8e2ee9b0b63b00cd3e969db",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "reads"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": ".skills/conventional-commits/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 4983,
+      "last_modified": "2026-05-27T19:13:27.973Z",
+      "file_hash": "c2e13301791dfadd06b03fe9d0333b3ca0af5ee9a7e9a5b2f49f0769e315291d",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/css-animations/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 3889,
+      "last_modified": "2026-05-27T19:13:27.973Z",
+      "file_hash": "a8239c96ac9400e40b806ad0b14a059cf643c58fcef4bfdc630723fa130f93ef",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/everything-claude-code/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 6265,
+      "last_modified": "2026-05-27T19:13:27.973Z",
+      "file_hash": "0702c5023aa143840ede7a32600c88cab53c526cbabe66bb9290fc7054252b9f",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/gsap/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 7776,
+      "last_modified": "2026-05-27T19:13:27.973Z",
+      "file_hash": "d65cfadd0040f3b72377b43e5ccc088925a1397f19fcd258abcf4ed72100aa16",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/hyperframes-cli/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 8949,
+      "last_modified": "2026-05-27T19:13:27.973Z",
+      "file_hash": "a7b870543b0b86f71cd2a0c57de80ba5bd3d40616f92a3f9d6b230180780f4d9",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/hyperframes-media/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 14704,
+      "last_modified": "2026-05-27T19:13:27.973Z",
+      "file_hash": "8716eaeef8e36a21ba727a3d955c22c58f403b236a94e8900cd785fcd67343df",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/hyperframes-registry/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 4278,
+      "last_modified": "2026-05-27T19:13:27.974Z",
+      "file_hash": "0248bfb9968d53ea8f9e4b5f7f5a8eb9e72f21108022580f7eba2fba7e26b234",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/hyperframes/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 31101,
+      "last_modified": "2026-05-27T19:13:27.974Z",
+      "file_hash": "ebf0e7b8259544f80a28ceca943b137f0808d7108c1c2896cd00c475f007784e",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/lottie/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 3397,
+      "last_modified": "2026-05-27T19:13:27.974Z",
+      "file_hash": "35551db7646402f60c9622d64534b59a9a4aeaecf63253142bb295b4f6f34d94",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/NOTICE.md",
+      "language": "markdown",
+      "size_bytes": 3148,
+      "last_modified": "2026-05-27T19:13:27.971Z",
+      "file_hash": "781ee97267aa688321085174737a7858c4d899ffd2f995b95cc73a15bd807a64",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/playwright-e2e/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 6167,
+      "last_modified": "2026-05-27T19:13:27.974Z",
+      "file_hash": "6a1eda7e23b596e474b4d43b727982b3c504b177d6d7a3c23f14d161e3b72d7c",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/ralph-loop/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 5160,
+      "last_modified": "2026-05-27T19:13:27.974Z",
+      "file_hash": "a986532560388cdfe27e6a8ce4f14eb61b6b05fbb0640d6004d9e6f684683bd6",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/README.md",
+      "language": "markdown",
+      "size_bytes": 9038,
+      "last_modified": "2026-05-27T19:13:27.971Z",
+      "file_hash": "6582e1bd0fbfd03a089b846974715e65db47f6bace7166475b80868645711e3d",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/remotion-to-hyperframes/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 8938,
+      "last_modified": "2026-05-27T19:13:27.974Z",
+      "file_hash": "1f02264b42290b4e170edaba7d6d1d04b7ae399b4b5e4b43ecc9c1d9e8b2a34b",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/rtk-cli/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 2761,
+      "last_modified": "2026-05-27T19:13:27.975Z",
+      "file_hash": "49ff0b1fbb0e6cee8b74bd305bf6b025b75805f96adc8057f853c79c97aa5073",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/skillopt/example.skill.md",
+      "language": "markdown",
+      "size_bytes": 348,
+      "last_modified": "2026-05-27T19:13:27.975Z",
+      "file_hash": "fd7cc4d245c5950ccd28959c31043438f916f76da7e324c9350ea35717ff9394",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/skillopt/example.suite.json",
+      "language": "json",
+      "size_bytes": 609,
+      "last_modified": "2026-05-27T19:13:27.975Z",
+      "file_hash": "0b654d0699c02738e25cbc1b3e4aaa62a054c6d0aeb807d155340dda34f31c0a",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/skillopt/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 3997,
+      "last_modified": "2026-05-27T19:13:27.975Z",
+      "file_hash": "4b670ed6a9b08b7b5bde2f5fbffd8c471accfdb483fdaa036c989edd24ed0308",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/subagent-driven-development/code-quality-reviewer-prompt.md",
+      "language": "markdown",
+      "size_bytes": 1080,
+      "last_modified": "2026-05-27T19:13:27.975Z",
+      "file_hash": "2eeb3bf63fccfbee042812dc94e7032048603f0f8c3827b4b53af9e4cef19b30",
+      "git_status": "clean",
+      "roles": [
+        "ui"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/subagent-driven-development/implementer-prompt.md",
+      "language": "markdown",
+      "size_bytes": 4258,
+      "last_modified": "2026-05-27T19:13:27.975Z",
+      "file_hash": "a416193f881e5a712c988fffabfe1d5a97bffcd091eb95577c84fe2136588617",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/subagent-driven-development/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 12546,
+      "last_modified": "2026-05-27T19:13:27.975Z",
+      "file_hash": "905a2b9be59b734dbe166525ad31dcaaf712a75926135adee1f554557aba5744",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/subagent-driven-development/spec-reviewer-prompt.md",
+      "language": "markdown",
+      "size_bytes": 1999,
+      "last_modified": "2026-05-27T19:13:27.975Z",
+      "file_hash": "631980e472eec5394de8b89b69d432e54fd3f7f523ecf9afa7eb4cda0c9b2baf",
+      "git_status": "clean",
+      "roles": [
+        "test",
+        "ui"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".skills/systematic-debugging/condition-based-waiting.md",
+      "language": "markdown",
+      "size_bytes": 3516,
+      "last_modified": "2026-05-27T19:13:27.976Z",
+      "file_hash": "e89fec8400d6cd50f43407cec9fab50976ba4d55d0ec2eb51c0bd68036b54c26",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "waitFor"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": ".skills/systematic-debugging/defense-in-depth.md",
+      "language": "markdown",
+      "size_bytes": 3650,
+      "last_modified": "2026-05-27T19:13:27.976Z",
+      "file_hash": "1e175fb86fc357e58c6aebf5441e481e1b7868b4380c0456b63a17eefbd18ba7",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "createProject",
+        "gitInit",
+        "initializeWorkspace"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": ".skills/systematic-debugging/root-cause-tracing.md",
+      "language": "markdown",
+      "size_bytes": 5316,
+      "last_modified": "2026-05-27T19:13:27.976Z",
+      "file_hash": "6b0622269e098ca1399e123e553fd385f0b6412d88ef0e9c4f5a8ea9cf1cec7b",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "gitInit"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": ".skills/systematic-debugging/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 9884,
+      "last_modified": "2026-05-27T19:13:27.976Z",
+      "file_hash": "4999cb851360485eca5074e727bbdd62ef20549c5d5b01216fcbf5831badb473",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/tailwind/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 6270,
+      "last_modified": "2026-05-27T19:13:27.976Z",
+      "file_hash": "a19824a7bedeeafe1639144cc986fdc9ddc9e26c3626bbfb34de67d61a53bc38",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/test-driven-development/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 9867,
+      "last_modified": "2026-05-27T19:13:27.977Z",
+      "file_hash": "7dee67b4af6bdccc7a914ca34533184d64592d0f5b23aeae631538168db14994",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [
+        "retryOperation",
+        "submitForm"
+      ],
+      "importance": 0.45
+    },
+    {
+      "path": ".skills/test-driven-development/testing-anti-patterns.md",
+      "language": "markdown",
+      "size_bytes": 8251,
+      "last_modified": "2026-05-27T19:13:27.977Z",
+      "file_hash": "bde453bc258f06543987477c837939afaa774ea2acbd9f308d702fc452bc4283",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [
+        "Session",
+        "cleanupSession"
+      ],
+      "importance": 0.45
+    },
+    {
+      "path": ".skills/three/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 3537,
+      "last_modified": "2026-05-27T19:13:27.977Z",
+      "file_hash": "12dd949a36e878fae99aedee3b22de2fe11be32598970166c7c171a223a8fde1",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "renderAt"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": ".skills/typegpu/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 6688,
+      "last_modified": "2026-05-27T19:13:27.977Z",
+      "file_hash": "6a5036e107a051921066df2f12d1ddfb483902187aead82aed0b1a7650977f09",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "render"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": ".skills/UPSTREAM-LICENSE",
+      "language": "text",
+      "size_bytes": 10763,
+      "last_modified": "2026-05-27T19:13:27.971Z",
+      "file_hash": "4259155fb06f127687ee7b0a8a3682d45132db0f2da26cbc0b7a2d1e796436b8",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/UPSTREAM-LICENSE-superpowers",
+      "language": "text",
+      "size_bytes": 1070,
+      "last_modified": "2026-05-27T19:13:27.971Z",
+      "file_hash": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/using-superpowers/references/codex-tools.md",
+      "language": "markdown",
+      "size_bytes": 2464,
+      "last_modified": "2026-05-27T19:13:27.977Z",
+      "file_hash": "37e06103a352516dcec2eb326f990d50c6728b571135cc7b54cbbb8902c451e0",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/using-superpowers/references/copilot-tools.md",
+      "language": "markdown",
+      "size_bytes": 1859,
+      "last_modified": "2026-05-27T19:13:27.977Z",
+      "file_hash": "9fb400a432d31494c6d764506f04227c4b8d89e27a09f84da9cc2b75998f2db6",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/using-superpowers/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 5421,
+      "last_modified": "2026-05-27T19:13:27.977Z",
+      "file_hash": "316e29381219adf0cac62190c67aeabf427d6e6e5f2735541d502b3d339be7aa",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/verification-before-completion/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 4201,
+      "last_modified": "2026-05-27T19:13:27.978Z",
+      "file_hash": "ea52d15aabaf72bc6b558efe2c126f161b53961090ddcd712000273bfe8c7b6c",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/waapi/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 3217,
+      "last_modified": "2026-05-27T19:13:27.978Z",
+      "file_hash": "e465beaf82a4f2de0fc40c705bdddddf59d851fc96ebb339c931ed9458d30cfb",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/website-to-hyperframes/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 9267,
+      "last_modified": "2026-05-27T19:13:27.978Z",
+      "file_hash": "2751dffa349c282b381873d45caf6ed6290e2e9d281d0814efa9f55f363cc5f4",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": ".skills/writing-plans/SKILL.md",
+      "language": "markdown",
+      "size_bytes": 6100,
+      "last_modified": "2026-05-27T19:13:27.978Z",
+      "file_hash": "4fd4627d2c02367879c0307d7249270bed633317ff9be82e926a6d57bf5d331b",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "called",
+        "function",
+        "not",
+        "test_specific_behavior"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": ".specs/architecture/ADR-001-example.md",
+      "language": "markdown",
+      "size_bytes": 4373,
+      "last_modified": "2026-05-27T19:13:27.978Z",
+      "file_hash": "73b404b0626fa81c0c2f1f89ffd1f5f89047071eed549d87c73d8ea726907d1c",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/architecture/ADR-002-python-rust-hybrid.md",
+      "language": "markdown",
+      "size_bytes": 5473,
+      "last_modified": "2026-05-29T16:58:56.510Z",
+      "file_hash": "a4d3d378f5bd514d09163b0ae27b903a8409422ec50d60aa73ccbc314f0b8898",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/architecture/ADR-template.md",
+      "language": "markdown",
+      "size_bytes": 2241,
+      "last_modified": "2026-05-27T19:13:27.978Z",
+      "file_hash": "e9bc19c466d42bcf78c3be3e596aeef106679d8dcdfccb86b52b65569a1f41b8",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/architecture/DESIGN.md",
+      "language": "markdown",
+      "size_bytes": 5011,
+      "last_modified": "2026-05-27T19:13:27.979Z",
+      "file_hash": "ee2c8166d121d92b437a563ed102655091edea86c0a91636122dd6acdaaf39ff",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/architecture/PATTERNS.md",
+      "language": "markdown",
+      "size_bytes": 7752,
+      "last_modified": "2026-05-27T19:13:27.979Z",
+      "file_hash": "a779b7653d5c727332253b31167f3f44d17567305a1a3101ff9b46f090a36d9b",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [
+        "DomainError"
+      ],
+      "importance": 0.45
+    },
+    {
+      "path": ".specs/product/DOMAIN.md",
+      "language": "markdown",
+      "size_bytes": 3224,
+      "last_modified": "2026-05-27T19:13:27.979Z",
+      "file_hash": "16cfc75ef947e091a65822f55996ba7d8b79d13e9e74a70da213a368fb0d930d",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/product/PERSONAS.md",
+      "language": "markdown",
+      "size_bytes": 4732,
+      "last_modified": "2026-05-27T19:13:27.979Z",
+      "file_hash": "07584ad25fdc020c7b13810ac3f0bc2ed0d43dfe626792a8d7f02cecb5ad3b27",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/product/VISION.md",
+      "language": "markdown",
+      "size_bytes": 2623,
+      "last_modified": "2026-05-27T19:13:27.979Z",
+      "file_hash": "e09ab6a721b160359ff791cd27daead86a595b42aef017a7f71363cde5b6f3f5",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/README.md",
+      "language": "markdown",
+      "size_bytes": 2994,
+      "last_modified": "2026-05-27T19:13:27.978Z",
+      "file_hash": "954009eb3a6fa6ae4c11d86f5c40c22baf222c8f40d822acdc71ffa20196357b",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/sprints/BACKLOG.md",
+      "language": "markdown",
+      "size_bytes": 3041,
+      "last_modified": "2026-05-27T19:13:27.979Z",
+      "file_hash": "159a2e6e9baa37018b5d6111b39f087f5d43ecd5d611ef236ddcf08afd88a21a",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/sprints/sprint-01/01-example.task.md",
+      "language": "markdown",
+      "size_bytes": 6522,
+      "last_modified": "2026-05-27T19:13:27.980Z",
+      "file_hash": "7a6748d1f06e12a542d1a82b27fbe42b9e2c9d9d04e5869407e1dda3d0f3b890",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/sprints/sprint-01/SPRINT.md",
+      "language": "markdown",
+      "size_bytes": 2811,
+      "last_modified": "2026-05-27T19:13:27.980Z",
+      "file_hash": "6327b1b12d5764b5f01c759fed7f3a0b80c6da819c055bf6bca4d4ef6e177704",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/sprints/task-template.md",
+      "language": "markdown",
+      "size_bytes": 4124,
+      "last_modified": "2026-05-27T19:13:27.980Z",
+      "file_hash": "0f5be66c64c6a784f5f85f923a34981c4f79790e8832073573a53838ba69b511",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/workflow/CONTRIBUTING.md",
+      "language": "markdown",
+      "size_bytes": 6713,
+      "last_modified": "2026-05-27T19:13:27.980Z",
+      "file_hash": "42ebbad4309a8c73ed18a07184f1e65e1935c6e2ae67831c9ad23522e8ee88ab",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/workflow/RELEASE.md",
+      "language": "markdown",
+      "size_bytes": 6369,
+      "last_modified": "2026-05-27T19:13:27.980Z",
+      "file_hash": "3b26c7d5cf7c1b6f77e1ea5722d1eb07d1c019d24db691d42bb1069dcb01cba6",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": ".specs/workflow/WORKFLOW.md",
+      "language": "markdown",
+      "size_bytes": 6655,
+      "last_modified": "2026-05-27T19:13:27.980Z",
+      "file_hash": "602f0c3f940d30f34417cf461d4dfcd7fd68e944ed83e80cd1c742baff2cd93e",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": "AGENTS.md",
+      "language": "markdown",
+      "size_bytes": 20731,
+      "last_modified": "2026-05-27T19:13:27.980Z",
+      "file_hash": "94223309e7caec7c41be53b3dbca32d00c07725b55f65958d5b9b391e8b63ed3",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "bin/auto-map.js",
+      "language": "javascript",
+      "size_bytes": 41546,
+      "last_modified": "2026-05-27T19:21:41.501Z",
+      "file_hash": "57ac89b574ec8224a0d2d237f37b5e2008dc7bb4e97aed5c52c5407159e45a2a",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "./mapper-artifacts",
+        "node:child_process",
+        "node:fs",
+        "node:path"
+      ],
+      "exports": [
+        "collectEntities",
+        "collectFeatures",
+        "collectIntegrations",
+        "collectTextFiles",
+        "collectTodos",
+        "collectTopDirectories",
+        "commandExists",
+        "detectPackageManager",
+        "detectUrls",
+        "exists",
+        "firstDefined",
+        "getGitRemote",
+        "humanizeName",
+        "inferAuthFlow",
+        "inferCommands",
+        "inferDatabase",
+        "inferDomain",
+        "inferInstallCommand",
+        "inferSystemType",
+        "inferTeam",
+        "parsePackageJson",
+        "readSafe",
+        "renderDesign",
+        "renderDomain",
+        "renderPatterns",
+        "renderPersonas",
+        "renderVision",
+        "safeTitle",
+        "slugify",
+        "walk"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "bin/build-hamt-catalog",
+      "language": "text",
+      "size_bytes": 1909,
+      "last_modified": "2026-05-27T19:13:28.020Z",
+      "file_hash": "c39db6be8072fa5ed6bbd78095f63991bf15b26ba340c0ac38993792e102ec6b",
+      "git_status": "clean",
+      "roles": [
+        "entrypoint"
+      ],
+      "imports": [],
+      "exports": [
+        "commandExists",
+        "main",
+        "printHelp",
+        "resolvePython"
+      ],
+      "importance": 0.65
+    },
+    {
+      "path": "bin/cli.js",
+      "language": "javascript",
+      "size_bytes": 45030,
+      "last_modified": "2026-05-30T20:09:22.775Z",
+      "file_hash": "c38413145812d340cc41e4a80a4cfaaae0f6df7f5b16063174f8eb230e1f142b",
+      "git_status": "clean",
+      "roles": [
+        "entrypoint"
+      ],
+      "imports": [
+        "./auto-map",
+        ".catalog",
+        "node:child_process",
+        "node:fs",
+        "node:fs/promises",
+        "node:https",
+        "node:os",
+        "node:path",
+        "node:process",
+        "node:readline"
+      ],
+      "exports": [
+        "buildProjectsList",
+        "commandExists",
+        "copyTemplate",
+        "detectExistingInstructionFiles",
+        "detectPreservedUserFiles",
+        "detectProductNameIn",
+        "detectProjectMode",
+        "detectStack",
+        "detectStackIn",
+        "dispatch",
+        "existsHere",
+        "handleGitignore",
+        "handleRuntimeScaffold",
+        "hasWorkspaceSignal",
+        "listCwd",
+        "listMonorepoDirs",
+        "looksBinary",
+        "looksStarterManagedContent",
+        "maybeNotifyUpdate",
+        "maybeSendTelemetry",
+        "onTimeout",
+        "persistTelemetryChoice",
+        "printHelp",
+        "readCatalog",
+        "readExistingMeta",
+        "readSafe",
+        "snapshot",
+        "telemetryEnabled",
+        "upsertGitignore",
+        "writeFileIfMissing"
+      ],
+      "importance": 0.73
+    },
+    {
+      "path": "bin/hook-runner.js",
+      "language": "javascript",
+      "size_bytes": 1589,
+      "last_modified": "2026-05-27T19:13:28.020Z",
+      "file_hash": "e6c99e4bef84c611265990411f811084ae04523c0d8541fb28896cf250e74842",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "node:child_process",
+        "node:path"
+      ],
+      "exports": [
+        "runHook"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "bin/map.js",
+      "language": "javascript",
+      "size_bytes": 3591,
+      "last_modified": "2026-05-27T19:21:36.866Z",
+      "file_hash": "57a841894ac7b9c9c43da4f543f8309b33a111ab2a2ff7c7ce23ddd73c591a3a",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "./mapper-artifacts",
+        "node:fs",
+        "node:path"
+      ],
+      "exports": [
+        "parseArgs",
+        "printHelp",
+        "readJsonSafe",
+        "runMapCli",
+        "runOnce"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "bin/mapper-artifacts.js",
+      "language": "javascript",
+      "size_bytes": 15443,
+      "last_modified": "2026-05-27T19:23:43.249Z",
+      "file_hash": "785e1b44b2af1f79dd3226838e3ebc29f9e7558c219df42dafac4664cfd4a87d",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "node:child_process",
+        "node:crypto",
+        "node:fs",
+        "node:path"
+      ],
+      "exports": [
+        "buildArtifacts",
+        "buildFileInventory",
+        "buildPrecedentItems",
+        "collectArchitectureSignals",
+        "collectEntities",
+        "collectTextFiles",
+        "detectChangedFiles",
+        "exists",
+        "extractSnippet",
+        "gitStatusMap",
+        "groupModules",
+        "importanceFor",
+        "languageFor",
+        "loadPreviousMap",
+        "normalizeRel",
+        "parseImports",
+        "parseJsonSafe",
+        "parseSymbols",
+        "readSafe",
+        "rolesFor",
+        "sha256",
+        "tokenWords",
+        "walk",
+        "writeJsonStable",
+        "writeMappingArtifacts"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "bin/skillopt.js",
+      "language": "javascript",
+      "size_bytes": 6921,
+      "last_modified": "2026-05-27T19:13:28.021Z",
+      "file_hash": "87365ef8fa398d82cf8b0165545dfcae22c00d8d5aaa5d1d07b6581ee51378ab",
+      "git_status": "clean",
+      "roles": [
+        "entrypoint"
+      ],
+      "imports": [
+        "../scripts/skillopt/engine.js",
+        "node:crypto",
+        "node:fs",
+        "node:path"
+      ],
+      "exports": [
+        "countAcceptedEdits",
+        "main",
+        "parseArgs",
+        "printHelp",
+        "readJson",
+        "writeReceipt"
+      ],
+      "importance": 0.73
+    },
+    {
+      "path": "bootstrap.ps1",
+      "language": "powershell",
+      "size_bytes": 26709,
+      "last_modified": "2026-05-30T20:09:34.989Z",
+      "file_hash": "c0b78a2dac79219e111e6a6e9079813fe85bba8c4e695a196b4613291441690a",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "Choose",
+        "Copy",
+        "Detect",
+        "Handle",
+        "Has",
+        "List",
+        "Require",
+        "Substitute",
+        "dispatch",
+        "readCatalog",
+        "read_catalog",
+        "snapshot"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": "bootstrap.sh",
+      "language": "shell",
+      "size_bytes": 28362,
+      "last_modified": "2026-05-30T20:09:30.436Z",
+      "file_hash": "8b42b133db27fe0cfdde8950b3003f5dd21c6245337869cec0df8fa64a032e8e",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "dispatch",
+        "readCatalog",
+        "read_catalog",
+        "snapshot"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": "CHANGELOG.md",
+      "language": "markdown",
+      "size_bytes": 17185,
+      "last_modified": "2026-05-30T20:10:31.976Z",
+      "file_hash": "edb7d27e8828f76a185fcc6797856fbf38d76fcab0916abf52b1b2d0519d1e00",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "CLAUDE.md",
+      "language": "markdown",
+      "size_bytes": 20147,
+      "last_modified": "2026-05-27T19:13:27.981Z",
+      "file_hash": "40af28a15f9da243cfbf1abce85c908bfd3fee320337e5770d23d9f9d6ca0eff",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/community/_category_.json",
+      "language": "json",
+      "size_bytes": 90,
+      "last_modified": "2026-05-27T19:13:28.021Z",
+      "file_hash": "ca783ca133de207118ce272e06cfc2efac3c95e3bacad3324ad6b106b77685a9",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/community/contributing.md",
+      "language": "markdown",
+      "size_bytes": 6863,
+      "last_modified": "2026-05-27T19:13:28.021Z",
+      "file_hash": "ae7519cc742d9bc5c3b51615a7fd8d0f4452ff3ce9eadc4b673cc94f38e05b7f",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/community/showcase.md",
+      "language": "markdown",
+      "size_bytes": 1240,
+      "last_modified": "2026-05-27T19:13:28.021Z",
+      "file_hash": "1ea7c9b93197a831af0ccc9d8851f36cc1c1340a4daa03eefb86daf1d5257792",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/concepts/_category_.json",
+      "language": "json",
+      "size_bytes": 89,
+      "last_modified": "2026-05-27T19:13:28.021Z",
+      "file_hash": "ea1c9c8fced797b2d266a8e93ac161f809a24999b4d7a67023d8fee6415a5a3b",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/concepts/architecture-map.md",
+      "language": "markdown",
+      "size_bytes": 4172,
+      "last_modified": "2026-05-27T19:13:28.022Z",
+      "file_hash": "84c970434fe609a55b4a7ffaa30d052e4f5491960d935c25efae4ee1bd941028",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/concepts/domain-map.md",
+      "language": "markdown",
+      "size_bytes": 5059,
+      "last_modified": "2026-05-27T19:13:28.022Z",
+      "file_hash": "335f63e938f58555d4fe7d1cdeee5e3c47330ae9c35d77de18e5b0592527b17e",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/concepts/skills-and-agents.md",
+      "language": "markdown",
+      "size_bytes": 1328,
+      "last_modified": "2026-05-27T19:13:28.022Z",
+      "file_hash": "50debfc2eacf963d837ab17153a451617df379242cb54f8c5a8ee7d0c16d9c66",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/concepts/yool-tuple-hamt.md",
+      "language": "markdown",
+      "size_bytes": 1733,
+      "last_modified": "2026-05-27T19:13:28.022Z",
+      "file_hash": "b99e45bccd8670c25c056e1b5c34ed24925cb96ac37447fac4f01dc42453b8c8",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/guide/_category_.json",
+      "language": "json",
+      "size_bytes": 86,
+      "last_modified": "2026-05-27T19:13:28.022Z",
+      "file_hash": "6046e2f89e3b7bd8dfa98d2ee14a44a168e642e877b467dd5360197523cefbce",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/guide/private-overlay.md",
+      "language": "markdown",
+      "size_bytes": 10230,
+      "last_modified": "2026-05-30T20:10:25.856Z",
+      "file_hash": "4ca55a367172689fa2f8e3d7f69176f002dc8e34d18c1206669fbd8cf1e63e9c",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/intro.md",
+      "language": "markdown",
+      "size_bytes": 1756,
+      "last_modified": "2026-05-27T19:13:28.022Z",
+      "file_hash": "fc899cfebace944b87ad7b08e90f223c6462a169a880a15a4ee36b6910fe573b",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/quickstart/_category_.json",
+      "language": "json",
+      "size_bytes": 91,
+      "last_modified": "2026-05-27T19:13:28.023Z",
+      "file_hash": "f9b2ebb2aa45a5ab43f00651ffcd94a4c84c071daaba113a6f8174332f03c82c",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/quickstart/get-going.md",
+      "language": "markdown",
+      "size_bytes": 773,
+      "last_modified": "2026-05-27T19:13:28.023Z",
+      "file_hash": "023d8f60d2612a6e370f42e582a72535dcb58b3937d5208570e7bd7d2920f289",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/reference/_category_.json",
+      "language": "json",
+      "size_bytes": 90,
+      "last_modified": "2026-05-27T19:13:28.023Z",
+      "file_hash": "fe6a2a279d1ff4c81a0d05bf3b4d37b887973acb982c169b2849a8150d16b1f1",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/reference/cli-flags.md",
+      "language": "markdown",
+      "size_bytes": 1004,
+      "last_modified": "2026-05-27T19:13:28.023Z",
+      "file_hash": "c5fba7316b34a123ed3399497df10260ca9e297d4d3b8e370b7613aed16f2620",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/reference/init-handoff.md",
+      "language": "markdown",
+      "size_bytes": 10267,
+      "last_modified": "2026-05-27T19:13:28.023Z",
+      "file_hash": "e1a8f10812a042c5f59e0a68e35ce51f89cee2770576453ccd2d6b0922f7a626",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docs/reference/session-start-hook.md",
+      "language": "markdown",
+      "size_bytes": 3972,
+      "last_modified": "2026-05-27T19:13:28.023Z",
+      "file_hash": "92c96f40e3a8e585eadfda8acb82cf291c9d93e5411a19c3649ec573ad567eaa",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/docusaurus.config.cjs",
+      "language": "javascript",
+      "size_bytes": 3586,
+      "last_modified": "2026-05-27T19:13:28.023Z",
+      "file_hash": "e39d5381bfd259f5d5a8e8025f211ea8680b4a254b144f0c6b1ebafd6cb865e0",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.32
+    },
+    {
+      "path": "docs-site/package.json",
+      "language": "json",
+      "size_bytes": 925,
+      "last_modified": "2026-05-27T19:13:28.024Z",
+      "file_hash": "04241a9c45f8430a454c49c487d5e2c1363abb8ee6a000059a4fd0845c4ac21f",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.32
+    },
+    {
+      "path": "docs-site/README.md",
+      "language": "markdown",
+      "size_bytes": 667,
+      "last_modified": "2026-05-27T19:13:28.021Z",
+      "file_hash": "7412aedf81abccd71bc9e8f35b57d809556e69ad8f386d5805671d6c30c910b2",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/sidebars.cjs",
+      "language": "javascript",
+      "size_bytes": 78,
+      "last_modified": "2026-05-27T19:13:28.025Z",
+      "file_hash": "0c2ff91cbc9d7154beb8a79ce9d7c7d6432ab45c0ecdddea83263fa1a4863652",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/community/_category_.json",
+      "language": "json",
+      "size_bytes": 90,
+      "last_modified": "2026-05-27T19:13:28.043Z",
+      "file_hash": "ca783ca133de207118ce272e06cfc2efac3c95e3bacad3324ad6b106b77685a9",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/community/contributing.md",
+      "language": "markdown",
+      "size_bytes": 6103,
+      "last_modified": "2026-05-27T19:13:28.044Z",
+      "file_hash": "8cb6e6960d798bcb6fc5fd4b2dd700a6cd53d9f156043270e1c792348a411366",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/community/showcase.md",
+      "language": "markdown",
+      "size_bytes": 1240,
+      "last_modified": "2026-05-27T19:13:28.044Z",
+      "file_hash": "1ea7c9b93197a831af0ccc9d8851f36cc1c1340a4daa03eefb86daf1d5257792",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/concepts/_category_.json",
+      "language": "json",
+      "size_bytes": 89,
+      "last_modified": "2026-05-27T19:13:28.044Z",
+      "file_hash": "ea1c9c8fced797b2d266a8e93ac161f809a24999b4d7a67023d8fee6415a5a3b",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/concepts/architecture-map.md",
+      "language": "markdown",
+      "size_bytes": 4172,
+      "last_modified": "2026-05-27T19:13:28.044Z",
+      "file_hash": "84c970434fe609a55b4a7ffaa30d052e4f5491960d935c25efae4ee1bd941028",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/concepts/domain-map.md",
+      "language": "markdown",
+      "size_bytes": 5059,
+      "last_modified": "2026-05-27T19:13:28.044Z",
+      "file_hash": "335f63e938f58555d4fe7d1cdeee5e3c47330ae9c35d77de18e5b0592527b17e",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/concepts/skills-and-agents.md",
+      "language": "markdown",
+      "size_bytes": 1328,
+      "last_modified": "2026-05-27T19:13:28.044Z",
+      "file_hash": "50debfc2eacf963d837ab17153a451617df379242cb54f8c5a8ee7d0c16d9c66",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/guide/_category_.json",
+      "language": "json",
+      "size_bytes": 86,
+      "last_modified": "2026-05-27T19:13:28.044Z",
+      "file_hash": "6046e2f89e3b7bd8dfa98d2ee14a44a168e642e877b467dd5360197523cefbce",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/guide/private-overlay.md",
+      "language": "markdown",
+      "size_bytes": 10524,
+      "last_modified": "2026-05-27T19:13:28.044Z",
+      "file_hash": "68c09cf01b7256a1c706b65ee14de3af6c66d2c8dfc4192ec3aa03a2d9aaaf16",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/intro.md",
+      "language": "markdown",
+      "size_bytes": 1556,
+      "last_modified": "2026-05-27T19:13:28.044Z",
+      "file_hash": "c76e180d6720308e19eb22521b7c832027fa22811aba6cbb3bf9c04581af76aa",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/quickstart/_category_.json",
+      "language": "json",
+      "size_bytes": 91,
+      "last_modified": "2026-05-27T19:13:28.044Z",
+      "file_hash": "f9b2ebb2aa45a5ab43f00651ffcd94a4c84c071daaba113a6f8174332f03c82c",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/quickstart/get-going.md",
+      "language": "markdown",
+      "size_bytes": 666,
+      "last_modified": "2026-05-27T19:13:28.045Z",
+      "file_hash": "ec27c32077d5915404b5fc93e79c162d9a63156ac11cfc399550c8ca4c87fd78",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/reference/_category_.json",
+      "language": "json",
+      "size_bytes": 90,
+      "last_modified": "2026-05-27T19:13:28.045Z",
+      "file_hash": "fe6a2a279d1ff4c81a0d05bf3b4d37b887973acb982c169b2849a8150d16b1f1",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/reference/cli-flags.md",
+      "language": "markdown",
+      "size_bytes": 1004,
+      "last_modified": "2026-05-27T19:13:28.045Z",
+      "file_hash": "c5fba7316b34a123ed3399497df10260ca9e297d4d3b8e370b7613aed16f2620",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/reference/init-handoff.md",
+      "language": "markdown",
+      "size_bytes": 10267,
+      "last_modified": "2026-05-27T19:13:28.045Z",
+      "file_hash": "e1a8f10812a042c5f59e0a68e35ce51f89cee2770576453ccd2d6b0922f7a626",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_docs/version-0.2.0/reference/session-start-hook.md",
+      "language": "markdown",
+      "size_bytes": 3972,
+      "last_modified": "2026-05-27T19:13:28.045Z",
+      "file_hash": "92c96f40e3a8e585eadfda8acb82cf291c9d93e5411a19c3649ec573ad567eaa",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versioned_sidebars/version-0.2.0-sidebars.json",
+      "language": "json",
+      "size_bytes": 91,
+      "last_modified": "2026-05-27T19:13:28.045Z",
+      "file_hash": "2446d3f019e57660c8ecd9ba0a893cec4d2da9e59c0d39450427d496d2dda408",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs-site/versions.json",
+      "language": "json",
+      "size_bytes": 14,
+      "last_modified": "2026-05-27T19:13:28.045Z",
+      "file_hash": "e9d8a7188b8aebb164ff7c0523b1857816a9369d50ff9cc51bac8e78f68a13d3",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/api-examples/cli.md",
+      "language": "markdown",
+      "size_bytes": 2369,
+      "last_modified": "2026-05-27T19:13:28.045Z",
+      "file_hash": "521c9f423389b43787e0c93c6d020ab18e5f28e2160d231ee00d6ace0049d8c4",
+      "git_status": "clean",
+      "roles": [
+        "entrypoint"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.57
+    },
+    {
+      "path": "docs/api-examples/graphql.md",
+      "language": "markdown",
+      "size_bytes": 2595,
+      "last_modified": "2026-05-27T19:13:28.046Z",
+      "file_hash": "64ee23bb6171b5a76871c6229aed16f97eb15a862e29f664e0beeaaf24f4e13b",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/api-examples/README.md",
+      "language": "markdown",
+      "size_bytes": 1536,
+      "last_modified": "2026-05-27T19:13:28.045Z",
+      "file_hash": "7d50350048c403bcae77c19dedad4f4d8431d4629fb159a7ac0c0a32d025f321",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/api-examples/rest.md",
+      "language": "markdown",
+      "size_bytes": 2961,
+      "last_modified": "2026-05-27T19:13:28.046Z",
+      "file_hash": "d1232120489efc84c069ba62b334210fcd9533a46b80e89c77471fe04f3d47db",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/api-examples/webhook.md",
+      "language": "markdown",
+      "size_bytes": 2844,
+      "last_modified": "2026-05-27T19:13:28.046Z",
+      "file_hash": "63a03d7239cfb9a315ab022939c73587cbc232cd9759dac137860d07f851d5c2",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "verify"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": "docs/architecture-map.md",
+      "language": "markdown",
+      "size_bytes": 4045,
+      "last_modified": "2026-05-27T19:13:28.046Z",
+      "file_hash": "3812c82bfd6152eb2172ac1ed8bcbe7ebedc422839f34ea63a00a5f0f5c78d96",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/domain-map.md",
+      "language": "markdown",
+      "size_bytes": 4938,
+      "last_modified": "2026-05-27T19:13:28.046Z",
+      "file_hash": "9e4c4f07842c69045ac67d51090354dbb5544f6f3e0d94703198e91429a4e5e8",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/evidence/README.md",
+      "language": "markdown",
+      "size_bytes": 1075,
+      "last_modified": "2026-05-27T19:13:28.046Z",
+      "file_hash": "6f3a4dcb58084d2273b40f003699b44205f617b18f91824f0a9c93c3c0efb575",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/features/login.md",
+      "language": "markdown",
+      "size_bytes": 3367,
+      "last_modified": "2026-05-27T19:13:28.046Z",
+      "file_hash": "d3a4787963bf4e44bfc128d72880137c3989c1f918c04fec92a1fbe386d25954",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/features/README.md",
+      "language": "markdown",
+      "size_bytes": 958,
+      "last_modified": "2026-05-27T19:13:28.046Z",
+      "file_hash": "90578ab5120b024f21728b28ae077690747dce315155364afe1ded965f3629c8",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/local-setup.md",
+      "language": "markdown",
+      "size_bytes": 1173,
+      "last_modified": "2026-05-27T19:13:28.046Z",
+      "file_hash": "90b75fd97b2fedc4193ac248557ba1b26dc33a550e48717469d58fb9a9eddbd8",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/placeholders.md",
+      "language": "markdown",
+      "size_bytes": 4122,
+      "last_modified": "2026-05-27T19:13:28.047Z",
+      "file_hash": "16022c80f2022b8d37e6cd0231fdb299bb576a5cd24613e84ae7dedf78bbcb26",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/sessionstart-hook.md",
+      "language": "markdown",
+      "size_bytes": 3889,
+      "last_modified": "2026-05-27T19:13:28.047Z",
+      "file_hash": "e3f4ff8bf32d0876cbd93036e5a37b5006ef559f10f53c8db262a95b1b313010",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/troubleshooting.md",
+      "language": "markdown",
+      "size_bytes": 1593,
+      "last_modified": "2026-05-27T19:13:28.047Z",
+      "file_hash": "2b39c41ac808ed336b69365d2e96bafc63ea764645c6364a150634272796e647",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "docs/YOOL_TUPLE_HAMT.md",
+      "language": "markdown",
+      "size_bytes": 37978,
+      "last_modified": "2026-05-27T19:13:28.045Z",
+      "file_hash": "76466c1528db39c06e6812d7da1dcd560bedba9803fad1c6910248df4b492fcf",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "SprintFlow",
+        "__init__",
+        "_dev",
+        "cached_receipt",
+        "check_disk_pressure",
+        "cpu_throttle",
+        "gc_run",
+        "input_hash",
+        "insert",
+        "lookup",
+        "might",
+        "receipt_id",
+        "run",
+        "slots",
+        "test_cpu_throttle_under_quota",
+        "test_gc_purges_warm_tier_artifacts",
+        "tuple_id",
+        "worker",
+        "yool_hash"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": "GOAL_RESULT.md",
+      "language": "markdown",
+      "size_bytes": 1989,
+      "last_modified": "2026-05-27T19:13:27.981Z",
+      "file_hash": "2496d06ab4293eae617e3d5e151e4204a91d3cc0160492896bb088770c9ba347",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "INIT.en.md",
+      "language": "markdown",
+      "size_bytes": 10549,
+      "last_modified": "2026-05-27T19:22:44.690Z",
+      "file_hash": "b97b47f18c86c57ddb31187d38d1cb70e96761fc9d8e98da4719333f8254081a",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "INIT.md",
+      "language": "markdown",
+      "size_bytes": 12030,
+      "last_modified": "2026-05-27T19:22:38.294Z",
+      "file_hash": "c5a32adefa38c3677d3ead4f2619d4857b8df0617e0ffc6c727310e163f3e951",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "INSTALL.en.md",
+      "language": "markdown",
+      "size_bytes": 10097,
+      "last_modified": "2026-05-30T20:10:25.855Z",
+      "file_hash": "9786ddcf8f211ad39bfbadda82156ff9b8bf9d3e194b72dcef5fc26a186f9a4e",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "INSTALL.md",
+      "language": "markdown",
+      "size_bytes": 10371,
+      "last_modified": "2026-05-30T20:10:25.854Z",
+      "file_hash": "5697de3bcd98b39fb85a425a2c813078e3a42bb8ca4b02964612e8f2282ec2d6",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "LICENSE",
+      "language": "text",
+      "size_bytes": 1073,
+      "last_modified": "2026-05-27T19:13:27.981Z",
+      "file_hash": "33d9f26f261199983345c208e369ab2224838fc032d04e97575c4602c4fb27b3",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "package-lock.json",
+      "language": "json",
+      "size_bytes": 2481,
+      "last_modified": "2026-05-30T20:09:42.657Z",
+      "file_hash": "55daa8d5f26385541c3ea6c20e2189b4428ef080c6792a381855c252a6370699",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "package.json",
+      "language": "json",
+      "size_bytes": 2548,
+      "last_modified": "2026-05-30T20:09:42.657Z",
+      "file_hash": "73797458c9525c8cab291008c7207ebf2f822dfc2df6b6df0e92ed8484b7ccf1",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.32
+    },
+    {
+      "path": "playwright.config.ts",
+      "language": "typescript",
+      "size_bytes": 1903,
+      "last_modified": "2026-05-27T19:13:28.047Z",
+      "file_hash": "de404b49dab0d3170230cdd2fc95dc44b9f08e8ce7584d3c8e08207ae22666fe",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [
+        "@playwright/test"
+      ],
+      "exports": [],
+      "importance": 0.4
+    },
+    {
+      "path": "PRD.md",
+      "language": "markdown",
+      "size_bytes": 794,
+      "last_modified": "2026-05-27T19:13:27.982Z",
+      "file_hash": "04d99c00c6938903e61f87f239b7a283e921e1d73e0f4e96c9a86fd0a78fd707",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "presentation/conceitos.md",
+      "language": "markdown",
+      "size_bytes": 15763,
+      "last_modified": "2026-05-27T19:13:28.088Z",
+      "file_hash": "8137c0e4ff85e0ef631c63b47889b1965f3fd7740a27b3ff1dbaf8e85308970f",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "presentation/slides.md",
+      "language": "markdown",
+      "size_bytes": 9455,
+      "last_modified": "2026-05-27T19:13:28.088Z",
+      "file_hash": "ac2f10a9b2bc67d2cf000d8573c00049fa288fbda885b9fa48ce45d6b4ac02f2",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "PRIVACY.md",
+      "language": "markdown",
+      "size_bytes": 2845,
+      "last_modified": "2026-05-27T19:13:27.982Z",
+      "file_hash": "aaff854123417d5a32009f8853aaf94ba73ebb70f832b71df3d18ec41b611f8d",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "PROGRESS.md",
+      "language": "markdown",
+      "size_bytes": 1275,
+      "last_modified": "2026-05-27T19:13:27.982Z",
+      "file_hash": "8e9a67090a686ede492797021432325fc0b9299f2f449c41ce63c61f304175f0",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "PYPI.md",
+      "language": "markdown",
+      "size_bytes": 2775,
+      "last_modified": "2026-05-29T17:58:35.674Z",
+      "file_hash": "81b9a1bcc51fc14d71dc3d96a235d62db04573f25d4e9e976618b5752c6fd26f",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "pyproject.toml",
+      "language": "toml",
+      "size_bytes": 1649,
+      "last_modified": "2026-05-30T20:09:50.353Z",
+      "file_hash": "2cc3704cd06bfd0288ad0fcbcade75278e79be39a4c37fcd083eec59617fbd80",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.32
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "size_bytes": 20247,
+      "last_modified": "2026-05-30T20:09:50.354Z",
+      "file_hash": "fff55fa392697ccd6bab35a06b88fdd28bf8d1b61b36b0d8ee651836f124820a",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "README.pt-BR.md",
+      "language": "markdown",
+      "size_bytes": 19739,
+      "last_modified": "2026-05-30T20:09:50.355Z",
+      "file_hash": "a4285ba450e076f52ddff6e6faf3e421db3f43aaad4f7249654e5500590461ff",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "rust/Cargo.toml",
+      "language": "toml",
+      "size_bytes": 366,
+      "last_modified": "2026-05-29T16:58:56.511Z",
+      "file_hash": "c9d4ac1f9c70a95a35de7d04e4c638cbba463a12185f7df13f7cc60d2047fdc4",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.32
+    },
+    {
+      "path": "rust/pyproject.toml",
+      "language": "toml",
+      "size_bytes": 670,
+      "last_modified": "2026-05-29T16:58:56.511Z",
+      "file_hash": "599eee7bdb41d3d6608ef0262c810ce9d61e496382bfc74be001a07538ae014e",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.32
+    },
+    {
+      "path": "rust/README.md",
+      "language": "markdown",
+      "size_bytes": 786,
+      "last_modified": "2026-05-29T16:58:56.511Z",
+      "file_hash": "7702a0fe9e59d3948a7bae3e1686322af9027e9d45b83d14d1d69d16393f15a8",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "rust/src/lib.rs",
+      "language": "rust",
+      "size_bytes": 3228,
+      "last_modified": "2026-05-29T16:58:56.511Z",
+      "file_hash": "fb29792e71d5dcc30fbdad6ab0358d65098810baddc9c449a71ac6c3c9890093",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "scripts/build_hamt.py",
+      "language": "python",
+      "size_bytes": 9702,
+      "last_modified": "2026-05-27T19:13:28.088Z",
+      "file_hash": "f0c995b791812f36b643e2394d12c34e0979885b0c6aa9456125dd919d2549fb",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "__future__",
+        "argparse",
+        "dataclasses",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "re",
+        "sys",
+        "typing"
+      ],
+      "exports": [
+        "Leaf",
+        "blank_node",
+        "build_catalog",
+        "canonical_json",
+        "finalize",
+        "hash_hex",
+        "heading_anchor",
+        "insert_leaf",
+        "main",
+        "parse_agent_terms",
+        "parse_agents",
+        "parse_args",
+        "parse_scalar",
+        "slot_path",
+        "yool_hash"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "scripts/check-placeholders.sh",
+      "language": "shell",
+      "size_bytes": 1009,
+      "last_modified": "2026-05-27T19:13:28.088Z",
+      "file_hash": "d20c154f65d6eb76a46fbbaf5ee9f382066d589d5d5991e9a552101c04ee321d",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "scripts/coverage.js",
+      "language": "javascript",
+      "size_bytes": 2215,
+      "last_modified": "2026-05-29T16:58:56.512Z",
+      "file_hash": "fde964f21019442bd99a8f550969c71b1272c1181bcbdd83b44b744d402f3b40",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "node:child_process",
+        "node:fs",
+        "node:path"
+      ],
+      "exports": [],
+      "importance": 0.2
+    },
+    {
+      "path": "scripts/evidence.ps1",
+      "language": "powershell",
+      "size_bytes": 237,
+      "last_modified": "2026-05-27T19:13:28.088Z",
+      "file_hash": "da7b821765a4e76ea7df13e2ea9bd775f8f925d7899793d45e6562f9a7507a58",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "scripts/evidence.sh",
+      "language": "shell",
+      "size_bytes": 181,
+      "last_modified": "2026-05-27T19:13:28.088Z",
+      "file_hash": "481a3265f40645ac55010fde4b7d7e4df3ae3b1e2cd9a8578bc14f7dcfcdf3be",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "scripts/lint.js",
+      "language": "javascript",
+      "size_bytes": 6206,
+      "last_modified": "2026-05-27T19:13:28.088Z",
+      "file_hash": "ea2e6c838b0d02344a42b8a82e7462b62740c2901dcf104804aa112adffa82f2",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "node:child_process",
+        "node:fs",
+        "node:path"
+      ],
+      "exports": [
+        "lintJavaScript",
+        "lintJson",
+        "lintMarkdown",
+        "lintPowerShell",
+        "lintShell",
+        "log",
+        "main",
+        "walk"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "scripts/README.md",
+      "language": "markdown",
+      "size_bytes": 977,
+      "last_modified": "2026-05-27T19:13:28.088Z",
+      "file_hash": "42808197072c18508b80bea19eeb21798c05728a5f7c4e50d4236e67c579d49f",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "scripts/skillopt/engine.js",
+      "language": "javascript",
+      "size_bytes": 8827,
+      "last_modified": "2026-05-27T19:13:28.089Z",
+      "file_hash": "8075ec372d39a8764be751dbaca7185aa8457f6f2313870b962391310eb541b4",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "applyEdit",
+        "applyEdits",
+        "containsDirective",
+        "editSignature",
+        "escapeRegExp",
+        "evaluateSplit",
+        "normalize",
+        "optimize",
+        "reflect",
+        "round6",
+        "scoreTask",
+        "skillText",
+        "splitTasks",
+        "toLines"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": "scripts/start.ps1",
+      "language": "powershell",
+      "size_bytes": 607,
+      "last_modified": "2026-05-27T19:13:28.089Z",
+      "file_hash": "29f02b803799648d012e26b40a375c07c21d1cd9ef70f9b5c17e6f9d7c82118b",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "scripts/start.sh",
+      "language": "shell",
+      "size_bytes": 552,
+      "last_modified": "2026-05-27T19:13:28.089Z",
+      "file_hash": "c4ca6c66d656ab3fc98589a8d63519d3d85a5b766103d27e8aadb0a40ba36ba8",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "scripts/sync-docs-site.mjs",
+      "language": "javascript",
+      "size_bytes": 13472,
+      "last_modified": "2026-05-27T19:13:28.089Z",
+      "file_hash": "fe8e1a72a661ef1157b0873aa35379a8427369ba26644048eff37ff206e3b396",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "node:fs/promises",
+        "node:path",
+        "node:url"
+      ],
+      "exports": [
+        "copyAssets",
+        "ensureDir",
+        "extractRange",
+        "main",
+        "removeDir",
+        "resolveRelativePath",
+        "rewriteMarkdown",
+        "rewriteUrl",
+        "stripFirstTitle",
+        "stripVideoSection",
+        "toFrontMatter",
+        "toPosix",
+        "withHash",
+        "writeCategories",
+        "writeDoc"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "scripts/test.ps1",
+      "language": "powershell",
+      "size_bytes": 399,
+      "last_modified": "2026-05-27T19:13:28.089Z",
+      "file_hash": "079ca71d18a03838251da9c012da8b6dd2d76b338c46de674db111a71cbfca44",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": "scripts/test.sh",
+      "language": "shell",
+      "size_bytes": 293,
+      "last_modified": "2026-05-27T19:13:28.089Z",
+      "file_hash": "a695f231b66e3ce5cebe219ab698397e37fcc25c98a262a3c9b568286890e013",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": "scripts/update-starter.ps1",
+      "language": "powershell",
+      "size_bytes": 341,
+      "last_modified": "2026-05-27T19:13:28.089Z",
+      "file_hash": "b42f945c6be030ee5b593b6e88b03fbd729280ea726a78de520ac2fa86abd8c7",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "scripts/update-starter.sh",
+      "language": "shell",
+      "size_bytes": 289,
+      "last_modified": "2026-05-27T19:13:28.089Z",
+      "file_hash": "21ab0a3e88f8252934fd22f85db083acfaae7becd206b924313e1d1337d8c1e5",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "SHOWCASE.md",
+      "language": "markdown",
+      "size_bytes": 1133,
+      "last_modified": "2026-05-27T19:13:27.982Z",
+      "file_hash": "036ba9a57f2bc7bd69d58e5f04c262589a92aacf56804b6d2665c99a1713ab6a",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "SIMPLICIO_INTEGRATION.md",
+      "language": "markdown",
+      "size_bytes": 3586,
+      "last_modified": "2026-05-27T19:22:28.374Z",
+      "file_hash": "d06a833ba948ba09eec7d5c84c0f63f318d929d151645b5499f1618e075f292d",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "load_simplicio_context"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": "simplicio_mapper/__init__.py",
+      "language": "python",
+      "size_bytes": 140,
+      "last_modified": "2026-05-30T20:09:50.353Z",
+      "file_hash": "b6e959866d4be0c533d9b542a485bf60062fed29aa0fb9dfe792c2a9fe0b1028",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "__future__"
+      ],
+      "exports": [],
+      "importance": 0.2
+    },
+    {
+      "path": "simplicio_mapper/_native.py",
+      "language": "python",
+      "size_bytes": 982,
+      "last_modified": "2026-05-29T16:58:56.512Z",
+      "file_hash": "c2c6e0013e4bd1483710b0376102ebe681fdb6671ec0dce5c4ed66247e12d911",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "__future__",
+        "simplicio_mapper_rs",
+        "typing"
+      ],
+      "exports": [],
+      "importance": 0.2
+    },
+    {
+      "path": "simplicio_mapper/cache.py",
+      "language": "python",
+      "size_bytes": 1752,
+      "last_modified": "2026-05-29T16:58:56.512Z",
+      "file_hash": "67933746202bb58984abb157b32ed8d39686d3c81ffa79c3fa9f170e43f2ccbb",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "__future__",
+        "diskcache",
+        "hashlib",
+        "pathlib",
+        "typing"
+      ],
+      "exports": [
+        "FileProcessingCache",
+        "__enter__",
+        "__exit__",
+        "__init__",
+        "clear",
+        "close",
+        "get_processed_file",
+        "make_file_key",
+        "set_processed_file"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "simplicio_mapper/cli.py",
+      "language": "python",
+      "size_bytes": 11973,
+      "last_modified": "2026-05-30T15:33:02.410Z",
+      "file_hash": "09e2291e2626f0cfcec7a4e34a20eb3190b3a1d935d39ada3a4850896923572d",
+      "git_status": "clean",
+      "roles": [
+        "entrypoint"
+      ],
+      "imports": [
+        ".",
+        ".mapper",
+        "__future__",
+        "hashlib",
+        "json",
+        "os",
+        "subprocess",
+        "sys",
+        "time",
+        "typing"
+      ],
+      "exports": [
+        "_artifact_paths",
+        "_artifacts_exist",
+        "_emit_index_json",
+        "_freshness_signature",
+        "_git_signature",
+        "_hash_text",
+        "_index_result",
+        "_parse_args",
+        "_read_index_state",
+        "_read_json_safe",
+        "_run_index",
+        "_run_once",
+        "_signature",
+        "_state_path",
+        "_tree_signature",
+        "_watch",
+        "_write_index_state",
+        "main"
+      ],
+      "importance": 0.73
+    },
+    {
+      "path": "simplicio_mapper/mapper.py",
+      "language": "python",
+      "size_bytes": 21141,
+      "last_modified": "2026-05-29T16:58:56.512Z",
+      "file_hash": "44702ec45ccf5f109c8ff626f8ca32e3ed405915ea601279779567136d6f3bf1",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        ".",
+        ".cache",
+        ".models",
+        "__future__",
+        "datetime",
+        "hashlib",
+        "orjson",
+        "os",
+        "re",
+        "subprocess",
+        "typing"
+      ],
+      "exports": [
+        "_build_file_inventory",
+        "_build_precedent_items",
+        "_cached_parse_file",
+        "_collect_architecture_signals",
+        "_collect_entities",
+        "_collect_text_files",
+        "_detect_changed_files",
+        "_extract_snippet",
+        "_git_status_map",
+        "_group_modules",
+        "_importance_for",
+        "_iso",
+        "_json_text",
+        "_language_for",
+        "_load_previous_map",
+        "_normalize_rel",
+        "_now_iso",
+        "_parse_imports",
+        "_parse_json_safe",
+        "_parse_symbols",
+        "_read_safe",
+        "_roles_for",
+        "_sha256",
+        "_token_words",
+        "_walk",
+        "_write_json_stable",
+        "build_artifacts",
+        "write_mapping_artifacts"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "simplicio_mapper/models.py",
+      "language": "python",
+      "size_bytes": 3091,
+      "last_modified": "2026-05-29T16:58:56.512Z",
+      "file_hash": "3fcbe688e940ec35ebfa982923e51d0ddecda00f969ad9b3fa65de6d316bc12e",
+      "git_status": "clean",
+      "roles": [
+        "domain"
+      ],
+      "imports": [
+        "__future__"
+      ],
+      "exports": [
+        "CodeEntity",
+        "PrecedentItem",
+        "ProjectFile",
+        "__init__",
+        "to_dict"
+      ],
+      "importance": 0.48
+    },
+    {
+      "path": "tests/e2e/build-hamt-catalog.spec.ts",
+      "language": "typescript",
+      "size_bytes": 2567,
+      "last_modified": "2026-05-27T19:13:28.089Z",
+      "file_hash": "90459d17f5dfa9f58b593b283f7ada26404af88997dc9bab64e98a7e81587d87",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "@playwright/test",
+        "node:child_process",
+        "node:fs",
+        "node:os",
+        "node:path"
+      ],
+      "exports": [
+        "attachEvidence",
+        "mkTmp",
+        "rmTmp",
+        "runCli",
+        "writeFile"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "tests/e2e/cli.spec.ts",
+      "language": "typescript",
+      "size_bytes": 9984,
+      "last_modified": "2026-05-27T19:13:28.089Z",
+      "file_hash": "d47b96af13669038356830105304b5d2ddf095d28a88d4b10390f1760a2af393",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "@playwright/test",
+        "node:child_process",
+        "node:fs",
+        "node:os",
+        "node:path"
+      ],
+      "exports": [
+        "attachEvidence",
+        "listUnresolvedPlaceholders",
+        "mkTmp",
+        "rmTmp",
+        "runCli",
+        "walk",
+        "writeFile"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "tests/e2e/README.md",
+      "language": "markdown",
+      "size_bytes": 494,
+      "last_modified": "2026-05-27T19:13:28.089Z",
+      "file_hash": "ba9214d90da2fddfb2038df520e5cf90f4c8abca6456eb0811673847a53503b9",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.37
+    },
+    {
+      "path": "tests/e2e/skillopt.spec.ts",
+      "language": "typescript",
+      "size_bytes": 3214,
+      "last_modified": "2026-05-27T19:13:28.090Z",
+      "file_hash": "9944467729d75e10fa42bce6612d59f014b5dcba812cee8e7b8cd64023fe5c7f",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "@playwright/test",
+        "node:child_process",
+        "node:fs",
+        "node:os",
+        "node:path"
+      ],
+      "exports": [
+        "attachEvidence",
+        "mkTmp",
+        "rmTmp",
+        "runCli",
+        "writeFile"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "tests/e2e/smoke.spec.ts",
+      "language": "typescript",
+      "size_bytes": 881,
+      "last_modified": "2026-05-27T19:13:28.090Z",
+      "file_hash": "c6e334c02eecd671317293b758805e57868e48ba256e1d117d85e75b4f3eeef9",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "@playwright/test"
+      ],
+      "exports": [],
+      "importance": 0.45
+    },
+    {
+      "path": "tests/python/test_cli.py",
+      "language": "python",
+      "size_bytes": 9310,
+      "last_modified": "2026-05-29T17:58:35.677Z",
+      "file_hash": "c5d2695c8d85e1acddd2adfd059d4a38ec0bdc6f9f3b409aca50a3171768b73b",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "__future__",
+        "contextlib",
+        "io",
+        "json",
+        "os",
+        "pathlib",
+        "simplicio_mapper",
+        "simplicio_mapper.cache",
+        "simplicio_mapper.cli",
+        "simplicio_mapper.mapper",
+        "simplicio_mapper.models",
+        "sys",
+        "tempfile",
+        "unittest"
+      ],
+      "exports": [
+        "CliTest",
+        "FileProcessingCacheTest",
+        "MapperArtifactsTest",
+        "_write",
+        "run",
+        "setUp",
+        "tearDown",
+        "test_build_artifacts_emits_rich_project_map",
+        "test_cache_hits_same_file_signature",
+        "test_help_exits_zero",
+        "test_incremental_records_changed_files",
+        "test_index_refreshes_after_file_change",
+        "test_index_skips_fresh_artifacts_quietly",
+        "test_index_writes_json_contract",
+        "test_main_map_writes_artifacts",
+        "test_primary_models_use_slots",
+        "test_unknown_option_exits_with_code_2",
+        "test_version_matches_package",
+        "test_write_mapping_artifacts_persists_files"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "tests/python/test_native.py",
+      "language": "python",
+      "size_bytes": 4211,
+      "last_modified": "2026-05-29T16:58:56.512Z",
+      "file_hash": "42bb8e3e59c30cfebbec917b4cd770577e94499a884d224d2e14ba32532675c0",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "__future__",
+        "importlib",
+        "pathlib",
+        "simplicio_mapper",
+        "simplicio_mapper._native",
+        "simplicio_mapper.mapper",
+        "simplicio_mapper_rs",
+        "sys",
+        "tempfile",
+        "unittest"
+      ],
+      "exports": [
+        "FallbackEqualsNativeTest",
+        "MapperRunsWithoutNativeTest",
+        "NativeShimTest",
+        "_reload_with_native",
+        "setUp",
+        "test_build_artifacts_without_native",
+        "test_hash_and_imports_match_fallback",
+        "test_shim_reports_availability"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "tests/unit/build-hamt-catalog.test.js",
+      "language": "javascript",
+      "size_bytes": 3025,
+      "last_modified": "2026-05-27T19:13:28.090Z",
+      "file_hash": "38d3a98e177a334159539e373af07adcd771ba0fbe0d0b8824f0999e018fa1aa",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "node:assert/strict",
+        "node:child_process",
+        "node:fs",
+        "node:os",
+        "node:path",
+        "node:test"
+      ],
+      "exports": [
+        "mkTmp",
+        "rmTmp",
+        "writeFile"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "tests/unit/cli-args.test.js",
+      "language": "javascript",
+      "size_bytes": 2949,
+      "last_modified": "2026-05-27T19:13:28.090Z",
+      "file_hash": "92bae8ef62900e6c1e91a9711f131d4e47a48c7a0ae3df5068a0bb4c6a395163",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "node:assert/strict",
+        "node:child_process",
+        "node:path",
+        "node:test"
+      ],
+      "exports": [
+        "runCli"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "tests/unit/cli-install.test.js",
+      "language": "javascript",
+      "size_bytes": 13398,
+      "last_modified": "2026-05-30T20:08:28.855Z",
+      "file_hash": "897dda03494e67b32f4ff4600b9659f3773c502d61bcee6bd4359aa17063b94b",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "node:assert/strict",
+        "node:child_process",
+        "node:fs",
+        "node:os",
+        "node:path",
+        "node:test"
+      ],
+      "exports": [
+        "listUnresolvedPlaceholders",
+        "mkTmp",
+        "rmTmp",
+        "runCli",
+        "walk",
+        "writeFile"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "tests/unit/cli-telemetry.test.js",
+      "language": "javascript",
+      "size_bytes": 4092,
+      "last_modified": "2026-05-27T19:13:28.091Z",
+      "file_hash": "ea15a207fd4c725bdec0dfe1e7b1d6b4890625a15d207bcc8f51b36d6a7fe0a2",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "node:assert/strict",
+        "node:child_process",
+        "node:fs",
+        "node:os",
+        "node:path",
+        "node:test"
+      ],
+      "exports": [
+        "mkTmp",
+        "rmTmp",
+        "runCli",
+        "writeFile"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "tests/unit/docs-site.test.js",
+      "language": "javascript",
+      "size_bytes": 2916,
+      "last_modified": "2026-05-27T19:13:28.091Z",
+      "file_hash": "b8ca67d54882875aa769aa1ac62e3e5169ba18f48a57a8ca1815d7308fafaa4b",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "node:assert/strict",
+        "node:fs",
+        "node:path",
+        "node:test"
+      ],
+      "exports": [
+        "read"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "tests/unit/mapping-artifacts.test.js",
+      "language": "javascript",
+      "size_bytes": 4527,
+      "last_modified": "2026-05-27T19:19:59.670Z",
+      "file_hash": "767a53f96ba21c5b3e59acb2a52497cd7124a3edf3f48303a1603b7491f9369f",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "../../bin/auto-map",
+        "express",
+        "node:assert/strict",
+        "node:child_process",
+        "node:fs",
+        "node:os",
+        "node:path",
+        "node:test"
+      ],
+      "exports": [
+        "mkTmp",
+        "readJson",
+        "rmTmp",
+        "run",
+        "writeFile"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "tests/unit/overlay-docs.test.js",
+      "language": "javascript",
+      "size_bytes": 1140,
+      "last_modified": "2026-05-27T19:13:28.091Z",
+      "file_hash": "a657ccaf1819ccfc3ab610ba4dcaa9f835d349c9c8aabdb8cf3a2ac2cdeb04af",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "node:assert/strict",
+        "node:fs",
+        "node:path",
+        "node:test"
+      ],
+      "exports": [],
+      "importance": 0.45
+    },
+    {
+      "path": "tests/unit/skillopt.test.js",
+      "language": "javascript",
+      "size_bytes": 9410,
+      "last_modified": "2026-05-27T19:13:28.091Z",
+      "file_hash": "a269ff9d07495f621407bab552e415373dc4c9de31be942558cd5a9e5e1c0911",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "../../scripts/skillopt/engine.js",
+        "node:assert/strict",
+        "node:child_process",
+        "node:fs",
+        "node:os",
+        "node:path",
+        "node:test"
+      ],
+      "exports": [
+        "mkTmp",
+        "rmTmp"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "tests/unit/why-video-narration.test.js",
+      "language": "javascript",
+      "size_bytes": 1290,
+      "last_modified": "2026-05-27T19:13:28.091Z",
+      "file_hash": "6a19358ccabf6edf8a81d36945ab71875115e3063604c7045fde743f569da32c",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "node:assert/strict",
+        "node:fs",
+        "node:path",
+        "node:test"
+      ],
+      "exports": [],
+      "importance": 0.45
+    },
+    {
+      "path": "video/.gitignore",
+      "language": "text",
+      "size_bytes": 92,
+      "last_modified": "2026-05-27T19:13:28.091Z",
+      "file_hash": "89e629cde36294bac2b3e39f8b475830c3e5e71319e92b1d269e447454d40a5b",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "video/package-lock.json",
+      "language": "json",
+      "size_bytes": 96137,
+      "last_modified": "2026-05-27T19:13:28.507Z",
+      "file_hash": "e592c7a60ea90da56735288483a19b9793e6a055cbdd248009ae3322956d68cd",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "video/package.json",
+      "language": "json",
+      "size_bytes": 1634,
+      "last_modified": "2026-05-27T19:13:28.507Z",
+      "file_hash": "345d1045315f11c4068eb82405cf20705ce195f573238b615732d7d5efa668c2",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.32
+    },
+    {
+      "path": "video/README.md",
+      "language": "markdown",
+      "size_bytes": 8933,
+      "last_modified": "2026-05-27T19:13:28.091Z",
+      "file_hash": "5ee8c931c242125f63acdf8e8d74c029aa630d82e3e27b1170e7fcf2caf8fa7c",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "video/remotion.config.ts",
+      "language": "typescript",
+      "size_bytes": 143,
+      "last_modified": "2026-05-27T19:13:28.517Z",
+      "file_hash": "ecf884d07a9a249978dfa20dd99ce1f41c08cf217d2f9aa5626e84471c9fbbbe",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [
+        "@remotion/cli/config"
+      ],
+      "exports": [],
+      "importance": 0.4
+    },
+    {
+      "path": "video/scripts/generate-why-voiceover.mjs",
+      "language": "javascript",
+      "size_bytes": 4585,
+      "last_modified": "2026-05-27T19:13:28.517Z",
+      "file_hash": "530ee9f25cb1c8a22fa9a4fc6788d6b1ebfea01d9f1cee1e81720f6a9aa4633a",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../src/why/narration.json",
+        "@remotion/captions",
+        "node:child_process",
+        "node:fs",
+        "node:os",
+        "node:path"
+      ],
+      "exports": [
+        "buildCaptions",
+        "buildTrack",
+        "cueAudioPath",
+        "ensureCommand",
+        "main",
+        "renderCueFiles",
+        "run",
+        "selectLanguages",
+        "totalDurationSeconds",
+        "voiceFor",
+        "writeCaptions"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/scripts/regression.mjs",
+      "language": "javascript",
+      "size_bytes": 2853,
+      "last_modified": "2026-05-27T19:13:28.517Z",
+      "file_hash": "49c95cac3c99ec7f6f9fce4a5b827e113ab7cb1b3231fa7ee4eeabb1f2d089a3",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "@remotion/bundler",
+        "@remotion/renderer",
+        "node:fs",
+        "node:path",
+        "node:perf_hooks"
+      ],
+      "exports": [],
+      "importance": 0.2
+    },
+    {
+      "path": "video/src/components/AnimatedText.tsx",
+      "language": "typescript",
+      "size_bytes": 2550,
+      "last_modified": "2026-05-27T19:13:28.518Z",
+      "file_hash": "9636fb303620e7c23a36a4a98645026fd994b33ea9d7272b19af60167ce21149",
+      "git_status": "clean",
+      "roles": [
+        "ui"
+      ],
+      "imports": [
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "AnimatedText"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/components/BackgroundFX.tsx",
+      "language": "typescript",
+      "size_bytes": 4118,
+      "last_modified": "2026-05-27T19:13:28.518Z",
+      "file_hash": "4feb1c4a40198fc97b520ab33048c922961c16f0d42c5b056cbde155f07fb1dc",
+      "git_status": "clean",
+      "roles": [
+        "ui"
+      ],
+      "imports": [
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "BackgroundFX"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/components/Bullet.tsx",
+      "language": "typescript",
+      "size_bytes": 1984,
+      "last_modified": "2026-05-27T19:13:28.518Z",
+      "file_hash": "c533c77b31e238e943bcc09a2fb089ecca595a59ef715041b4b984dd6b9f956d",
+      "git_status": "clean",
+      "roles": [
+        "ui"
+      ],
+      "imports": [
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "Bullet"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/components/Card.tsx",
+      "language": "typescript",
+      "size_bytes": 1298,
+      "last_modified": "2026-05-27T19:13:28.518Z",
+      "file_hash": "a40b67fc5060b696e9fb7fc8e887221d3958a894ba497094cc99b81557cecb14",
+      "git_status": "clean",
+      "roles": [
+        "ui"
+      ],
+      "imports": [
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "Card"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/components/CodeBlock.tsx",
+      "language": "typescript",
+      "size_bytes": 3431,
+      "last_modified": "2026-05-27T19:13:28.518Z",
+      "file_hash": "bf4c87e12fb1a01b61f73a66dc2989b19cbd9e0436c4f777e93d68595f296476",
+      "git_status": "clean",
+      "roles": [
+        "ui"
+      ],
+      "imports": [
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "CodeBlock",
+        "c"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/components/SceneTransition.tsx",
+      "language": "typescript",
+      "size_bytes": 1084,
+      "last_modified": "2026-05-27T19:13:28.518Z",
+      "file_hash": "7366bb5bee6d05ada13c92ac0d63e5bc5d148ba001c384fb03eb0698fe344e4b",
+      "git_status": "clean",
+      "roles": [
+        "ui"
+      ],
+      "imports": [
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "SceneTransition"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/components/Terminal.tsx",
+      "language": "typescript",
+      "size_bytes": 3935,
+      "last_modified": "2026-05-27T19:13:28.518Z",
+      "file_hash": "7259c58989f123f2f0ac17fb1001b7e53557672cb7b275ea518800ded4dc06d2",
+      "git_status": "clean",
+      "roles": [
+        "ui"
+      ],
+      "imports": [
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "Terminal"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/i18n.ts",
+      "language": "typescript",
+      "size_bytes": 17050,
+      "last_modified": "2026-05-27T19:13:28.518Z",
+      "file_hash": "052c798e3f36ab72d563d44d190a9814fe5953c9974374d9986b5995643c2b5b",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "STRINGS"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": "video/src/index.ts",
+      "language": "typescript",
+      "size_bytes": 109,
+      "last_modified": "2026-05-27T19:13:28.519Z",
+      "file_hash": "957e481dd33a29b4a55ae0e95dbf763b7e48c37c427ca4bd1275faf34bc07a74",
+      "git_status": "clean",
+      "roles": [
+        "entrypoint"
+      ],
+      "imports": [
+        "./Root",
+        "remotion"
+      ],
+      "exports": [],
+      "importance": 0.65
+    },
+    {
+      "path": "video/src/LangContext.tsx",
+      "language": "typescript",
+      "size_bytes": 455,
+      "last_modified": "2026-05-27T19:13:28.517Z",
+      "file_hash": "517b0a892aca328e9fbeab1035a79dc425429351a70ed31527ba40bcb18f7f03",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "./i18n",
+        "react"
+      ],
+      "exports": [
+        "LangProvider",
+        "useLang",
+        "useT"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/Root.tsx",
+      "language": "typescript",
+      "size_bytes": 1317,
+      "last_modified": "2026-05-27T19:13:28.518Z",
+      "file_hash": "823ae2549ec4e9c878657dadc311d5cc80ae8162a14c9a6076f8e9344e91a132",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "./SkillsTutorial",
+        "./why/WhyLlmProjectMapper",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "RemotionRoot"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/scenes/BestPractices.tsx",
+      "language": "typescript",
+      "size_bytes": 4777,
+      "last_modified": "2026-05-27T19:13:28.519Z",
+      "file_hash": "1df02d3a11bab2eca3574449038ded4ce349d2a61a2c513b7083ca96aa825a44",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../LangContext",
+        "../components/AnimatedText",
+        "../components/BackgroundFX",
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "BestPractices"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/scenes/Catalog.tsx",
+      "language": "typescript",
+      "size_bytes": 4834,
+      "last_modified": "2026-05-27T19:13:28.519Z",
+      "file_hash": "ff7ec1e11adea5f30bc444b875be82575397cd6e82caf930222b782c25251b60",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../LangContext",
+        "../components/AnimatedText",
+        "../components/BackgroundFX",
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "Catalog"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/scenes/CommitsSkill.tsx",
+      "language": "typescript",
+      "size_bytes": 8346,
+      "last_modified": "2026-05-27T19:13:28.519Z",
+      "file_hash": "0684a82000bb4e527e1ea4377385ab6c6ec25d610ea6100f6fe6ca787a83d4bc",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../LangContext",
+        "../components/AnimatedText",
+        "../components/BackgroundFX",
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "CommitsSkill"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/scenes/CreateYourOwn.tsx",
+      "language": "typescript",
+      "size_bytes": 4873,
+      "last_modified": "2026-05-27T19:13:28.519Z",
+      "file_hash": "679e1e6733bbf2be9e8b3aff2307c9498c116f5c963b77809f2e66ce47fff87f",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../LangContext",
+        "../components/AnimatedText",
+        "../components/BackgroundFX",
+        "../components/CodeBlock",
+        "../components/Terminal",
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "CreateYourOwn"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/scenes/HowToInvoke.tsx",
+      "language": "typescript",
+      "size_bytes": 5665,
+      "last_modified": "2026-05-27T19:13:28.519Z",
+      "file_hash": "b3cd9c2701de2b3259bdabe6e923e72072a5270d33dd0cd9c39f57386d279a15",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../LangContext",
+        "../components/AnimatedText",
+        "../components/BackgroundFX",
+        "../components/Terminal",
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "HowToInvoke"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/scenes/Intro.tsx",
+      "language": "typescript",
+      "size_bytes": 5971,
+      "last_modified": "2026-05-27T19:13:28.519Z",
+      "file_hash": "7bf8e1fce73cd58dc28b689f8b819650cbf236ea79bef930a1ee20ab8edad9f9",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../LangContext",
+        "../components/BackgroundFX",
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "Intro"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/scenes/Outro.tsx",
+      "language": "typescript",
+      "size_bytes": 5141,
+      "last_modified": "2026-05-27T19:13:28.519Z",
+      "file_hash": "8f67c5d1a4fd0d7fee356cf50565e982728a683add39b192c9c67ab15759d24c",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../LangContext",
+        "../components/BackgroundFX",
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "Outro"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/scenes/PlaywrightSkill.tsx",
+      "language": "typescript",
+      "size_bytes": 8494,
+      "last_modified": "2026-05-27T19:13:28.520Z",
+      "file_hash": "c2322de64ac5fd9cc427b55ea9500bed981e42768ea943cb60c051286979e8b6",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../LangContext",
+        "../components/AnimatedText",
+        "../components/BackgroundFX",
+        "../components/CodeBlock",
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "PlaywrightSkill"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/scenes/WhatAreSkills.tsx",
+      "language": "typescript",
+      "size_bytes": 6281,
+      "last_modified": "2026-05-27T19:13:28.520Z",
+      "file_hash": "e01215851b4866ee9654c3397e925d1a1b876e1040d9d7e72804fee9dea13168",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../LangContext",
+        "../components/AnimatedText",
+        "../components/BackgroundFX",
+        "../components/Card",
+        "../theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "WhatAreSkills"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/SkillsTutorial.tsx",
+      "language": "typescript",
+      "size_bytes": 3888,
+      "last_modified": "2026-05-27T19:13:28.518Z",
+      "file_hash": "dcde290be550836987d78c64c9412c280cee1390a54b35ba8020a626fc272713",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "./LangContext",
+        "./components/SceneTransition",
+        "./i18n",
+        "./scenes/BestPractices",
+        "./scenes/Catalog",
+        "./scenes/CommitsSkill",
+        "./scenes/CreateYourOwn",
+        "./scenes/HowToInvoke",
+        "./scenes/Intro",
+        "./scenes/Outro",
+        "./scenes/PlaywrightSkill",
+        "./scenes/WhatAreSkills",
+        "./theme",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "SkillsTutorial",
+        "TOTAL_DURATION"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/theme.ts",
+      "language": "typescript",
+      "size_bytes": 525,
+      "last_modified": "2026-05-27T19:13:28.520Z",
+      "file_hash": "b3ecfba6046a689163d7258b2e484c51f444adb767efbda13fe8031afd290ee4",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "fps",
+        "theme"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": "video/src/why/audio.ts",
+      "language": "typescript",
+      "size_bytes": 1213,
+      "last_modified": "2026-05-27T19:13:28.520Z",
+      "file_hash": "b0c8172d531b4aadabb2ca6c72ad920cee37a5eb2b4c607cc20eada6a7eaaebb",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "SFX_CUES"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": "video/src/why/i18n.ts",
+      "language": "typescript",
+      "size_bytes": 8860,
+      "last_modified": "2026-05-27T19:13:28.520Z",
+      "file_hash": "5e77f8ed1ef4857c8e5d6a97f0faa73a1d98a8c31b127909e6d1a8a2a588c161",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "STRINGS_WHY"
+      ],
+      "importance": 0.2
+    },
+    {
+      "path": "video/src/why/LangContext.tsx",
+      "language": "typescript",
+      "size_bytes": 487,
+      "last_modified": "2026-05-27T19:13:28.520Z",
+      "file_hash": "10b334e19f00d17cecdbe8cb94b21aaaff38174d8905301ce17525d5cbaac2d5",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "./i18n",
+        "react"
+      ],
+      "exports": [
+        "WhyLangProvider",
+        "useWhyLang",
+        "useWhyT"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/why/narration.json",
+      "language": "json",
+      "size_bytes": 2640,
+      "last_modified": "2026-05-27T19:13:28.520Z",
+      "file_hash": "73e2675d175ef4318cf0ac692bdad13b4cbaae2d965ca3da5ff54a16aa7dfdd6",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "video/src/why/scenes/Anatomy.tsx",
+      "language": "typescript",
+      "size_bytes": 4082,
+      "last_modified": "2026-05-27T19:13:28.520Z",
+      "file_hash": "c4220285956f1e9aa7ce12e76e348059b70e5755caf0855ff5ffed5483c82422",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../../components/BackgroundFX",
+        "../../theme",
+        "../LangContext",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "Anatomy"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/why/scenes/CTA.tsx",
+      "language": "typescript",
+      "size_bytes": 3274,
+      "last_modified": "2026-05-27T19:13:28.521Z",
+      "file_hash": "0f6af4b43087a7b11796e1255a0f107913c9452fdd43d1b53a888b557edbedd2",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../../components/BackgroundFX",
+        "../../theme",
+        "../LangContext",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "CTA"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/why/scenes/Hook.tsx",
+      "language": "typescript",
+      "size_bytes": 2681,
+      "last_modified": "2026-05-27T19:13:28.521Z",
+      "file_hash": "b89719c5c3700638eab9358aac83ed92b8c6403e1f13b603e2b4cf6cb052be15",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../../theme",
+        "../LangContext",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "Hook"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/why/scenes/MultiAgent.tsx",
+      "language": "typescript",
+      "size_bytes": 4772,
+      "last_modified": "2026-05-27T19:13:28.521Z",
+      "file_hash": "3da79ac7934744efb080cf16f77d3193d978d400892242b23cd536504cbd9656",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../../components/BackgroundFX",
+        "../../theme",
+        "../LangContext",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "MultiAgent"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/why/scenes/PainList.tsx",
+      "language": "typescript",
+      "size_bytes": 3460,
+      "last_modified": "2026-05-27T19:13:28.521Z",
+      "file_hash": "119a907ab436b94d8261bbddd4b503056f6cddccc26f89df0cdbadac9bcb8243",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../../components/BackgroundFX",
+        "../../theme",
+        "../LangContext",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "PainList"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/why/scenes/PainTyping.tsx",
+      "language": "typescript",
+      "size_bytes": 4570,
+      "last_modified": "2026-05-27T19:13:28.521Z",
+      "file_hash": "b579198290b42ef10171fb2d2925ec6ba5a1d1bee06d0934e3f6c0cb7dc52ff3",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../../components/BackgroundFX",
+        "../../theme",
+        "../LangContext",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "PainTyping"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/why/scenes/Productivity.tsx",
+      "language": "typescript",
+      "size_bytes": 3501,
+      "last_modified": "2026-05-27T19:13:28.521Z",
+      "file_hash": "96d00da22dedb095c355e35113efbc3e2e8f2db11f5189af522c731744d379b5",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../../components/BackgroundFX",
+        "../../theme",
+        "../LangContext",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "Productivity"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/why/scenes/Reveal.tsx",
+      "language": "typescript",
+      "size_bytes": 3287,
+      "last_modified": "2026-05-27T19:13:28.521Z",
+      "file_hash": "ccf9a4e2b6a0fdf771b67597f98fc943a427523f38a77c847004feac0cd1c526",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../../components/BackgroundFX",
+        "../../theme",
+        "../LangContext",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "Reveal"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/why/scenes/SideBySide.tsx",
+      "language": "typescript",
+      "size_bytes": 5211,
+      "last_modified": "2026-05-27T19:13:28.521Z",
+      "file_hash": "d1638cd1fbdf9e71618f91929aa579e2d9fd2ef6d6c31429a451b9d9d6bba499",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../../components/BackgroundFX",
+        "../../theme",
+        "../LangContext",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "SideBySide"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/src/why/WhyLlmProjectMapper.tsx",
+      "language": "typescript",
+      "size_bytes": 7318,
+      "last_modified": "2026-05-27T19:13:28.520Z",
+      "file_hash": "7da8136750dcff9b327fd41c454f51eb456c98b3597d26cc8d121375401c2ad4",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "../components/SceneTransition",
+        "../theme",
+        "./LangContext",
+        "./i18n",
+        "./narration.json",
+        "./scenes/Anatomy",
+        "./scenes/CTA",
+        "./scenes/Hook",
+        "./scenes/MultiAgent",
+        "./scenes/PainList",
+        "./scenes/PainTyping",
+        "./scenes/Productivity",
+        "./scenes/Reveal",
+        "./scenes/SideBySide",
+        "@remotion/captions",
+        "react",
+        "remotion"
+      ],
+      "exports": [
+        "WHY_TOTAL_DURATION",
+        "WhyLlmProjectMapper",
+        "buildCaptionPages"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "video/tsconfig.json",
+      "language": "json",
+      "size_bytes": 475,
+      "last_modified": "2026-05-27T19:13:28.521Z",
+      "file_hash": "98f40440d32f739e362e66cc5d9f2f369c5365e4330a1f9e82046da5c23191f9",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.32
+    },
+    {
+      "path": "video/TTS-EVALUATION.md",
+      "language": "markdown",
+      "size_bytes": 1803,
+      "last_modified": "2026-05-27T19:13:28.091Z",
+      "file_hash": "63ac313b6692cd54c80bcf720ef58b47bfbfbb86751903ec954190c466fdba71",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "vscode-extension/.gitignore",
+      "language": "text",
+      "size_bytes": 40,
+      "last_modified": "2026-05-27T19:13:28.522Z",
+      "file_hash": "03173497cca65dddd9bd15704a3bfa18f2d757507661f9f65e399da1d77f8ae6",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "vscode-extension/LICENSE",
+      "language": "text",
+      "size_bytes": 1073,
+      "last_modified": "2026-05-27T19:13:28.522Z",
+      "file_hash": "33d9f26f261199983345c208e369ab2224838fc032d04e97575c4602c4fb27b3",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "vscode-extension/package-lock.json",
+      "language": "json",
+      "size_bytes": 1892,
+      "last_modified": "2026-05-27T19:13:28.522Z",
+      "file_hash": "9fa012ac2bb5b9b38c912240bd4427934bd3d0c39e8506c1a8348b906d0401ff",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "vscode-extension/package.json",
+      "language": "json",
+      "size_bytes": 2977,
+      "last_modified": "2026-05-27T19:13:28.522Z",
+      "file_hash": "983c719a77006dad4f3a51a039bea525e53f1a3f0a61c3a7c76392337f70939a",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.32
+    },
+    {
+      "path": "vscode-extension/README.md",
+      "language": "markdown",
+      "size_bytes": 2139,
+      "last_modified": "2026-05-27T19:13:28.522Z",
+      "file_hash": "8b828e3bc07335228d32bdee74834603bf887b0a99f253dd44ff26dcd0133827",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [],
+      "importance": 0.12
+    },
+    {
+      "path": "vscode-extension/src/extension.ts",
+      "language": "typescript",
+      "size_bytes": 6958,
+      "last_modified": "2026-05-27T19:13:28.522Z",
+      "file_hash": "2c7cf403a2c82f786c4767ab04c8e193d1168b865af3964adcb20dbe454680ab",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "./scan",
+        "node:fs",
+        "node:path",
+        "vscode"
+      ],
+      "exports": [
+        "SprintNode",
+        "SprintsProvider",
+        "TaskNode",
+        "activate",
+        "createAdr",
+        "deactivate",
+        "getSpecsRoot",
+        "getWorkspaceRoot",
+        "iconForStatus",
+        "openCurrentTask",
+        "refreshStatusBar",
+        "runInitHandoff"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "vscode-extension/src/scan.ts",
+      "language": "typescript",
+      "size_bytes": 3056,
+      "last_modified": "2026-05-27T19:13:28.522Z",
+      "file_hash": "57139251ad9da7a8016d05b1e1ced616b7ad39c853626afd8a5995d87edb7f32",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [
+        "node:fs",
+        "node:path"
+      ],
+      "exports": [
+        "listSprints",
+        "readFirstHeading",
+        "readStatus",
+        "safeRead",
+        "statusIcon",
+        "statusLabel"
+      ],
+      "importance": 0.28
+    },
+    {
+      "path": "vscode-extension/test/scan.test.js",
+      "language": "javascript",
+      "size_bytes": 3450,
+      "last_modified": "2026-05-27T19:13:28.522Z",
+      "file_hash": "f4a4095341f637ed9053e025f49d3fddda742c5d131363635a02facd2a0c6dc0",
+      "git_status": "clean",
+      "roles": [
+        "test"
+      ],
+      "imports": [
+        "../out/scan.js",
+        "node:assert/strict",
+        "node:fs",
+        "node:os",
+        "node:path",
+        "node:test"
+      ],
+      "exports": [
+        "mkTmp",
+        "rmTmp",
+        "writeFile"
+      ],
+      "importance": 0.53
+    },
+    {
+      "path": "vscode-extension/tsconfig.json",
+      "language": "json",
+      "size_bytes": 271,
+      "last_modified": "2026-05-27T19:13:28.522Z",
+      "file_hash": "d53dfb89add59f63bf103dda906339a3861eca56c6bf6c8b95461ece5e918fc8",
+      "git_status": "clean",
+      "roles": [
+        "config"
+      ],
+      "imports": [],
+      "exports": [],
+      "importance": 0.32
+    },
+    {
+      "path": "YOOL_TUPLE_HAMT.md",
+      "language": "markdown",
+      "size_bytes": 39087,
+      "last_modified": "2026-05-27T19:13:27.982Z",
+      "file_hash": "32555cfc9e9fdce3545d01c4a1ac15f3a60e49ae4b4930d435d94089eb3e914a",
+      "git_status": "clean",
+      "roles": [],
+      "imports": [],
+      "exports": [
+        "SprintFlow",
+        "__init__",
+        "_dev",
+        "cached_receipt",
+        "check_disk_pressure",
+        "cpu_throttle",
+        "gc_run",
+        "input_hash",
+        "insert",
+        "lookup",
+        "might",
+        "receipt_id",
+        "run",
+        "slots",
+        "test_cpu_throttle_under_quota",
+        "test_gc_purges_warm_tier_artifacts",
+        "tuple_id",
+        "worker",
+        "yool_hash"
+      ],
+      "importance": 0.2
+    }
+  ],
+  "entry_points": [
+    "bin/build-hamt-catalog",
+    "bin/cli.js",
+    "bin/skillopt.js",
+    "docs/api-examples/cli.md",
+    "simplicio_mapper/cli.py",
+    "video/src/index.ts"
+  ],
+  "test_files": [
+    ".skills/subagent-driven-development/spec-reviewer-prompt.md",
+    ".skills/test-driven-development/SKILL.md",
+    ".skills/test-driven-development/testing-anti-patterns.md",
+    ".specs/architecture/ADR-001-example.md",
+    ".specs/architecture/ADR-002-python-rust-hybrid.md",
+    ".specs/architecture/ADR-template.md",
+    ".specs/architecture/DESIGN.md",
+    ".specs/architecture/PATTERNS.md",
+    ".specs/product/DOMAIN.md",
+    ".specs/product/PERSONAS.md",
+    ".specs/product/VISION.md",
+    ".specs/README.md",
+    ".specs/sprints/BACKLOG.md",
+    ".specs/sprints/sprint-01/01-example.task.md",
+    ".specs/sprints/sprint-01/SPRINT.md",
+    ".specs/sprints/task-template.md",
+    ".specs/workflow/CONTRIBUTING.md",
+    ".specs/workflow/RELEASE.md",
+    ".specs/workflow/WORKFLOW.md",
+    "scripts/test.ps1",
+    "scripts/test.sh",
+    "tests/e2e/build-hamt-catalog.spec.ts",
+    "tests/e2e/cli.spec.ts",
+    "tests/e2e/README.md",
+    "tests/e2e/skillopt.spec.ts",
+    "tests/e2e/smoke.spec.ts",
+    "tests/python/test_cli.py",
+    "tests/python/test_native.py",
+    "tests/unit/build-hamt-catalog.test.js",
+    "tests/unit/cli-args.test.js",
+    "tests/unit/cli-install.test.js",
+    "tests/unit/cli-telemetry.test.js",
+    "tests/unit/docs-site.test.js",
+    "tests/unit/mapping-artifacts.test.js",
+    "tests/unit/overlay-docs.test.js",
+    "tests/unit/skillopt.test.js",
+    "tests/unit/why-video-narration.test.js",
+    "vscode-extension/test/scan.test.js"
+  ],
+  "config_files": [
+    ".codex/config.toml",
+    "docs-site/docusaurus.config.cjs",
+    "docs-site/package.json",
+    "package.json",
+    "playwright.config.ts",
+    "pyproject.toml",
+    "rust/Cargo.toml",
+    "rust/pyproject.toml",
+    "video/package.json",
+    "video/remotion.config.ts",
+    "video/tsconfig.json",
+    "vscode-extension/package.json",
+    "vscode-extension/tsconfig.json"
+  ],
+  "modules": [
+    {
+      "name": ".",
+      "files": [
+        "_BOOTSTRAP.md",
+        ".gitattributes",
+        ".gitignore",
+        ".llm-project-mapper.json",
+        "AGENTS.md",
+        "bootstrap.ps1",
+        "bootstrap.sh",
+        "CHANGELOG.md",
+        "CLAUDE.md",
+        "GOAL_RESULT.md",
+        "INIT.en.md",
+        "INIT.md",
+        "INSTALL.en.md",
+        "INSTALL.md",
+        "LICENSE",
+        "package-lock.json",
+        "package.json",
+        "playwright.config.ts",
+        "PRD.md",
+        "PRIVACY.md"
+      ],
+      "roles": [
+        "config"
+      ],
+      "file_count": 28
+    },
+    {
+      "name": ".agents",
+      "files": [
+        ".agents/_template.agent.md",
+        ".agents/architect.agent.md",
+        ".agents/ralph-loop.agent.md",
+        ".agents/README.md",
+        ".agents/reviewer.agent.md",
+        ".agents/tdd.agent.md"
+      ],
+      "roles": [
+        "ui"
+      ],
+      "file_count": 6
+    },
+    {
+      "name": ".claude",
+      "files": [
+        ".claude/hooks/post-edit.ps1",
+        ".claude/hooks/post-edit.sh",
+        ".claude/hooks/pre-commit.ps1",
+        ".claude/hooks/pre-commit.sh",
+        ".claude/hooks/session-start-skills.ps1",
+        ".claude/hooks/session-start-skills.sh",
+        ".claude/settings.json"
+      ],
+      "roles": [],
+      "file_count": 7
+    },
+    {
+      "name": ".codex",
+      "files": [
+        ".codex/config.toml",
+        ".codex/hooks.json",
+        ".codex/hooks/pre-commit.ps1",
+        ".codex/hooks/pre-commit.sh",
+        ".codex/hooks/session-start-skills.ps1"
+      ],
+      "roles": [
+        "config"
+      ],
+      "file_count": 5
+    },
+    {
+      "name": ".github",
+      "files": [
+        ".github/CODEOWNERS",
+        ".github/copilot-instructions.md",
+        ".github/copilot/agents/_template.agent.md",
+        ".github/copilot/agents/architect.agent.md",
+        ".github/copilot/agents/ralph-loop.agent.md",
+        ".github/copilot/agents/reviewer.agent.md",
+        ".github/copilot/agents/tdd.agent.md",
+        ".github/ISSUE_TEMPLATE/bug.md",
+        ".github/ISSUE_TEMPLATE/feature.md",
+        ".github/PULL_REQUEST_TEMPLATE.md",
+        ".github/workflows-templates/llm-project-mapper-init.yml",
+        ".github/workflows-templates/README.md",
+        ".github/workflows-templates/telemetry-worker.js",
+        ".github/workflows/ci.yml",
+        ".github/workflows/docs-site.yml",
+        ".github/workflows/dod.yml",
+        ".github/workflows/publish-pypi.yml",
+        ".github/workflows/scaffold-self-check.yml"
+      ],
+      "roles": [
+        "ui"
+      ],
+      "file_count": 18
+    },
+    {
+      "name": ".pytest_cache",
+      "files": [
+        ".pytest_cache/.gitignore",
+        ".pytest_cache/README.md",
+        ".pytest_cache/v/cache/lastfailed",
+        ".pytest_cache/v/cache/nodeids"
+      ],
+      "roles": [],
+      "file_count": 4
+    },
+    {
+      "name": ".skills",
+      "files": [
+        ".skills/_template/SKILL.md",
+        ".skills/animejs/SKILL.md",
+        ".skills/brainstorming/SKILL.md",
+        ".skills/brainstorming/visual-companion.md",
+        ".skills/caveman/SKILL.md",
+        ".skills/contribute-catalog/SKILL.md",
+        ".skills/conventional-commits/SKILL.md",
+        ".skills/css-animations/SKILL.md",
+        ".skills/everything-claude-code/SKILL.md",
+        ".skills/gsap/SKILL.md",
+        ".skills/hyperframes-cli/SKILL.md",
+        ".skills/hyperframes-media/SKILL.md",
+        ".skills/hyperframes-registry/SKILL.md",
+        ".skills/hyperframes/SKILL.md",
+        ".skills/lottie/SKILL.md",
+        ".skills/NOTICE.md",
+        ".skills/playwright-e2e/SKILL.md",
+        ".skills/ralph-loop/SKILL.md",
+        ".skills/README.md",
+        ".skills/remotion-to-hyperframes/SKILL.md"
+      ],
+      "roles": [
+        "test",
+        "ui"
+      ],
+      "file_count": 46
+    },
+    {
+      "name": ".specs",
+      "files": [
+        ".specs/architecture/ADR-001-example.md",
+        ".specs/architecture/ADR-002-python-rust-hybrid.md",
+        ".specs/architecture/ADR-template.md",
+        ".specs/architecture/DESIGN.md",
+        ".specs/architecture/PATTERNS.md",
+        ".specs/product/DOMAIN.md",
+        ".specs/product/PERSONAS.md",
+        ".specs/product/VISION.md",
+        ".specs/README.md",
+        ".specs/sprints/BACKLOG.md",
+        ".specs/sprints/sprint-01/01-example.task.md",
+        ".specs/sprints/sprint-01/SPRINT.md",
+        ".specs/sprints/task-template.md",
+        ".specs/workflow/CONTRIBUTING.md",
+        ".specs/workflow/RELEASE.md",
+        ".specs/workflow/WORKFLOW.md"
+      ],
+      "roles": [
+        "test"
+      ],
+      "file_count": 16
+    },
+    {
+      "name": "bin",
+      "files": [
+        "bin/auto-map.js",
+        "bin/build-hamt-catalog",
+        "bin/cli.js",
+        "bin/hook-runner.js",
+        "bin/map.js",
+        "bin/mapper-artifacts.js",
+        "bin/skillopt.js"
+      ],
+      "roles": [
+        "entrypoint"
+      ],
+      "file_count": 7
+    },
+    {
+      "name": "docs",
+      "files": [
+        "docs/api-examples/cli.md",
+        "docs/api-examples/graphql.md",
+        "docs/api-examples/README.md",
+        "docs/api-examples/rest.md",
+        "docs/api-examples/webhook.md",
+        "docs/architecture-map.md",
+        "docs/domain-map.md",
+        "docs/evidence/README.md",
+        "docs/features/login.md",
+        "docs/features/README.md",
+        "docs/local-setup.md",
+        "docs/placeholders.md",
+        "docs/sessionstart-hook.md",
+        "docs/troubleshooting.md",
+        "docs/YOOL_TUPLE_HAMT.md"
+      ],
+      "roles": [
+        "entrypoint"
+      ],
+      "file_count": 15
+    },
+    {
+      "name": "docs-site",
+      "files": [
+        "docs-site/docs/community/_category_.json",
+        "docs-site/docs/community/contributing.md",
+        "docs-site/docs/community/showcase.md",
+        "docs-site/docs/concepts/_category_.json",
+        "docs-site/docs/concepts/architecture-map.md",
+        "docs-site/docs/concepts/domain-map.md",
+        "docs-site/docs/concepts/skills-and-agents.md",
+        "docs-site/docs/concepts/yool-tuple-hamt.md",
+        "docs-site/docs/guide/_category_.json",
+        "docs-site/docs/guide/private-overlay.md",
+        "docs-site/docs/intro.md",
+        "docs-site/docs/quickstart/_category_.json",
+        "docs-site/docs/quickstart/get-going.md",
+        "docs-site/docs/reference/_category_.json",
+        "docs-site/docs/reference/cli-flags.md",
+        "docs-site/docs/reference/init-handoff.md",
+        "docs-site/docs/reference/session-start-hook.md",
+        "docs-site/docusaurus.config.cjs",
+        "docs-site/package.json",
+        "docs-site/README.md"
+      ],
+      "roles": [
+        "config"
+      ],
+      "file_count": 39
+    },
+    {
+      "name": "presentation",
+      "files": [
+        "presentation/conceitos.md",
+        "presentation/slides.md"
+      ],
+      "roles": [],
+      "file_count": 2
+    },
+    {
+      "name": "rust",
+      "files": [
+        "rust/Cargo.toml",
+        "rust/pyproject.toml",
+        "rust/README.md",
+        "rust/src/lib.rs"
+      ],
+      "roles": [
+        "config"
+      ],
+      "file_count": 4
+    },
+    {
+      "name": "scripts",
+      "files": [
+        "scripts/build_hamt.py",
+        "scripts/check-placeholders.sh",
+        "scripts/coverage.js",
+        "scripts/evidence.ps1",
+        "scripts/evidence.sh",
+        "scripts/lint.js",
+        "scripts/README.md",
+        "scripts/skillopt/engine.js",
+        "scripts/start.ps1",
+        "scripts/start.sh",
+        "scripts/sync-docs-site.mjs",
+        "scripts/test.ps1",
+        "scripts/test.sh",
+        "scripts/update-starter.ps1",
+        "scripts/update-starter.sh"
+      ],
+      "roles": [
+        "test"
+      ],
+      "file_count": 15
+    },
+    {
+      "name": "simplicio_mapper",
+      "files": [
+        "simplicio_mapper/__init__.py",
+        "simplicio_mapper/_native.py",
+        "simplicio_mapper/cache.py",
+        "simplicio_mapper/cli.py",
+        "simplicio_mapper/mapper.py",
+        "simplicio_mapper/models.py"
+      ],
+      "roles": [
+        "domain",
+        "entrypoint"
+      ],
+      "file_count": 6
+    },
+    {
+      "name": "tests",
+      "files": [
+        "tests/e2e/build-hamt-catalog.spec.ts",
+        "tests/e2e/cli.spec.ts",
+        "tests/e2e/README.md",
+        "tests/e2e/skillopt.spec.ts",
+        "tests/e2e/smoke.spec.ts",
+        "tests/python/test_cli.py",
+        "tests/python/test_native.py",
+        "tests/unit/build-hamt-catalog.test.js",
+        "tests/unit/cli-args.test.js",
+        "tests/unit/cli-install.test.js",
+        "tests/unit/cli-telemetry.test.js",
+        "tests/unit/docs-site.test.js",
+        "tests/unit/mapping-artifacts.test.js",
+        "tests/unit/overlay-docs.test.js",
+        "tests/unit/skillopt.test.js",
+        "tests/unit/why-video-narration.test.js"
+      ],
+      "roles": [
+        "test"
+      ],
+      "file_count": 16
+    },
+    {
+      "name": "video",
+      "files": [
+        "video/.gitignore",
+        "video/package-lock.json",
+        "video/package.json",
+        "video/README.md",
+        "video/remotion.config.ts",
+        "video/scripts/generate-why-voiceover.mjs",
+        "video/scripts/regression.mjs",
+        "video/src/components/AnimatedText.tsx",
+        "video/src/components/BackgroundFX.tsx",
+        "video/src/components/Bullet.tsx",
+        "video/src/components/Card.tsx",
+        "video/src/components/CodeBlock.tsx",
+        "video/src/components/SceneTransition.tsx",
+        "video/src/components/Terminal.tsx",
+        "video/src/i18n.ts",
+        "video/src/index.ts",
+        "video/src/LangContext.tsx",
+        "video/src/Root.tsx",
+        "video/src/scenes/BestPractices.tsx",
+        "video/src/scenes/Catalog.tsx"
+      ],
+      "roles": [
+        "config",
+        "entrypoint",
+        "ui"
+      ],
+      "file_count": 45
+    },
+    {
+      "name": "vscode-extension",
+      "files": [
+        "vscode-extension/.gitignore",
+        "vscode-extension/LICENSE",
+        "vscode-extension/package-lock.json",
+        "vscode-extension/package.json",
+        "vscode-extension/README.md",
+        "vscode-extension/src/extension.ts",
+        "vscode-extension/src/scan.ts",
+        "vscode-extension/test/scan.test.js",
+        "vscode-extension/tsconfig.json"
+      ],
+      "roles": [
+        "config",
+        "test"
+      ],
+      "file_count": 9
+    }
+  ],
+  "entities": [
+    {
+      "name": "file",
+      "score": 40
+    },
+    {
+      "name": "write",
+      "score": 40
+    },
+    {
+      "name": "skill",
+      "score": 39
+    },
+    {
+      "name": "read",
+      "score": 38
+    },
+    {
+      "name": "run",
+      "score": 38
+    },
+    {
+      "name": "tmp",
+      "score": 36
+    },
+    {
+      "name": "build",
+      "score": 30
+    },
+    {
+      "name": "parse",
+      "score": 30
+    },
+    {
+      "name": "artifacts",
+      "score": 28
+    },
+    {
+      "name": "json",
+      "score": 28
+    },
+    {
+      "name": "cli",
+      "score": 26
+    },
+    {
+      "name": "collect",
+      "score": 24
+    },
+    {
+      "name": "detect",
+      "score": 22
+    },
+    {
+      "name": "map",
+      "score": 22
+    },
+    {
+      "name": "files",
+      "score": 20
+    },
+    {
+      "name": "init",
+      "score": 20
+    },
+    {
+      "name": "safe",
+      "score": 20
+    },
+    {
+      "name": "catalog",
+      "score": 18
+    },
+    {
+      "name": "for",
+      "score": 18
+    },
+    {
+      "name": "hash",
+      "score": 18
+    },
+    {
+      "name": "list",
+      "score": 17
+    },
+    {
+      "name": "readme",
+      "score": 16
+    },
+    {
+      "name": "render",
+      "score": 16
+    },
+    {
+      "name": "agent",
+      "score": 15
+    },
+    {
+      "name": "text",
+      "score": 15
+    },
+    {
+      "name": "why",
+      "score": 15
+    },
+    {
+      "name": "infer",
+      "score": 14
+    },
+    {
+      "name": "status",
+      "score": 14
+    },
+    {
+      "name": "package",
+      "score": 13
+    },
+    {
+      "name": "project",
+      "score": 13
+    }
+  ],
+  "architecture": {
+    "signals": [
+      "dotnet",
+      "nextjs",
+      "playwright",
+      "react",
+      "vue"
+    ],
+    "system_type": "web"
+  },
+  "dependencies": {
+    "package_manager": "npm",
+    "manifest": "package.json",
+    "runtime": [],
+    "dev": [
+      "@playwright/test"
+    ]
+  },
+  "recent_changes": [],
+  "changed_files": [],
+  "integration": {
+    "dev_cli_mapper": "read .simplicio/project-map.json, then use .simplicio/precedent-index.json for task-specific examples",
+    "contract": "SIMPLICIO_INTEGRATION.md"
+  }
+}
