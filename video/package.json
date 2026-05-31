@@ -21,16 +21,16 @@
     "regression": "node scripts/regression.mjs"
   },
   "dependencies": {
-    "@remotion/captions": "4.0.250",
-    "@remotion/cli": "4.0.250",
-    "@remotion/shapes": "4.0.250",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "remotion": "4.0.250"
+    "@remotion/captions": "4.0.469",
+    "@remotion/cli": "4.0.469",
+    "@remotion/shapes": "4.0.469",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "remotion": "4.0.469"
   },
   "devDependencies": {
-    "@types/react": "18.3.12",
-    "@types/react-dom": "18.3.1",
-    "typescript": "5.5.4"
+    "@types/react": "19.2.15",
+    "@types/react-dom": "19.2.3",
+    "typescript": "6.0.3"
   }
 }

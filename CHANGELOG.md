@@ -6,6 +6,14 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 
 ## [Unreleased]
 
+## [0.6.3] - 2026-05-31
+
+### Changed
+- Refresh Node, docs-site, video, VS Code extension, and Python dependency
+  floors to the latest compatible releases used by the Simplicio E2E flow.
+- Keep `@mermaid-js/layout-elk` on the Docusaurus-compatible `0.1.x` line while
+  updating the surrounding Docusaurus and React packages.
+
 ## [0.6.2] - 2026-05-30
 
 ### Changed
@@ -247,7 +255,8 @@ Format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) an
 - Remotion skills tutorial video in PT-BR. ([#1](https://github.com/wesleysimplicio/llm-project-mapper/pull/1))
 - i18n layer + English skills tutorial video. ([#2](https://github.com/wesleysimplicio/llm-project-mapper/pull/2))
 
-[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.6.2...HEAD
+[Unreleased]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.6.3...HEAD
+[0.6.3]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.6.2...v0.6.3
 [0.6.2]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.6.1...v0.6.2
 [0.4.0]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/wesleysimplicio/llm-project-mapper/compare/v0.3.1...v0.3.2

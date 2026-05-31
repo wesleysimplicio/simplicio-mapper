@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "simplicio-mapper"
-version = "0.6.2"
+version = "0.6.3"
 description = "Python-first project mapper that emits .simplicio/project-map.json and precedent-index.json for the Simplicio ecosystem."
 readme = "PYPI.md"
 requires-python = ">=3.10"
@@ -25,8 +25,8 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-  "orjson>=3.10,<4",
-  "diskcache>=5.6,<6",
+  "orjson>=3.11.9,<4",
+  "diskcache>=5.6.3,<6",
 ]
 
 [project.scripts]
